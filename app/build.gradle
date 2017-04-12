@@ -29,4 +29,7 @@ dependencies {
     compile 'org.xutils:xutils:3.5.0'
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.github.LineChen:RoundImageView:v1.0.0'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
 }
