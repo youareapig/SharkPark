@@ -18,7 +18,11 @@ public void getItemOffsets(Rect outRect, View view,
 outRect.right = space;
 outRect.bottom = space;
 
-    if(parent.getChildPosition(view) == 0)
+    if(parent.getChildPosition(view) == 0){
         outRect.top = space;
+    }else {
+        outRect.top = 0;
+    }
+
 }
 }

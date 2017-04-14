@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "com.weiye.zl"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -30,6 +30,9 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.github.LineChen:RoundImageView:v1.0.0'
+    compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.zhy:autolayout:1.4.5'
+    compile 'fm.jiecao:jiecaovideoplayer:5.5.2'
+    compile 'com.android.support:design:24.2.0'
 }

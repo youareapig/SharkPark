@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.decode.BaseImageDecoder;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
+import com.zhy.autolayout.config.AutoLayoutConifg;
 
 import org.xutils.x;
 
@@ -23,6 +24,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        AutoLayoutConifg.getInstance().useDeviceSize();
         initImageLoader(getApplicationContext());
         x.Ext.init(this);
     }
