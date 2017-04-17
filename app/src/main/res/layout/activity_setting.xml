@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.weiye.zl.SettingActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200px">
+
+            <RelativeLayout
+                android:id="@+id/materialBack"
+                android:layout_width="108px"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="28px"
+                    android:layout_height="48px"
+                    android:layout_centerInParent="true"
+                    android:src="@mipmap/back1" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="45px"
+            android:text="设置"
+            android:textColor="#303030"
+            android:textSize="72px" />
+
+        <RelativeLayout
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:layout_marginTop="20px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="40px"
+                android:text="关于我们"
+                android:textColor="#303030"
+                android:textSize="52px" />
+
+            <ImageView
+                android:layout_width="18px"
+                android:layout_height="30px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="40px"
+                android:src="@mipmap/right" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/ideal"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:layout_marginTop="20px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="40px"
+                android:text="意见反馈"
+                android:textColor="#303030"
+                android:textSize="52px" />
+
+            <ImageView
+                android:layout_width="18px"
+                android:layout_height="30px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="40px"
+                android:src="@mipmap/right" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/updateversion"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:layout_marginTop="20px">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="40px"
+                android:text="版本更新"
+                android:textColor="#303030"
+                android:textSize="52px" />
+
+            <ImageView
+                android:id="@+id/go"
+                android:layout_width="18px"
+                android:layout_height="30px"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="40px"
+                android:src="@mipmap/right" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20px"
+                android:layout_toLeftOf="@+id/go"
+                android:text="1.1.1"
+                android:textColor="#888888"
+                android:textSize="48px" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnloginout"
+        android:layout_width="900px"
+        android:layout_height="148px"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="140px"
+        android:background="@drawable/btnloginout"
+        android:text="退出登陆"
+        android:textColor="#fff"
+        android:textSize="62px" />
+</LinearLayout>

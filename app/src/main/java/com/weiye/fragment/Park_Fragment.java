@@ -14,7 +14,6 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import com.weiye.adapter.ActivitiesGridAdpter;
-import com.weiye.adapter.SchoolGridAdapter;
 import com.weiye.zl.R;
 import com.weiye.zl.VedioPlayerActivity;
 
@@ -60,7 +59,7 @@ public class Park_Fragment extends Fragment {
                 gridviewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
         gridView.setLayoutParams(params); // 设置GirdView布局参数,横向布局的关键
         gridView.setColumnWidth(itemWidth); // 设置列表项宽
-        //gridView.setHorizontalSpacing(10); // 设置列表项水平间距
+        gridView.setHorizontalSpacing(40); // 设置列表项水平间距
         gridView.setStretchMode(GridView.NO_STRETCH);
         gridView.setNumColumns(size); // 设置列数量=列表集合数
         gridView.setAdapter(new ActivitiesGridAdpter(list, getActivity()));

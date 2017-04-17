@@ -4,11 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/activities_item_img"
-        android:layout_width="1000px"
-        android:layout_height="500px"
-        />
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="500px">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/activities_item_img"
+            android:layout_width="960px"
+            android:layout_height="500px"
+            app:riv_corner_radius="20px"
+            android:layout_centerInParent="true"/>
+        <ImageView
+            android:layout_width="140px"
+            android:layout_height="140px"
+            android:src="@mipmap/play"
+            android:layout_centerInParent="true"/>
+    </com.zhy.autolayout.AutoRelativeLayout>
 
 
 </com.zhy.autolayout.AutoLinearLayout>

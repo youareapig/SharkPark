@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.weiye.zl.AboutActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200px">
+
+        <RelativeLayout
+            android:id="@+id/aboutBack"
+            android:layout_width="108px"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="28px"
+                android:layout_height="48px"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/back1" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="45px"
+        android:text="关于我们"
+        android:textColor="#303030"
+        android:textSize="72px" />
+    <TextView
+        android:id="@+id/aboutText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px"
+        android:layout_marginTop="100px"
+        android:text="鲨鱼公园儿童大学是鲨鱼公园儿童大学是鲨鱼公园儿童大学是鲨鱼公园儿童大学是..."
+        android:textColor="#303030"
+        android:textSize="52px" />
+</LinearLayout>

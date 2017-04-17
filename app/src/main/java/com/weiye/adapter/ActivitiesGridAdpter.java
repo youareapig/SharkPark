@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -51,7 +52,7 @@ public class ActivitiesGridAdpter extends BaseAdapter {
         ViewHolder holder = new ViewHolder();
         if (view == null) {
             view = inflater.inflate(R.layout.activitisegriditem, null);
-            holder.imageView = (ImageView) view.findViewById(R.id.activities_item_img);
+            holder.imageView = (RoundedImageView) view.findViewById(R.id.activities_item_img);
             view.setTag(holder);
             AutoUtils.autoSize(view);
         } else {
@@ -62,6 +63,6 @@ public class ActivitiesGridAdpter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        private ImageView imageView;
+        private RoundedImageView imageView;
     }
 }

@@ -10,7 +10,7 @@
         android:id="@+id/listview1_icon"
         android:layout_width="250px"
         android:layout_height="250px"
-        app:riv_corner_radius="8px"
+        app:riv_corner_radius="20px"
         />
     <TextView
         android:id="@+id/listview1_intro"

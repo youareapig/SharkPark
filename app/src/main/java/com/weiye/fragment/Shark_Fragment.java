@@ -1,19 +1,24 @@
 package com.weiye.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
-import android.util.Log;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Gallery;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.weiye.adapter.BannerAdapter;
+import com.weiye.adapter.GalleryAdapter;
 import com.weiye.adapter.ListView_1_Adapter;
-import com.weiye.adapter.SchoolGridAdapter;
 import com.weiye.myview.MyListView;
 import com.weiye.zl.R;
 
@@ -24,22 +29,79 @@ import java.util.List;
 /**
  * Created by DELL on 2017/4/6.
  */
-public class Shark_Fragment extends Fragment {
-    private GridView gridView;
+public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeListener {
     private List<Integer> list;
     private MyListView mListView;
     private HashMap<String, Object> hashMap1, hashMap2;
     private List<HashMap<String, Object>> hashList;
+    private Gallery gallery;
+    private ViewPager viewPager;
+    private ImageView[] indexTips, indexBannerImage;
+    private List<Integer> bannerList;
+    private ViewGroup mView;
+    private Handler handler;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sharkfragment, container, false);
-        gridView = (GridView) view.findViewById(R.id.schoolGrid);
         mListView = (MyListView) view.findViewById(R.id.listview1);
+        gallery = (Gallery) view.findViewById(R.id.gallery);
+        viewPager = (ViewPager) view.findViewById(R.id.banner);
+        mView = (ViewGroup) view.findViewById(R.id.bannerGroup);
         setGridView();
         science();
+        setBanner();
         return view;
+    }
+    //TODO Banner
+    private void setBanner() {
+        bannerList = new ArrayList<>();
+        bannerList.add(R.mipmap.aaa);
+        bannerList.add(R.mipmap.aaaa);
+
+        indexTips = new ImageView[bannerList.size()];
+        for (int i = 0; i < indexTips.length; i++) {
+            ImageView imageView = new ImageView(getActivity());
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(15, 15);
+            layoutParams.leftMargin = 10;
+            layoutParams.rightMargin = 10;
+            imageView.setLayoutParams(layoutParams);
+            indexTips[i] = imageView;
+            if (i == 0) {
+                indexTips[i].setBackgroundResource(R.drawable.viewpage_check);
+            } else {
+                indexTips[i].setBackgroundResource(R.drawable.viewpage_goods);
+
+            }
+
+            mView.addView(imageView);
+        }
+        indexBannerImage = new ImageView[bannerList.size()];
+        for (int i = 0; i < indexBannerImage.length; i++) {
+            ImageView imageView = new ImageView(getActivity());
+            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            indexBannerImage[i] = imageView;
+            imageView.setImageResource(list.get(i));
+        }
+        viewPager.setOnPageChangeListener(Shark_Fragment.this);
+        viewPager.setAdapter(new BannerAdapter(indexBannerImage));
+        handler = new Handler() {
+            int bannerNo = 0;
+
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if (viewPager.getCurrentItem() == indexBannerImage.length - 1) {
+                    bannerNo = 0;
+                } else {
+                    bannerNo = viewPager.getCurrentItem() + 1;
+                }
+                viewPager.setCurrentItem(bannerNo, true);
+            }
+        };
+        new MyThread().start();
+
     }
 
     //TODO 课堂风采图片滚动
@@ -51,28 +113,9 @@ public class Shark_Fragment extends Fragment {
         list.add(R.mipmap.aaa);
         list.add(R.mipmap.aaa);
         list.add(R.mipmap.aaa);
-
-        int size = list.size();
-        int length = 380;//原来是500
-        DisplayMetrics dm = new DisplayMetrics();
-        Log.e("tag","--------->"+dm);
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        Log.e("tag","--------->"+dm);
-        float density = dm.density;
-        Log.e("tag","--------->"+density);
-        int gridviewWidth = (int) (size * (length + 4) * density);
-        Log.e("tag","--------->"+gridviewWidth);
-        int itemWidth = (int) (length * density);
-        Log.e("tag","--------->"+itemWidth);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                gridviewWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
-        gridView.setLayoutParams(params); // 设置GirdView布局参数,横向布局的关键
-        gridView.setColumnWidth(itemWidth); // 设置列表项宽
-        // gridView.setHorizontalSpacing(10); // 设置列表项水平间距
-        gridView.setStretchMode(GridView.NO_STRETCH);
-        gridView.setNumColumns(size); // 设置列数量=列表集合数
-        gridView.setAdapter(new SchoolGridAdapter(list, getActivity()));
+        gallery.setSpacing(40);
+        gallery.setAdapter(new GalleryAdapter(list, getActivity()));
+        gallery.setSelection(1, true);
 
     }
 
@@ -93,5 +136,45 @@ public class Shark_Fragment extends Fragment {
 
         mListView.setAdapter(new ListView_1_Adapter(hashList, getActivity()));
 
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        setImageBackground(position % indexBannerImage.length);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    private void setImageBackground(int selectItems) {
+        for (int i = 0; i < indexTips.length; i++) {
+            if (i == selectItems) {
+                indexTips[i].setBackgroundResource(R.drawable.viewpage_check);
+            } else {
+                indexTips[i].setBackgroundResource(R.drawable.viewpage_goods);
+            }
+        }
+    }
+
+    private class MyThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            while (true) {
+                try {
+                    sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                handler.sendEmptyMessage(0);
+            }
+        }
     }
 }
