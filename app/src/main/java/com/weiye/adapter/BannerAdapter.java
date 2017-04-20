@@ -17,11 +17,11 @@ public class BannerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-  //      if (imageViews.length==1){
+       // if (imageViews.length==1){
             return imageViews.length;
-//        }else {
-//            return Integer.MAX_VALUE;
-//        }
+      //  }else {
+       //     return Integer.MAX_VALUE;
+      //  }
 
     }
 

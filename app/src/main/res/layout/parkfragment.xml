@@ -46,6 +46,7 @@
                 android:orientation="horizontal">
 
                 <com.zhy.autolayout.AutoRelativeLayout
+                    android:id="@+id/intro"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -68,6 +69,7 @@
                 </com.zhy.autolayout.AutoRelativeLayout>
 
                 <com.zhy.autolayout.AutoRelativeLayout
+                    android:id="@+id/appearance"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -90,6 +92,7 @@
                 </com.zhy.autolayout.AutoRelativeLayout>
 
                 <com.zhy.autolayout.AutoRelativeLayout
+                    android:id="@+id/sActivity"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1">
@@ -139,46 +142,16 @@
                     android:background="#303030" />
             </com.zhy.autolayout.AutoRelativeLayout>
 
-            <HorizontalScrollView
+            <com.weiye.myview.MyListView
+                android:id="@+id/parkListView"
                 android:layout_width="match_parent"
-                android:layout_height="500px"
-                android:layout_marginTop="60px">
-
-                <com.zhy.autolayout.AutoLinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="500px">
-
-                    <GridView
-                        android:gravity="center"
-                        android:id="@+id/activities"
-                        android:layout_width="match_parent"
-                        android:layout_height="500px"
-                        android:scrollbars="none" />
-                </com.zhy.autolayout.AutoLinearLayout>
+                android:layout_height="match_parent"
+                android:layout_marginLeft="40px"
+                android:layout_marginRight="40px"
+                android:dividerHeight="40px"
+                android:divider="#fff"/>
 
 
-            </HorizontalScrollView>
-
-            <com.zhy.autolayout.AutoRelativeLayout
-                android:layout_width="360px"
-                android:layout_height="360px"
-                android:layout_gravity="center_horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="更多"
-                    android:textColor="#888888"
-                    android:textSize="60px" />
-
-                <ImageView
-                    android:layout_width="24px"
-                    android:layout_height="24px"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="90px"
-                    android:src="@mipmap/down" />
-            </com.zhy.autolayout.AutoRelativeLayout>
         </com.zhy.autolayout.AutoLinearLayout>
     </ScrollView>
 

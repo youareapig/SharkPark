@@ -6,6 +6,10 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
 
+    </style>
+<style name="tab" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:textSize">52px</item>
+    <item name="android:textColor">#888888</item>
+</style>
 </resources>

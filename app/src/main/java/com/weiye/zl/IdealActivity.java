@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import qiu.niorgai.StatusBarCompat;
 
 public class IdealActivity extends AutoLayoutActivity {
     @BindView(R.id.IdealBack)
@@ -27,10 +28,8 @@ public class IdealActivity extends AutoLayoutActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_ideal);
+        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
     }
 

@@ -14,8 +14,13 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import com.weiye.adapter.ActivitiesGridAdpter;
+import com.weiye.myview.MyListView;
+import com.weiye.zl.AppearanceActivity;
+import com.weiye.zl.IntroActivity;
 import com.weiye.zl.R;
+import com.weiye.zl.SchoolActivity;
 import com.weiye.zl.VedioPlayerActivity;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +28,26 @@ import java.util.List;
 /**
  * Created by DELL on 2017/4/6.
  */
-public class Park_Fragment extends Fragment {
-    private GridView gridView;
+public class Park_Fragment extends Fragment implements View.OnClickListener {
+    private MyListView mListview;
     private List<Integer> list;
+    private AutoRelativeLayout sActivity, appearance, intro;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.parkfragment, container, false);
-        gridView = (GridView) view.findViewById(R.id.activities);
+        mListview = (MyListView) view.findViewById(R.id.parkListView);
+        sActivity = (AutoRelativeLayout) view.findViewById(R.id.sActivity);
+        appearance = (AutoRelativeLayout) view.findViewById(R.id.appearance);
+        intro = (AutoRelativeLayout) view.findViewById(R.id.intro);
+        sActivity.setOnClickListener(this);
+        appearance.setOnClickListener(this);
+        intro.setOnClickListener(this);
         setGridView();
         return view;
     }
+
     //TODO 往期活动视频
     private void setGridView() {
         list = new ArrayList<>();
@@ -42,34 +55,25 @@ public class Park_Fragment extends Fragment {
         list.add(R.mipmap.aaa);
         list.add(R.mipmap.aaa);
         list.add(R.mipmap.aaa);
-        int size = list.size();
-        int length = 380;
-        DisplayMetrics dm = new DisplayMetrics();
-        Log.e("tag","******"+dm);
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        Log.e("tag","----*****----->"+dm);
-        float density = dm.density;
-        Log.e("tag","-----****---->"+density);
-        int gridviewWidth = (int) (size * (length + 4) * density);
-        Log.e("tag","-----***---->"+gridviewWidth);
-        int itemWidth = (int) (length * density);
-        Log.e("tag","-----***---->"+itemWidth);
+        mListview.setAdapter(new ActivitiesGridAdpter(list, getActivity()));
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                gridviewWidth, LinearLayout.LayoutParams.MATCH_PARENT);
-        gridView.setLayoutParams(params); // 设置GirdView布局参数,横向布局的关键
-        gridView.setColumnWidth(itemWidth); // 设置列表项宽
-        gridView.setHorizontalSpacing(40); // 设置列表项水平间距
-        gridView.setStretchMode(GridView.NO_STRETCH);
-        gridView.setNumColumns(size); // 设置列数量=列表集合数
-        gridView.setAdapter(new ActivitiesGridAdpter(list, getActivity()));
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent=new Intent(getActivity(), VedioPlayerActivity.class);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.sActivity:
+                Intent intent = new Intent(getActivity(), SchoolActivity.class);
                 startActivity(intent);
-            }
-        });
-
+                break;
+            case R.id.appearance:
+                Intent intent1 = new Intent(getActivity(), AppearanceActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.intro:
+                Intent intent2 = new Intent(getActivity(), IntroActivity.class);
+                startActivity(intent2);
+                break;
+        }
     }
 }

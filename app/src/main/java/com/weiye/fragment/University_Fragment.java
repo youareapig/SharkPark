@@ -14,6 +14,10 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
@@ -23,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +42,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -52,8 +58,8 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private ContentResolver contentResolver;
     private FileOutputStream[] fileOutputStream = {null};
     private Bitmap bitmap, bitmap1;
-    private String base64, base64_1, fileName;
-    private AutoRelativeLayout online, setting;
+    private String base64, base64_1, fileName, stringphone, stringpassword;
+    private AutoRelativeLayout online, setting, myCourse;
 
     @Nullable
     @Override
@@ -63,10 +69,12 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         myhead = (CircleImageView) view.findViewById(R.id.myhead);
         online = (AutoRelativeLayout) view.findViewById(R.id.line);
         setting = (AutoRelativeLayout) view.findViewById(R.id.setting);
+        myCourse = (AutoRelativeLayout) view.findViewById(R.id.myCourse);
         infomation.setOnClickListener(this);
         myhead.setOnClickListener(this);
         online.setOnClickListener(this);
         setting.setOnClickListener(this);
+        myCourse.setOnClickListener(this);
         return view;
     }
 
@@ -112,6 +120,9 @@ public class University_Fragment extends Fragment implements View.OnClickListene
             case R.id.setting:
                 Intent intent1 = new Intent(getActivity(), SettingActivity.class);
                 startActivity(intent1);
+                break;
+            case R.id.myCourse:
+                loginDialog();
                 break;
         }
     }
@@ -170,5 +181,103 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         bit.compress(Bitmap.CompressFormat.JPEG, 40, bos);//参数100表示不压缩  
         byte[] bytes = bos.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private void loginDialog() {
+        final EditText userphone, userpassword;
+        final TextView login, vercode;
+        final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View layout = inflater.inflate(R.layout.login, null);
+        dialog.setView(layout);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        userphone = (EditText) layout.findViewById(R.id.loginTel);
+        userpassword = (EditText) layout.findViewById(R.id.loginPassword);
+        login = (TextView) layout.findViewById(R.id.login);
+        vercode = (TextView) layout.findViewById(R.id.vercode);
+        stringphone = userphone.getText().toString();
+        stringpassword = userpassword.getText().toString();
+        userphone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.e("tag1", "改变之前" + charSequence);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.e("tag1", "正在改变" + charSequence);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.e("tag1", "改变之后" + editable);
+                if (TextUtils.isEmpty(editable)) {
+                    login.setEnabled(false);
+                    login.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
+                } else {
+                    login.setEnabled(true);
+                    login.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
+                    if (editable.length() == 11) {
+                        Log.e("tag", "验证电话");
+                        if (editable.equals("15983302246")) {
+                            Log.e("tag", "电话存在");
+                            vercode.setVisibility(View.GONE);
+                            userpassword.setHint("密码");
+                            userpassword.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+                        } else if (!editable.equals("15983302246")){
+                            Log.e("tag", "电话不存在");
+                            vercode.setVisibility(View.VISIBLE);
+                            userpassword.setHint("验证码");
+                            userpassword.setInputType(InputType.TYPE_CLASS_NUMBER);
+                        }
+                    }
+                }
+            }
+        });
+        userpassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (TextUtils.isEmpty(editable)) {
+                    login.setEnabled(false);
+                    login.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
+                } else {
+                    login.setEnabled(true);
+                    login.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
+                }
+            }
+        });
+        if (TextUtils.isEmpty(stringphone) || TextUtils.isEmpty(stringpassword)) {
+            login.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
+            login.setEnabled(false);
+        } else {
+            login.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
+            login.setEnabled(true);
+        }
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("tag", "登陆");
+            }
+        });
+        //TODO 点击退出
+        layout.findViewById(R.id.exit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+            }
+        });
+
     }
 }

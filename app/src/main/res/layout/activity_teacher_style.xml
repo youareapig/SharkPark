@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.weiye.zl.TeacherStyleActivity">
+
+    <com.weiye.myview.ObservableScrollView
+        android:id="@+id/teacherStyle_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/teacherStyle_top"
+                android:layout_width="match_parent"
+                android:layout_height="1360px">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/teacherStyle_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:id="@+id/teacherStyle_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="60px"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="80px"
+                android:text="老师"
+                android:textColor="#303030"
+                android:textSize="72px" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40px"
+                android:layout_marginRight="40px"
+                android:layout_marginTop="160px"
+                android:text="我是一个好老师我是一个好老师我是一个好老师我是一个好老师我是一个好老师我是一个好老师"
+                android:textColor="#303030"
+                android:textSize="50px" />
+        </LinearLayout>
+    </com.weiye.myview.ObservableScrollView>
+    <RelativeLayout
+        android:id="@+id/teacherStyle_title"
+        android:layout_width="match_parent"
+        android:layout_height="200px">
+
+        <RelativeLayout
+            android:id="@+id/teacherStyle_Back"
+            android:layout_width="108px"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="28px"
+                android:layout_height="48px"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/back" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</FrameLayout>

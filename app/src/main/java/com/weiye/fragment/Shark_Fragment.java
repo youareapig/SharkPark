@@ -1,5 +1,6 @@
 package com.weiye.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,16 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.BannerAdapter;
 import com.weiye.adapter.GalleryAdapter;
 import com.weiye.adapter.ListView_1_Adapter;
 import com.weiye.myview.MyListView;
+import com.weiye.zl.FourSchoolActivity;
 import com.weiye.zl.R;
+import com.weiye.zl.ScienceStationActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +34,7 @@ import java.util.List;
 /**
  * Created by DELL on 2017/4/6.
  */
-public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeListener {
+public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeListener,View.OnClickListener {
     private List<Integer> list;
     private MyListView mListView;
     private HashMap<String, Object> hashMap1, hashMap2;
@@ -40,7 +45,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
     private List<Integer> bannerList;
     private ViewGroup mView;
     private Handler handler;
-
+    private TextView classAll,scienceStation;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,6 +54,8 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         gallery = (Gallery) view.findViewById(R.id.gallery);
         viewPager = (ViewPager) view.findViewById(R.id.banner);
         mView = (ViewGroup) view.findViewById(R.id.bannerGroup);
+        classAll= (TextView) view.findViewById(R.id.classAll);
+        classAll.setOnClickListener(this);
         setGridView();
         science();
         setBanner();
@@ -58,6 +65,8 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
     private void setBanner() {
         bannerList = new ArrayList<>();
         bannerList.add(R.mipmap.aaa);
+        bannerList.add(R.mipmap.aaaa);
+        bannerList.add(R.mipmap.ic_launcher);
         bannerList.add(R.mipmap.aaaa);
 
         indexTips = new ImageView[bannerList.size()];
@@ -82,7 +91,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
             ImageView imageView = new ImageView(getActivity());
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             indexBannerImage[i] = imageView;
-            imageView.setImageResource(list.get(i));
+            imageView.setImageResource(bannerList.get(i));
         }
         viewPager.setOnPageChangeListener(Shark_Fragment.this);
         viewPager.setAdapter(new BannerAdapter(indexBannerImage));
@@ -135,6 +144,13 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         hashList.add(hashMap2);
 
         mListView.setAdapter(new ListView_1_Adapter(hashList, getActivity()));
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent=new Intent(getActivity(), ScienceStationActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -161,6 +177,17 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 indexTips[i].setBackgroundResource(R.drawable.viewpage_goods);
             }
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.classAll:
+                Intent intent=new Intent(getActivity(), FourSchoolActivity.class);
+                startActivity(intent);
+                break;
+        }
+
     }
 
     private class MyThread extends Thread {

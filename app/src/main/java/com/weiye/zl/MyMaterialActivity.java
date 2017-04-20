@@ -19,6 +19,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.picker.OptionPicker;
+import qiu.niorgai.StatusBarCompat;
 
 public class MyMaterialActivity extends AutoLayoutActivity {
     @BindView(R.id.materialBack)
@@ -44,10 +45,8 @@ public class MyMaterialActivity extends AutoLayoutActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_my_material);
+        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
     }
 

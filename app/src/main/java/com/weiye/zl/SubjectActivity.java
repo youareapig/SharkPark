@@ -1,8 +1,9 @@
 package com.weiye.zl;
 /**
  * 首页的二级界面
- * */
+ */
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -17,8 +18,6 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -29,6 +28,7 @@ import com.weiye.data.TestBean;
 import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.VideoFragment;
 import com.weiye.myview.ObservableScrollView;
+import com.weiye.utils.SpacesItemDecoration;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import java.util.ArrayList;
@@ -38,6 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import qiu.niorgai.StatusBarCompat;
 
 public class SubjectActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener {
 
@@ -62,6 +63,8 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     RecyclerView recycleTeacher;
     @BindView(R.id.btnOrder)
     Button btnOrder;
+    @BindView(R.id.mytitleAll)
+    RelativeLayout mytitleAll;
 
     private Unbinder unbinder;
     private FragmentManager fragmentManager;
@@ -73,23 +76,27 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     private TestBean testBean1, testBean2, testBean3, testBean4;
     private GestureDetectorCompat mDetectorCompat;
     private int mOriginButtonTop;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //TODO 取消状态栏
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_subject);
+        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
+        //orerBtn();
+        changTitle();
         list = new ArrayList<>();
         fragment = new VideoFragment();
         fragmentManager = this.getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.subfragment, fragment).commit();
         list.add(new VideoFragment());
         list.add(new PhotoFragment());
-
         teacher();
+    }
+
+    //TODO 滑动改变标题栏
+    private void changTitle() {
         //TODO 设置Scrollview从顶部开始
         scrollview.smoothScrollTo(0, 20);
         titleSubject.setBackgroundColor(Color.argb(0, 0xfd, 0x91, 0x5b));
@@ -103,6 +110,10 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 scrollview.setScrollViewListener(SubjectActivity.this);
             }
         });
+    }
+
+    //TODO 向上滑动隐藏按钮
+    private void orerBtn() {
         btnOrder.post(new Runnable() {//post一个线程去获取button的原始top值
             @Override
             public void run() {
@@ -118,8 +129,6 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 return false;
             }
         });
-
-
     }
 
     //TODO 老师介绍
@@ -133,7 +142,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         testBeenList.add(testBean2);
         testBeenList.add(testBean3);
         testBeenList.add(testBean4);
-        //recycleTeacher.addItemDecoration(new SpacesItemDecoration(10));
+        recycleTeacher.addItemDecoration(new SpacesItemDecoration(10));
         recycleTeacher.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recycleTeacher.setAdapter(new TeacherRecycleAdapter(testBeenList));
         recycleTeacher.setHasFixedSize(true);
@@ -146,7 +155,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         unbinder.unbind();
     }
 
-    @OnClick({R.id.videoText, R.id.photoText,R.id.btnOrder})
+    @OnClick({R.id.videoText, R.id.photoText, R.id.btnOrder,R.id.mytitleAll})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.videoText:
@@ -165,6 +174,10 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 break;
             case R.id.btnOrder:
                 break;
+            case R.id.mytitleAll:
+                Intent intent=new Intent(SubjectActivity.this,FourSchoolActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
@@ -177,6 +190,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         }
 
     }
+
     //TODO 滑动隐藏按钮
     class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
 
@@ -194,11 +208,11 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 if (!ifNeedScroll(isScrollDown)) return false;
 
                 if (isScrollDown) {
-                //下滑上移Button
+                    //下滑上移Button
                     btnOrder.setTop(buttonTop - (int) Math.abs(distanceY));
                     btnOrder.setBottom(buttonBottom - (int) Math.abs(distanceY));
                 } else if (!isScrollDown) {
-                //上滑下移Button
+                    //上滑下移Button
                     btnOrder.setTop(buttonTop + (int) Math.abs(distanceY));
                     btnOrder.setBottom(buttonBottom + (int) Math.abs(distanceY));
                 }

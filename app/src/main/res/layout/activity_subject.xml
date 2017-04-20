@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.weiye.zl.SubjectActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -35,7 +35,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40px"
                         android:layout_marginRight="40px"
-                        android:layout_marginTop="220px"
+                        android:layout_marginTop="250px"
                         android:text="生命监考老师的飞机了的开发工具打fffff开了几十个打开了放假啊了解地方了就卡了放假"
                         android:textColor="#fff"
                         android:textSize="44px" />
@@ -101,24 +101,27 @@
         </com.weiye.myview.ObservableScrollView>
 
 
-            <Button
-                android:id="@+id/btnOrder"
-                android:layout_width="900px"
-                android:layout_height="148px"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/btn"
-                android:text="预约试听"
-                android:layout_alignParentBottom="true"
-                android:textColor="#fff"
-                android:textSize="62px" />
+    <Button
+        android:id="@+id/btnOrder"
+        android:layout_width="900px"
+        android:layout_height="148px"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/btn"
+        android:text="预约试听"
+        android:layout_alignParentBottom="true"
+        android:textColor="#fff"
+        android:textSize="62px"
+        android:layout_gravity="center"
+        android:layout_marginTop="5px"/>
 
 
-    </RelativeLayout>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/title_subject"
         android:layout_width="match_parent"
-        android:layout_height="160px">
+        android:layout_height="200px">
 
         <TextView
             android:id="@+id/mytitleText"
@@ -141,6 +144,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/mytitleAll"
             android:layout_width="128px"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true">

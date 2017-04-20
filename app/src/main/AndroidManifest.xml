@@ -51,7 +51,15 @@
         <activity android:name=".MyMaterialActivity" />
         <activity android:name=".SettingActivity" />
         <activity android:name=".AboutActivity" />
-        <activity android:name=".IdealActivity"></activity>
+        <activity android:name=".IdealActivity" />
+        <activity android:name=".FourSchoolActivity" />
+        <activity android:name=".ScienceStationActivity" />
+        <activity android:name=".TeacherStyleActivity" />
+        <activity android:name=".SchoolActivity" />
+        <activity android:name=".SchoolNextActivity" />
+        <activity android:name=".AppearanceActivity" />
+        <activity android:name=".IntroActivity" />
+        <activity android:name=".ScreenActivity"></activity>
     </application>
 
 </manifest>

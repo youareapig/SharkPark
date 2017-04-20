@@ -48,6 +48,7 @@
                     android:textSize="72px" />
 
                 <TextView
+                    android:id="@+id/classAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -86,6 +87,7 @@
                     android:textSize="72px" />
 
                 <TextView
+                    android:id="@+id/scienceStation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

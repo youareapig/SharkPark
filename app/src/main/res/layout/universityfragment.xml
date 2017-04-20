@@ -40,6 +40,7 @@
     </com.zhy.autolayout.AutoRelativeLayout>
 
     <com.zhy.autolayout.AutoRelativeLayout
+        android:id="@+id/myCourse"
         android:layout_width="match_parent"
         android:layout_height="180px"
         android:layout_marginTop="6px">

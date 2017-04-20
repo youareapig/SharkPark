@@ -1,5 +1,6 @@
 package com.weiye.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,12 @@ import android.widget.TextView;
 
 import com.weiye.data.TestBean;
 import com.weiye.zl.R;
+import com.weiye.zl.TeacherStyleActivity;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by DELL on 2017/4/14.
@@ -35,6 +39,13 @@ public class TeacherRecycleAdapter extends RecyclerView.Adapter{
         TestBean bean=list.get(position);
         viewHolder.textView.setText(bean.getName());
         viewHolder.imageView.setImageResource(bean.getImg());
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(view.getContext(), TeacherStyleActivity.class);
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -46,12 +57,12 @@ public class TeacherRecycleAdapter extends RecyclerView.Adapter{
     }
     private class ViewHolder extends RecyclerView.ViewHolder {
         private TextView textView;
-        private ImageView imageView;
+        private CircleImageView imageView;
         public ViewHolder(View itemView) {
             super(itemView);
             AutoUtils.autoSize(itemView);
             textView = (TextView) itemView.findViewById(R.id.teacheritem_name);
-            imageView= (ImageView) itemView.findViewById(R.id.teacheritem_img);
+            imageView= (CircleImageView) itemView.findViewById(R.id.teacheritem_img);
         }
     }
 }
