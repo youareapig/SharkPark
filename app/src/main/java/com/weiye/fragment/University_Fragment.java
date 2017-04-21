@@ -19,6 +19,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,10 +29,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.weiye.utils.ClassPathResource;
+import com.weiye.utils.CountDownTimerUtils;
 import com.weiye.zl.MyMaterialActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SettingActivity;
@@ -58,7 +62,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private ContentResolver contentResolver;
     private FileOutputStream[] fileOutputStream = {null};
     private Bitmap bitmap, bitmap1;
-    private String base64, base64_1, fileName, stringphone, stringpassword;
+    private String base64, base64_1, fileName, stringphone, stringpassword, stringlogin, stringpwd, stringispwd;
     private AutoRelativeLayout online, setting, myCourse;
 
     @Nullable
@@ -183,9 +187,10 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
+    //TODO 登陆对话框
     private void loginDialog() {
         final EditText userphone, userpassword;
-        final TextView login, vercode;
+        final TextView login, vercode,forgetpassword;
         final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View layout = inflater.inflate(R.layout.login, null);
@@ -196,79 +201,89 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         userpassword = (EditText) layout.findViewById(R.id.loginPassword);
         login = (TextView) layout.findViewById(R.id.login);
         vercode = (TextView) layout.findViewById(R.id.vercode);
-        stringphone = userphone.getText().toString();
-        stringpassword = userpassword.getText().toString();
+        forgetpassword= (TextView) layout.findViewById(R.id.forgetpassword);
+        //TODO 输入框变化时监听
         userphone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.e("tag1", "改变之前" + charSequence);
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Log.e("tag1", "正在改变" + charSequence);
 
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Log.e("tag1", "改变之后" + editable);
-                if (TextUtils.isEmpty(editable)) {
+                stringphone = userphone.getText().toString();
+                if (TextUtils.isEmpty(stringphone)) {
                     login.setEnabled(false);
                     login.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
                 } else {
                     login.setEnabled(true);
                     login.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
-                    if (editable.length() == 11) {
-                        Log.e("tag", "验证电话");
-                        if (editable.equals("15983302246")) {
-                            Log.e("tag", "电话存在");
+                    if (stringphone.length() == 11) {
+                        if (stringphone.equals("15983302246")) {
                             vercode.setVisibility(View.GONE);
                             userpassword.setHint("密码");
-                            userpassword.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                        } else if (!editable.equals("15983302246")){
-                            Log.e("tag", "电话不存在");
+                            userpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);//输入类型为密码
+                            login.setText("登陆");
+
+                        } else {
                             vercode.setVisibility(View.VISIBLE);
                             userpassword.setHint("验证码");
-                            userpassword.setInputType(InputType.TYPE_CLASS_NUMBER);
+                            login.setText("下一步");
+                            userpassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                         }
+                    } else {
+                        vercode.setVisibility(View.GONE);
+                        userpassword.setHint("密码");
+                        userpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                        login.setText("登陆");
                     }
                 }
             }
         });
-        userpassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if (TextUtils.isEmpty(editable)) {
-                    login.setEnabled(false);
-                    login.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
-                } else {
-                    login.setEnabled(true);
-                    login.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
-                }
-            }
-        });
-        if (TextUtils.isEmpty(stringphone) || TextUtils.isEmpty(stringpassword)) {
-            login.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
-            login.setEnabled(false);
-        } else {
-            login.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
-            login.setEnabled(true);
-        }
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("tag", "登陆");
+                stringpassword = userpassword.getText().toString();
+                stringlogin = login.getText().toString();
+                stringphone = userphone.getText().toString();
+                if (TextUtils.isEmpty(stringpassword)) {
+                    Toast.makeText(getActivity(), "请输入验证码或密码!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (stringlogin.equals("登陆")) {
+                        ClassPathResource classPathResource = new ClassPathResource();
+                        boolean isPhone = classPathResource.isMobileNO(stringphone);
+                        if (isPhone == false) {
+                            Toast.makeText(getActivity(), "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e("tag", "登陆成功");
+                            dialog.cancel();
+                        }
+
+                    } else {
+                        Log.e("tag", "进行注册");
+                        dialog.cancel();
+                        registDialog("设置密码");
+                    }
+                }
+            }
+        });
+        vercode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClassPathResource classPathResource = new ClassPathResource();
+                boolean isPhone1 = classPathResource.isMobileNO(userphone.getText().toString().trim());
+                if (isPhone1 == false) {
+                    Toast.makeText(getActivity(), "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
+                } else {
+                    CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(vercode, 10000, 1000);
+                    mCountDownTimerUtils.start();
+                }
+
             }
         });
         //TODO 点击退出
@@ -278,6 +293,159 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 dialog.cancel();
             }
         });
+        forgetpassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.cancel();
+                forgetpassword();
+            }
+        });
 
+    }
+
+    //TODO 注册对话框
+    private void registDialog(String title) {
+        ImageView exit1;
+        final EditText setpassword, ispassword;
+        final TextView regist,longinTitle1;
+        final AlertDialog dialog1 = new AlertDialog.Builder(getActivity()).create();
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View view = inflater.inflate(R.layout.regist, null);
+        dialog1.setView(view);
+        dialog1.setCanceledOnTouchOutside(false);
+        dialog1.show();
+        exit1 = (ImageView) view.findViewById(R.id.exit1);
+        setpassword = (EditText) view.findViewById(R.id.password);
+        ispassword = (EditText) view.findViewById(R.id.ispassword);
+        regist = (TextView) view.findViewById(R.id.regist);
+        longinTitle1= (TextView) view.findViewById(R.id.longinTitle1);
+        longinTitle1.setText(title);
+        exit1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog1.cancel();
+            }
+        });
+        setpassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                stringpwd = setpassword.getText().toString().trim();
+                if (TextUtils.isEmpty(stringpwd)) {
+                    regist.setEnabled(false);
+                    regist.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
+                } else {
+                    regist.setEnabled(true);
+                    regist.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
+                }
+            }
+        });
+        regist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stringpwd = setpassword.getText().toString().trim();
+                stringispwd = ispassword.getText().toString().trim();
+                if (TextUtils.isEmpty(stringpwd) || TextUtils.isEmpty(stringispwd)) {
+                    Toast.makeText(getActivity(), "请输入密码!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (!stringpwd.equals(stringispwd)) {
+                        Toast.makeText(getActivity(), "两次密码不一致，请确认后输入!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (stringpwd.length() < 6) {
+                            Toast.makeText(getActivity(), "密码不能少于6位", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e("tag", "注册成功直接登陆");
+                            dialog1.cancel();
+                        }
+
+                    }
+                }
+            }
+        });
+    }
+    private void forgetpassword(){
+        final TextView findphone,findpwd,findnext,findvercode;
+        final ImageView findexit;
+        final AlertDialog dialog2 = new AlertDialog.Builder(getActivity()).create();
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        final View view = inflater.inflate(R.layout.forgetpassword, null);
+        dialog2.setView(view);
+        dialog2.setCanceledOnTouchOutside(false);
+        dialog2.show();
+        findphone= (TextView) view.findViewById(R.id.loginTel1);
+        findpwd= (TextView) view.findViewById(R.id.loginPassword1);
+        findexit= (ImageView) view.findViewById(R.id.exit3);
+        findvercode= (TextView) view.findViewById(R.id.vercode1);
+        findnext= (TextView) view.findViewById(R.id.next);
+        findexit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog2.cancel();
+            }
+        });
+        findphone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                ClassPathResource classPathResource = new ClassPathResource();
+                boolean isPhone2 = classPathResource.isMobileNO(findphone.getText().toString().trim());
+                if (TextUtils.isEmpty(findphone.getText().toString().trim())){
+                    findvercode.setEnabled(false);
+                    findvercode.setBackground(getActivity().getResources().getDrawable(R.drawable.vercode));
+                    findnext.setEnabled(false);
+                    findnext.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
+                }else {
+                    if (isPhone2==false){
+                        findvercode.setEnabled(false);
+                        findvercode.setBackground(getActivity().getResources().getDrawable(R.drawable.vercode));
+                    }else {
+                        findvercode.setEnabled(true);
+                        findvercode.setBackground(getActivity().getResources().getDrawable(R.drawable.vercode1));
+                    }
+                    findnext.setEnabled(true);
+                    findnext.setBackgroundColor(getActivity().getResources().getColor(R.color.blue));
+
+                }
+            }
+        });
+        findvercode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(findvercode, 10000, 1000);
+                mCountDownTimerUtils.start();
+            }
+        });
+        findnext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TextUtils.isEmpty(findphone.getText().toString().trim())||TextUtils.isEmpty(findpwd.getText().toString().trim())){
+                    Toast.makeText(getActivity(), "请输入验证码!", Toast.LENGTH_SHORT).show();
+                }else {
+
+                        dialog2.cancel();
+                        registDialog("重设密码");
+
+
+                }
+            }
+        });
     }
 }

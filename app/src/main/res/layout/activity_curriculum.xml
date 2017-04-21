@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.weiye.zl.CurriculumActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:layout_marginTop="60px">
+
+        <RelativeLayout
+            android:id="@+id/back5"
+            android:layout_width="108px"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="28px"
+                android:layout_height="48px"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/back1" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="45px"
+        android:text="四月第三周课程表"
+        android:textColor="#303030"
+        android:textSize="72px" />
+
+    <Gallery
+        android:id="@+id/curricuGallery"
+        android:layout_width="match_parent"
+        android:layout_height="390px"
+        android:layout_marginTop="100px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#405157" />
+
+    <ListView
+        android:id="@+id/curricuListview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

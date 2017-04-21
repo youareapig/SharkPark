@@ -4,16 +4,16 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="40px"
     android:layout_marginRight="40px"
-    android:background="@drawable/logindialog"
-    >
+    android:background="@drawable/logindialog">
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-       >
+        >
+
         <ImageView
-            android:id="@+id/exit"
+            android:id="@+id/exit1"
             android:layout_width="80px"
             android:layout_height="80px"
             android:layout_alignParentRight="true"
@@ -22,77 +22,55 @@
             android:src="@mipmap/exit" />
 
         <TextView
-            android:id="@+id/longinTitle"
+            android:id="@+id/longinTitle1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100px"
-            android:text="登陆"
+            android:text="设置密码"
             android:textColor="#303030"
             android:textSize="62px" />
+
         <com.zhy.autolayout.AutoRelativeLayout
-            android:id="@+id/loginlayout"
+            android:id="@+id/loginlayout1"
             android:layout_width="800px"
             android:layout_height="160px"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/longinTitle">
+            android:layout_below="@+id/longinTitle1"
+            android:layout_centerHorizontal="true">
+
             <EditText
-                android:id="@+id/loginTel"
+                android:id="@+id/password"
                 android:layout_width="800px"
                 android:layout_height="160px"
-                android:inputType="number"
-                android:maxLength="11"
                 android:layout_centerInParent="true"
-                android:hint="手机"
+                android:hint="输入密码"
+                android:maxLength="11"
+                android:inputType="textPassword"
                 android:singleLine="true"
                 android:textColor="#888888"
                 android:textSize="48px" />
-            <TextView
-                android:id="@+id/vercode"
-                android:layout_width="240px"
-                android:layout_height="80px"
-                android:text="获取验证码"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="20px"
-                android:background="@drawable/vercode1"
-                android:textColor="#fff"
-                android:gravity="center"
-                android:textSize="38px"
-                android:visibility="gone"
-                />
         </com.zhy.autolayout.AutoRelativeLayout>
 
 
-
         <EditText
-            android:id="@+id/loginPassword"
+            android:id="@+id/ispassword"
             android:layout_width="800px"
             android:layout_height="160px"
-            android:layout_below="@+id/loginlayout"
+            android:layout_below="@+id/loginlayout1"
             android:layout_centerHorizontal="true"
-            android:hint="密码"
+            android:hint="确认密码"
             android:maxLength="11"
             android:inputType="textPassword"
             android:singleLine="true"
             android:textColor="#888888"
             android:textSize="48px" />
 
-        <TextView
-            android:id="@+id/forgetpassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/loginPassword"
-            android:layout_below="@id/loginPassword"
-            android:layout_marginTop="40px"
-            android:text="忘记密码"
-            android:textColor="#888888"
-            android:textSize="48px" />
 
         <TextView
-            android:id="@+id/login"
+            android:id="@+id/regist"
             android:layout_width="match_parent"
             android:layout_height="160px"
-            android:layout_below="@+id/forgetpassword"
+            android:layout_below="@+id/ispassword"
             android:layout_marginTop="40px"
             android:background="@color/gray"
             android:gravity="center"
