@@ -6,4 +6,6 @@
     <color name="black">#303030</color>
     <color name="gray">#bfbfbf</color>
     <color name="blue">#31bdf0</color>
+    <color name="yes">#ffffff</color>
+    <color name="no">#909090</color>
 </resources>

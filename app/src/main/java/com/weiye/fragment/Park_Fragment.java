@@ -2,6 +2,7 @@ package com.weiye.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.weiye.adapter.ActivitiesGridAdpter;
 import com.weiye.myview.MyListView;
@@ -29,7 +32,7 @@ import java.util.List;
  * Created by DELL on 2017/4/6.
  */
 public class Park_Fragment extends Fragment implements View.OnClickListener {
-    private MyListView mListview;
+    private ListView mListview;
     private List<Integer> list;
     private AutoRelativeLayout sActivity, appearance, intro;
 
@@ -37,7 +40,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.parkfragment, container, false);
-        mListview = (MyListView) view.findViewById(R.id.parkListView);
+        mListview = (ListView) view.findViewById(R.id.parkListView);
         sActivity = (AutoRelativeLayout) view.findViewById(R.id.sActivity);
         appearance = (AutoRelativeLayout) view.findViewById(R.id.appearance);
         intro = (AutoRelativeLayout) view.findViewById(R.id.intro);

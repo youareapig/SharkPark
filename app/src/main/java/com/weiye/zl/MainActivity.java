@@ -5,12 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.weiye.fragment.Child_Fragment;
 import com.weiye.fragment.Park_Fragment;
@@ -38,12 +36,20 @@ public class MainActivity extends AppCompatActivity {
     RelativeLayout park;
     @BindView(R.id.university)
     RelativeLayout university;
+    @BindView(R.id.text_a)
+    TextView textA;
+    @BindView(R.id.text_b)
+    TextView textB;
+    @BindView(R.id.text_c)
+    TextView textC;
+    @BindView(R.id.text_d)
+    TextView textD;
     private Unbinder unbinder;
     private FragmentManager fragmentManager;
     private static final String CURRENT_FRAGMENT = "STATE_FRAGMENT_SHOW";
     private Fragment fragment = new Fragment();
     private List<Fragment> list;
-    private int currentIndex = 1;
+    private int currentIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,18 +130,35 @@ public class MainActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.child:
+                textA.setTextColor(getResources().getColor(R.color.yes));
+                textB.setTextColor(getResources().getColor(R.color.no));
+                textC.setTextColor(getResources().getColor(R.color.no));
+                textD.setTextColor(getResources().getColor(R.color.no));
                 currentIndex = 0;
                 showFragment();
+
                 break;
             case R.id.shark:
+                textA.setTextColor(getResources().getColor(R.color.no));
+                textB.setTextColor(getResources().getColor(R.color.yes));
+                textC.setTextColor(getResources().getColor(R.color.no));
+                textD.setTextColor(getResources().getColor(R.color.no));
                 currentIndex = 1;
                 showFragment();
                 break;
             case R.id.park:
+                textA.setTextColor(getResources().getColor(R.color.no));
+                textB.setTextColor(getResources().getColor(R.color.no));
+                textC.setTextColor(getResources().getColor(R.color.yes));
+                textD.setTextColor(getResources().getColor(R.color.no));
                 currentIndex = 2;
                 showFragment();
                 break;
             case R.id.university:
+                textA.setTextColor(getResources().getColor(R.color.no));
+                textB.setTextColor(getResources().getColor(R.color.no));
+                textC.setTextColor(getResources().getColor(R.color.no));
+                textD.setTextColor(getResources().getColor(R.color.yes));
                 currentIndex = 3;
                 showFragment();
                 break;

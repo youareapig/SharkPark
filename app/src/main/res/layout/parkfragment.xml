@@ -3,9 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -142,7 +139,7 @@
                     android:background="#303030" />
             </com.zhy.autolayout.AutoRelativeLayout>
 
-            <com.weiye.myview.MyListView
+            <ListView
                 android:id="@+id/parkListView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -153,7 +150,7 @@
 
 
         </com.zhy.autolayout.AutoLinearLayout>
-    </ScrollView>
+
 
 
 </com.zhy.autolayout.AutoLinearLayout>

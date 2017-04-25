@@ -45,13 +45,14 @@
                     android:layout_marginTop="5dp"/>
 
                 <TextView
+                    android:id="@+id/text_a"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="1dp"
                     android:text="鲨鱼"
-                    android:textColor="#c0c0c0"
+                    android:textColor="@color/yes"
                     android:textSize="16sp" />
             </RelativeLayout>
 
@@ -69,13 +70,14 @@
                     android:layout_marginTop="8dp"/>
 
                 <TextView
+                    android:id="@+id/text_b"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="1dp"
                     android:text="公园"
-                    android:textColor="#c0c0c0"
+                    android:textColor="@color/no"
                     android:textSize="16sp" />
             </RelativeLayout>
 
@@ -93,13 +95,14 @@
                     android:layout_marginTop="8dp"/>
 
                 <TextView
+                    android:id="@+id/text_c"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="1dp"
                     android:text="大学"
-                    android:textColor="#c0c0c0"
+                    android:textColor="@color/no"
                     android:textSize="16sp" />
             </RelativeLayout>
 
@@ -117,13 +120,14 @@
                     android:layout_marginTop="8dp"/>
 
                 <TextView
+                    android:id="@+id/text_d"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="1dp"
                     android:text="我的"
-                    android:textColor="#c0c0c0"
+                    android:textColor="@color/no"
                     android:textSize="16sp" />
             </RelativeLayout>
         </LinearLayout>
