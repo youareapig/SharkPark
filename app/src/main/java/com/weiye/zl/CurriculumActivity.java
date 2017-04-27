@@ -1,6 +1,7 @@
 package com.weiye.zl;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
@@ -40,16 +41,20 @@ public class CurriculumActivity extends AutoLayoutActivity {
 
     private void changDate() {
         mList = new ArrayList<>();
-        TestCurrBean bean1 = new TestCurrBean(R.mipmap.mon, "周一", "(18日)");
-        TestCurrBean bean2 = new TestCurrBean(R.mipmap.tus, "周二", "(19日)");
-        TestCurrBean bean3 = new TestCurrBean(R.mipmap.tha, "周三", "(20日)");
-        TestCurrBean bean4 = new TestCurrBean(R.mipmap.sta, "周四", "(21日)");
-        TestCurrBean bean5 = new TestCurrBean(R.mipmap.sun, "周五", "(22日)");
+        TestCurrBean bean1 = new TestCurrBean(R.mipmap.day1, "周一", "(18日)");
+        TestCurrBean bean2 = new TestCurrBean(R.mipmap.day2, "周二", "(19日)");
+        TestCurrBean bean3 = new TestCurrBean(R.mipmap.day3, "周三", "(20日)");
+        TestCurrBean bean4 = new TestCurrBean(R.mipmap.day4, "周四", "(21日)");
+        TestCurrBean bean5 = new TestCurrBean(R.mipmap.day5, "周五", "(22日)");
+        TestCurrBean bean6 = new TestCurrBean(R.mipmap.day6, "周五", "(23日)");
+        TestCurrBean bean7 = new TestCurrBean(R.mipmap.day7, "周五", "(24日)");
         mList.add(bean1);
         mList.add(bean2);
         mList.add(bean3);
         mList.add(bean4);
         mList.add(bean5);
+        mList.add(bean6);
+        mList.add(bean7);
         final CurriculumGalleryAdapter adapter = new CurriculumGalleryAdapter(mList, this);
         curricuGallery.setAdapter(adapter);
         curricuGallery.setSpacing(30);
@@ -58,6 +63,7 @@ public class CurriculumActivity extends AutoLayoutActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 adapter.setSelectItem(i);
                 adapter.notifyDataSetChanged();
+                Log.e("tag","选择"+i);
             }
 
             @Override

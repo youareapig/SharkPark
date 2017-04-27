@@ -66,7 +66,10 @@
             android:textColor="#888888"
             android:textSize="48px" />
     </RelativeLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d2d2d2" />
     <RelativeLayout
         android:id="@+id/screeningGrade"
         android:layout_width="match_parent"
@@ -102,7 +105,10 @@
             android:textColor="#888888"
             android:textSize="48px" />
     </RelativeLayout>
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d2d2d2" />
     <RelativeLayout
         android:id="@+id/screeningClass"
         android:layout_width="match_parent"
@@ -138,6 +144,10 @@
             android:textColor="#888888"
             android:textSize="48px" />
     </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d2d2d2" />
     <Button
         android:id="@+id/screeningSave"
         android:layout_width="900px"

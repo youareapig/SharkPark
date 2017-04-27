@@ -74,8 +74,8 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="6px"
-        android:background="#F0F0F0" />
+        android:layout_height="1px"
+        android:background="#d2d2d2" />
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/line"
@@ -112,8 +112,8 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="6px"
-        android:background="#F0F0F0" />
+        android:layout_height="1px"
+        android:background="#d2d2d2" />
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/setting"
@@ -147,4 +147,9 @@
             android:layout_marginRight="39px"
             android:src="@mipmap/right" />
     </com.zhy.autolayout.AutoRelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#d2d2d2" />
 </com.zhy.autolayout.AutoLinearLayout>

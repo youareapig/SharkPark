@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:gallery="http://schemas.android.com/apk/res-auto">
@@ -9,5 +9,7 @@
     android:layout_height="match_parent"
     gallery:scaleP="0.9"
     gallery:gallery_pics_space="60px"
-    gallery:gallery_padding="150px"/>
-</com.zhy.autolayout.AutoLinearLayout>
+    gallery:gallery_padding_left="150px"
+    gallery:gallery_padding_right="150px"
+    />
+</com.zhy.autolayout.AutoRelativeLayout>

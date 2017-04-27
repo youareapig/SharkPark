@@ -1,5 +1,6 @@
 package com.weiye.fragment;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
@@ -12,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -41,6 +43,9 @@ import com.weiye.zl.R;
 import com.weiye.zl.SettingActivity;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -100,8 +105,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 layout.findViewById(R.id.photograph).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, 2);
+                        MPermissions.requestPermissions(University_Fragment.this, 20, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                         builder.cancel();
                     }
                 });
@@ -117,9 +121,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
                 break;
             case R.id.line:
-                Intent intentTel = new Intent(Intent.ACTION_CALL);
-                intentTel.setData(Uri.parse("tel:" + "028-18181818"));
-                startActivity(intentTel);
+                MPermissions.requestPermissions(University_Fragment.this, 10, Manifest.permission.CALL_PHONE);
                 break;
             case R.id.setting:
                 Intent intent1 = new Intent(getActivity(), SettingActivity.class);
@@ -190,7 +192,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     //TODO 登陆对话框
     private void loginDialog() {
         final EditText userphone, userpassword;
-        final TextView login, vercode,forgetpassword;
+        final TextView login, vercode, forgetpassword;
         final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View layout = inflater.inflate(R.layout.login, null);
@@ -201,7 +203,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         userpassword = (EditText) layout.findViewById(R.id.loginPassword);
         login = (TextView) layout.findViewById(R.id.login);
         vercode = (TextView) layout.findViewById(R.id.vercode);
-        forgetpassword= (TextView) layout.findViewById(R.id.forgetpassword);
+        forgetpassword = (TextView) layout.findViewById(R.id.forgetpassword);
         //TODO 输入框变化时监听
         userphone.addTextChangedListener(new TextWatcher() {
             @Override
@@ -307,7 +309,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private void registDialog(String title) {
         ImageView exit1;
         final EditText setpassword, ispassword;
-        final TextView regist,longinTitle1;
+        final TextView regist, longinTitle1;
         final AlertDialog dialog1 = new AlertDialog.Builder(getActivity()).create();
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.regist, null);
@@ -318,7 +320,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         setpassword = (EditText) view.findViewById(R.id.password);
         ispassword = (EditText) view.findViewById(R.id.ispassword);
         regist = (TextView) view.findViewById(R.id.regist);
-        longinTitle1= (TextView) view.findViewById(R.id.longinTitle1);
+        longinTitle1 = (TextView) view.findViewById(R.id.longinTitle1);
         longinTitle1.setText(title);
         exit1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,8 +374,9 @@ public class University_Fragment extends Fragment implements View.OnClickListene
             }
         });
     }
-    private void forgetpassword(){
-        final TextView findphone,findpwd,findnext,findvercode;
+
+    private void forgetpassword() {
+        final TextView findphone, findpwd, findnext, findvercode;
         final ImageView findexit;
         final AlertDialog dialog2 = new AlertDialog.Builder(getActivity()).create();
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -381,11 +384,11 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         dialog2.setView(view);
         dialog2.setCanceledOnTouchOutside(false);
         dialog2.show();
-        findphone= (TextView) view.findViewById(R.id.loginTel1);
-        findpwd= (TextView) view.findViewById(R.id.loginPassword1);
-        findexit= (ImageView) view.findViewById(R.id.exit3);
-        findvercode= (TextView) view.findViewById(R.id.vercode1);
-        findnext= (TextView) view.findViewById(R.id.next);
+        findphone = (TextView) view.findViewById(R.id.loginTel1);
+        findpwd = (TextView) view.findViewById(R.id.loginPassword1);
+        findexit = (ImageView) view.findViewById(R.id.exit3);
+        findvercode = (TextView) view.findViewById(R.id.vercode1);
+        findnext = (TextView) view.findViewById(R.id.next);
         findexit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -407,16 +410,16 @@ public class University_Fragment extends Fragment implements View.OnClickListene
             public void afterTextChanged(Editable editable) {
                 ClassPathResource classPathResource = new ClassPathResource();
                 boolean isPhone2 = classPathResource.isMobileNO(findphone.getText().toString().trim());
-                if (TextUtils.isEmpty(findphone.getText().toString().trim())){
+                if (TextUtils.isEmpty(findphone.getText().toString().trim())) {
                     findvercode.setEnabled(false);
                     findvercode.setBackground(getActivity().getResources().getDrawable(R.drawable.vercode));
                     findnext.setEnabled(false);
                     findnext.setBackgroundColor(getActivity().getResources().getColor(R.color.gray));
-                }else {
-                    if (isPhone2==false){
+                } else {
+                    if (isPhone2 == false) {
                         findvercode.setEnabled(false);
                         findvercode.setBackground(getActivity().getResources().getDrawable(R.drawable.vercode));
-                    }else {
+                    } else {
                         findvercode.setEnabled(true);
                         findvercode.setBackground(getActivity().getResources().getDrawable(R.drawable.vercode1));
                     }
@@ -436,16 +439,42 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         findnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(findphone.getText().toString().trim())||TextUtils.isEmpty(findpwd.getText().toString().trim())){
+                if (TextUtils.isEmpty(findphone.getText().toString().trim()) || TextUtils.isEmpty(findpwd.getText().toString().trim())) {
                     Toast.makeText(getActivity(), "请输入验证码!", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
 
-                        dialog2.cancel();
-                        registDialog("重设密码");
+                    dialog2.cancel();
+                    registDialog("重设密码");
 
 
                 }
             }
         });
+    }
+
+    //TODO android 6.0后高危权限的申请
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @PermissionGrant(10)
+    public void requestCallSuccess() {
+        call();
+    }
+
+    @PermissionGrant(20)
+    public void requestCameraSuccess() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, 2);
+    }
+
+
+    //TODO 拨打电话
+    private void call() {
+        Intent intentTel = new Intent(Intent.ACTION_CALL);
+        intentTel.setData(Uri.parse("tel:" + "028-18181818"));
+        startActivity(intentTel);
     }
 }

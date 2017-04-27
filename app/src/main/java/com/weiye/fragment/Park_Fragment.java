@@ -32,7 +32,7 @@ import java.util.List;
  * Created by DELL on 2017/4/6.
  */
 public class Park_Fragment extends Fragment implements View.OnClickListener {
-    private ListView mListview;
+    private MyListView mListview;
     private List<Integer> list;
     private AutoRelativeLayout sActivity, appearance, intro;
 
@@ -40,7 +40,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.parkfragment, container, false);
-        mListview = (ListView) view.findViewById(R.id.parkListView);
+        mListview = (MyListView) view.findViewById(R.id.parkListView);
         sActivity = (AutoRelativeLayout) view.findViewById(R.id.sActivity);
         appearance = (AutoRelativeLayout) view.findViewById(R.id.appearance);
         intro = (AutoRelativeLayout) view.findViewById(R.id.intro);

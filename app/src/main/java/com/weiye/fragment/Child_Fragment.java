@@ -14,6 +14,7 @@ import com.weiye.third.Gallery;
 import com.weiye.third.QuickPagerAdapter;
 import com.weiye.zl.R;
 import com.weiye.zl.SubjectActivity;
+import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class Child_Fragment extends Fragment {
         quickPagerAdapter=new QuickPagerAdapter<TestGalleryBean>(getActivity(),R.layout.galleryitem,mList) {
             @Override
             protected void convertView(BaseAdapterHelper helper, TestGalleryBean item) {
+
                 helper.setImageResource(R.id.galleryitem_img,item.getmImage());
                 helper.setText(R.id.galleryitem_title,item.getmString());
                 helper.setImageOnClickListener(R.id.galleryitem_img, new View.OnClickListener() {

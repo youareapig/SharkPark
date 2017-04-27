@@ -4,8 +4,8 @@
     android:layout_height="match_parent">
 
     <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="220px"
-        android:layout_height="320px">
+        android:layout_width="280px"
+        android:layout_height="490px">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/teacheritem_img"
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/teacheritem_img"
-            android:layout_marginTop="30px"
+            android:layout_marginTop="20px"
             android:textColor="#121212"
 
             />

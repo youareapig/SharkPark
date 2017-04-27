@@ -10,9 +10,9 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/activities_item_img"
-            android:layout_width="960px"
+            android:layout_width="1000px"
             android:layout_height="500px"
-            app:riv_corner_radius="20px"
+            app:riv_corner_radius="8px"
             android:layout_centerInParent="true"/>
         <ImageView
             android:layout_width="140px"

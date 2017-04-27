@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import com.weiye.myview.CustomProgressDialog;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.BindView;
@@ -46,6 +47,9 @@ public class IdealActivity extends AutoLayoutActivity {
                 finish();
                 break;
             case R.id.submit:
+                CustomProgressDialog customProgressDialog=new CustomProgressDialog(this,"玩命加载中...",R.drawable.frame);
+                customProgressDialog.setCanceledOnTouchOutside(false);
+                customProgressDialog.show();
                 break;
         }
     }

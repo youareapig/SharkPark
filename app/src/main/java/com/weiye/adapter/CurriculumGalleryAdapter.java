@@ -2,12 +2,14 @@ package com.weiye.adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.weiye.data.TestCurrBean;
@@ -61,10 +63,18 @@ public class CurriculumGalleryAdapter extends BaseAdapter {
         textView1.setText(bean.getText1());
         textView2.setText(bean.getText2());
         if (selectItem == i) {
-
-            view.setLayoutParams(new Gallery.LayoutParams(480, 360));
+            ViewGroup.MarginLayoutParams params=new ViewGroup.MarginLayoutParams(imageView.getLayoutParams());
+            RelativeLayout.LayoutParams layoutParams=new RelativeLayout.LayoutParams(params);
+            layoutParams.height=220;
+            layoutParams.width=220;
+            imageView.setLayoutParams(layoutParams);
+            textView1.setTextSize(TypedValue.COMPLEX_UNIT_PX,50);
+            textView2.setTextSize(TypedValue.COMPLEX_UNIT_PX,38);
+            textView1.setAlpha(1);
+            textView2.setAlpha(1);
+            //view.setLayoutParams(new Gallery.LayoutParams(480, 360));
         } else {
-            view.setLayoutParams(new Gallery.LayoutParams(240, 180));
+            //view.setLayoutParams(new Gallery.LayoutParams(240, 180));
         }
         return view;
     }

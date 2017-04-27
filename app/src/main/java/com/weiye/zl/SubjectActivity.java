@@ -142,7 +142,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         testBeenList.add(testBean2);
         testBeenList.add(testBean3);
         testBeenList.add(testBean4);
-        recycleTeacher.addItemDecoration(new SpacesItemDecoration(10));
+        //recycleTeacher.addItemDecoration(new SpacesItemDecoration(10));
         recycleTeacher.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recycleTeacher.setAdapter(new TeacherRecycleAdapter(testBeenList));
         recycleTeacher.setHasFixedSize(true);

@@ -6,6 +6,8 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.zhy.autolayout.utils.AutoUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -39,7 +41,7 @@ public abstract class QuickPagerAdapter<T> extends PagerAdapter {
     public T getItem(int position) {
         if (position >= getCount()){
             return null;
-        } 
+        }
         return data.get(position);
     }
 
@@ -77,7 +79,6 @@ public abstract class QuickPagerAdapter<T> extends PagerAdapter {
         container.addView(view, 0);
         VersionDiffUtils.scaleY(view, 0.9f);
         VersionDiffUtils.scaleX(view, 0.9f);
-        
         liveViews.put(position, view);
         return view;
     }

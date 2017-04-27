@@ -1,19 +1,24 @@
 package com.weiye.zl;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.weiye.fragment.Child_Fragment;
 import com.weiye.fragment.Park_Fragment;
 import com.weiye.fragment.Shark_Fragment;
 import com.weiye.fragment.University_Fragment;
+import com.zhy.autolayout.AutoLayoutActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +30,7 @@ import butterknife.Unbinder;
 import qiu.niorgai.StatusBarCompat;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AutoLayoutActivity {
     @BindView(R.id.mainFragment)
     LinearLayout mainFragment;
     @BindView(R.id.child)
@@ -50,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
     private Fragment fragment = new Fragment();
     private List<Fragment> list;
     private int currentIndex = 0;
+    private static boolean isExit = false;
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            isExit = false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,4 +177,27 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+
+    private void exit() {
+        if (!isExit) {
+            isExit = true;
+            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                    Toast.LENGTH_SHORT).show();
+            mHandler.sendEmptyMessageDelayed(0, 2000);
+        } else {
+            finish();
+            System.exit(0);
+        }
+    }
+
 }

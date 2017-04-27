@@ -12,16 +12,20 @@
         android:textColor="#121212"
         android:textSize="72px" />
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/galleryitem_img"
-        android:layout_width="840px"
-        android:layout_height="1300px"
-        android:scaleType="centerCrop"
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="850px"
+        android:layout_height="1310px"
         android:layout_below="@+id/galleryitem_title"
         android:layout_centerHorizontal="true"
-        app:riv_corner_radius="12px" />
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"/>
+        android:background="@drawable/shade">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/galleryitem_img"
+            android:layout_width="840px"
+            android:layout_height="1300px"
+            android:scaleType="centerCrop"
+            android:layout_centerInParent="true"
+            app:riv_corner_radius="12px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+
 </com.zhy.autolayout.AutoRelativeLayout>
