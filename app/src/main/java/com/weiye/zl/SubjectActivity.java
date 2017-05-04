@@ -28,7 +28,6 @@ import com.weiye.data.TestBean;
 import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.VideoFragment;
 import com.weiye.myview.ObservableScrollView;
-import com.weiye.utils.SpacesItemDecoration;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import java.util.ArrayList;
@@ -43,14 +42,6 @@ import qiu.niorgai.StatusBarCompat;
 public class SubjectActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener {
 
 
-    @BindView(R.id.videoText)
-    TextView videoText;
-    @BindView(R.id.photoText)
-    TextView photoText;
-    @BindView(R.id.tablayout)
-    LinearLayout tablayout;
-    @BindView(R.id.subfragment)
-    LinearLayout subfragment;
     @BindView(R.id.scrollview)
     ObservableScrollView scrollview;
     @BindView(R.id.title_subject)
@@ -65,17 +56,26 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     Button btnOrder;
     @BindView(R.id.mytitleAll)
     RelativeLayout mytitleAll;
+    @BindView(R.id.videoText)
+    TextView videoText;
+    @BindView(R.id.photoText)
+    TextView photoText;
+    @BindView(R.id.tablayout)
+    LinearLayout tablayout;
+    @BindView(R.id.subfragment)
+    LinearLayout subfragment;
 
     private Unbinder unbinder;
-    private FragmentManager fragmentManager;
-    private Fragment fragment;
-    private List<Fragment> list;
-    private FragmentTransaction fragmentTransaction;
     private int height;
     private List<TestBean> testBeenList;
     private TestBean testBean1, testBean2, testBean3, testBean4;
     private GestureDetectorCompat mDetectorCompat;
     private int mOriginButtonTop;
+    private static final String CURRENT_FRAGMENT = "STATE_FRAGMENT_SHOW";
+    private Fragment fragment = new Fragment();
+    private List<Fragment> list = new ArrayList<>();
+    private int currentIndex = 0;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,15 +84,54 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         setContentView(R.layout.activity_subject);
         StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
+        fragmentManager = getSupportFragmentManager();
+        if (savedInstanceState != null) {
+            currentIndex = savedInstanceState.getInt(CURRENT_FRAGMENT, 0);
+            list.removeAll(list);
+            list.add(fragmentManager.findFragmentByTag(0 + ""));
+            list.add(fragmentManager.findFragmentByTag(1 + ""));
+            restoreFragment();
+        } else {
+            list.add(new VideoFragment());
+            list.add(new PhotoFragment());
+            showFragment();
+        }
         //orerBtn();
         changTitle();
-        list = new ArrayList<>();
-        fragment = new VideoFragment();
-        fragmentManager = this.getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.subfragment, fragment).commit();
-        list.add(new VideoFragment());
-        list.add(new PhotoFragment());
         teacher();
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(CURRENT_FRAGMENT, currentIndex);
+        super.onSaveInstanceState(outState);
+    }
+    private void showFragment() {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if (!list.get(currentIndex).isAdded()) {
+            transaction
+                    .hide(fragment)
+                    .add(R.id.subfragment, list.get(currentIndex), "" + currentIndex);
+        } else {
+            transaction
+                    .hide(fragment)
+                    .show(list.get(currentIndex));
+        }
+        fragment = list.get(currentIndex);
+        transaction.commit();
+    }
+
+    private void restoreFragment() {
+        FragmentTransaction mBeginTreansaction = fragmentManager.beginTransaction();
+        for (int i = 0; i < list.size(); i++) {
+            if (i == currentIndex) {
+                mBeginTreansaction.show(list.get(i));
+            } else {
+                mBeginTreansaction.hide(list.get(i));
+            }
+        }
+        mBeginTreansaction.commit();
+        fragment = list.get(currentIndex);
+
     }
 
     //TODO 滑动改变标题栏
@@ -155,27 +194,27 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         unbinder.unbind();
     }
 
-    @OnClick({R.id.videoText, R.id.photoText, R.id.btnOrder,R.id.mytitleAll})
+    @OnClick({R.id.btnOrder, R.id.mytitleAll,R.id.videoText,R.id.photoText})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.videoText:
                 videoText.setTextColor(this.getResources().getColor(R.color.black));
                 photoText.setTextColor(this.getResources().getColor(R.color.gray));
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.subfragment, list.get(0));
-                fragmentTransaction.commit();
+                currentIndex = 0;
+                showFragment();
                 break;
             case R.id.photoText:
                 videoText.setTextColor(this.getResources().getColor(R.color.gray));
                 photoText.setTextColor(this.getResources().getColor(R.color.black));
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.subfragment, list.get(1));
-                fragmentTransaction.commit();
+                currentIndex = 1;
+                showFragment();
                 break;
             case R.id.btnOrder:
+                Intent intent1=new Intent(SubjectActivity.this,CurriculumActivity.class);
+                startActivity(intent1);
                 break;
             case R.id.mytitleAll:
-                Intent intent=new Intent(SubjectActivity.this,FourSchoolActivity.class);
+                Intent intent = new Intent(SubjectActivity.this, FourSchoolActivity.class);
                 startActivity(intent);
                 break;
         }

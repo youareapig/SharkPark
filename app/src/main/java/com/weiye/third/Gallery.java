@@ -53,7 +53,6 @@ public class Gallery extends RelativeLayout {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         ((MarginLayoutParams)viewPager.getLayoutParams()).setMargins(galleryPaddingLeft, galleryPaddingTop, galleryPaddingRight, galleryPaddingBottom);
         viewPager.setPageMargin(galleryCenterMargin);
-
         viewPager.setOffscreenPageLimit(OFFSCREEN_PAGE_LIMIT);
         setOnTouchListener(new OnTouchListener() {
 
@@ -107,8 +106,15 @@ public class Gallery extends RelativeLayout {
     }
 
     public void setAdapter(QuickPagerAdapter adapter) {
+        int position=0;
         viewPager.setAdapter(adapter);
-        mQuickPagerAdapter = adapter; 
+        mQuickPagerAdapter = adapter;
+        if (viewPager.getCurrentItem()==3){
+            position=0;
+        }else {
+            position=viewPager.getCurrentItem()+1;
+        }
+        viewPager.setCurrentItem(position,true);
     }
   
 }

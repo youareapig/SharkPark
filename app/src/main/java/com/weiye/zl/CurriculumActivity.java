@@ -9,6 +9,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.weiye.adapter.CurriculumGalleryAdapter;
+import com.weiye.adapter.CurriculumListViewAdapter;
 import com.weiye.data.TestCurrBean;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -37,6 +38,7 @@ public class CurriculumActivity extends AutoLayoutActivity {
         StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
         changDate();
+        classbook();
     }
 
     private void changDate() {
@@ -58,6 +60,7 @@ public class CurriculumActivity extends AutoLayoutActivity {
         final CurriculumGalleryAdapter adapter = new CurriculumGalleryAdapter(mList, this);
         curricuGallery.setAdapter(adapter);
         curricuGallery.setSpacing(30);
+        curricuGallery.setSelection(3);
         curricuGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -71,6 +74,9 @@ public class CurriculumActivity extends AutoLayoutActivity {
 
             }
         });
+    }
+    private void classbook(){
+        curricuListview.setAdapter(new CurriculumListViewAdapter(this));
     }
 
     @Override

@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.weiye.utils.ClassPathResource;
 import com.weiye.utils.CountDownTimerUtils;
+import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.MyMaterialActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SettingActivity;
@@ -46,6 +47,10 @@ import com.zhy.autolayout.AutoRelativeLayout;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -262,7 +267,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                         if (isPhone == false) {
                             Toast.makeText(getActivity(), "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
                         } else {
-                            Log.e("tag", "登陆成功");
+                            userLogin(stringphone,stringpassword);
                             dialog.cancel();
                         }
 
@@ -476,5 +481,34 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         Intent intentTel = new Intent(Intent.ACTION_CALL);
         intentTel.setData(Uri.parse("tel:" + "028-18181818"));
         startActivity(intentTel);
+    }
+
+    //TODO 用户登录请求
+    private void userLogin(String phone,String password) {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=login");
+        Log.v("tag", "登录信息：" + phone + password);
+        params.addBodyParameter("DLZH", phone);
+        params.addBodyParameter("DLMM", password);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.v("tag", "登录成功" + result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.v("tag", "访问出错");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 }

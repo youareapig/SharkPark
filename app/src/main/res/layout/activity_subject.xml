@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.weiye.zl.SubjectActivity">
 
     <LinearLayout
@@ -12,12 +11,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <com.weiye.myview.ObservableScrollView
             android:id="@+id/scrollview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -53,6 +50,7 @@
 
                 </RelativeLayout>
 
+
                 <LinearLayout
                     android:id="@+id/tablayout"
                     android:layout_width="match_parent"
@@ -75,7 +73,6 @@
                         android:layout_height="86px"
                         android:background="#cecccc"
                         android:gravity="center_vertical" />
-
                     <TextView
                         android:id="@+id/photoText"
                         android:layout_width="match_parent"
@@ -85,7 +82,9 @@
                         android:text="相册集"
                         android:textColor="#888888"
                         android:textSize="64px" />
+
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/subfragment"
@@ -93,30 +92,24 @@
                     android:layout_height="match_parent"
                     android:layout_margin="40px"
                     android:orientation="vertical">
-
                 </LinearLayout>
-
 
             </LinearLayout>
         </com.weiye.myview.ObservableScrollView>
+    </LinearLayout>
 
 
     <Button
         android:id="@+id/btnOrder"
         android:layout_width="900px"
         android:layout_height="148px"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="40px"
         android:background="@drawable/btn"
         android:text="预约试听"
-        android:layout_alignParentBottom="true"
         android:textColor="#fff"
-        android:textSize="62px"
-        android:layout_gravity="center"
-        android:layout_marginTop="5px"/>
+        android:textSize="62px" />
 
-
-
-    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/title_subject"

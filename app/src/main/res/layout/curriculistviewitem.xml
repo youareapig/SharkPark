@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/curriculistview_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9:00-10:00"
+        android:textColor="#005982"
+        android:textSize="50px" />
+
+    <com.weiye.myview.MyGridView
+        android:layout_below="@+id/curriculistview_item_time"
+        android:layout_marginTop="30px"
+        android:id="@+id/curriculistview_item_gridview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:horizontalSpacing="20px"
+        android:verticalSpacing="20px"
+        android:numColumns="3" />
+</com.zhy.autolayout.AutoRelativeLayout>

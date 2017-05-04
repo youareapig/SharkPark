@@ -3,9 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.weiye.myview.MyListView
-        android:focusable="false"
-        android:id="@+id/videofragment_listview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+
+        <com.weiye.myview.MyListView
+            android:id="@+id/videofragment_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="false" />
 </com.zhy.autolayout.AutoLinearLayout>

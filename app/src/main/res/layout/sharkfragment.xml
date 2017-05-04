@@ -113,6 +113,7 @@
                 android:layout_marginRight="40px"
                 android:layout_marginTop="30px"
                 android:src="@mipmap/aaa"
+                android:scaleType="centerCrop"
                 app:riv_corner_radius="20px" />
 
             <TextView

@@ -38,7 +38,6 @@
         android:layout_marginLeft="40px"
         android:layout_marginRight="40px"
         android:layout_marginTop="100px"
-        android:text="鲨鱼公园儿童大学是鲨鱼公园儿童大学是鲨鱼公园儿童大学是鲨鱼公园儿童大学是..."
         android:textColor="#303030"
         android:textSize="52px" />
 </LinearLayout>
