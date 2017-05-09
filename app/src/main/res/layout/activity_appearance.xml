@@ -7,8 +7,7 @@
     android:orientation="vertical"
     tools:context="com.weiye.zl.AppearanceActivity">
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="200px">
+        style="@style/mytitle">
 
         <RelativeLayout
             android:id="@+id/back2"
@@ -50,6 +49,7 @@
         android:background="#bfbfbf"
         android:layout_marginTop="10px"/>
     <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/schoolappearance"
         android:layout_width="match_parent"
         android:layout_height="500px"
         android:layout_marginLeft="40px"

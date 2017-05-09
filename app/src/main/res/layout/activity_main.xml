@@ -48,9 +48,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:text="鲨鱼"
-                    android:layout_marginBottom="5px"
+                    android:layout_marginBottom="14px"
                     android:textColor="@color/yes"
-                    android:textSize="48px" />
+                    android:textSize="36px" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -72,9 +72,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:text="公园"
-                    android:layout_marginBottom="5px"
+                    android:layout_marginBottom="14px"
                     android:textColor="@color/no"
-                    android:textSize="48px" />
+                    android:textSize="36px" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -96,9 +96,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:text="大学"
-                    android:layout_marginBottom="5px"
+                    android:layout_marginBottom="14px"
                     android:textColor="@color/no"
-                    android:textSize="48px" />
+                    android:textSize="36px" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -120,9 +120,9 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:text="我的"
-                    android:layout_marginBottom="5px"
+                    android:layout_marginBottom="14px"
                     android:textColor="@color/no"
-                    android:textSize="48px" />
+                    android:textSize="36px" />
             </RelativeLayout>
         </LinearLayout>
 

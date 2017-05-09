@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +24,14 @@ import com.weiye.adapter.BannerAdapter;
 import com.weiye.adapter.GalleryAdapter;
 import com.weiye.adapter.ListView_1_Adapter;
 import com.weiye.myview.MyListView;
+import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.FourSchoolActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.ScienceStationActivity;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +62,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         mView = (ViewGroup) view.findViewById(R.id.bannerGroup);
         classAll= (TextView) view.findViewById(R.id.classAll);
         classAll.setOnClickListener(this);
+        visitClass();
         setGridView();
         science();
         setBanner();
@@ -203,5 +210,35 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 handler.sendEmptyMessage(0);
             }
         }
+    }
+    private void visitClass(){
+        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_KTFCDataService.ashx?op=getTAB_KTFC");
+        params.addBodyParameter("start","0");
+        x.http().get(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("tag","访问成功"+result);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("tag","访问失败");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
     }
 }

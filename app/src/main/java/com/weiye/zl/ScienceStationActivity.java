@@ -39,7 +39,6 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_science_station);
         ShareSDK.initSDK(this);
-        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
         changTitle();
     }

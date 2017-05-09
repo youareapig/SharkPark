@@ -1,7 +1,11 @@
 package com.weiye.zl;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -31,13 +35,15 @@ public class SettingActivity extends AutoLayoutActivity {
     @BindView(R.id.btnloginout)
     Button btnloginout;
     private Unbinder unbinder;
-
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
+        sharedPreferences = getSharedPreferences("UserTag",MODE_PRIVATE);
+        editor = sharedPreferences.edit();
     }
 
     @Override
@@ -63,6 +69,29 @@ public class SettingActivity extends AutoLayoutActivity {
             case R.id.updateversion:
                 break;
             case R.id.btnloginout:
+                final AlertDialog dialog = new AlertDialog.Builder(this).create();
+                LayoutInflater inflater = getLayoutInflater();
+                 View v = inflater.inflate(R.layout.oncesure, null);
+                dialog.setView(v);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+                v.findViewById(R.id.off).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.cancel();
+                    }
+                });
+                v.findViewById(R.id.sure).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        editor.putString("usertag", "0");
+                        editor.commit();
+                        Intent intent2=new Intent(SettingActivity.this,MainActivity.class);
+                        startActivity(intent2);
+                        finish();
+                        dialog.cancel();
+                    }
+                });
                 break;
         }
     }

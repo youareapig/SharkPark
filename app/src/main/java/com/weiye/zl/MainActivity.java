@@ -1,5 +1,6 @@
 package com.weiye.zl;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -7,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -18,6 +20,7 @@ import com.weiye.fragment.Child_Fragment;
 import com.weiye.fragment.Park_Fragment;
 import com.weiye.fragment.Shark_Fragment;
 import com.weiye.fragment.University_Fragment;
+import com.weiye.utils.UserLoginDialog;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import java.util.ArrayList;
@@ -56,6 +59,7 @@ public class MainActivity extends AutoLayoutActivity {
     private List<Fragment> list;
     private int currentIndex = 0;
     private static boolean isExit = false;
+    private SharedPreferences sharedPreferences;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -67,10 +71,9 @@ public class MainActivity extends AutoLayoutActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
+        sharedPreferences =getSharedPreferences("UserTag",MODE_PRIVATE);
         list = new ArrayList<>();
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
@@ -168,12 +171,19 @@ public class MainActivity extends AutoLayoutActivity {
                 showFragment();
                 break;
             case R.id.university:
-                textA.setTextColor(getResources().getColor(R.color.no));
-                textB.setTextColor(getResources().getColor(R.color.no));
-                textC.setTextColor(getResources().getColor(R.color.no));
-                textD.setTextColor(getResources().getColor(R.color.yes));
-                currentIndex = 3;
-                showFragment();
+                String tag=sharedPreferences.getString("usertag","0");
+                Log.v("aa",tag);
+                if (tag.equals("1")){
+                    textA.setTextColor(getResources().getColor(R.color.no));
+                    textB.setTextColor(getResources().getColor(R.color.no));
+                    textC.setTextColor(getResources().getColor(R.color.no));
+                    textD.setTextColor(getResources().getColor(R.color.yes));
+                    currentIndex = 3;
+                    showFragment();
+                }else {
+                    new UserLoginDialog(this).loginDialog();
+                }
+
                 break;
         }
     }

@@ -46,7 +46,7 @@ public class GalleryAdapter extends BaseAdapter{
         imageView.setCornerRadius(20);
         imageView.setImageResource(list.get(i%count));
         imageView.setId(list.get(i%count));
-        imageView.setLayoutParams(new Gallery.LayoutParams(1000,500));
+        imageView.setLayoutParams(new Gallery.LayoutParams(960,500));
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         return imageView;
     }

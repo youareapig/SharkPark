@@ -113,8 +113,7 @@
 
     <RelativeLayout
         android:id="@+id/title_subject"
-        android:layout_width="match_parent"
-        android:layout_height="200px">
+        style="@style/mytitle">
 
         <TextView
             android:id="@+id/mytitleText"

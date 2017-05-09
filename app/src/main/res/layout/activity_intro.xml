@@ -6,8 +6,7 @@
     android:orientation="vertical"
     tools:context="com.weiye.zl.IntroActivity">
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="200px">
+        style="@style/mytitle">
 
         <RelativeLayout
             android:id="@+id/back3"

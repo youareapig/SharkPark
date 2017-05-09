@@ -43,4 +43,6 @@ dependencies {
     compile files('libs/MobTools-2017.0412.1554.jar')
     apt 'com.zhy:mpermission-compiler:1.0.0'
     compile 'com.zhy:mpermission-api:1.0.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile files('libs/nineoldandroids-2.4.0.jar')
 }

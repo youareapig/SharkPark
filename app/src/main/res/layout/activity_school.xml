@@ -9,8 +9,7 @@
 
     <RelativeLayout
         android:id="@+id/teacherStyle_title"
-        android:layout_width="match_parent"
-        android:layout_height="200px">
+        style="@style/mytitle">
 
         <RelativeLayout
             android:id="@+id/school_Back"

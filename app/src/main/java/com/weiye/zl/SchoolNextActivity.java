@@ -30,7 +30,6 @@ public class SchoolNextActivity extends AutoLayoutActivity implements Observable
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_next);
-        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
         changTitle();
     }

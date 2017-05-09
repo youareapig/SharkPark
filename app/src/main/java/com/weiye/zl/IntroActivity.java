@@ -13,6 +13,5 @@ public class IntroActivity extends AutoLayoutActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-        StatusBarCompat.translucentStatusBar(this, false);
     }
 }

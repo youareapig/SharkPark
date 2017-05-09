@@ -7,11 +7,11 @@ import com.zhy.autolayout.AutoLayoutActivity;
 
 import qiu.niorgai.StatusBarCompat;
 
-public class ScreenActivity extends AutoLayoutActivity {
+public class SubmitActivity extends AutoLayoutActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_screen);
+        setContentView(R.layout.activity_submit);
     }
 }

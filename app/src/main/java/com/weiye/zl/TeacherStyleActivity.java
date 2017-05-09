@@ -43,7 +43,6 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_style);
-        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
         changTitle();
         setBanner();

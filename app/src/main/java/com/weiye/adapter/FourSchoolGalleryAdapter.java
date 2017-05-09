@@ -23,7 +23,7 @@ import java.util.List;
 public class FourSchoolGalleryAdapter extends BaseAdapter {
     private List<TestBean1> list;
     private LayoutInflater inflater;
-
+    private int count;
     public FourSchoolGalleryAdapter(List<TestBean1> list, Activity context) {
         this.list = list;
         this.inflater = context.getLayoutInflater();
@@ -31,23 +31,23 @@ public class FourSchoolGalleryAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        //count=list.size();
-        return list.size();
+        count=list.size();
+        return Integer.MAX_VALUE;
     }
 
     @Override
     public Object getItem(int i) {
-        return list.get(i);
+        return list.get(i%count);
     }
 
     @Override
     public long getItemId(int i) {
-        return i;
+        return i%count;
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        TestBean1 bean1 = list.get(i);
+        TestBean1 bean1 = list.get(i%count);
         view = inflater.inflate(R.layout.fourschoolitem, null);
         TextView textView = (TextView) view.findViewById(R.id.fourschoolitem_text);
         RoundedImageView roundedImageView = (RoundedImageView) view.findViewById(R.id.fourschoolitem_img);

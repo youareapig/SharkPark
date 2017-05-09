@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
@@ -55,7 +56,6 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_four_school);
-        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
         schoolScrollview.smoothScrollTo(0, 20);
         shcoolGallery();
@@ -71,10 +71,11 @@ public class FourSchoolActivity extends AutoLayoutActivity {
         mList.add(new TestBean1(R.mipmap.gicon, "学院四"));
         fourschoolGallery.setAdapter(new FourSchoolGalleryAdapter(mList, this));
         fourschoolGallery.setSpacing(60);
-        fourschoolGallery.setSelection(1, true);
+        fourschoolGallery.setSelection(40);
         fourschoolGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.v("tag","选中项"+i%(mList.size()));
                 Intent intent = new Intent(FourSchoolActivity.this, SubjectActivity.class);
                 startActivity(intent);
             }

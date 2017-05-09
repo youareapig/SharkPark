@@ -14,9 +14,7 @@
 
 
         <RelativeLayout
-            android:layout_marginTop="60px"
-            android:layout_width="match_parent"
-            android:layout_height="200px">
+            style="@style/mytitle">
 
             <RelativeLayout
                 android:id="@+id/materialBack"

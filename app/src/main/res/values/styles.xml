@@ -12,4 +12,9 @@
     <item name="android:textSize">52px</item>
     <item name="android:textColor">#888888</item>
 </style>
+    <style name="mytitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">160px</item>
+    </style>
+    
 </resources>

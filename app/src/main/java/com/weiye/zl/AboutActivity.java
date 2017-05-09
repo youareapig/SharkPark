@@ -28,7 +28,6 @@ public class AboutActivity extends AutoLayoutActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        StatusBarCompat.translucentStatusBar(this, false);
         aboutText= (TextView) findViewById(R.id.aboutText);
         back= (RelativeLayout) findViewById(R.id.aboutBack);
         back.setOnClickListener(new View.OnClickListener() {

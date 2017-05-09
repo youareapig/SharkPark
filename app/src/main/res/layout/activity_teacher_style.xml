@@ -59,8 +59,7 @@
     </com.weiye.myview.ObservableScrollView>
     <RelativeLayout
         android:id="@+id/teacherStyle_title"
-        android:layout_width="match_parent"
-        android:layout_height="200px">
+        style="@style/mytitle">
 
         <RelativeLayout
             android:id="@+id/teacherStyle_Back"
@@ -71,7 +70,7 @@
                 android:layout_width="28px"
                 android:layout_height="48px"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/back" />
+                android:src="@mipmap/back1" />
         </RelativeLayout>
 
     </RelativeLayout>

@@ -30,6 +30,8 @@ import com.weiye.listenfragment.VideoFragment;
 import com.weiye.myview.ObservableScrollView;
 import com.zhy.autolayout.AutoLayoutActivity;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +84,6 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         super.onCreate(savedInstanceState);
         //TODO 取消状态栏
         setContentView(R.layout.activity_subject);
-        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
