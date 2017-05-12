@@ -28,7 +28,7 @@
         android:icon="@mipmap/sharkpark"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
 
         <meta-data
             android:name="design_width"
@@ -91,8 +91,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".LeadActivity" />
-        <activity android:name=".SubmitActivity"></activity>
-        <activity android:name="com.weiye.photoshow.ImagePagerActivity"/>
+        <activity android:name=".SubmitActivity" />
+        <activity android:name="com.weiye.photoshow.ImagePagerActivity" />
+        <activity android:name=".SettingInternetActivity" />
+        <activity android:name=".RestartActivity"></activity>
     </application>
 
 </manifest>

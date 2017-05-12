@@ -21,22 +21,27 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <FrameLayout
                     android:id="@+id/mytitle"
                     android:layout_width="match_parent"
-                    android:layout_height="660px"
-                    android:background="@mipmap/subjectbg">
+                    android:layout_height="660px">
+
+                    <ImageView
+                        android:id="@+id/subjecttitlebackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="660px"
+                        android:scaleType="fitXY" />
 
                     <TextView
+                        android:id="@+id/subject_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="40px"
                         android:layout_marginRight="40px"
                         android:layout_marginTop="250px"
-                        android:text="生命监考老师的飞机了的开发工具打fffff开了几十个打开了放假啊了解地方了就卡了放假"
                         android:textColor="#fff"
                         android:textSize="44px" />
-                </RelativeLayout>
+                </FrameLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -73,6 +78,7 @@
                         android:layout_height="86px"
                         android:background="#cecccc"
                         android:gravity="center_vertical" />
+
                     <TextView
                         android:id="@+id/photoText"
                         android:layout_width="match_parent"
@@ -91,8 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="40px"
-                    android:orientation="vertical">
-                </LinearLayout>
+                    android:orientation="vertical"></LinearLayout>
 
             </LinearLayout>
         </com.weiye.myview.ObservableScrollView>
@@ -120,7 +125,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="生命科学"
             android:textColor="#fff"
             android:textSize="64px" />
 

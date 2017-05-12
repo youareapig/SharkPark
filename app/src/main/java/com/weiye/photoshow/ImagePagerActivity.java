@@ -13,7 +13,12 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +70,7 @@ public class ImagePagerActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return ImageDetailFragment.newInstance(mList.get(position));
+            return ImageDetailFragment.newInstance(SingleModleUrl.singleModleUrl().getImgUrl()+mList.get(position));
         }
 
         @Override
@@ -73,4 +78,5 @@ public class ImagePagerActivity extends FragmentActivity {
             return mList.size();
         }
     }
+
 }

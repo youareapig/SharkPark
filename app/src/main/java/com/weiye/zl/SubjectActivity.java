@@ -5,32 +5,39 @@ package com.weiye.zl;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.TeacherRecycleAdapter;
+import com.weiye.data.IndexBean;
+import com.weiye.data.TeacherBean;
 import com.weiye.data.TestBean;
 import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.VideoFragment;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.ObservableScrollView;
+import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
-import org.w3c.dom.Text;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +46,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import qiu.niorgai.StatusBarCompat;
 
 public class SubjectActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener {
 
@@ -49,7 +55,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     @BindView(R.id.title_subject)
     RelativeLayout titleSubject;
     @BindView(R.id.mytitle)
-    RelativeLayout mytitle;
+    FrameLayout mytitle;
     @BindView(R.id.mytitleText)
     TextView mytitleText;
     @BindView(R.id.recycleTeacher)
@@ -66,25 +72,28 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     LinearLayout tablayout;
     @BindView(R.id.subfragment)
     LinearLayout subfragment;
+    @BindView(R.id.subject_content)
+    TextView subjectContent;
+    @BindView(R.id.subjecttitlebackground)
+    ImageView subjecttitlebackground;
 
     private Unbinder unbinder;
     private int height;
-    private List<TestBean> testBeenList;
-    private TestBean testBean1, testBean2, testBean3, testBean4;
-    private GestureDetectorCompat mDetectorCompat;
-    private int mOriginButtonTop;
     private static final String CURRENT_FRAGMENT = "STATE_FRAGMENT_SHOW";
     private Fragment fragment = new Fragment();
     private List<Fragment> list = new ArrayList<>();
     private int currentIndex = 0;
     private FragmentManager fragmentManager;
-
+    private String indexID;
+    private List<TeacherBean.RowsBean> mlist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //TODO 取消状态栏
         setContentView(R.layout.activity_subject);
         unbinder = ButterKnife.bind(this);
+        Intent intent = getIntent();
+        indexID = intent.getStringExtra("indexID");
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
             currentIndex = savedInstanceState.getInt(CURRENT_FRAGMENT, 0);
@@ -93,19 +102,22 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
             list.add(fragmentManager.findFragmentByTag(1 + ""));
             restoreFragment();
         } else {
-            list.add(new VideoFragment());
-            list.add(new PhotoFragment());
+            list.add(new VideoFragment(indexID));
+            list.add(new PhotoFragment(indexID));
             showFragment();
         }
-        //orerBtn();
+
         changTitle();
-        teacher();
+        visit();
+        visitTeacher();
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(CURRENT_FRAGMENT, currentIndex);
         super.onSaveInstanceState(outState);
     }
+
     private void showFragment() {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (!list.get(currentIndex).isAdded()) {
@@ -152,41 +164,6 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         });
     }
 
-    //TODO 向上滑动隐藏按钮
-    private void orerBtn() {
-        btnOrder.post(new Runnable() {//post一个线程去获取button的原始top值
-            @Override
-            public void run() {
-                mOriginButtonTop = btnOrder.getTop();
-            }
-        });
-        mDetectorCompat = new GestureDetectorCompat(this, new MyGestureListener());
-
-        scrollview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mDetectorCompat.onTouchEvent(event);
-                return false;
-            }
-        });
-    }
-
-    //TODO 老师介绍
-    private void teacher() {
-        testBeenList = new ArrayList<>();
-        testBean1 = new TestBean(R.mipmap.aaaa, "我是一个好老师");
-        testBean2 = new TestBean(R.mipmap.aaaa, "我是一个好老师");
-        testBean3 = new TestBean(R.mipmap.aaaa, "我是一个好老师");
-        testBean4 = new TestBean(R.mipmap.aaaa, "我是一个好老师");
-        testBeenList.add(testBean1);
-        testBeenList.add(testBean2);
-        testBeenList.add(testBean3);
-        testBeenList.add(testBean4);
-        //recycleTeacher.addItemDecoration(new SpacesItemDecoration(10));
-        recycleTeacher.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recycleTeacher.setAdapter(new TeacherRecycleAdapter(testBeenList));
-        recycleTeacher.setHasFixedSize(true);
-    }
 
 
     @Override
@@ -195,7 +172,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         unbinder.unbind();
     }
 
-    @OnClick({R.id.btnOrder, R.id.mytitleAll,R.id.videoText,R.id.photoText})
+    @OnClick({R.id.btnOrder, R.id.mytitleAll, R.id.videoText, R.id.photoText})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.videoText:
@@ -211,7 +188,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 showFragment();
                 break;
             case R.id.btnOrder:
-                Intent intent1=new Intent(SubjectActivity.this,CurriculumActivity.class);
+                Intent intent1 = new Intent(SubjectActivity.this, CurriculumActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.mytitleAll:
@@ -231,66 +208,88 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
 
     }
 
-    //TODO 滑动隐藏按钮
-    class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-
-            if (Math.abs(distanceY) > Math.abs(distanceX)) {//判断是否竖直滑动
-                int buttonTop = btnOrder.getTop();
-                int buttonBottom = btnOrder.getBottom();
-
-                //是否向下滑动
-                boolean isScrollDown = e1.getRawY() < e2.getRawY() ? true : false;
-
-                //根据滑动方向和mButton当前的位置判断是否需要移动Button的位置
-                if (!ifNeedScroll(isScrollDown)) return false;
-
-                if (isScrollDown) {
-                    //下滑上移Button
-                    btnOrder.setTop(buttonTop - (int) Math.abs(distanceY));
-                    btnOrder.setBottom(buttonBottom - (int) Math.abs(distanceY));
-                } else if (!isScrollDown) {
-                    //上滑下移Button
-                    btnOrder.setTop(buttonTop + (int) Math.abs(distanceY));
-                    btnOrder.setBottom(buttonBottom + (int) Math.abs(distanceY));
-                }
+    //TODO 标题描述数据
+    private void visit() {
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXXX");
+        params.addBodyParameter("ID", indexID);
+        params.addBodyParameter("start", "0");
+        x.http().get(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                IndexBean bean = gson.fromJson(result, IndexBean.class);
+                mytitleText.setText(bean.getRows().get(0).getLXMC());
+                subjectContent.setText(bean.getRows().get(0).getLXMS());
+                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getRows().get(0).getBJTXLJ(),subjecttitlebackground);
             }
 
-            return super.onScroll(e1, e2, distanceX, distanceY);
-        }
-
-        //写一个方法，根据滑动方向和mButton当前的位置，判断按钮是否应该继续滑动
-        private boolean ifNeedScroll(boolean isScrollDown) {
-            int nowButtonTop = btnOrder.getTop();
-
-//button不能超出原来的上边界
-            if (isScrollDown && nowButtonTop <= mOriginButtonTop) return false;
-
-//判断按钮是否在屏幕范围内，如果不在，则不需要再移动位置
-            if (!isScrollDown) {
-                return isInScreen(btnOrder);
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(SubjectActivity.this,"描述标题失败",Toast.LENGTH_SHORT).show();
             }
 
-            return true;
-        }
+            @Override
+            public void onCancelled(CancelledException cex) {
 
-        private boolean isInScreen(View view) {
-            int width, height;
-            Point p = new Point();
-            getWindowManager().getDefaultDisplay().getSize(p);
-            width = p.x;
-            height = p.y;
+            }
 
-            Rect rect = new Rect(0, 0, width, height);
+            @Override
+            public void onFinished() {
+                customProgressDialog.cancel();
+            }
 
-            if (!view.getLocalVisibleRect(rect)) return false;
-
-            return true;
-        }
-
-
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
     }
+
+    //TODO 老师介绍数据
+    private void visitTeacher() {
+        final CustomProgressDialog customProgressDialog1 = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog1.setCanceledOnTouchOutside(false);
+        customProgressDialog1.show();
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXJSXX");
+        params.addBodyParameter("LXID", indexID);
+        params.addBodyParameter("start", "0");
+        params.addBodyParameter("LX","3");
+        x.http().get(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("tag","老师介绍接口-----------------"+result);
+                Gson gson=new Gson();
+                TeacherBean teacherBean=gson.fromJson(result,TeacherBean.class);
+                mlist=teacherBean.getRows();
+                recycleTeacher.setLayoutManager(new LinearLayoutManager(SubjectActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                recycleTeacher.setAdapter(new TeacherRecycleAdapter(mlist));
+                recycleTeacher.setHasFixedSize(true);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(SubjectActivity.this,"获取老师信息失败",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                customProgressDialog1.cancel();
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+    }
+
 
 }

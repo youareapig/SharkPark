@@ -8,6 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.weiye.data.InfoBean;
+import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -18,11 +22,11 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class SubVideoListViewAdapter extends BaseAdapter{
-    private List<HashMap<String,Object>> list;
+    private List<InfoBean.RowsBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    public SubVideoListViewAdapter(List<HashMap<String, Object>> list, Activity activity) {
+    public SubVideoListViewAdapter(List<InfoBean.RowsBean> list, Activity activity) {
         this.list = list;
         this.layoutInflater=activity.getLayoutInflater();
     }
@@ -51,22 +55,22 @@ public class SubVideoListViewAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder=new ViewHolder();
-        HashMap hashMap=list.get(i);
+        InfoBean.RowsBean bean=list.get(i);
         if (view==null){
             view=layoutInflater.inflate(R.layout.subvideolistviewitem,null);
-            holder.imageView= (ImageView) view.findViewById(R.id.subvideolistviewItem_img);
+            holder.imageView= (RoundedImageView) view.findViewById(R.id.subvideolistviewItem_img);
             holder.textView= (TextView) view.findViewById(R.id.subvideolistviewItem_text);
             view.setTag(holder);
             AutoUtils.autoSize(view);
         }else {
             holder= (ViewHolder) view.getTag();
         }
-        holder.imageView.setImageResource((Integer) hashMap.get("icon"));
-        holder.textView.setText(hashMap.get("str").toString());
+        holder.textView.setText(bean.getMS());
+        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getTXLJ(),holder.imageView);
         return view;
     }
     private class ViewHolder{
-        private ImageView imageView;
+        private RoundedImageView imageView;
         private TextView textView;
     }
 }

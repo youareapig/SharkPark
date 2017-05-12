@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.IndexBean;
 import com.weiye.data.TestBean;
 import com.weiye.data.TestGalleryBean;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.third.BaseAdapterHelper;
 import com.weiye.third.Gallery;
 import com.weiye.third.QuickPagerAdapter;
@@ -44,49 +46,30 @@ public class Child_Fragment extends Fragment {
         View view = inflater.inflate(R.layout.childfragment, container, false);
         mGallery= (Gallery) view.findViewById(R.id.myGallery);
         index();
-//        mList = new ArrayList<>();
-//        mList.add(new TestGalleryBean("天文科学", R.mipmap.gicon));
-//        mList.add(new TestGalleryBean("地理科学", R.mipmap.gicon));
-//        mList.add(new TestGalleryBean("人文科学", R.mipmap.gicon));
-//        mList.add(new TestGalleryBean("科学科学", R.mipmap.gicon));
-//        quickPagerAdapter=new QuickPagerAdapter<TestGalleryBean>(getActivity(),R.layout.galleryitem,mList) {
-//            @Override
-//            protected void convertView(BaseAdapterHelper helper, TestGalleryBean item) {
-//
-//                helper.setImageResource(R.id.galleryitem_img,item.getmImage());
-//                helper.setText(R.id.galleryitem_title,item.getmString());
-//                helper.setImageOnClickListener(R.id.galleryitem_img, new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        Intent intent=new Intent(getActivity(),SubjectActivity.class);
-//                        startActivity(intent);
-//                    }
-//                });
-//            }
-//        };
-//        mGallery.setAdapter(quickPagerAdapter);
         return view;
     }
     private void index(){
+        final CustomProgressDialog customProgressDialog=new CustomProgressDialog(getActivity(),"玩命加载中...",R.drawable.frame);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
         RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_LXXXDataService.ashx?op=getTAB_LXXX");
-        params.addBodyParameter("start","1");
+        params.addBodyParameter("start","0");
         x.http().get(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.v("tag","成功"+result);
                 Gson gson=new Gson();
                 IndexBean bean=gson.fromJson(result,IndexBean.class);
                 mList=bean.getRows();
                 quickPagerAdapter=new QuickPagerAdapter<IndexBean.RowsBean>(getActivity(),R.layout.galleryitem,mList) {
                     @Override
-                    protected void convertView(BaseAdapterHelper helper, IndexBean.RowsBean item) {
-                        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getTestUrl()+item.getTXLJ(), (ImageView) helper.getView(R.id.galleryitem_img));
-                        //helper.setImageResource(R.id.galleryitem_img,);
+                    protected void convertView(BaseAdapterHelper helper, final IndexBean.RowsBean item) {
+                        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+item.getTXLJ(), (ImageView) helper.getView(R.id.galleryitem_img));
                         helper.setText(R.id.galleryitem_title,item.getLXMC());
                         helper.setImageOnClickListener(R.id.galleryitem_img, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 Intent intent=new Intent(getActivity(),SubjectActivity.class);
+                                intent.putExtra("indexID", item.getID()+"");
                                 startActivity(intent);
                             }
                         });
@@ -97,7 +80,7 @@ public class Child_Fragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.v("tag","失败");
+                Toast.makeText(getActivity(),"获取首页数据失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -107,7 +90,7 @@ public class Child_Fragment extends Fragment {
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
 
             @Override

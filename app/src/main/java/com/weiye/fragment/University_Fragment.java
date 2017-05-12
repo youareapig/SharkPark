@@ -22,10 +22,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.weiye.data.UserInfoBean;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.MyMaterialActivity;
 import com.weiye.zl.R;
+import com.weiye.zl.RestartActivity;
 import com.weiye.zl.SettingActivity;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zhy.m.permission.MPermissions;
@@ -51,7 +56,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by DELL on 2017/4/6.
  */
 public class University_Fragment extends Fragment implements View.OnClickListener {
-    private TextView infomation;
+    private TextView infomation,myname;
     private CircleImageView myhead;
     private Uri uri;
     private ContentResolver contentResolver;
@@ -70,6 +75,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         online = (AutoRelativeLayout) view.findViewById(R.id.line);
         setting = (AutoRelativeLayout) view.findViewById(R.id.setting);
         myCourse = (AutoRelativeLayout) view.findViewById(R.id.myCourse);
+        myname= (TextView) view.findViewById(R.id.myname);
         infomation.setOnClickListener(this);
         myhead.setOnClickListener(this);
         online.setOnClickListener(this);
@@ -77,6 +83,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         myCourse.setOnClickListener(this);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", getActivity().MODE_PRIVATE);
         userID=sharedPreferences.getString("userid","未知");
+        getUserInfo();
         return view;
     }
 
@@ -233,6 +240,43 @@ public class University_Fragment extends Fragment implements View.OnClickListene
             @Override
             public void onFinished() {
 
+            }
+        });
+    }
+    //TODO 获取用户信息
+    private void getUserInfo(){
+        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_YHXXDataService.ashx?op=getTAB_YHXX");
+        params.addBodyParameter("ID",userID);
+        params.addBodyParameter("start","0");
+        x.http().get(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson=new Gson();
+                UserInfoBean bean=gson.fromJson(result,UserInfoBean.class);
+                if (bean.getRows().get(0).getNC().toString()!=null){
+                    myname.setText(bean.getRows().get(0).getNC().toString());
+                }
+                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getRows().get(0).getTXLJ(),myhead);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(getActivity(),"获取用户信息数据失败",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
             }
         });
     }

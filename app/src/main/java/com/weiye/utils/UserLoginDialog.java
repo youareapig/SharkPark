@@ -306,7 +306,6 @@ public class UserLoginDialog {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.v("tag", "登录成功" + result);
                 Gson gson = new Gson();
                 LoginBean bean = gson.fromJson(result, LoginBean.class);
                 if (bean.isSuccess() == true) {
@@ -344,7 +343,6 @@ public class UserLoginDialog {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.i("tag", result);
                 try {
                     JSONObject json = new JSONObject(result);
                     if (json.getBoolean("Success") == true) {
@@ -387,11 +385,11 @@ public class UserLoginDialog {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.v("tag","请求成功"+result);
                 try {
                     JSONObject json=new JSONObject(result);
                     if (json.getBoolean("Success")==true){
                         editor.putString("usertag", "1");
+                        editor.putString("userid",json.getString("YHID"));
                         editor.commit();
                         dialog1.cancel();
                         Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();

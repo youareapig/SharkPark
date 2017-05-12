@@ -1,5 +1,6 @@
 package com.weiye.zl;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,7 +10,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.weiye.data.UserInfoBean;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -48,7 +52,8 @@ public class MyMaterialActivity extends AutoLayoutActivity {
     Button save;
     private Unbinder unbinder;
     private String stringName, stringSex, stringDate;
-
+    private String userID;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +68,9 @@ public class MyMaterialActivity extends AutoLayoutActivity {
                 nameText.setCursorVisible(true);
             }
         });
+        sharedPreferences =getSharedPreferences("UserTag",MODE_PRIVATE);
+        userID=sharedPreferences.getString("userid","未知");
+        getUserInfo();
     }
 
     @Override
@@ -110,31 +118,40 @@ public class MyMaterialActivity extends AutoLayoutActivity {
                 picker1.show();
                 break;
             case R.id.save:
-                updateUserInfo();
+                stringSex=sexText.getText().toString();
+                String sex;
+                if (stringSex.equals("男")){
+                    sex="0";
+                }else {
+                    sex="1";
+                }
+                updateUserInfo(sex);
                 break;
         }
     }
-
-    private void updateUserInfo() {
+/**
+ * 性别 0表示男， 1表示女  不能用中文
+ * */
+    private void updateUserInfo(String userSex) {
         stringName = nameText.getText().toString().trim();
         stringSex = sexText.getText().toString().trim();
         stringDate = ageText.getText().toString().trim();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_RYXXDataService.ashx?op=UpdateTAB_RYXXDataByYH");
-        params.addBodyParameter("YHID", "11");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+ "TAB_RYXXDataService.ashx?op=UpdateTAB_RYXXDataByYH");
+        params.addBodyParameter("YHID", userID);
         params.addBodyParameter("ZSXM", stringName);
-        params.addBodyParameter("XB", stringSex);
+        params.addBodyParameter("XB", userSex);
         params.addBodyParameter("CSRQ", stringDate);
-        params.addBodyParameter("NC","龙宝");
-        params.addBodyParameter("LX","baba");
+        params.addBodyParameter("NC",stringName);
+        params.addBodyParameter("LX","1");
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.v("tag", "-----------" + result);
+                Toast.makeText(MyMaterialActivity.this,"保存成功",Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.v("tag", "-----------请求失败");
+                Toast.makeText(MyMaterialActivity.this,"更新用户信息失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -148,5 +165,46 @@ public class MyMaterialActivity extends AutoLayoutActivity {
             }
         });
 
+    }
+    //TODO 获取用户信息
+    private void getUserInfo(){
+        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_YHXXDataService.ashx?op=getTAB_YHXX");
+        params.addBodyParameter("ID",userID);
+        params.addBodyParameter("start","0");
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("tag","用户信息获取成功"+result);
+                Gson gson=new Gson();
+                UserInfoBean bean=gson.fromJson(result,UserInfoBean.class);
+                nameText.setText(bean.getRows().get(0).getNC().toString());
+                sexText.setText(bean.getRows().get(0).getXB());
+                String str=bean.getRows().get(0).getCSRQ();
+                //字符串截取
+                String [] s=str.split(" ");
+                String ss=s[0];
+                ageText.setText(ss);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(MyMaterialActivity.this,"获取用户信息失败",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
     }
 }

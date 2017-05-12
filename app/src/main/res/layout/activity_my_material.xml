@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="40px"
-            android:text="儿童性别"
+            android:text="宝贝性别"
             android:textColor="#303030"
             android:textSize="52px" />
 
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="40px"
-            android:text="儿童年龄"
+            android:text="宝贝生日"
             android:textColor="#303030"
             android:textSize="52px" />
 

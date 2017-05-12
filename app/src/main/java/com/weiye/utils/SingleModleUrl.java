@@ -7,6 +7,15 @@ package com.weiye.utils;
 public class SingleModleUrl {
     private String testUrl = "http://192.168.10.253/Service/";
     private String url = "https://wwww.yunzhidong.com";
+    private String imgUrl="http://192.168.10.253/";
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     private SingleModleUrl() {
     }

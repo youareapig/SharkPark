@@ -10,7 +10,12 @@ import android.widget.RelativeLayout;
 
 import com.weiye.schoolTabFragment.SchoolActivityFragment;
 import com.weiye.adapter.SchoolTabAdapter;
+import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,18 +48,20 @@ public class SchoolActivity extends AutoLayoutActivity {
         titleList.add("即将开始");
         titleList.add("进行中");
         titleList.add("往期");
+        visit("0");
         fragmentList = new ArrayList<>();
         for (int i = 0; i < titleList.size(); i++) {
             fragmentList.add(new SchoolActivityFragment());
         }
 
         tabviewpager.setAdapter(new SchoolTabAdapter(fragmentManager, titleList, fragmentList));
-        tabviewpager.setCurrentItem(1);
+        tabviewpager.setCurrentItem(0);
         schooltab.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                Log.e("tag", "选择" + tab.getText());
+                Log.e("tag", "选择" + tab.getPosition());
+                visit(tab.getPosition() + "");
             }
 
             @Override
@@ -73,5 +80,38 @@ public class SchoolActivity extends AutoLayoutActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    private void visit(String tag) {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XXHDDataService.ashx?op=getTAB_XXHD");
+        params.addBodyParameter("start", "0");
+        params.addBodyParameter("ZT", tag);
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("tag", "-------------------" + result);
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
     }
 }

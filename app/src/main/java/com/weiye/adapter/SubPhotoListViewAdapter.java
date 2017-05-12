@@ -8,6 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.makeramen.roundedimageview.RoundedImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.weiye.data.InfoBean;
+import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -18,11 +22,11 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class SubPhotoListViewAdapter extends BaseAdapter{
-    private List<HashMap<String,Object>> list;
+    private List<InfoBean.RowsBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    public SubPhotoListViewAdapter(List<HashMap<String, Object>> list, Activity activity) {
+    public SubPhotoListViewAdapter(List<InfoBean.RowsBean> list, Activity activity) {
         this.list = list;
         this.layoutInflater=activity.getLayoutInflater();
     }
@@ -51,22 +55,22 @@ public class SubPhotoListViewAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder=new ViewHolder();
-        HashMap hashMap=list.get(i);
+        InfoBean.RowsBean rowsBean=list.get(i);
         if (view==null){
             view=layoutInflater.inflate(R.layout.subphotolistviewitem,null);
-            holder.imageView= (ImageView) view.findViewById(R.id.subphotolistviewItem_img);
+            holder.imageView= (RoundedImageView) view.findViewById(R.id.subphotolistviewItem_img);
             holder.textView= (TextView) view.findViewById(R.id.subphtolistviewItem_text);
             view.setTag(holder);
             AutoUtils.autoSize(view);
         }else {
             holder= (ViewHolder) view.getTag();
         }
-        holder.imageView.setImageResource((Integer) hashMap.get("icon"));
-        holder.textView.setText(hashMap.get("str").toString());
+        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+rowsBean.getTXLJ(),holder.imageView);
+        holder.textView.setText(rowsBean.getMS());
         return view;
     }
     private class ViewHolder{
-        private ImageView imageView;
+        private RoundedImageView imageView;
         private TextView textView;
     }
 }

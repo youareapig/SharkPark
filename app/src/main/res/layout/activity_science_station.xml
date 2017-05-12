@@ -21,10 +21,10 @@
                 android:layout_height="660px">
 
                 <ImageView
+                    android:id="@+id/scienceStation_BJ"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/gicon" />
+                    android:scaleType="centerCrop" />
 
             </RelativeLayout>
 
@@ -39,26 +39,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="天上到底有什么？"
                     android:textColor="#303030"
                     android:textSize="72px" />
 
                 <TextView
+                    android:id="@+id/scienceStation_Time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/scienceStation_title"
                     android:layout_alignParentRight="true"
-                    android:text="2017-4-18 13:50"
                     android:textColor="#888888"
                     android:textSize="42px" />
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/scienceStation_Content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40px"
                 android:layout_marginRight="40px"
-                android:text="天上到底有什么呢？天上到底有什么呢？天上到底有什么呢？天上到底有什么呢？天上到底有什么呢？天上到底有什么呢？天上到底有什么呢？天上到底有什么呢？天上到底有什么呢？"
                 android:textColor="#515151"
                 android:textSize="48px" />
         </LinearLayout>

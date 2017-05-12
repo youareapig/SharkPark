@@ -16,14 +16,21 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 
+import com.google.gson.Gson;
 import com.weiye.adapter.ActivitiesGridAdpter;
+import com.weiye.data.HuodongBean;
 import com.weiye.myview.MyListView;
+import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.AppearanceActivity;
 import com.weiye.zl.IntroActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SchoolActivity;
 import com.weiye.zl.VedioPlayerActivity;
 import com.zhy.autolayout.AutoRelativeLayout;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +40,7 @@ import java.util.List;
  */
 public class Park_Fragment extends Fragment implements View.OnClickListener {
     private MyListView mListview;
-    private List<Integer> list;
+    private List<HuodongBean.RowsBean> list;
     private AutoRelativeLayout sActivity, appearance, intro;
 
     @Nullable
@@ -47,20 +54,10 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         sActivity.setOnClickListener(this);
         appearance.setOnClickListener(this);
         intro.setOnClickListener(this);
-        setGridView();
+        huodongVisit();
         return view;
     }
 
-    //TODO 往期活动视频
-    private void setGridView() {
-        list = new ArrayList<>();
-        list.add(R.mipmap.aaa);
-        list.add(R.mipmap.aaa);
-        list.add(R.mipmap.aaa);
-        list.add(R.mipmap.aaa);
-        mListview.setAdapter(new ActivitiesGridAdpter(list, getActivity()));
-
-    }
 
     @Override
     public void onClick(View view) {
@@ -78,5 +75,39 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
                 startActivity(intent2);
                 break;
         }
+    }
+    private void huodongVisit(){
+        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_XXHDDataService.ashx?op=getTAB_XXHD");
+        params.addBodyParameter("start","0");
+        params.addBodyParameter("ZT","0");
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson=new Gson();
+                HuodongBean bean=gson.fromJson(result,HuodongBean.class);
+                list=bean.getRows();
+                mListview.setAdapter(new ActivitiesGridAdpter(list, getActivity()));
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
     }
 }

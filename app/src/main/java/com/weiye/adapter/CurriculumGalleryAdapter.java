@@ -40,6 +40,9 @@ public class CurriculumGalleryAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
+        if (list==null){
+            return null;
+        }
         return list.get(i);
     }
 

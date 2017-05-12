@@ -1,26 +1,34 @@
 package com.weiye.zl;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.BannerAdapter;
+import com.weiye.data.InfoBean;
 import com.weiye.myview.ObservableScrollView;
+import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
-import java.util.ArrayList;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import qiu.niorgai.StatusBarCompat;
 
 public class TeacherStyleActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener, ViewPager.OnPageChangeListener {
     @BindView(R.id.teacherStyle_banner)
@@ -35,17 +43,29 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     RelativeLayout teacherStyleTop;
     @BindView(R.id.teacherStyle_group)
     LinearLayout teacherStyleGroup;
+    @BindView(R.id.teacherName)
+    TextView teacherName;
+    @BindView(R.id.teacherProduct)
+    TextView teacherProduct;
     private Unbinder unbinder;
     private int height;
-    private List<Integer> bannerList;
+    private List<InfoBean.RowsBean> bannerList;
     private ImageView[] indexTips, indexBannerImage;
+    private String teacherID,name,product;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_style);
         unbinder = ButterKnife.bind(this);
+        Intent intent = getIntent();
+        teacherID = intent.getStringExtra("teacherID");
+        name= intent.getStringExtra("teacherName");
+        product= intent.getStringExtra("teacherProduct");
+        teacherName.setText(name);
+        teacherProduct.setText(product);
         changTitle();
-        setBanner();
+        visit();
     }
 
     private void changTitle() {
@@ -63,41 +83,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
         });
     }
 
-    private void setBanner() {
-        bannerList = new ArrayList<>();
-        bannerList.add(R.mipmap.aaa);
-        bannerList.add(R.mipmap.aaaa);
 
-        indexTips = new ImageView[bannerList.size()];
-        for (int i = 0; i < indexTips.length; i++) {
-            ImageView imageView = new ImageView(this);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(15, 15);
-            layoutParams.leftMargin = 10;
-            layoutParams.rightMargin = 10;
-            imageView.setLayoutParams(layoutParams);
-            indexTips[i] = imageView;
-            if (i == 0) {
-                indexTips[i].setBackgroundResource(R.drawable.viewpage_check);
-            } else {
-                indexTips[i].setBackgroundResource(R.drawable.viewpage_goods);
-
-            }
-
-            teacherStyleGroup.addView(imageView);
-        }
-        indexBannerImage = new ImageView[bannerList.size()];
-        for (int i = 0; i < indexBannerImage.length; i++) {
-            ImageView imageView = new ImageView(this);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            indexBannerImage[i] = imageView;
-            imageView.setImageResource(bannerList.get(i));
-        }
-        teacherStyleBanner.setOnPageChangeListener(this);
-        teacherStyleBanner.setAdapter(new BannerAdapter(indexBannerImage));
-       // teacherStyleBanner.setCurrentItem((indexBannerImage.length)*100,true);
-
-
-    }
 
     @Override
     protected void onDestroy() {
@@ -128,6 +114,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     public void onPageScrollStateChanged(int state) {
 
     }
+
     private void setImageBackground(int selectItems) {
         for (int i = 0; i < indexTips.length; i++) {
             if (i == selectItems) {
@@ -136,5 +123,68 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
                 indexTips[i].setBackgroundResource(R.drawable.viewpage_goods);
             }
         }
+    }
+
+    private void visit() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXSPTXXX");
+        params.addBodyParameter("LXID", teacherID);
+        params.addBodyParameter("start", "0");
+        params.addBodyParameter("LX", "2");
+        x.http().get(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                InfoBean benaInfo = gson.fromJson(result, InfoBean.class);
+                bannerList = benaInfo.getRows();
+
+                indexTips = new ImageView[bannerList.size()];
+                for (int i = 0; i < indexTips.length; i++) {
+                    ImageView imageView = new ImageView(TeacherStyleActivity.this);
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(15, 15);
+                    layoutParams.leftMargin = 10;
+                    layoutParams.rightMargin = 10;
+                    imageView.setLayoutParams(layoutParams);
+                    indexTips[i] = imageView;
+                    if (i == 0) {
+                        indexTips[i].setBackgroundResource(R.drawable.viewpage_check);
+                    } else {
+                        indexTips[i].setBackgroundResource(R.drawable.viewpage_goods);
+
+                    }
+
+                    teacherStyleGroup.addView(imageView);
+                }
+                indexBannerImage = new ImageView[bannerList.size()];
+                for (int i = 0; i < indexBannerImage.length; i++) {
+                    ImageView imageView = new ImageView(TeacherStyleActivity.this);
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    indexBannerImage[i] = imageView;
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bannerList.get(i).getTXLJ(),imageView);
+
+                }
+                teacherStyleBanner.setOnPageChangeListener(TeacherStyleActivity.this);
+                teacherStyleBanner.setAdapter(new BannerAdapter(indexBannerImage));
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(TeacherStyleActivity.this,"老师具体信息失败",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
     }
 }

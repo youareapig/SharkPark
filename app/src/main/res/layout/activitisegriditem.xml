@@ -13,12 +13,22 @@
             android:layout_width="1000px"
             android:layout_height="500px"
             app:riv_corner_radius="8px"
+            android:scaleType="centerCrop"
             android:layout_centerInParent="true"/>
         <ImageView
             android:layout_width="140px"
             android:layout_height="140px"
             android:src="@mipmap/play"
             android:layout_centerInParent="true"/>
+        <TextView
+            android:id="@+id/activities_item_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="40px"
+            android:layout_marginBottom="40px"
+            android:textColor="#fff"
+            android:textSize="36px"/>
     </com.zhy.autolayout.AutoRelativeLayout>
 
 

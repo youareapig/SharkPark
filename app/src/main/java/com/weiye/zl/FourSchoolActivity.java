@@ -84,11 +84,11 @@ public class FourSchoolActivity extends AutoLayoutActivity {
 
     private void schoolFragment() {
         list = new ArrayList<>();
-        fragment = new VideoFragment();
+        fragment = new VideoFragment(null);
         fragmentManager = this.getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.schoolfragment, fragment).commit();
-        list.add(new VideoFragment());
-        list.add(new PhotoFragment());
+        list.add(new VideoFragment(null));
+        list.add(new PhotoFragment(null));
     }
 
     @Override

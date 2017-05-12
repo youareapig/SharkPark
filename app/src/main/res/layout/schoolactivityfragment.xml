@@ -20,6 +20,7 @@
                 android:layout_marginLeft="40px"
                 android:layout_marginRight="40px"
                 app:riv_corner_radius="8px"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/gicon"/>
 
             <android.support.v7.widget.RecyclerView

@@ -17,12 +17,13 @@
             android:src="@mipmap/head1" />
 
         <TextView
+            android:id="@+id/myname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/myhead"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="21px"
-            android:text="登陆"
+            android:text="鲨鱼哥"
             android:textColor="#ffffff"
             android:textSize="48px" />
 

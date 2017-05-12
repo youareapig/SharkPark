@@ -1,13 +1,18 @@
 package com.weiye.zl;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.myview.ObservableScrollView;
+import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.BindView;
@@ -18,7 +23,6 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
-import qiu.niorgai.StatusBarCompat;
 
 public class ScienceStationActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener {
     @BindView(R.id.scienceStationImg)
@@ -29,10 +33,17 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
     RelativeLayout scienceStationBack;
     @BindView(R.id.scienceStationShare)
     RelativeLayout scienceStationShare;
-    @BindView(R.id.scienceStationTitle)
-    RelativeLayout scienceStationTitle;
+    @BindView(R.id.scienceStation_BJ)
+    ImageView scienceStationBJ;
+    @BindView(R.id.scienceStation_title)
+    TextView scienceStationTitle;
+    @BindView(R.id.scienceStation_Time)
+    TextView scienceStationTime;
+    @BindView(R.id.scienceStation_Content)
+    TextView scienceStationContent;
     private Unbinder unbinder;
     private int height;
+    private String myBackground, myTitle, myContent, myTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +51,15 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
         setContentView(R.layout.activity_science_station);
         ShareSDK.initSDK(this);
         unbinder = ButterKnife.bind(this);
+        Intent intent = getIntent();
+        myBackground = intent.getStringExtra("img");
+        myTitle = intent.getStringExtra("title");
+        myContent = intent.getStringExtra("content");
+        myTime = intent.getStringExtra("time");
+        scienceStationTitle.setText(myTitle);
+        scienceStationTime.setText(myTime);
+        scienceStationContent.setText(myContent);
+        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+myBackground,scienceStationBJ);
         changTitle();
     }
 
@@ -75,8 +95,9 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
 
     @OnClick(R.id.scienceStationShare)
     public void onViewClicked() {
-       showShare();
+        showShare();
     }
+
     private void showShare() {
         ShareSDK.initSDK(this);
         OnekeyShare oks = new OnekeyShare();
@@ -104,7 +125,7 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
         oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
         oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
             @Override
-            public void onShare(Platform platform, cn.sharesdk.framework.Platform.ShareParams paramsToShare) {
+            public void onShare(Platform platform, Platform.ShareParams paramsToShare) {
                 if ("QZone".equals(platform.getName())) {
                     paramsToShare.setTitle(null);
                     paramsToShare.setTitleUrl(null);

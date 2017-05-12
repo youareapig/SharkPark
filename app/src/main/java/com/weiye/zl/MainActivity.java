@@ -1,5 +1,6 @@
 package com.weiye.zl;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,7 @@ import com.weiye.fragment.Child_Fragment;
 import com.weiye.fragment.Park_Fragment;
 import com.weiye.fragment.Shark_Fragment;
 import com.weiye.fragment.University_Fragment;
+import com.weiye.utils.ExamInternet;
 import com.weiye.utils.UserLoginDialog;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -72,6 +74,11 @@ public class MainActivity extends AutoLayoutActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //TODO 检查是否打开网络
+        if (new ExamInternet().isConn(this)==false){
+            Intent intent=new Intent(MainActivity.this,SettingInternetActivity.class);
+            startActivity(intent);
+        }
         unbinder = ButterKnife.bind(this);
         sharedPreferences =getSharedPreferences("UserTag",MODE_PRIVATE);
         list = new ArrayList<>();

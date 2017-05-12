@@ -1,13 +1,21 @@
 package com.weiye.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.weiye.data.KTFCBean;
+import com.weiye.utils.SingleModleUrl;
+import com.weiye.zl.R;
+import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
 
@@ -15,24 +23,30 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class GalleryAdapter extends BaseAdapter{
-    private List<Integer> list;
-    private Context context;
+    private List<KTFCBean.RowsBean> list;
+    private Activity context;
     private int count;
-
-    public GalleryAdapter(List<Integer> list, Context context) {
+    private LayoutInflater layoutInflater;
+    public GalleryAdapter(List<KTFCBean.RowsBean> list, Activity context) {
         this.list = list;
-        this.context = context;
+        this.layoutInflater=context.getLayoutInflater();
     }
 
     @Override
     public int getCount() {
         count=list.size();
-        return Integer.MAX_VALUE;
+        if (list!=null){
+            return Integer.MAX_VALUE;
+        }
+        return 0;
     }
 
     @Override
     public Object getItem(int i) {
-        return list.get(i);
+        if (list!=null){
+            return list.get(i);
+        }
+        return null;
     }
 
     @Override
@@ -42,12 +56,13 @@ public class GalleryAdapter extends BaseAdapter{
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        RoundedImageView imageView=new RoundedImageView(context);
-        imageView.setCornerRadius(20);
-        imageView.setImageResource(list.get(i%count));
-        imageView.setId(list.get(i%count));
-        imageView.setLayoutParams(new Gallery.LayoutParams(960,500));
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        return imageView;
+        KTFCBean.RowsBean bean=list.get(i%count);
+        view=layoutInflater.inflate(R.layout.ktfc_item,null);
+        TextView textView= (TextView) view.findViewById(R.id.ktfc_item_text);
+        RoundedImageView imageView= (RoundedImageView) view.findViewById(R.id.ktfc_item_img);
+        AutoUtils.autoSize(view);
+        textView.setText(bean.getFCMS());
+        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getTXLJ(),imageView);
+        return view;
     }
 }

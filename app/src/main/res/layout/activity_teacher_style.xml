@@ -38,6 +38,7 @@
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/teacherName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -45,16 +46,28 @@
                 android:text="老师"
                 android:textColor="#303030"
                 android:textSize="72px" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="40px"
+                android:layout_marginRight="40px"
+                android:background="#c9c9c9"
+                android:layout_marginTop="80px"/>
 
             <TextView
+                android:id="@+id/teacherProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40px"
                 android:layout_marginRight="40px"
-                android:layout_marginTop="160px"
+                android:layout_marginTop="80px"
                 android:text="我是一个好老师我是一个好老师我是一个好老师我是一个好老师我是一个好老师我是一个好老师"
                 android:textColor="#303030"
                 android:textSize="50px" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="500px"
+                android:background="#fff"/>
         </LinearLayout>
     </com.weiye.myview.ObservableScrollView>
     <RelativeLayout

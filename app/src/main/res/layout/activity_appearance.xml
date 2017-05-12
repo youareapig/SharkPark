@@ -56,8 +56,7 @@
         android:layout_marginRight="40px"
         android:layout_marginTop="10px"
         app:riv_corner_radius="8px"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/gicon"/>
+        android:scaleType="centerCrop" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -85,13 +84,13 @@
         android:background="#bfbfbf"
         android:layout_marginTop="10px"/>
     <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/jxhj"
         android:layout_width="match_parent"
         android:layout_height="500px"
         android:layout_marginLeft="40px"
         android:layout_marginRight="40px"
         android:layout_marginTop="10px"
         app:riv_corner_radius="8px"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/gicon"/>
+        android:scaleType="centerCrop" />
 
 </LinearLayout>
