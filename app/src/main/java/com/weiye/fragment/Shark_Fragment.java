@@ -62,6 +62,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
     private RoundedImageView kexueyizhan_Img;
     private List<SubjectStationBean.RowsBean> myList;
     private XScrollView myScroll;
+    private int num=1;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -93,7 +94,6 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                     @Override
                     public void run() {
                         visitClass();
-                        getBanner();
                         refreshView.stopRefresh();
                         lastRefreshTime = refreshView.getLastRefreshTime();
 
@@ -107,6 +107,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
                     @Override
                     public void run() {
+                        num++;
                         refreshView.stopLoadMore();
                     }
                 }, 2000);
@@ -179,9 +180,6 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
     }
     //TODO 课堂风采图片滚动
     private void visitClass() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_KTFCDataService.ashx?op=getTAB_KTFC");
         params.addBodyParameter("start", "0");
         params.addBodyParameter("LX","0");
@@ -208,7 +206,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
             @Override
             public void onFinished() {
-                customProgressDialog.cancel();
+
             }
 
             @Override
@@ -296,12 +294,11 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
     }
     private void subjectStation(){
         RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_KTFCDataService.ashx?op=getTAB_KTFC");
-        params.addBodyParameter("start", "0");
+        params.addBodyParameter("start", "1");
         params.addBodyParameter("LX","1");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","科学驿站"+result);
                 Gson gson=new Gson();
                 SubjectStationBean bean=gson.fromJson(result,SubjectStationBean.class);
                 myList=bean.getRows();

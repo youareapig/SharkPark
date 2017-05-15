@@ -16,9 +16,11 @@
             android:scaleType="centerCrop"
             android:layout_centerInParent="true"/>
         <ImageView
+            android:id="@+id/huodongplay"
             android:layout_width="140px"
             android:layout_height="140px"
             android:src="@mipmap/play"
+            android:visibility="gone"
             android:layout_centerInParent="true"/>
         <TextView
             android:id="@+id/activities_item_text"

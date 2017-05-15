@@ -50,7 +50,7 @@
         <activity android:name=".ScienceStationActivity" />
         <activity android:name=".TeacherStyleActivity" />
         <activity android:name=".SchoolActivity" />
-        <activity android:name=".SchoolNextActivity" />
+        <activity android:name=".SchoolImageActivity" />
         <activity android:name=".AppearanceActivity" />
         <activity android:name=".IntroActivity" />
         <activity android:name=".ScreenActivity" />
@@ -94,7 +94,8 @@
         <activity android:name=".SubmitActivity" />
         <activity android:name="com.weiye.photoshow.ImagePagerActivity" />
         <activity android:name=".SettingInternetActivity" />
-        <activity android:name=".RestartActivity"></activity>
+        <activity android:name=".RestartActivity" />
+        <activity android:name=".SchoolVideoActivity"></activity>
     </application>
 
 </manifest>

@@ -101,7 +101,6 @@
                 android:layout_marginRight="40px"
                 android:layout_marginTop="30px"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/aaa"
                 app:riv_corner_radius="20px" />
 
             <TextView

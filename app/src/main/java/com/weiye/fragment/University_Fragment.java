@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.UserInfoBean;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.MyMaterialActivity;
 import com.weiye.zl.R;
@@ -56,7 +57,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by DELL on 2017/4/6.
  */
 public class University_Fragment extends Fragment implements View.OnClickListener {
-    private TextView infomation,myname;
+    private TextView infomation, myname;
     private CircleImageView myhead;
     private Uri uri;
     private ContentResolver contentResolver;
@@ -66,6 +67,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private AutoRelativeLayout online, setting, myCourse;
     private String userID;
     private SharedPreferences sharedPreferences;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,14 +77,14 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         online = (AutoRelativeLayout) view.findViewById(R.id.line);
         setting = (AutoRelativeLayout) view.findViewById(R.id.setting);
         myCourse = (AutoRelativeLayout) view.findViewById(R.id.myCourse);
-        myname= (TextView) view.findViewById(R.id.myname);
+        myname = (TextView) view.findViewById(R.id.myname);
         infomation.setOnClickListener(this);
         myhead.setOnClickListener(this);
         online.setOnClickListener(this);
         setting.setOnClickListener(this);
         myCourse.setOnClickListener(this);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", getActivity().MODE_PRIVATE);
-        userID=sharedPreferences.getString("userid","未知");
+        userID = sharedPreferences.getString("userid", "未知");
         getUserInfo();
         return view;
     }
@@ -215,21 +217,22 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         intentTel.setData(Uri.parse("tel:" + "028-18181818"));
         startActivity(intentTel);
     }
-    private void uploadhead(String base){
-        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_YHXXDataService.ashx?op=upLoadImg");
-        params.addBodyParameter("YHID",userID);
-        params.addBodyParameter("File","我的头像");
-        params.addBodyParameter("Img",base);
-        Log.v("tag","图像码"+base);
+
+    private void uploadhead(String base) {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=upLoadImg");
+        params.addBodyParameter("YHID", userID);
+        params.addBodyParameter("File", "我的头像");
+        params.addBodyParameter("Img", base);
+        Log.v("tag", "图像码" + base);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.v("tag","请求成功"+result);
+                Log.v("tag", "请求成功" + result);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.v("tag","请求失败");
+                Log.v("tag", "请求失败");
             }
 
             @Override
@@ -243,25 +246,32 @@ public class University_Fragment extends Fragment implements View.OnClickListene
             }
         });
     }
+
     //TODO 获取用户信息
-    private void getUserInfo(){
-        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_YHXXDataService.ashx?op=getTAB_YHXX");
-        params.addBodyParameter("ID",userID);
-        params.addBodyParameter("start","0");
+    private void getUserInfo() {
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=getTAB_YHXX");
+        params.addBodyParameter("ID", userID);
+        params.addBodyParameter("start", "1");
+        Log.d("tag","用户id"+userID);
         x.http().get(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Gson gson=new Gson();
-                UserInfoBean bean=gson.fromJson(result,UserInfoBean.class);
-                if (bean.getRows().get(0).getNC().toString()!=null){
-                    myname.setText(bean.getRows().get(0).getNC().toString());
+                Gson gson = new Gson();
+                UserInfoBean bean = gson.fromJson(result, UserInfoBean.class);
+                if (bean.getRows().get(0).getNC().toString().equals(null)) {
+                    myname.setText("鲨鱼大哥");
+                }else {
+                    myname.setText(bean.getRows().get(0).getNC().toString().trim());
                 }
-                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getRows().get(0).getTXLJ(),myhead);
+                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getRows().get(0).getTXLJ(), myhead);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(),"获取用户信息数据失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "获取用户信息数据失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -271,7 +281,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
 
             @Override
@@ -280,6 +290,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
             }
         });
     }
+
 
 
 }

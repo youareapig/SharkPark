@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,6 +15,7 @@ import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.BannerAdapter;
 import com.weiye.data.InfoBean;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
@@ -28,6 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class TeacherStyleActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener, ViewPager.OnPageChangeListener {
@@ -51,7 +52,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     private int height;
     private List<InfoBean.RowsBean> bannerList;
     private ImageView[] indexTips, indexBannerImage;
-    private String teacherID,name,product;
+    private String teacherID, name, product;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +61,8 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
         unbinder = ButterKnife.bind(this);
         Intent intent = getIntent();
         teacherID = intent.getStringExtra("teacherID");
-        name= intent.getStringExtra("teacherName");
-        product= intent.getStringExtra("teacherProduct");
+        name = intent.getStringExtra("teacherName");
+        product = intent.getStringExtra("teacherProduct");
         teacherName.setText(name);
         teacherProduct.setText(product);
         changTitle();
@@ -82,7 +83,6 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
             }
         });
     }
-
 
 
     @Override
@@ -126,6 +126,9 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     }
 
     private void visit() {
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXSPTXXX");
         params.addBodyParameter("LXID", teacherID);
         params.addBodyParameter("start", "0");
@@ -159,7 +162,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
                     ImageView imageView = new ImageView(TeacherStyleActivity.this);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     indexBannerImage[i] = imageView;
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bannerList.get(i).getTXLJ(),imageView);
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bannerList.get(i).getTXLJ(), imageView);
 
                 }
                 teacherStyleBanner.setOnPageChangeListener(TeacherStyleActivity.this);
@@ -168,7 +171,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(TeacherStyleActivity.this,"老师具体信息失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TeacherStyleActivity.this, "老师具体信息失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -178,7 +181,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
 
             @Override
@@ -186,5 +189,10 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
                 return false;
             }
         });
+    }
+
+    @OnClick(R.id.teacherStyle_Back)
+    public void onViewClicked() {
+        finish();
     }
 }

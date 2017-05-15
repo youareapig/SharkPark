@@ -19,12 +19,15 @@ import android.widget.ScrollView;
 import com.google.gson.Gson;
 import com.weiye.adapter.ActivitiesGridAdpter;
 import com.weiye.data.HuodongBean;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.MyListView;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.AppearanceActivity;
 import com.weiye.zl.IntroActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SchoolActivity;
+import com.weiye.zl.SchoolImageActivity;
+import com.weiye.zl.SchoolVideoActivity;
 import com.weiye.zl.VedioPlayerActivity;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -76,17 +79,39 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
-    private void huodongVisit(){
-        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_XXHDDataService.ashx?op=getTAB_XXHD");
-        params.addBodyParameter("start","0");
-        params.addBodyParameter("ZT","0");
+
+    private void huodongVisit() {
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XXHDDataService.ashx?op=getTAB_XXHD");
+        params.addBodyParameter("start", "0");
+        params.addBodyParameter("ZT", "0");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Gson gson=new Gson();
-                HuodongBean bean=gson.fromJson(result,HuodongBean.class);
-                list=bean.getRows();
+                Gson gson = new Gson();
+                HuodongBean bean = gson.fromJson(result, HuodongBean.class);
+                list = bean.getRows();
                 mListview.setAdapter(new ActivitiesGridAdpter(list, getActivity()));
+                mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        HuodongBean.RowsBean bean1 = (HuodongBean.RowsBean) adapterView.getItemAtPosition(i);
+                        Intent intent = null;
+                        if (bean1.getBJSFSP().equals("0")) {
+                            intent = new Intent(getActivity(), SchoolImageActivity.class);
+                            intent.putExtra("txdz", bean1.getTXLJ());
+                            intent.putExtra("hdms", bean1.getHDMS());
+                        } else {
+                            intent = new Intent(getActivity(), SchoolVideoActivity.class);
+                            intent.putExtra("txdz", bean1.getBJTXLJ());
+                            intent.putExtra("spdz", bean1.getTXLJ());
+                            intent.putExtra("hdms", bean1.getHDMS());
+                        }
+                        getActivity().startActivity(intent);
+                    }
+                });
             }
 
             @Override
@@ -101,7 +126,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
 
             @Override

@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.IndexBean;
 import com.weiye.data.InfoBean;
 import com.weiye.data.XYFCBean;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.photoshow.ImagePagerActivity;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
@@ -36,9 +37,9 @@ public class AppearanceActivity extends AutoLayoutActivity {
     @BindView(R.id.jxhj)
     RoundedImageView jxhj;
     private Unbinder unbinder;
-    private List<String> list=new ArrayList<String>();
-    private List<String> list1=new ArrayList<String>();
-    private String xyfcID,jxhjID;
+    private List<String> list = new ArrayList<String>();
+    private List<String> list1 = new ArrayList<String>();
+    private String xyfcID, jxhjID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,9 @@ public class AppearanceActivity extends AutoLayoutActivity {
     }
 
     private void visitXYFC() {
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XYFCDataService.ashx?op=getTAB_XYFC");
         params.addBodyParameter("LX", "0");
         params.addBodyParameter("start", "0");
@@ -82,7 +86,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
                 Log.d("tag", "校园风采" + result);
                 Gson gson = new Gson();
                 XYFCBean bean = gson.fromJson(result, XYFCBean.class);
-                xyfcID=bean.getRows().get(0).getID();
+                xyfcID = bean.getRows().get(0).getID();
                 ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getRows().get(0).getTXLJ(), schoolappearance);
             }
 
@@ -98,7 +102,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
 
             @Override
@@ -109,6 +113,9 @@ public class AppearanceActivity extends AutoLayoutActivity {
     }
 
     private void visitJXHJ() {
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XYFCDataService.ashx?op=getTAB_XYFC");
         params.addBodyParameter("LX", "1");
         params.addBodyParameter("start", "0");
@@ -118,7 +125,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
                 Log.d("tag", "教学环境" + result);
                 Gson gson = new Gson();
                 XYFCBean bean = gson.fromJson(result, XYFCBean.class);
-                jxhjID=bean.getRows().get(0).getID();
+                jxhjID = bean.getRows().get(0).getID();
                 ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getRows().get(0).getTXLJ(), jxhj);
             }
 
@@ -134,7 +141,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
 
             @Override
@@ -143,21 +150,22 @@ public class AppearanceActivity extends AutoLayoutActivity {
             }
         });
     }
-    private void openXYFC(){
-        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_LXXXDataService.ashx?op=getTAB_LXSPTXXX");
-        params.addBodyParameter("LXID",xyfcID);
-        params.addBodyParameter("LX","6");
-        params.addBodyParameter("start","0");
+
+    private void openXYFC() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXSPTXXX");
+        params.addBodyParameter("LXID", xyfcID);
+        params.addBodyParameter("LX", "6");
+        params.addBodyParameter("start", "0");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","------------------>"+result);
-                Gson gson=new Gson();
-                InfoBean bean=gson.fromJson(result,InfoBean.class);
-                for (int i=0;i<bean.getRows().size();i++){
+                Log.d("tag", "------------------>" + result);
+                Gson gson = new Gson();
+                InfoBean bean = gson.fromJson(result, InfoBean.class);
+                for (int i = 0; i < bean.getRows().size(); i++) {
                     list.add(bean.getRows().get(i).getTXLJ());
                 }
-                Intent intent=new Intent(AppearanceActivity.this, ImagePagerActivity.class);
+                Intent intent = new Intent(AppearanceActivity.this, ImagePagerActivity.class);
                 intent.putStringArrayListExtra("photoarr", (ArrayList<String>) list);
                 startActivity(intent);
             }
@@ -183,20 +191,21 @@ public class AppearanceActivity extends AutoLayoutActivity {
             }
         });
     }
-    private void openJXHJ(){
-        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_LXXXDataService.ashx?op=getTAB_LXSPTXXX");
-        params.addBodyParameter("LXID",jxhjID);
-        params.addBodyParameter("LX","6");
-        params.addBodyParameter("start","0");
+
+    private void openJXHJ() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXSPTXXX");
+        params.addBodyParameter("LXID", jxhjID);
+        params.addBodyParameter("LX", "6");
+        params.addBodyParameter("start", "0");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Gson gson=new Gson();
-                InfoBean bean=gson.fromJson(result,InfoBean.class);
-                for (int i=0;i<bean.getRows().size();i++){
+                Gson gson = new Gson();
+                InfoBean bean = gson.fromJson(result, InfoBean.class);
+                for (int i = 0; i < bean.getRows().size(); i++) {
                     list1.add(bean.getRows().get(i).getTXLJ());
                 }
-                Intent intent=new Intent(AppearanceActivity.this, ImagePagerActivity.class);
+                Intent intent = new Intent(AppearanceActivity.this, ImagePagerActivity.class);
                 intent.putStringArrayListExtra("photoarr", (ArrayList<String>) list1);
                 startActivity(intent);
             }

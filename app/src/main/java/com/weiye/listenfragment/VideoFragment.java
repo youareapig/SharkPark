@@ -56,7 +56,6 @@ public class VideoFragment extends Fragment{
         x.http().get(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","视频"+result);
                 Gson gson=new Gson();
                 InfoBean bean=gson.fromJson(result,InfoBean.class);
                 list=bean.getRows();

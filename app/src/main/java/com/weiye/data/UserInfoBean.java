@@ -7,10 +7,6 @@ import java.util.List;
  */
 public class UserInfoBean {
 
-    /**
-     * total : 1
-     * rows : [{"ID":11,"YHZH":"15983302246","YHMM":"e10adc3949ba59abbe56e057f20f883e","ZJDLSJ":"2017-05-09","SFDL":1,"ZSXM":null,"LX":1,"LXDH":null,"XB":"男","NC":null,"TXLJ":null,"CSRQ":"2017/5/9 10:34:03","NN":"0"}]
-     */
 
     private int total;
     private List<RowsBean> rows;
@@ -32,21 +28,7 @@ public class UserInfoBean {
     }
 
     public static class RowsBean {
-        /**
-         * ID : 11
-         * YHZH : 15983302246
-         * YHMM : e10adc3949ba59abbe56e057f20f883e
-         * ZJDLSJ : 2017-05-09
-         * SFDL : 1
-         * ZSXM : null
-         * LX : 1
-         * LXDH : null
-         * XB : 男
-         * NC : null
-         * TXLJ : null
-         * CSRQ : 2017/5/9 10:34:03
-         * NN : 0
-         */
+
 
         private int ID;
         private String YHZH;

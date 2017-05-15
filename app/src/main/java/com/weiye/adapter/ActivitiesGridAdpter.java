@@ -59,12 +59,19 @@ public class ActivitiesGridAdpter extends BaseAdapter {
             view = inflater.inflate(R.layout.activitisegriditem, null);
             holder.imageView = (RoundedImageView) view.findViewById(R.id.activities_item_img);
             holder.textView= (TextView) view.findViewById(R.id.activities_item_text);
+            holder.huodongPlay= (ImageView) view.findViewById(R.id.huodongplay);
             view.setTag(holder);
             AutoUtils.autoSize(view);
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getTXLJ(),holder.imageView);
+        if (bean.getBJSFSP().equals("0")) {
+            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getTXLJ(), holder.imageView);
+            holder.huodongPlay.setVisibility(View.GONE);
+        } else {
+            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBJTXLJ(), holder.imageView);
+            holder.huodongPlay.setVisibility(View.VISIBLE);
+        }
         holder.textView.setText(bean.getHDMS());
         return view;
     }
@@ -72,5 +79,6 @@ public class ActivitiesGridAdpter extends BaseAdapter {
     private class ViewHolder {
         private RoundedImageView imageView;
         private TextView textView;
+        private ImageView huodongPlay;
     }
 }

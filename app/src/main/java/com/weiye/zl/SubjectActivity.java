@@ -27,7 +27,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.TeacherRecycleAdapter;
 import com.weiye.data.IndexBean;
 import com.weiye.data.TeacherBean;
-import com.weiye.data.TestBean;
 import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.VideoFragment;
 import com.weiye.myview.CustomProgressDialog;
@@ -62,8 +61,6 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     RecyclerView recycleTeacher;
     @BindView(R.id.btnOrder)
     Button btnOrder;
-    @BindView(R.id.mytitleAll)
-    RelativeLayout mytitleAll;
     @BindView(R.id.videoText)
     TextView videoText;
     @BindView(R.id.photoText)
@@ -76,6 +73,8 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     TextView subjectContent;
     @BindView(R.id.subjecttitlebackground)
     ImageView subjecttitlebackground;
+    @BindView(R.id.back6)
+    RelativeLayout back6;
 
     private Unbinder unbinder;
     private int height;
@@ -86,14 +85,14 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     private FragmentManager fragmentManager;
     private String indexID;
     private List<TeacherBean.RowsBean> mlist;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //TODO 取消状态栏
         setContentView(R.layout.activity_subject);
-        unbinder = ButterKnife.bind(this);
-        Intent intent = getIntent();
+        Intent intent = this.getIntent();
         indexID = intent.getStringExtra("indexID");
+        unbinder = ButterKnife.bind(this);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
             currentIndex = savedInstanceState.getInt(CURRENT_FRAGMENT, 0);
@@ -165,14 +164,13 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
     }
 
-    @OnClick({R.id.btnOrder, R.id.mytitleAll, R.id.videoText, R.id.photoText})
+    @OnClick({R.id.btnOrder, R.id.videoText, R.id.photoText,R.id.back6})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.videoText:
@@ -191,9 +189,8 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 Intent intent1 = new Intent(SubjectActivity.this, CurriculumActivity.class);
                 startActivity(intent1);
                 break;
-            case R.id.mytitleAll:
-                Intent intent = new Intent(SubjectActivity.this, FourSchoolActivity.class);
-                startActivity(intent);
+            case R.id.back6:
+                finish();
                 break;
         }
     }
@@ -223,12 +220,12 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 IndexBean bean = gson.fromJson(result, IndexBean.class);
                 mytitleText.setText(bean.getRows().get(0).getLXMC());
                 subjectContent.setText(bean.getRows().get(0).getLXMS());
-                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getRows().get(0).getBJTXLJ(),subjecttitlebackground);
+                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getRows().get(0).getBJTXLJ(), subjecttitlebackground);
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(SubjectActivity.this,"描述标题失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SubjectActivity.this, "描述标题失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -256,14 +253,13 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXJSXX");
         params.addBodyParameter("LXID", indexID);
         params.addBodyParameter("start", "0");
-        params.addBodyParameter("LX","3");
+        params.addBodyParameter("LX", "3");
         x.http().get(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","老师介绍接口-----------------"+result);
-                Gson gson=new Gson();
-                TeacherBean teacherBean=gson.fromJson(result,TeacherBean.class);
-                mlist=teacherBean.getRows();
+                Gson gson = new Gson();
+                TeacherBean teacherBean = gson.fromJson(result, TeacherBean.class);
+                mlist = teacherBean.getRows();
                 recycleTeacher.setLayoutManager(new LinearLayoutManager(SubjectActivity.this, LinearLayoutManager.HORIZONTAL, false));
                 recycleTeacher.setAdapter(new TeacherRecycleAdapter(mlist));
                 recycleTeacher.setHasFixedSize(true);
@@ -271,7 +267,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(SubjectActivity.this,"获取老师信息失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SubjectActivity.this, "获取老师信息失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

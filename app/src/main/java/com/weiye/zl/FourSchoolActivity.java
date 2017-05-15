@@ -15,11 +15,19 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.weiye.adapter.FourSchoolGalleryAdapter;
+import com.weiye.data.IndexBean;
 import com.weiye.data.TestBean1;
 import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.VideoFragment;
+import com.weiye.myview.CustomProgressDialog;
+import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +54,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     @BindView(R.id.screening)
     ImageView screening;
     private Unbinder unbinder;
-    private List<TestBean1> mList;
+    private List<IndexBean.RowsBean> mList;
     private FragmentManager fragmentManager;
     private Fragment fragment;
     private List<Fragment> list;
@@ -58,29 +66,10 @@ public class FourSchoolActivity extends AutoLayoutActivity {
         setContentView(R.layout.activity_four_school);
         unbinder = ButterKnife.bind(this);
         schoolScrollview.smoothScrollTo(0, 20);
-        shcoolGallery();
+        sdxyVisit();
         schoolFragment();
     }
 
-    //TODO 四大学校
-    private void shcoolGallery() {
-        mList = new ArrayList<>();
-        mList.add(new TestBean1(R.mipmap.gicon, "学院一"));
-        mList.add(new TestBean1(R.mipmap.gicon, "学院二"));
-        mList.add(new TestBean1(R.mipmap.gicon, "学院三"));
-        mList.add(new TestBean1(R.mipmap.gicon, "学院四"));
-        fourschoolGallery.setAdapter(new FourSchoolGalleryAdapter(mList, this));
-        fourschoolGallery.setSpacing(60);
-        fourschoolGallery.setSelection(40);
-        fourschoolGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.v("tag","选中项"+i%(mList.size()));
-                Intent intent = new Intent(FourSchoolActivity.this, SubjectActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
 
     private void schoolFragment() {
         list = new ArrayList<>();
@@ -97,7 +86,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.videoText1, R.id.photoText1,R.id.screening})
+    @OnClick({R.id.videoText1, R.id.photoText1, R.id.screening,R.id.fourschoolBack})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.videoText1:
@@ -115,9 +104,59 @@ public class FourSchoolActivity extends AutoLayoutActivity {
                 fragmentTransaction.commit();
                 break;
             case R.id.screening:
-                Intent intent=new Intent(FourSchoolActivity.this,ScreenActivity.class);
+                Intent intent = new Intent(FourSchoolActivity.this, ScreenActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.fourschoolBack:
+                finish();
         }
+    }
+
+    private void sdxyVisit() {
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXXX");
+        params.addBodyParameter("start", "1");
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                IndexBean bean = gson.fromJson(result, IndexBean.class);
+                mList = bean.getRows();
+                fourschoolGallery.setAdapter(new FourSchoolGalleryAdapter(mList, FourSchoolActivity.this));
+                fourschoolGallery.setSpacing(60);
+                fourschoolGallery.setSelection(40);
+                fourschoolGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        IndexBean.RowsBean rBean = (IndexBean.RowsBean) adapterView.getItemAtPosition(i%mList.size());
+                        Intent intent = new Intent(FourSchoolActivity.this, SubjectActivity.class);
+                        intent.putExtra("indexID", rBean.getID()+"");
+                        startActivity(intent);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                customProgressDialog.cancel();
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
     }
 }
