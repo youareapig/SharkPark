@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:tabIndicatorColor="#31bdf0"
-                app:tabIndicatorHeight="2px"
+                app:tabIndicatorHeight="4px"
                 app:tabSelectedTextColor="#31bdf0"
                 app:tabTextAppearance="@style/tab" />
         </HorizontalScrollView>

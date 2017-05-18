@@ -27,11 +27,15 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import cn.jpush.sms.SMSSDK;
+import cn.jpush.sms.listener.SmscheckListener;
+import cn.jpush.sms.listener.SmscodeListener;
+
 /**
  * Created by DELL on 2017/5/5.
  */
 public class UserLoginDialog {
-    private String  stringphone, stringpassword, stringlogin, stringpwd, stringispwd;
+    private String  stringphone, stringpassword, stringlogin, stringpwd, stringispwd,stringfindphone;
     private EditText userphone, userpassword, setpassword, ispassword;
     private TextView login, vercode, forgetpassword, regist, longinTitle1, findphone, findpwd, findnext, findvercode;
     private Context context;
@@ -109,9 +113,19 @@ public class UserLoginDialog {
                         }
 
                     } else {
-                        Log.e("tag", "进行注册");
-                        dialog.cancel();
-                        registDialog("设置密码");
+                        SMSSDK.getInstance().checkSmsCodeAsyn(stringphone, stringpassword, new SmscheckListener() {
+                            @Override
+                            public void checkCodeSuccess(String s) {
+                                dialog.cancel();
+                                registDialog("设置密码");
+                            }
+
+                            @Override
+                            public void checkCodeFail(int i, String s) {
+                                Toast.makeText(context, "验证码错误，请重新输入"+s, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                 }
             }
@@ -124,7 +138,19 @@ public class UserLoginDialog {
                 if (isPhone1 == false) {
                     Toast.makeText(context, "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
                 } else {
-                    CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(vercode, 10000, 1000);
+                    //TODO 极光获取验证码
+                    SMSSDK.getInstance().getSmsCodeAsyn(stringphone, "1", new SmscodeListener() {
+                        @Override
+                        public void getCodeSuccess(String s) {
+
+                        }
+
+                        @Override
+                        public void getCodeFail(int i, String s) {
+
+                        }
+                    });
+                    CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(vercode, 60000, 1000);
                     mCountDownTimerUtils.start();
                 }
 
@@ -205,9 +231,7 @@ public class UserLoginDialog {
                         if (stringpwd.length() < 6) {
                             Toast.makeText(context, "密码不能少于6位", Toast.LENGTH_SHORT).show();
                         } else {
-                            Log.v("tag", "注册信息" + stringphone + "       " + stringpwd);
-                            //regist(stringphone,stringpwd);
-                            //dialog1.cancel();
+                            Log.v("tag", "注册信息" + sharedPreferences.getString("tel",null) + "       " + stringpwd);
                             requestRegister(stringphone,stringispwd);
                             dialog1.cancel();
                         }
@@ -273,8 +297,29 @@ public class UserLoginDialog {
         findvercode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(findvercode, 10000, 1000);
-                mCountDownTimerUtils.start();
+                stringfindphone=findphone.getText().toString().trim();
+                ClassPathResource classPathResource = new ClassPathResource();
+                boolean isPhone2 = classPathResource.isMobileNO(findphone.getText().toString().trim());
+                if (isPhone2==false){
+                    Toast.makeText(context, "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
+                }else {
+                    CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(findvercode, 60000, 1000);
+                    mCountDownTimerUtils.start();
+                    Log.d("tag","获取验证码的电话"+stringfindphone);
+                    SMSSDK.getInstance().getSmsCodeAsyn(stringfindphone,"1", new SmscodeListener() {
+                        @Override
+                        public void getCodeSuccess(String s) {
+
+                        }
+
+                        @Override
+                        public void getCodeFail(int i, String s) {
+
+                        }
+                    });
+                }
+
+
             }
         });
         findnext.setOnClickListener(new View.OnClickListener() {
@@ -283,9 +328,18 @@ public class UserLoginDialog {
                 if (TextUtils.isEmpty(findphone.getText().toString().trim()) || TextUtils.isEmpty(findpwd.getText().toString().trim())) {
                     Toast.makeText(context, "请输入验证码!", Toast.LENGTH_SHORT).show();
                 } else {
+                    SMSSDK.getInstance().checkSmsCodeAsyn(stringfindphone, findpwd.getText().toString().trim(), new SmscheckListener() {
+                        @Override
+                        public void checkCodeSuccess(String s) {
+                            dialog2.cancel();
+                            updatepwdDilog("重设密码");
+                        }
 
-                    dialog2.cancel();
-                    registDialog("重设密码");
+                        @Override
+                        public void checkCodeFail(int i, String s) {
+                            Toast.makeText(context, "验证码错误，请重新输入!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
 
                 }
@@ -300,12 +354,12 @@ public class UserLoginDialog {
      */
     private void userLogin(String phone, String password) {
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=login");
-        Log.v("tag", "登录信息：" + phone + password);
         params.addBodyParameter("DLZH", phone);
         params.addBodyParameter("DLMM", password);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag",result);
                 Gson gson = new Gson();
                 LoginBean bean = gson.fromJson(result, LoginBean.class);
                 if (bean.isSuccess() == true) {
@@ -385,6 +439,7 @@ public class UserLoginDialog {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag",result);
                 try {
                     JSONObject json=new JSONObject(result);
                     if (json.getBoolean("Success")==true){
@@ -414,6 +469,77 @@ public class UserLoginDialog {
             @Override
             public void onFinished() {
 
+            }
+        });
+    }
+    //TODO 忘记密码
+    private void updatePwd(String phone,String pwd){
+
+    }
+    private void updatepwdDilog(String title) {
+        ImageView exit1;
+        dialog1 = new AlertDialog.Builder(context).create();
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        final View view = inflater.inflate(R.layout.regist, null);
+        dialog1.setView(view);
+        dialog1.setCanceledOnTouchOutside(false);
+        dialog1.show();
+        exit1 = (ImageView) view.findViewById(R.id.exit1);
+        setpassword = (EditText) view.findViewById(R.id.password);
+        ispassword = (EditText) view.findViewById(R.id.ispassword);
+        regist = (TextView) view.findViewById(R.id.regist);
+        longinTitle1 = (TextView) view.findViewById(R.id.longinTitle1);
+        longinTitle1.setText(title);
+        exit1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog1.cancel();
+            }
+        });
+        setpassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                stringpwd = setpassword.getText().toString().trim();
+                if (TextUtils.isEmpty(stringpwd)) {
+                    regist.setEnabled(false);
+                    regist.setBackgroundColor(context.getResources().getColor(R.color.gray));
+                } else {
+                    regist.setEnabled(true);
+                    regist.setBackgroundColor(context.getResources().getColor(R.color.blue));
+                }
+            }
+        });
+        regist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stringpwd = setpassword.getText().toString().trim();
+                stringispwd = ispassword.getText().toString().trim();
+                if (TextUtils.isEmpty(stringpwd) || TextUtils.isEmpty(stringispwd)) {
+                    Toast.makeText(context, "请输入密码!", Toast.LENGTH_SHORT).show();
+                } else {
+                    if (!stringpwd.equals(stringispwd)) {
+                        Toast.makeText(context, "两次密码不一致，请确认后输入!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        if (stringpwd.length() < 6) {
+                            Toast.makeText(context, "密码不能少于6位", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.v("tag", "注册信息" + sharedPreferences.getString("tel",null) + "       " + stringpwd);
+                            //updatePwd(stringfindphone,stringispwd);
+                            dialog1.cancel();
+                        }
+
+                    }
+                }
             }
         });
     }

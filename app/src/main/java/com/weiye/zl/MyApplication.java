@@ -15,6 +15,8 @@ import com.zhy.autolayout.config.AutoLayoutConifg;
 
 import org.xutils.x;
 
+import cn.jpush.sms.SMSSDK;
+
 /**
  * Created by DELL on 2017/4/6.
  */
@@ -27,6 +29,7 @@ public class MyApplication extends Application {
         AutoLayoutConifg.getInstance().useDeviceSize();
         initImageLoader(getApplicationContext());
         x.Ext.init(this);
+        SMSSDK.getInstance().initSdk(this);
     }
 
     public void initImageLoader(Context context) {

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.IndexBean;
-import com.weiye.data.TestBean;
-import com.weiye.data.TestGalleryBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.third.BaseAdapterHelper;
 import com.weiye.third.Gallery;
@@ -23,13 +20,11 @@ import com.weiye.third.QuickPagerAdapter;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.weiye.zl.SubjectActivity;
-import com.zhy.autolayout.utils.AutoUtils;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

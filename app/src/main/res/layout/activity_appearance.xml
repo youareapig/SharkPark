@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40px"
-        android:layout_marginTop="45px"
+        android:layout_marginTop="100px"
         android:text="教学环境"
         android:textColor="#303030"
         android:textSize="72px" />

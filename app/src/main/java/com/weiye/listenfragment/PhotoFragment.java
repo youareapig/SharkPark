@@ -1,5 +1,6 @@
 package com.weiye.listenfragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,18 +32,21 @@ import java.util.List;
 /**
  * Created by DELL on 2017/4/14.
  */
+@SuppressLint({"NewApi","ValidFragment"})
 public class PhotoFragment extends Fragment {
     private MyListView listView;
     private List<InfoBean.RowsBean> list;
     private List<String> photoList=new ArrayList<>();
     private String indexID;
+
+
+
     public PhotoFragment(String indexID) {
         this.indexID = indexID;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.photofragment, container, false);
         listView = (MyListView) view.findViewById(R.id.photofragment_listview);
         visitPhoto();
@@ -136,4 +140,5 @@ public class PhotoFragment extends Fragment {
         });
 
     }
+
 }

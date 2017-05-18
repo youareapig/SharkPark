@@ -5,27 +5,20 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.widget.RelativeLayout;
 
-import com.google.gson.Gson;
-import com.weiye.data.HuodongBean;
-import com.weiye.schoolTabFragment.SchoolActivity_1;
 import com.weiye.adapter.SchoolTabAdapter;
+import com.weiye.schoolTabFragment.SchoolActivity_1;
 import com.weiye.schoolTabFragment.SchoolActivity_2;
 import com.weiye.schoolTabFragment.SchoolActivity_3;
-import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
-
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class SchoolActivity extends AutoLayoutActivity {
@@ -65,4 +58,8 @@ public class SchoolActivity extends AutoLayoutActivity {
         unbinder.unbind();
     }
 
+    @OnClick(R.id.school_Back)
+    public void onViewClicked() {
+        finish();
+    }
 }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
@@ -18,7 +17,6 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.weiye.adapter.FourSchoolGalleryAdapter;
 import com.weiye.data.IndexBean;
-import com.weiye.data.TestBean1;
 import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.VideoFragment;
 import com.weiye.myview.CustomProgressDialog;
@@ -36,7 +34,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import qiu.niorgai.StatusBarCompat;
 
 public class FourSchoolActivity extends AutoLayoutActivity {
     @BindView(R.id.fourschoolBack)

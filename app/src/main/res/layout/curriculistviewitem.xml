@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="40px"
+    android:paddingBottom="40px">
 
     <TextView
         android:id="@+id/curriculistview_item_time"
@@ -17,7 +19,7 @@
         android:id="@+id/curriculistview_item_gridview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:horizontalSpacing="20px"
-        android:verticalSpacing="20px"
+        android:horizontalSpacing="40px"
+        android:verticalSpacing="40px"
         android:numColumns="3" />
 </com.zhy.autolayout.AutoRelativeLayout>

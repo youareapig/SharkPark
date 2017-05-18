@@ -40,13 +40,7 @@
         android:layout_centerVertical="true"
         android:textColor="#303030"
         android:textSize="72px" />
-    <ImageView
-        android:id="@+id/CurriculumtitleImage"
-        android:layout_width="146px"
-        android:layout_height="146px"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="40px"/>
+
 </RelativeLayout>
 
 
@@ -92,6 +86,39 @@
     </com.weiye.myview.ObservableScrollView>
 
 </LinearLayout>
+    <RelativeLayout
+        android:layout_width="260px"
+        android:layout_height="260px"
+        android:layout_gravity="right"
+        android:layout_marginTop="100px"
+        >
+        <ImageView
+            android:id="@+id/CurriculumtitleImage"
+            android:layout_width="146px"
+            android:layout_height="146px"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40px"/>
+        <TextView
+            android:id="@+id/Curriculumtitlexq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/CurriculumtitleImage"
+            android:layout_centerHorizontal="true"
+            android:alpha="0.5"
+            android:textColor="#005982"
+            android:textSize="42px"
+            android:layout_marginTop="5px"/>
+        <TextView
+            android:id="@+id/Curriculumtitlerq"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/Curriculumtitlexq"
+            android:layout_centerHorizontal="true"
+            android:textColor="#005982"
+            android:alpha="0.5"
+            android:textSize="34px" />
+    </RelativeLayout>
     <Button
         android:id="@+id/curricuButton"
         android:layout_width="900px"

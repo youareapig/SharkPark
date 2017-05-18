@@ -3,6 +3,7 @@ package com.weiye.fragment;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -85,8 +86,15 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         myCourse.setOnClickListener(this);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", getActivity().MODE_PRIVATE);
         userID = sharedPreferences.getString("userid", "未知");
-        getUserInfo();
+
         return view;
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getUserInfo();
     }
 
     @Override

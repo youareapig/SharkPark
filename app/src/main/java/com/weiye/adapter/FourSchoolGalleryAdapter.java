@@ -1,19 +1,15 @@
 package com.weiye.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Gallery;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.IndexBean;
-import com.weiye.data.TestBean1;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;

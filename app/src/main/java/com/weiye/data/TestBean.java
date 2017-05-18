@@ -1,30 +1,30 @@
 package com.weiye.data;
 
 /**
- * Created by DELL on 2017/4/14.
+ * Created by DELL on 2017/5/16.
  */
 public class TestBean {
-    private int img;
-    private String name;
+    private String string;
+    private boolean aBoolean;
 
-    public TestBean(int img, String name) {
-        this.img = img;
-        this.name = name;
+    public TestBean(String string, boolean aBoolean) {
+        this.string = string;
+        this.aBoolean = aBoolean;
     }
 
-    public int getImg() {
-        return img;
+    public String getString() {
+        return string;
     }
 
-    public void setImg(int img) {
-        this.img = img;
+    public void setString(String string) {
+        this.string = string;
     }
 
-    public String getName() {
-        return name;
+    public boolean isaBoolean() {
+        return aBoolean;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setaBoolean(boolean aBoolean) {
+        this.aBoolean = aBoolean;
     }
 }

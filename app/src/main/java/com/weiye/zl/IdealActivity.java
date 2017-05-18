@@ -1,6 +1,7 @@
 package com.weiye.zl;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -15,6 +16,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cn.jpush.sms.SMSSDK;
+import cn.jpush.sms.listener.SmscodeListener;
 import qiu.niorgai.StatusBarCompat;
 
 public class IdealActivity extends AutoLayoutActivity {
@@ -46,9 +49,6 @@ public class IdealActivity extends AutoLayoutActivity {
                 finish();
                 break;
             case R.id.submit:
-                CustomProgressDialog customProgressDialog=new CustomProgressDialog(this,"玩命加载中...",R.drawable.frame);
-                customProgressDialog.setCanceledOnTouchOutside(false);
-                customProgressDialog.show();
                 break;
         }
     }

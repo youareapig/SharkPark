@@ -5,12 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.TeacherBean;
-import com.weiye.data.TestBean;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.weiye.zl.TeacherStyleActivity;

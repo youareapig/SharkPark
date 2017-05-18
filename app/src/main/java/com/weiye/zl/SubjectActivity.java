@@ -5,13 +5,18 @@ package com.weiye.zl;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -85,6 +90,8 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     private FragmentManager fragmentManager;
     private String indexID;
     private List<TeacherBean.RowsBean> mlist;
+    private int mOriginButtonTop;
+    private GestureDetectorCompat mDetectorCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +116,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         changTitle();
         visit();
         visitTeacher();
+        myScroll();
     }
 
     @Override
@@ -163,6 +171,24 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         });
     }
 
+    private void myScroll() {
+        btnOrder.post(new Runnable() {
+            @Override
+            public void run() {
+                mOriginButtonTop = btnOrder.getTop();
+            }
+        });
+        mDetectorCompat = new GestureDetectorCompat(this, new MyGestureListener());
+        scrollview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                mDetectorCompat.onTouchEvent(event);
+                return false;
+            }
+        });
+
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -170,7 +196,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         unbinder.unbind();
     }
 
-    @OnClick({R.id.btnOrder, R.id.videoText, R.id.photoText,R.id.back6})
+    @OnClick({R.id.btnOrder, R.id.videoText, R.id.photoText, R.id.back6})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.videoText:
@@ -287,5 +313,58 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         });
     }
 
+    private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
+        boolean isScrollDown;
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+
+            if (Math.abs(distanceY) > Math.abs(distanceX)) {//判断是否竖直滑动
+                int buttonTop = btnOrder.getTop();
+                int buttonBottom = btnOrder.getBottom();
+                try {
+                    isScrollDown =e1.getRawY() < e2.getRawY() ? true : false;
+                }catch (Exception e){
+                    e.printStackTrace();
+                    isScrollDown=true;
+                }
+
+                if (!ifNeedScroll(isScrollDown)) return false;
+                if (isScrollDown) {
+                    btnOrder.setTop(buttonTop - (int) Math.abs(distanceY));
+                    btnOrder.setBottom(buttonBottom - (int) Math.abs(distanceY));
+                } else if (!isScrollDown) {
+                    btnOrder.setTop(buttonTop + (int) Math.abs(distanceY));
+                    btnOrder.setBottom(buttonBottom + (int) Math.abs(distanceY));
+                }
+            }
+            return super.onScroll(e1, e2, distanceX, distanceY);
+        }
+
+        private boolean ifNeedScroll(boolean isScrollDown) {
+            int nowButtonTop = btnOrder.getTop();
+            if (isScrollDown && nowButtonTop <= mOriginButtonTop) return false;
+
+            if (!isScrollDown) {
+                return isInScreen(btnOrder);
+            }
+            return true;
+        }
+
+        private boolean isInScreen(View view) {
+            int width, height;
+            Point p = new Point();
+            getWindowManager().getDefaultDisplay().getSize(p);
+            width = p.x;
+            height = p.y;
+
+            Rect rect = new Rect(0, 0, width, height);
+
+            if (!view.getLocalVisibleRect(rect)) return false;
+
+            return true;
+        }
+
+
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.weiye.listenfragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,11 +30,16 @@ import java.util.List;
 
 /**
  * Created by DELL on 2017/4/14.
+ *
+ *避免打包出现错误
  */
+@SuppressLint({"NewApi","ValidFragment"})
 public class VideoFragment extends Fragment{
     private MyListView listView;
     private List<InfoBean.RowsBean> list;
     private String indexID;
+
+
     public VideoFragment(String indexID) {
         this.indexID=indexID;
     }

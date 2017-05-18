@@ -36,7 +36,7 @@
         <meta-data
             android:name="design_height"
             android:value="1920" />
-
+        <meta-data android:name="JPUSH_APPKEY" android:value="c09608b54c15246d0078d663"/>
         <activity
             android:name=".VedioPlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

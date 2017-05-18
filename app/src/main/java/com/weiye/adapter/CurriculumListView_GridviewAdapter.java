@@ -1,12 +1,14 @@
 package com.weiye.adapter;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.weiye.data.TestBean;
 import com.weiye.myview.MyGridView;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -18,20 +20,21 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class CurriculumListView_GridviewAdapter extends BaseAdapter{
-    private List<String> list=new ArrayList<>();
+    private List<TestBean> list=new ArrayList<>();
     private Activity activity;
     private LayoutInflater layoutInflater;
-
+    private ViewHolder holder;
+    private TestBean testBean1,testBean2,testBean3,testBean4;
     public CurriculumListView_GridviewAdapter(Activity activity) {
         this.layoutInflater=activity.getLayoutInflater();
-        list.add("植物大战僵尸");
-        list.add("植物大战僵尸");
-        list.add("植物大战僵尸");
-        list.add("植物大战僵尸");
-        list.add("植物大战僵尸");
-        list.add("植物大战僵尸");
-        list.add("植物大战僵尸");
-
+        testBean1=new TestBean("植物大战僵尸",true);
+        testBean2=new TestBean("植物大战僵尸",false);
+        testBean3=new TestBean("植物大战僵尸",false);
+        testBean4=new TestBean("植物大战僵尸",false);
+        list.add(testBean1);
+        list.add(testBean2);
+        list.add(testBean3);
+        list.add(testBean4);
     }
 
     @Override
@@ -57,7 +60,8 @@ public class CurriculumListView_GridviewAdapter extends BaseAdapter{
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder holder=new ViewHolder();
+        holder=new ViewHolder();
+        TestBean bean=list.get(i);
         if (view==null){
             view=layoutInflater.inflate(R.layout.curriculumlistviewgridviewitem,null);
             holder.textView= (TextView) view.findViewById(R.id.curriculumlistviewgridviewitem_text);
@@ -66,10 +70,16 @@ public class CurriculumListView_GridviewAdapter extends BaseAdapter{
         }else {
             holder= (ViewHolder) view.getTag();
         }
-        holder.textView.setText(list.get(i));
+        holder.textView.setText(bean.getString());
+        if (bean.isaBoolean()){
+            holder.textView.setBackgroundResource(R.drawable.classbook1);
+        }else {
+            holder.textView.setBackgroundResource(R.drawable.classbook);
+        }
         return view;
     }
     private class ViewHolder{
         private TextView textView;
     }
+
 }

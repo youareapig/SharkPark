@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.weiye.adapter.CurriculumGalleryAdapter;
 import com.weiye.adapter.CurriculumListViewAdapter;
@@ -26,7 +27,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import qiu.niorgai.StatusBarCompat;
 
 public class CurriculumActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener {
     @BindView(R.id.back5)
@@ -43,10 +43,15 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
     ObservableScrollView curricuScrollview;
     @BindView(R.id.curricuButton)
     Button curricuButton;
+    @BindView(R.id.Curriculumtitlexq)
+    TextView Curriculumtitlexq;
+    @BindView(R.id.Curriculumtitlerq)
+    TextView Curriculumtitlerq;
     private Unbinder unbinder;
     private List<TestCurrBean> mList;
     private int height;
     private TestCurrBean bean;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,15 +80,15 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
         mList.add(bean7);
         final CurriculumGalleryAdapter adapter = new CurriculumGalleryAdapter(mList, this);
         curricuGallery.setAdapter(adapter);
-        curricuGallery.setSpacing(30);
+        curricuGallery.setSpacing(60);
         curricuGallery.setSelection(100);
         curricuGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                bean = (TestCurrBean) adapterView.getItemAtPosition(i%(mList.size()));
-                adapter.setSelectItem(i%(mList.size()));
+                bean = (TestCurrBean) adapterView.getItemAtPosition(i % (mList.size()));
+                adapter.setSelectItem(i % (mList.size()));
                 adapter.notifyDataSetChanged();
-                Log.e("tag", "选择" + i%mList.size() + "  " + bean.getText1() + bean.getIcon());
+                Log.e("tag", "选择" + i % mList.size() + "  " + bean.getText1() + bean.getIcon());
             }
 
             @Override
@@ -123,12 +128,16 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
             float alpha = (255 * scale);
             CurriculumtitleImage.setImageResource(bean.getIcon());
             CurriculumtitleImage.setAlpha(alpha);
+            Curriculumtitlexq.setText(bean.getText1());
+            Curriculumtitlexq.setAlpha(alpha);
+            Curriculumtitlerq.setText(bean.getText2());
+            Curriculumtitlerq.setAlpha(alpha);
         }
     }
 
     @OnClick(R.id.curricuButton)
     public void onViewClicked() {
-        Intent intent=new Intent(CurriculumActivity.this,SubmitActivity.class);
+        Intent intent = new Intent(CurriculumActivity.this, SubmitActivity.class);
         startActivity(intent);
     }
 }

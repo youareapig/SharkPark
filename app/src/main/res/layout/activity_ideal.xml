@@ -43,20 +43,26 @@
         android:gravity="start"
         android:hint="请填写您的宝贵意见..."
         android:maxLength="500"
-        android:padding="24px"
+        android:padding="34px"
         android:textColor="#888888"
+        android:textCursorDrawable="@drawable/cursor"
         android:textColorHint="#888888"
         android:textSize="52px" />
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="900px"
-        android:layout_height="148px"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="40px"
-        android:layout_marginTop="200px"
-        android:background="@drawable/btn"
-        android:text="保存"
-        android:textColor="#fff"
-        android:textSize="62px" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="900px"
+            android:layout_height="148px"
+            android:layout_marginBottom="100px"
+            android:background="@drawable/btn"
+            android:text="保存"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#fff"
+            android:textSize="62px" />
+    </RelativeLayout>
+
 </LinearLayout>

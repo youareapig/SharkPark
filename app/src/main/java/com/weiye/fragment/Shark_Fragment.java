@@ -93,7 +93,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        visitClass();
+                        subjectStation();
                         refreshView.stopRefresh();
                         lastRefreshTime = refreshView.getLastRefreshTime();
 
