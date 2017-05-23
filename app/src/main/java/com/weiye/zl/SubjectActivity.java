@@ -4,6 +4,7 @@ package com.weiye.zl;
  */
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -14,7 +15,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,6 +37,7 @@ import com.weiye.listenfragment.VideoFragment;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
+import com.weiye.utils.UserLoginDialog;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import org.xutils.common.Callback;
@@ -80,6 +81,8 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     ImageView subjecttitlebackground;
     @BindView(R.id.back6)
     RelativeLayout back6;
+    @BindView(R.id.main2)
+    FrameLayout main2;
 
     private Unbinder unbinder;
     private int height;
@@ -92,6 +95,8 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     private List<TeacherBean.RowsBean> mlist;
     private int mOriginButtonTop;
     private GestureDetectorCompat mDetectorCompat;
+    private SharedPreferences sharedPreferences;
+    private CustomProgressDialog customProgressDialog, customProgressDialog1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +105,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         Intent intent = this.getIntent();
         indexID = intent.getStringExtra("indexID");
         unbinder = ButterKnife.bind(this);
+        sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
             currentIndex = savedInstanceState.getInt(CURRENT_FRAGMENT, 0);
@@ -113,10 +119,10 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
             showFragment();
         }
 
-        changTitle();
+
         visit();
         visitTeacher();
-        myScroll();
+        //myScroll();
     }
 
     @Override
@@ -189,7 +195,6 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
 
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -212,8 +217,14 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 showFragment();
                 break;
             case R.id.btnOrder:
-                Intent intent1 = new Intent(SubjectActivity.this, CurriculumActivity.class);
-                startActivity(intent1);
+                String tag = sharedPreferences.getString("usertag", "0");
+                if (tag.equals("1")) {
+                    Intent intent1 = new Intent(SubjectActivity.this, CurriculumActivity.class);
+                    startActivity(intent1);
+                } else {
+                    new UserLoginDialog(this).loginDialog();
+                }
+
                 break;
             case R.id.back6:
                 finish();
@@ -226,22 +237,25 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         if (y <= height) {
             float scale = (float) y / height;
             float alpha = (255 * scale);
-            titleSubject.setBackgroundColor(Color.argb((int) alpha, 49, 189, 240));
+            titleSubject.setBackgroundColor(Color.argb((int) alpha, 0, 173, 236));
         }
 
     }
 
     //TODO 标题描述数据
     private void visit() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
+        main2.setVisibility(View.GONE);
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXXX");
         params.addBodyParameter("ID", indexID);
         params.addBodyParameter("start", "0");
         x.http().get(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                changTitle();
+                main2.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 IndexBean bean = gson.fromJson(result, IndexBean.class);
                 mytitleText.setText(bean.getRows().get(0).getLXMC());
@@ -273,7 +287,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
 
     //TODO 老师介绍数据
     private void visitTeacher() {
-        final CustomProgressDialog customProgressDialog1 = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog1 = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
         customProgressDialog1.setCanceledOnTouchOutside(false);
         customProgressDialog1.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXJSXX");
@@ -315,6 +329,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
 
     private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
         boolean isScrollDown;
+
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 
@@ -322,10 +337,10 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 int buttonTop = btnOrder.getTop();
                 int buttonBottom = btnOrder.getBottom();
                 try {
-                    isScrollDown =e1.getRawY() < e2.getRawY() ? true : false;
-                }catch (Exception e){
+                    isScrollDown = e1.getRawY() < e2.getRawY() ? true : false;
+                } catch (Exception e) {
                     e.printStackTrace();
-                    isScrollDown=true;
+                    isScrollDown = true;
                 }
 
                 if (!ifNeedScroll(isScrollDown)) return false;

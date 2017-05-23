@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.weiye.data.IndexBean;
 import com.weiye.data.InfoBean;
 import com.weiye.data.XYFCBean;
 import com.weiye.myview.CustomProgressDialog;
@@ -36,10 +36,13 @@ public class AppearanceActivity extends AutoLayoutActivity {
     RoundedImageView schoolappearance;
     @BindView(R.id.jxhj)
     RoundedImageView jxhj;
+    @BindView(R.id.main5)
+    LinearLayout main5;
     private Unbinder unbinder;
     private List<String> list = new ArrayList<String>();
     private List<String> list1 = new ArrayList<String>();
     private String xyfcID, jxhjID;
+    private CustomProgressDialog customProgressDialog, customProgressDialog1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,16 +77,17 @@ public class AppearanceActivity extends AutoLayoutActivity {
     }
 
     private void visitXYFC() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
+        main5.setVisibility(View.GONE);
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XYFCDataService.ashx?op=getTAB_XYFC");
         params.addBodyParameter("LX", "0");
         params.addBodyParameter("start", "0");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "校园风采" + result);
+                main5.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 XYFCBean bean = gson.fromJson(result, XYFCBean.class);
                 xyfcID = bean.getRows().get(0).getID();
@@ -113,16 +117,15 @@ public class AppearanceActivity extends AutoLayoutActivity {
     }
 
     private void visitJXHJ() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
+        customProgressDialog1 = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog1.setCanceledOnTouchOutside(false);
+        customProgressDialog1.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XYFCDataService.ashx?op=getTAB_XYFC");
         params.addBodyParameter("LX", "1");
         params.addBodyParameter("start", "0");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "教学环境" + result);
                 Gson gson = new Gson();
                 XYFCBean bean = gson.fromJson(result, XYFCBean.class);
                 jxhjID = bean.getRows().get(0).getID();
@@ -141,7 +144,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
 
             @Override
             public void onFinished() {
-                customProgressDialog.cancel();
+                customProgressDialog1.cancel();
             }
 
             @Override
@@ -159,7 +162,6 @@ public class AppearanceActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "------------------>" + result);
                 Gson gson = new Gson();
                 InfoBean bean = gson.fromJson(result, InfoBean.class);
                 for (int i = 0; i < bean.getRows().size(); i++) {

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -24,11 +25,13 @@ import com.weiye.myview.MyListView;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.AppearanceActivity;
 import com.weiye.zl.IntroActivity;
+import com.weiye.zl.LiveActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SchoolActivity;
 import com.weiye.zl.SchoolImageActivity;
 import com.weiye.zl.SchoolVideoActivity;
 import com.weiye.zl.VedioPlayerActivity;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import org.xutils.common.Callback;
@@ -45,7 +48,8 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
     private MyListView mListview;
     private List<HuodongBean.RowsBean> list;
     private AutoRelativeLayout sActivity, appearance, intro;
-
+    private CustomProgressDialog customProgressDialog;
+    private AutoLinearLayout main1;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -53,6 +57,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         mListview = (MyListView) view.findViewById(R.id.parkListView);
         sActivity = (AutoRelativeLayout) view.findViewById(R.id.sActivity);
         appearance = (AutoRelativeLayout) view.findViewById(R.id.appearance);
+        main1= (AutoLinearLayout) view.findViewById(R.id.main1);
         intro = (AutoRelativeLayout) view.findViewById(R.id.intro);
         sActivity.setOnClickListener(this);
         appearance.setOnClickListener(this);
@@ -81,15 +86,17 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
     }
 
     private void huodongVisit() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
+        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
+        main1.setVisibility(View.GONE);
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XXHDDataService.ashx?op=getTAB_XXHD");
         params.addBodyParameter("start", "0");
         params.addBodyParameter("ZT", "0");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                main1.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 HuodongBean bean = gson.fromJson(result, HuodongBean.class);
                 list = bean.getRows();

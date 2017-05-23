@@ -2,24 +2,23 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff">
 
     <TextView
         android:id="@+id/galleryitem_title"
         android:layout_width="match_parent"
-        android:layout_height="160px"
+        android:layout_height="140px"
         android:gravity="center"
         android:textColor="#121212"
-        android:textSize="72px"
-        />
+        android:textSize="72px" />
 
     <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="850px"
-        android:layout_height="1310px"
+        android:id="@+id/yinyin"
+        android:layout_width="912px"
+        android:layout_height="1372px"
         android:layout_below="@+id/galleryitem_title"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/shade">
-
+        android:layout_centerHorizontal="true">
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/galleryitem_img"
             android:layout_width="840px"

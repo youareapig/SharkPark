@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.weiye.zl.SubjectActivity">
+    tools:context="com.weiye.zl.SubjectActivity"
+    android:id="@+id/main2">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,12 +35,13 @@
 
                     <TextView
                         android:id="@+id/subject_content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="40px"
-                        android:layout_marginRight="40px"
-                        android:layout_marginTop="250px"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="40px"
+                        android:paddingRight="40px"
+                        android:paddingTop="250px"
                         android:textColor="#fff"
+                        android:background="#10000000"
                         android:textSize="44px" />
                 </FrameLayout>
 

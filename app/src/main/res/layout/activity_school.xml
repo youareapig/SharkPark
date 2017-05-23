@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.weiye.zl.SchoolActivity">
+    tools:context="com.weiye.zl.SchoolActivity"
+    android:id="@+id/main4">
 
     <RelativeLayout
         android:id="@+id/teacherStyle_title"
@@ -44,8 +45,8 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:scrollbars="none">
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/schooltab"
@@ -61,10 +62,10 @@
     </LinearLayout>
 
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/tabviewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="60px" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tabviewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60px" />
 
 </LinearLayout>

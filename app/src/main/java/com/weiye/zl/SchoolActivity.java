@@ -5,6 +5,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.weiye.adapter.SchoolTabAdapter;
@@ -28,6 +29,8 @@ public class SchoolActivity extends AutoLayoutActivity {
     TabLayout schooltab;
     @BindView(R.id.tabviewpager)
     ViewPager tabviewpager;
+    @BindView(R.id.main4)
+    LinearLayout main4;
     private Unbinder unbinder;
     private FragmentManager fragmentManager;
     private List<String> titleList;
@@ -41,9 +44,9 @@ public class SchoolActivity extends AutoLayoutActivity {
         schooltab.setupWithViewPager(tabviewpager);
         fragmentManager = getSupportFragmentManager();
         titleList = new ArrayList<>();
-        titleList.add("即将开始");
-        titleList.add("进行中");
-        titleList.add("往期");
+        titleList.add("幼儿园");
+        titleList.add("小学");
+        titleList.add("嘉年华");
         fragmentList = new ArrayList<>();
         fragmentList.add(new SchoolActivity_1());
         fragmentList.add(new SchoolActivity_2());

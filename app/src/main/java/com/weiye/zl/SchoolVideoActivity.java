@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
+import com.zhy.autolayout.AutoLayoutActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,9 +26,10 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
-public class SchoolVideoActivity extends AppCompatActivity implements ObservableScrollView.ScrollViewListener {
+public class SchoolVideoActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener {
     @BindView(R.id.schoolvideo_video)
     JCVideoPlayerStandard schoolvideoVideo;
     @BindView(R.id.titleimage)
@@ -55,8 +58,9 @@ public class SchoolVideoActivity extends AppCompatActivity implements Observable
         videourl = intent.getStringExtra("spdz");
         videoimg = intent.getStringExtra("txdz");
         content = intent.getStringExtra("hdms");
+        Log.e("tag","视频地址-------------"+videourl);
         huodongspMs.setText(content);
-        schoolvideoVideo.setUp(videourl, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "嫂子闭眼睛");
+        schoolvideoVideo.setUp(videourl, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "鲨鱼公园");
         ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + videoimg, schoolvideoVideo.thumbImageView);
         schoolvideoVideo.thumbImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
     }
@@ -104,17 +108,17 @@ public class SchoolVideoActivity extends AppCompatActivity implements Observable
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl("http://www.sharkpark.cn/");
         // text是分享文本，所有平台都需要这个字段
-        oks.setText("我是分享文本");
+        oks.setText("http://www.sharkpark.cn/");
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl("http://www.sharkpark.cn/");
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("我是测试评论文本");
+        oks.setComment("http://www.sharkpark.cn/");
         // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite(getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://sharesdk.cn");
+        oks.setSiteUrl("http://www.sharkpark.cn/");
         oks.setImageUrl(SingleModleUrl.singleModleUrl().getImgUrl() + videoimg);
         oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
             @Override
@@ -125,7 +129,7 @@ public class SchoolVideoActivity extends AppCompatActivity implements Observable
                 }
                 if ("SinaWeibo".equals(platform.getName())) {
                     paramsToShare.setUrl(null);
-                    paramsToShare.setText("分享文本 http://www.sharkpark.cn/");
+                    paramsToShare.setText("http://www.sharkpark.cn/");
                 }
                 if ("Wechat".equals(platform.getName())) {
                     Bitmap imageData = BitmapFactory.decodeResource(getResources(), R.drawable.ssdk_logo);
@@ -153,5 +157,19 @@ public class SchoolVideoActivity extends AppCompatActivity implements Observable
                 showShare();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
     }
 }

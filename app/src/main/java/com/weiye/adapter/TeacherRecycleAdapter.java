@@ -38,7 +38,7 @@ public class TeacherRecycleAdapter extends RecyclerView.Adapter{
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder= (ViewHolder) holder;
         final TeacherBean.RowsBean bean=list.get(position);
-        viewHolder.textView.setText(bean.getZSXM());
+        viewHolder.textView.setText(bean.getNC());
         ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getTXLJ(),viewHolder.imageView);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

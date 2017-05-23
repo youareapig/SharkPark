@@ -64,7 +64,7 @@
     </com.weiye.myview.ObservableScrollView>
 
     <RelativeLayout
-        android:id="@+id/scienceStationTitle"
+        android:id="@+id/toubu"
         style="@style/mytitle">
 
         <RelativeLayout

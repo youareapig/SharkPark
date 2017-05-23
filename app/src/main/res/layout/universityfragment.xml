@@ -2,7 +2,8 @@
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/main6">
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
@@ -23,7 +24,6 @@
             android:layout_below="@+id/myhead"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="21px"
-            android:text="鲨鱼哥"
             android:textColor="#ffffff"
             android:textSize="48px" />
 

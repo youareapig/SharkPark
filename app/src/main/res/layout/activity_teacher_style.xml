@@ -13,7 +13,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:id="@+id/main3">
 
             <RelativeLayout
                 android:id="@+id/teacherStyle_top"
@@ -66,8 +67,7 @@
                 android:textSize="50px" />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="500px"
-                android:background="#fff"/>
+                android:layout_height="500px" />
         </LinearLayout>
     </com.weiye.myview.ObservableScrollView>
     <RelativeLayout
@@ -83,7 +83,7 @@
                 android:layout_width="28px"
                 android:layout_height="48px"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/back1" />
+                android:src="@mipmap/back" />
         </RelativeLayout>
 
     </RelativeLayout>

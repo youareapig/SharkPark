@@ -56,7 +56,7 @@ public class SchoolRecyclerAdapter extends RecyclerView.Adapter {
                 } else {
                     intent = new Intent(view.getContext(), SchoolVideoActivity.class);
                     intent.putExtra("txdz", bean.getBJTXLJ());
-                    intent.putExtra("spdz", bean.getTXLJ());
+                    intent.putExtra("spdz", bean.getBJTXLJ());
                     intent.putExtra("hdms", bean.getHDMS());
                 }
                 view.getContext().startActivity(intent);

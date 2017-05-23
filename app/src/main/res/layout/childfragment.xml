@@ -2,6 +2,7 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     xmlns:gallery="http://schemas.android.com/apk/res-auto">
 <com.weiye.third.Gallery
     android:id="@+id/myGallery"

@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 
 import com.google.gson.Gson;
@@ -22,6 +23,7 @@ import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.weiye.zl.SchoolImageActivity;
+import com.weiye.zl.SchoolVideoActivity;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -37,8 +39,8 @@ public class SchoolActivity_3 extends Fragment {
     private List<HuodongBean.RowsBean> list;
     private ScrollView scrollView;
     private RoundedImageView mImage;
-
-
+    private CustomProgressDialog customProgressDialog;
+    private ImageView videoLogo;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,12 +49,13 @@ public class SchoolActivity_3 extends Fragment {
         scrollView = (ScrollView) view.findViewById(R.id.mScroll);
         mImage = (RoundedImageView) view.findViewById(R.id.mImage);
         scrollView.smoothScrollTo(0, 20);
+        videoLogo= (ImageView) view.findViewById(R.id.videoplayerlogo);
         visit();
         return view;
     }
 
     private void visit() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
+        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XXHDDataService.ashx?op=getTAB_XXHD");
@@ -64,9 +67,32 @@ public class SchoolActivity_3 extends Fragment {
                 Gson gson = new Gson();
                 HuodongBean bean = gson.fromJson(result, HuodongBean.class);
                 list = bean.getRows();
-                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + list.get(0).getBJTXLJ(), mImage);
+                if (list.get(0).getBJSFSP().equals("0")) {
+                    videoLogo.setVisibility(View.GONE);
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+list.get(0).getTXLJ(),mImage);
+                } else {
+                    videoLogo.setVisibility(View.VISIBLE);
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+list.get(0).getBJTXLJ(),mImage);
+                }
                 schoolRecycler.setAdapter(new SchoolRecyclerAdapter(list));
                 schoolRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false));
+                mImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = null;
+                        if (list.get(0).getBJSFSP().equals("0")) {
+                            intent = new Intent(view.getContext(), SchoolImageActivity.class);
+                            intent.putExtra("txdz", list.get(0).getTXLJ());
+                            intent.putExtra("hdms", list.get(0).getHDMS());
+                        } else {
+                            intent = new Intent(view.getContext(), SchoolVideoActivity.class);
+                            intent.putExtra("txdz", list.get(0).getTXLJ());
+                            intent.putExtra("spdz", list.get(0).getBJTXLJ());
+                            intent.putExtra("hdms", list.get(0).getHDMS());
+                        }
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override

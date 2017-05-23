@@ -101,8 +101,8 @@ public class FourSchoolActivity extends AutoLayoutActivity {
                 fragmentTransaction.commit();
                 break;
             case R.id.screening:
-                Intent intent = new Intent(FourSchoolActivity.this, ScreenActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(FourSchoolActivity.this, ScreenActivity.class);
+//                startActivity(intent);
                 break;
             case R.id.fourschoolBack:
                 finish();

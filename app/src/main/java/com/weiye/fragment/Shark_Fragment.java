@@ -63,6 +63,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
     private List<SubjectStationBean.RowsBean> myList;
     private XScrollView myScroll;
     private int num=1;
+    private CustomProgressDialog customProgressDialog;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -223,7 +224,6 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","Banner"+result);
                 Gson gson=new Gson();
                 InfoBean bean=gson.fromJson(result,InfoBean.class);
                 bannerList=bean.getRows();
@@ -293,12 +293,18 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         });
     }
     private void subjectStation(){
+        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        refreshView.setVisibility(View.GONE);
         RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_KTFCDataService.ashx?op=getTAB_KTFC");
         params.addBodyParameter("start", "1");
         params.addBodyParameter("LX","1");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.e("tag","课堂风采"+result);
+                refreshView.setVisibility(View.VISIBLE);
                 Gson gson=new Gson();
                 SubjectStationBean bean=gson.fromJson(result,SubjectStationBean.class);
                 myList=bean.getRows();
@@ -310,10 +316,21 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         SubjectStationBean.RowsBean rowBean= (SubjectStationBean.RowsBean) adapterView.getItemAtPosition(i);
                         Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
-                        intent.putExtra("img",rowBean.getBJTXLJ());
+                        intent.putExtra("img",rowBean.getTXLJ());
                         intent.putExtra("title",rowBean.getFCMC());
                         intent.putExtra("time",rowBean.getKSSJ());
                         intent.putExtra("content",rowBean.getFCMS());
+                        startActivity(intent);
+                    }
+                });
+                kexueyizhan_Img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
+                        intent.putExtra("img",myList.get(0).getTXLJ());
+                        intent.putExtra("title",myList.get(0).getFCMC());
+                        intent.putExtra("time",myList.get(0).getKSSJ());
+                        intent.putExtra("content",myList.get(0).getFCMS());
                         startActivity(intent);
                     }
                 });
@@ -332,7 +349,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
             @Override
             public void onFinished() {
                 myScroll.smoothScrollTo(0,20);
-
+                customProgressDialog.cancel();
             }
 
             @Override

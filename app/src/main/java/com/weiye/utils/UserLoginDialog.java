@@ -273,9 +273,10 @@ public class UserLoginDialog {
 
             @Override
             public void afterTextChanged(Editable editable) {
+                stringfindphone=findphone.getText().toString().trim();
                 ClassPathResource classPathResource = new ClassPathResource();
-                boolean isPhone2 = classPathResource.isMobileNO(findphone.getText().toString().trim());
-                if (TextUtils.isEmpty(findphone.getText().toString().trim())) {
+                boolean isPhone2 = classPathResource.isMobileNO(stringfindphone);
+                if (TextUtils.isEmpty(stringfindphone)) {
                     findvercode.setEnabled(false);
                     findvercode.setBackground(context.getResources().getDrawable(R.drawable.vercode));
                     findnext.setEnabled(false);
@@ -305,7 +306,6 @@ public class UserLoginDialog {
                 }else {
                     CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(findvercode, 60000, 1000);
                     mCountDownTimerUtils.start();
-                    Log.d("tag","获取验证码的电话"+stringfindphone);
                     SMSSDK.getInstance().getSmsCodeAsyn(stringfindphone,"1", new SmscodeListener() {
                         @Override
                         public void getCodeSuccess(String s) {
@@ -325,7 +325,7 @@ public class UserLoginDialog {
         findnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (TextUtils.isEmpty(findphone.getText().toString().trim()) || TextUtils.isEmpty(findpwd.getText().toString().trim())) {
+                if (TextUtils.isEmpty(stringfindphone) || TextUtils.isEmpty(findpwd.getText().toString().trim())) {
                     Toast.makeText(context, "请输入验证码!", Toast.LENGTH_SHORT).show();
                 } else {
                     SMSSDK.getInstance().checkSmsCodeAsyn(stringfindphone, findpwd.getText().toString().trim(), new SmscheckListener() {
@@ -367,6 +367,7 @@ public class UserLoginDialog {
                     editor.putString("userid",bean.getRows().get(0).getID()+"");
                     editor.commit();
                     dialog.cancel();
+                    Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "不存在用户名或密码错误", Toast.LENGTH_SHORT).show();
                 }
@@ -404,11 +405,13 @@ public class UserLoginDialog {
                         userpassword.setHint("密码");
                         userpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);//输入类型为密码
                         login.setText("登陆");
+                        forgetpassword.setVisibility(View.VISIBLE);
                     } else {
                         vercode.setVisibility(View.VISIBLE);
                         userpassword.setHint("验证码");
                         login.setText("下一步");
                         userpassword.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                        forgetpassword.setVisibility(View.GONE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -447,7 +450,7 @@ public class UserLoginDialog {
                         editor.putString("userid",json.getString("YHID"));
                         editor.commit();
                         dialog1.cancel();
-                        Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(context, "注册失败", Toast.LENGTH_SHORT).show();
                     }
@@ -474,6 +477,34 @@ public class UserLoginDialog {
     }
     //TODO 忘记密码
     private void updatePwd(String phone,String pwd){
+        Log.e("tag","修改密码参数"+phone+pwd);
+        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=ChangePwd");
+        params.addBodyParameter("YHZH",phone);
+        params.addBodyParameter("YHMM",pwd);
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.e("tag","修改密码"+result);
+                dialog1.cancel();
+                loginDialog();
+                Toast.makeText(context, "密码已修改，请重新登录", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(context, "修改密码失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
 
     }
     private void updatepwdDilog(String title) {
@@ -533,8 +564,8 @@ public class UserLoginDialog {
                         if (stringpwd.length() < 6) {
                             Toast.makeText(context, "密码不能少于6位", Toast.LENGTH_SHORT).show();
                         } else {
-                            Log.v("tag", "注册信息" + sharedPreferences.getString("tel",null) + "       " + stringpwd);
-                            //updatePwd(stringfindphone,stringispwd);
+                            Log.v("tag", "注册信息"+ stringfindphone);
+                            updatePwd(stringfindphone,stringispwd);
                             dialog1.cancel();
                         }
 

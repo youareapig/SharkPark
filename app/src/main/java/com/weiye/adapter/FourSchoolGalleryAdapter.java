@@ -51,7 +51,7 @@ public class FourSchoolGalleryAdapter extends BaseAdapter {
         TextView textView = (TextView) view.findViewById(R.id.fourschoolitem_text);
         RoundedImageView roundedImageView = (RoundedImageView) view.findViewById(R.id.fourschoolitem_img);
         AutoUtils.autoSize(view);
-        textView.setText(bean.getLXMS());
+        textView.setText(bean.getLXMC());
         ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getTXLJ(),roundedImageView);
         return view;
     }

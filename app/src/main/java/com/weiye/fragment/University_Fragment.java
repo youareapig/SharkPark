@@ -34,6 +34,7 @@ import com.weiye.zl.MyMaterialActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.RestartActivity;
 import com.weiye.zl.SettingActivity;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionGrant;
@@ -68,7 +69,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private AutoRelativeLayout online, setting, myCourse;
     private String userID;
     private SharedPreferences sharedPreferences;
-
+    private AutoLinearLayout main6;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,6 +80,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         setting = (AutoRelativeLayout) view.findViewById(R.id.setting);
         myCourse = (AutoRelativeLayout) view.findViewById(R.id.myCourse);
         myname = (TextView) view.findViewById(R.id.myname);
+        main6= (AutoLinearLayout) view.findViewById(R.id.main6);
         infomation.setOnClickListener(this);
         myhead.setOnClickListener(this);
         online.setOnClickListener(this);
@@ -157,8 +159,8 @@ public class University_Fragment extends Fragment implements View.OnClickListene
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
             uploadhead(base64);
-            myhead.setImageBitmap(bitmap);
         } else if (requestCode == 2) {
             String sdStatus = Environment.getExternalStorageState();
             if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
@@ -173,28 +175,14 @@ public class University_Fragment extends Fragment implements View.OnClickListene
             file.mkdirs();// 创建文件夹
             fileName = "/sdcard/myImage/" + name;
             base64_1 = Bitmap2StrByBase64(bitmap1);
-            try {
-                fileOutputStream[0] = new FileOutputStream(fileName);
-                bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream[0]);
-                myhead.setImageBitmap(bitmap1);
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    fileOutputStream[0].flush();
-                    fileOutputStream[0].close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
+            uploadhead1(base64_1);
         }
     }
 
     //TODO 将位图转换成base64编码
     private String Bitmap2StrByBase64(Bitmap bit) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bit.compress(Bitmap.CompressFormat.JPEG, 40, bos);//参数100表示不压缩  
+        bit.compress(Bitmap.CompressFormat.JPEG, 100, bos);//参数100表示不压缩  
         byte[] bytes = bos.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
@@ -225,16 +213,17 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         intentTel.setData(Uri.parse("tel:" + "028-18181818"));
         startActivity(intentTel);
     }
-
+    //TODO 相册上传
     private void uploadhead(String base) {
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=upLoadImg");
         params.addBodyParameter("YHID", userID);
         params.addBodyParameter("File", "我的头像");
         params.addBodyParameter("Img", base);
-        Log.v("tag", "图像码" + base);
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        Log.v("tag", "图像码--------->" + base);
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                myhead.setImageBitmap(bitmap);
                 Log.v("tag", "请求成功" + result);
             }
 
@@ -254,12 +243,57 @@ public class University_Fragment extends Fragment implements View.OnClickListene
             }
         });
     }
+    //TODO 照相上传
+    private void uploadhead1(String base) {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=upLoadImg");
+        params.addBodyParameter("YHID", userID);
+        params.addBodyParameter("File", "我的头像");
+        params.addBodyParameter("Img", base);
+        params.setMultipart(true);
+        Log.v("tag", "图像码" + base);
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.v("tag", "请求成功" + result);
+                try {
+                    fileOutputStream[0] = new FileOutputStream(fileName);
+                    bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream[0]);
+                    myhead.setImageBitmap(bitmap1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        fileOutputStream[0].flush();
+                        fileOutputStream[0].close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.v("tag", "请求失败");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
     //TODO 获取用户信息
     private void getUserInfo() {
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
+        main6.setVisibility(View.GONE);
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=getTAB_YHXX");
         params.addBodyParameter("ID", userID);
         params.addBodyParameter("start", "1");
@@ -267,6 +301,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         x.http().get(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                main6.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 UserInfoBean bean = gson.fromJson(result, UserInfoBean.class);
                 if (bean.getRows().get(0).getNC().toString().equals(null)) {

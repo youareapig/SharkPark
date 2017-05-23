@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,11 +49,14 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     TextView teacherName;
     @BindView(R.id.teacherProduct)
     TextView teacherProduct;
+    @BindView(R.id.main3)
+    LinearLayout main3;
     private Unbinder unbinder;
     private int height;
     private List<InfoBean.RowsBean> bannerList;
     private ImageView[] indexTips, indexBannerImage;
     private String teacherID, name, product;
+    private CustomProgressDialog customProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,9 +130,10 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     }
 
     private void visit() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
+        main3.setVisibility(View.GONE);
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXSPTXXX");
         params.addBodyParameter("LXID", teacherID);
         params.addBodyParameter("start", "0");
@@ -136,6 +141,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
         x.http().get(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                main3.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 InfoBean benaInfo = gson.fromJson(result, InfoBean.class);
                 bannerList = benaInfo.getRows();

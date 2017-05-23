@@ -42,6 +42,8 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
     TextView scienceStationTime;
     @BindView(R.id.scienceStation_Content)
     TextView scienceStationContent;
+    @BindView(R.id.toubu)
+    RelativeLayout toubu;
     private Unbinder unbinder;
     private int height;
     private String myBackground, myTitle, myContent, myTime;
@@ -90,7 +92,7 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
         if (y <= height) {
             float scale = (float) y / height;
             float alpha = (255 * scale);
-            scienceStationTitle.setBackgroundColor(Color.argb((int) alpha, 49, 189, 240));
+            toubu.setBackgroundColor(Color.argb((int) alpha, 49, 189, 240));
         }
     }
 
@@ -118,20 +120,20 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
         oks.setTitle("标题");
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-        oks.setTitleUrl("http://sharesdk.cn");
+        oks.setTitleUrl("http://www.sharkpark.cn/");
         // text是分享文本，所有平台都需要这个字段
-        oks.setText("我是分享文本");
+        oks.setText("http://www.sharkpark.cn/");
         // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
         //oks.setImagePath("/sdcard/test.jpg");//确保SDcard下面存在此张图片
         // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://sharesdk.cn");
+        oks.setUrl("http://www.sharkpark.cn/");
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
-        oks.setComment("我是测试评论文本");
+        oks.setComment("http://www.sharkpark.cn/");
         // site是分享此内容的网站名称，仅在QQ空间使用
         oks.setSite(getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
-        oks.setSiteUrl("http://sharesdk.cn");
-        oks.setImageUrl("http://f1.sharesdk.cn/imgs/2014/02/26/owWpLZo_638x960.jpg");
+        oks.setSiteUrl("http://www.sharkpark.cn/");
+        oks.setImageUrl(SingleModleUrl.singleModleUrl().getImgUrl() + myBackground);
         oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
             @Override
             public void onShare(Platform platform, Platform.ShareParams paramsToShare) {
@@ -141,14 +143,14 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
                 }
                 if ("SinaWeibo".equals(platform.getName())) {
                     paramsToShare.setUrl(null);
-                    paramsToShare.setText("分享文本 http://www.baidu.com");
+                    paramsToShare.setText("http://www.sharkpark.cn/");
                 }
                 if ("Wechat".equals(platform.getName())) {
-                    Bitmap imageData = BitmapFactory.decodeResource(getResources(), R.drawable.ssdk_logo);
+                    Bitmap imageData = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
                     paramsToShare.setImageData(imageData);
                 }
                 if ("WechatMoments".equals(platform.getName())) {
-                    Bitmap imageData = BitmapFactory.decodeResource(getResources(), R.drawable.ssdk_logo);
+                    Bitmap imageData = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
                     paramsToShare.setImageData(imageData);
                 }
 

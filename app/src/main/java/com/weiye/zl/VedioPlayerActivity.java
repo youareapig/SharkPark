@@ -17,7 +17,7 @@ public class VedioPlayerActivity extends AppCompatActivity {
         Intent intent=getIntent();
         videoUrl=intent.getStringExtra("videoUrl");
         jcVideoPlayerStandard = (JCVideoPlayerStandard) findViewById(R.id.videoplayer);
-        jcVideoPlayerStandard.setUp(videoUrl,JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "嫂子闭眼睛");
+        jcVideoPlayerStandard.setUp(videoUrl,JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "鲨鱼公园");
     }
 
     @Override

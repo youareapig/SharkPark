@@ -4,25 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <ScrollView
         android:id="@+id/mScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:scaleType="centerCrop"
-            android:orientation="vertical">
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/mImage"
+            android:orientation="vertical"
+            android:scaleType="centerCrop">
+
+            <com.zhy.autolayout.AutoRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="500px"
                 android:layout_marginLeft="40px"
-                android:layout_marginRight="40px"
-                app:riv_corner_radius="8px"
-                android:scaleType="centerCrop" />
+                android:layout_marginRight="40px">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/mImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="500px"
+                    android:scaleType="centerCrop"
+                    app:riv_corner_radius="8px" />
+                <ImageView
+                    android:id="@+id/videoplayerlogo"
+                    android:layout_width="140px"
+                    android:layout_height="140px"
+                    android:src="@mipmap/play"
+                    android:layout_centerInParent="true"/>
+            </com.zhy.autolayout.AutoRelativeLayout>
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/schoolRecycler"
