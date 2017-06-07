@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.utils.UserLoginDialog;
+import com.weiye.utils.UserLoginDialog1;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import org.xutils.common.Callback;
@@ -124,6 +126,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         visitTeacher();
         //myScroll();
     }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -220,9 +223,10 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 String tag = sharedPreferences.getString("usertag", "0");
                 if (tag.equals("1")) {
                     Intent intent1 = new Intent(SubjectActivity.this, CurriculumActivity.class);
+                    intent1.putExtra("LXID",indexID);
                     startActivity(intent1);
                 } else {
-                    new UserLoginDialog(this).loginDialog();
+                    new UserLoginDialog1(this,indexID).loginDialog();
                 }
 
                 break;
@@ -265,7 +269,8 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(SubjectActivity.this, "描述标题失败", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(SubjectActivity.this,RestartActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -307,7 +312,8 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(SubjectActivity.this, "获取老师信息失败", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(SubjectActivity.this,RestartActivity.class);
+                startActivity(intent);
             }
 
             @Override

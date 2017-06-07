@@ -11,7 +11,6 @@ import com.zhy.autolayout.utils.AutoUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
-
 public abstract class QuickPagerAdapter<T> extends PagerAdapter {
 
     private static final String TAG = QuickPagerAdapter.class.getSimpleName();

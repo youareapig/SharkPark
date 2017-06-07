@@ -59,7 +59,7 @@ public class MainActivity extends AutoLayoutActivity {
     private static final String CURRENT_FRAGMENT = "STATE_FRAGMENT_SHOW";
     private Fragment fragment = new Fragment();
     private List<Fragment> list;
-    private int currentIndex = 0;
+    private int currentIndex;
     private static boolean isExit = false;
     private SharedPreferences sharedPreferences;
     Handler mHandler = new Handler() {
@@ -75,12 +75,20 @@ public class MainActivity extends AutoLayoutActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //TODO 检查是否打开网络
-        if (new ExamInternet().isConn(this)==false){
-            Intent intent=new Intent(MainActivity.this,SettingInternetActivity.class);
+        if (new ExamInternet().isConn(this) == false) {
+            Intent intent = new Intent(MainActivity.this, SettingInternetActivity.class);
             startActivity(intent);
         }
         unbinder = ButterKnife.bind(this);
-        sharedPreferences =getSharedPreferences("UserTag",MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
+        Intent intent = getIntent();
+        currentIndex=intent.getIntExtra("fTag", 0);
+        if (currentIndex==3){
+            textA.setTextColor(getResources().getColor(R.color.no));
+            textB.setTextColor(getResources().getColor(R.color.no));
+            textC.setTextColor(getResources().getColor(R.color.no));
+            textD.setTextColor(getResources().getColor(R.color.yes));
+        }
         list = new ArrayList<>();
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
@@ -178,16 +186,16 @@ public class MainActivity extends AutoLayoutActivity {
                 showFragment();
                 break;
             case R.id.university:
-                String tag=sharedPreferences.getString("usertag","0");
-                Log.v("aa",tag);
-                if (tag.equals("1")){
+                String tag = sharedPreferences.getString("usertag", "0");
+                Log.v("aa", tag);
+                if (tag.equals("1")) {
                     textA.setTextColor(getResources().getColor(R.color.no));
                     textB.setTextColor(getResources().getColor(R.color.no));
                     textC.setTextColor(getResources().getColor(R.color.no));
                     textD.setTextColor(getResources().getColor(R.color.yes));
                     currentIndex = 3;
                     showFragment();
-                }else {
+                } else {
                     new UserLoginDialog(this).loginDialog();
                 }
 

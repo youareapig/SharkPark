@@ -16,7 +16,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
+import com.andview.refreshview.XRefreshView;
 import com.google.gson.Gson;
 import com.weiye.adapter.ActivitiesGridAdpter;
 import com.weiye.data.HuodongBean;
@@ -25,7 +27,6 @@ import com.weiye.myview.MyListView;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.AppearanceActivity;
 import com.weiye.zl.IntroActivity;
-import com.weiye.zl.LiveActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SchoolActivity;
 import com.weiye.zl.SchoolImageActivity;
@@ -49,7 +50,8 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
     private List<HuodongBean.RowsBean> list;
     private AutoRelativeLayout sActivity, appearance, intro;
     private CustomProgressDialog customProgressDialog;
-    private AutoLinearLayout main1;
+    private XRefreshView main1;
+    private  long lastRefreshTime;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,12 +59,53 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         mListview = (MyListView) view.findViewById(R.id.parkListView);
         sActivity = (AutoRelativeLayout) view.findViewById(R.id.sActivity);
         appearance = (AutoRelativeLayout) view.findViewById(R.id.appearance);
-        main1= (AutoLinearLayout) view.findViewById(R.id.main1);
+        main1= (XRefreshView) view.findViewById(R.id.main1);
         intro = (AutoRelativeLayout) view.findViewById(R.id.intro);
         sActivity.setOnClickListener(this);
         appearance.setOnClickListener(this);
         intro.setOnClickListener(this);
         huodongVisit();
+        main1.setPullLoadEnable(true);
+        main1.setPullRefreshEnable(true);
+        main1.setXRefreshViewListener(new XRefreshView.XRefreshViewListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+
+            @Override
+            public void onRefresh(boolean isPullDown) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        huodongVisit();
+                        main1.stopRefresh();
+                        lastRefreshTime = main1.getLastRefreshTime();
+
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onLoadMore(boolean isSilence) {
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        main1.stopLoadMore();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onRelease(float direction) {
+            }
+
+            @Override
+            public void onHeaderMove(double headerMovePercent, int offsetY) {
+
+            }
+        });
         return view;
     }
 
@@ -123,7 +166,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                Toast.makeText(getActivity(),"加载失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override

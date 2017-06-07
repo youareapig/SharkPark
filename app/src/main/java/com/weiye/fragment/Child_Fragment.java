@@ -1,11 +1,13 @@
 package com.weiye.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import com.weiye.utils.ShadowProperty;
 import com.weiye.utils.ShadowViewDrawable;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
+import com.weiye.zl.RestartActivity;
 import com.weiye.zl.SubjectActivity;
 import com.zhy.autolayout.AutoRelativeLayout;
 
@@ -84,7 +87,7 @@ public class Child_Fragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "获取首页数据失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"加载失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override

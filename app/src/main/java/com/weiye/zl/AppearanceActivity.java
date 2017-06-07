@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -96,7 +97,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag", "校园风采失败");
+                Toast.makeText(AppearanceActivity.this,"数据加载失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -134,7 +135,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag", "教学环境失败");
+                Toast.makeText(AppearanceActivity.this,"数据加载失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override

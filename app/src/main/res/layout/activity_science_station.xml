@@ -58,6 +58,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40px"
                 android:layout_marginRight="40px"
+                android:lineSpacingExtra="6px"
+                android:lineSpacingMultiplier="1.2"
                 android:textColor="#515151"
                 android:textSize="48px" />
         </LinearLayout>

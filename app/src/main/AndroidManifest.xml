@@ -94,7 +94,6 @@
         <activity android:name=".SettingInternetActivity" />
         <activity android:name=".RestartActivity" />
         <activity android:name=".SchoolVideoActivity" />
-        <activity android:name=".LiveActivity"></activity>
     </application>
 
 </manifest>

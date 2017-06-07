@@ -40,6 +40,9 @@
                         android:paddingLeft="40px"
                         android:paddingRight="40px"
                         android:paddingTop="250px"
+                        android:lineSpacingMultiplier="1.2"
+                        android:lineSpacingExtra="6px"
+                        android:text="你是师傅收款方就看啥空间开始代理费法律框架爱死了就否决了会计法"
                         android:textColor="#fff"
                         android:background="#10000000"
                         android:textSize="44px" />
@@ -47,7 +50,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="490px">
+                    android:layout_height="460px">
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycleTeacher"

@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.weiye.zl.R;
 
-
+@SuppressWarnings("unchecked")
 public class Gallery extends RelativeLayout {
 
     private ViewPager viewPager;

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.weiye.adapter.FourSchoolGalleryAdapter;
@@ -137,7 +138,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                Toast.makeText(FourSchoolActivity.this,"数据加载失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override

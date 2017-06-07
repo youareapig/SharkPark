@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.weiye.adapter.SubPhotoListViewAdapter;
@@ -78,7 +79,7 @@ public class PhotoFragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag", "相册访问失败");
+                Toast.makeText(getActivity(), "获取相册失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

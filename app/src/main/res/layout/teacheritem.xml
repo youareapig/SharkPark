@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <com.zhy.autolayout.AutoRelativeLayout
-        android:layout_width="280px"
+        android:layout_width="360px"
         android:layout_height="490px">
 
         <de.hdodenhof.circleimageview.CircleImageView

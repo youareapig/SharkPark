@@ -7,6 +7,10 @@ import java.util.List;
  */
 public class UserInfoBean {
 
+    /**
+     * total : 1
+     * rows : [{"ID":10,"YHZH":"18140463430","YHMM":"e10adc3949ba59abbe56e057f20f883e","ZJDLSJ":"2017-06-05","SFDL":1,"ZSXM":null,"LX":1,"LXDH":null,"XB":"男","NC":null,"TXLJ":"UploadFile/20170605195706269.png","CSRQ":"2017/5/9 10:30:16","NN":"0"}]
+     */
 
     private int total;
     private List<RowsBean> rows;
@@ -28,7 +32,21 @@ public class UserInfoBean {
     }
 
     public static class RowsBean {
-
+        /**
+         * ID : 10
+         * YHZH : 18140463430
+         * YHMM : e10adc3949ba59abbe56e057f20f883e
+         * ZJDLSJ : 2017-06-05
+         * SFDL : 1
+         * ZSXM : null
+         * LX : 1
+         * LXDH : null
+         * XB : 男
+         * NC : null
+         * TXLJ : UploadFile/20170605195706269.png
+         * CSRQ : 2017/5/9 10:30:16
+         * NN : 0
+         */
 
         private int ID;
         private String YHZH;
@@ -40,7 +58,7 @@ public class UserInfoBean {
         private Object LXDH;
         private String XB;
         private Object NC;
-        private Object TXLJ;
+        private String TXLJ;
         private String CSRQ;
         private String NN;
 
@@ -124,11 +142,11 @@ public class UserInfoBean {
             this.NC = NC;
         }
 
-        public Object getTXLJ() {
+        public String getTXLJ() {
             return TXLJ;
         }
 
-        public void setTXLJ(Object TXLJ) {
+        public void setTXLJ(String TXLJ) {
             this.TXLJ = TXLJ;
         }
 

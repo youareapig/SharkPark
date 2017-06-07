@@ -1,5 +1,6 @@
 package com.weiye.zl;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -159,6 +160,10 @@ public class MyMaterialActivity extends AutoLayoutActivity {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getBoolean("Success") == true) {
                         Toast.makeText(MyMaterialActivity.this, "资料更新成功", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(MyMaterialActivity.this,MainActivity.class);
+                        intent.putExtra("fTag",3);
+                        startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(MyMaterialActivity.this, "资料更新失败，请稍后再试", Toast.LENGTH_SHORT).show();
                     }
@@ -199,7 +204,9 @@ public class MyMaterialActivity extends AutoLayoutActivity {
                 Log.d("tag", "用户信息获取成功" + result);
                 Gson gson = new Gson();
                 UserInfoBean bean = gson.fromJson(result, UserInfoBean.class);
-                nameText.setText(bean.getRows().get(0).getNC().toString());
+                Log.d("tag","----0"+bean.getRows().get(0).getXB());
+
+                nameText.setText(bean.getRows().get(0).getNC()+"");
                 sexText.setText(bean.getRows().get(0).getXB());
                 String str = bean.getRows().get(0).getCSRQ();
                 //字符串截取

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -97,7 +98,7 @@ public class SchoolActivity_3 extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

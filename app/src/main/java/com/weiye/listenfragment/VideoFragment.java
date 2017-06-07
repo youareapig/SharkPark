@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.weiye.adapter.SubVideoListViewAdapter;
@@ -79,7 +80,7 @@ public class VideoFragment extends Fragment{
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag","视频出错");
+                Toast.makeText(getActivity(), "获取视频信息失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

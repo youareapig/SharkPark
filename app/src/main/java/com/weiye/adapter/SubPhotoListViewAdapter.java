@@ -1,6 +1,7 @@
 package com.weiye.adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,8 @@ public class SubPhotoListViewAdapter extends BaseAdapter{
             holder= (ViewHolder) view.getTag();
         }
         ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+rowsBean.getTXLJ(),holder.imageView);
-        holder.textView.setText(rowsBean.getMS());
+        holder.textView.setText(rowsBean.getMS().toString());
+        Log.d("tag","描述"+rowsBean.getMS());
         return view;
     }
     private class ViewHolder{

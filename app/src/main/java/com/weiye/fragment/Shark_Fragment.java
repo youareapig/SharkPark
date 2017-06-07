@@ -187,6 +187,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         x.http().get(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag","课堂风采"+result);
                 Gson gson = new Gson();
                 KTFCBean ktfcBean = gson.fromJson(result, KTFCBean.class);
                 listbean = ktfcBean.getRows();
@@ -197,7 +198,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(),"获取课堂风采数据失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"课堂风采数据加载失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -273,7 +274,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(),"获取Banner数据失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"数据加载失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -303,7 +304,6 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("tag","课堂风采"+result);
                 refreshView.setVisibility(View.VISIBLE);
                 Gson gson=new Gson();
                 SubjectStationBean bean=gson.fromJson(result,SubjectStationBean.class);
@@ -338,7 +338,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag","科学驿站失败");
+                Toast.makeText(getActivity(),"数据加载失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.weiye.data.KCBBean;
 import com.weiye.data.TestBean;
 import com.weiye.myview.MyGridView;
 import com.weiye.zl.R;
@@ -23,18 +24,14 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class CurriculumListViewAdapter extends BaseAdapter{
-    private List<String> list=new ArrayList<>();
+    private List<KCBBean.RowsBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
     private ViewHolder holder;
-    public CurriculumListViewAdapter(Activity activity) {
+    public CurriculumListViewAdapter(Activity activity,List<KCBBean.RowsBean> list) {
         this.layoutInflater=activity.getLayoutInflater();
-        list.add("7:00-8:00");
-        list.add("8:00-9:00");
-        list.add("9:00-10:00");
-        list.add("9:00-10:10");
-        list.add("9:00-10:20");
-        list.add("9:00-10:30");
+        this.list=list;
+
     }
 
     @Override
@@ -60,17 +57,21 @@ public class CurriculumListViewAdapter extends BaseAdapter{
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        KCBBean.RowsBean bean=list.get(i);
         holder=new ViewHolder();
         if (view==null){
             view=layoutInflater.inflate(R.layout.curriculistviewitem,null);
-            holder.textView= (TextView) view.findViewById(R.id.curriculistview_item_time);
+            holder.textViewStart= (TextView) view.findViewById(R.id.curriculistview_item_timeStrar);
+            holder.textViewEnd= (TextView) view.findViewById(R.id.curriculistview_item_timeEnd);
             holder.myGridView= (MyGridView) view.findViewById(R.id.curriculistview_item_gridview);
             view.setTag(holder);
             AutoUtils.autoSize(view);
         }else {
             holder= (ViewHolder) view.getTag();
         }
-        holder.textView.setText(list.get(i));
+        holder.textViewStart.setText(myString(bean.getKSSJ()));
+        holder.textViewEnd.setText(myString(bean.getJSSJ()));
+
         final CurriculumListView_GridviewAdapter gridviewAdapter=new CurriculumListView_GridviewAdapter((Activity) view.getContext());
         holder.myGridView.setAdapter(gridviewAdapter);
         holder.myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -88,7 +89,12 @@ public class CurriculumListViewAdapter extends BaseAdapter{
         return view;
     }
     private class ViewHolder{
-        private TextView textView;
+        private TextView textViewStart,textViewEnd;
         private MyGridView myGridView;
+    }
+    //TODO 拆分字符串
+    private String myString(String string){
+        String[] s=string.split(" ");
+        return s[1];
     }
 }

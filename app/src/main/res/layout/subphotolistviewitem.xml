@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="650px">
+        android:layout_height="600px">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/subphotolistviewItem_img"
@@ -15,8 +15,7 @@
             android:layout_height="500px"
             android:layout_centerHorizontal="true"
             android:scaleType="centerCrop"
-            app:riv_corner_radius="8px"
-            />
+            app:riv_corner_radius="8px" />
 
         <TextView
             android:id="@+id/subphtolistviewItem_text"
@@ -26,8 +25,8 @@
             android:layout_below="@+id/subphotolistviewItem_img"
             android:layout_marginTop="30px"
             android:textColor="#515151"
-            android:textSize="52px"
-            />
+            android:textSize="52px" />
+
     </com.zhy.autolayout.AutoRelativeLayout>
 
 </com.zhy.autolayout.AutoLinearLayout>

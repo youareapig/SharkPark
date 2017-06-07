@@ -14,11 +14,18 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.weiye.adapter.CurriculumGalleryAdapter;
 import com.weiye.adapter.CurriculumListViewAdapter;
+import com.weiye.data.KCBBean;
 import com.weiye.data.TestCurrBean;
 import com.weiye.myview.ObservableScrollView;
+import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
+
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,59 +55,33 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
     @BindView(R.id.Curriculumtitlerq)
     TextView Curriculumtitlerq;
     private Unbinder unbinder;
-    private List<TestCurrBean> mList;
-    private int height;
-    private TestCurrBean bean;
-
+    private List<Integer> iconList;
+    private int height,iconID;
+    private String indexID;
+    private List<KCBBean.RowsBean> cList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curriculum);
         unbinder = ButterKnife.bind(this);
+        Intent intent=getIntent();
+        indexID=intent.getStringExtra("LXID");
         changDate();
-        classbook();
         showDay();
+        init();
     }
 
     private void changDate() {
-        mList = new ArrayList<>();
-        TestCurrBean bean1 = new TestCurrBean(R.mipmap.day1, "周一", "(18日)");
-        TestCurrBean bean2 = new TestCurrBean(R.mipmap.day2, "周二", "(19日)");
-        TestCurrBean bean3 = new TestCurrBean(R.mipmap.day3, "周三", "(20日)");
-        TestCurrBean bean4 = new TestCurrBean(R.mipmap.day4, "周四", "(21日)");
-        TestCurrBean bean5 = new TestCurrBean(R.mipmap.day5, "周五", "(22日)");
-        TestCurrBean bean6 = new TestCurrBean(R.mipmap.day6, "周五", "(23日)");
-        TestCurrBean bean7 = new TestCurrBean(R.mipmap.day7, "周五", "(24日)");
-        mList.add(bean1);
-        mList.add(bean2);
-        mList.add(bean3);
-        mList.add(bean4);
-        mList.add(bean5);
-        mList.add(bean6);
-        mList.add(bean7);
-        final CurriculumGalleryAdapter adapter = new CurriculumGalleryAdapter(mList, this);
-        curricuGallery.setAdapter(adapter);
-        curricuGallery.setSpacing(60);
-        curricuGallery.setSelection(100);
-        curricuGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                bean = (TestCurrBean) adapterView.getItemAtPosition(i % (mList.size()));
-                adapter.setSelectItem(i % (mList.size()));
-                adapter.notifyDataSetChanged();
-                Log.e("tag", "选择" + i % mList.size() + "  " + bean.getText1() + bean.getIcon());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        iconList=new ArrayList<>();
+        iconList.add(R.mipmap.day1);
+        iconList.add(R.mipmap.day2);
+        iconList.add(R.mipmap.day3);
+        iconList.add(R.mipmap.day4);
+        iconList.add(R.mipmap.day5);
+        iconList.add(R.mipmap.day6);
+        iconList.add(R.mipmap.day7);
     }
 
-    private void classbook() {
-        curricuListview.setAdapter(new CurriculumListViewAdapter(this));
-    }
 
     private void showDay() {
         ViewTreeObserver observer = curricuGalleryView.getViewTreeObserver();
@@ -111,6 +92,61 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
                 height = curricuGalleryView.getHeight();
                 curricuGalleryView.getWidth();
                 curricuScrollview.setScrollViewListener(CurriculumActivity.this);
+            }
+        });
+    }
+    private void init(){
+        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_KCAPDataService.ashx?op=getTAB_KCAP");
+        params.addBodyParameter("ID",indexID);
+        params.addBodyParameter("start","0");
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+            Log.d("tag","课程安排"+result);
+                Gson gson=new Gson();
+                KCBBean bean=gson.fromJson(result,KCBBean.class);
+                cList=bean.getRows();
+
+                final CurriculumGalleryAdapter adapter = new CurriculumGalleryAdapter(iconList,cList,CurriculumActivity.this);
+                curricuGallery.setAdapter(adapter);
+                curricuGallery.setSpacing(60);
+                curricuGallery.setSelection(100);
+                curricuGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                        iconID=iconList.get(i%iconList.size());
+                        adapter.setSelectItem(i % (iconList.size()));
+                        adapter.notifyDataSetChanged();
+                        //adapterList.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+                final CurriculumListViewAdapter adapterList=new CurriculumListViewAdapter(CurriculumActivity.this,cList);
+                curricuListview.setAdapter(adapterList);
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("tag","课程安排请求错误");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
             }
         });
     }
@@ -126,18 +162,26 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
         if (y <= height) {
             float scale = (float) y / height;
             float alpha = (255 * scale);
-            CurriculumtitleImage.setImageResource(bean.getIcon());
+            CurriculumtitleImage.setImageResource(iconID);
             CurriculumtitleImage.setAlpha(alpha);
-            Curriculumtitlexq.setText(bean.getText1());
-            Curriculumtitlexq.setAlpha(alpha);
-            Curriculumtitlerq.setText(bean.getText2());
-            Curriculumtitlerq.setAlpha(alpha);
+//            Curriculumtitlexq.setText(bean.getText1());
+//            Curriculumtitlexq.setAlpha(alpha);
+//            Curriculumtitlerq.setText(bean.getText2());
+//            Curriculumtitlerq.setAlpha(alpha);
         }
     }
 
-    @OnClick(R.id.curricuButton)
-    public void onViewClicked() {
-        Intent intent = new Intent(CurriculumActivity.this, SubmitActivity.class);
-        startActivity(intent);
+    @OnClick({R.id.curricuButton, R.id.back5})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.curricuButton:
+                Intent intent = new Intent(CurriculumActivity.this, SubmitActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.back5:
+                finish();
+                break;
+        }
+
     }
 }

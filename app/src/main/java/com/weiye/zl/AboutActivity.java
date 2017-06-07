@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.weiye.data.AboutBean;
@@ -51,7 +52,7 @@ public class AboutActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.v("tag","请求失败");
+                Toast.makeText(AboutActivity.this,"数据加载失败",Toast.LENGTH_SHORT).show();
             }
 
             @Override

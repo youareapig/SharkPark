@@ -37,6 +37,8 @@ public class CustomProgressDialog extends ProgressDialog {
 		this.mLoadingTip = content;
 		this.mResid = id;
 		setCanceledOnTouchOutside(true);
+		//TODO 背景不变灰
+		getWindow().setDimAmount(0);
 	}
 
 	@Override

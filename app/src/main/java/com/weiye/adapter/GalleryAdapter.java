@@ -2,6 +2,7 @@ package com.weiye.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class GalleryAdapter extends BaseAdapter{
         TextView textView= (TextView) view.findViewById(R.id.ktfc_item_text);
         RoundedImageView imageView= (RoundedImageView) view.findViewById(R.id.ktfc_item_img);
         AutoUtils.autoSize(view);
+        Log.d("tag","课堂风采图片"+bean.getTXLJ());
         textView.setText(bean.getFCMS());
         ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getTXLJ(),imageView);
         return view;

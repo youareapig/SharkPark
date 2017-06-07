@@ -19,10 +19,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.weiye.data.LoginBean;
+import com.weiye.zl.CurriculumActivity;
 import com.weiye.zl.MainActivity;
 import com.weiye.zl.R;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
@@ -36,7 +36,7 @@ import cn.jpush.sms.listener.SmscodeListener;
 /**
  * Created by DELL on 2017/5/5.
  */
-public class UserLoginDialog {
+public class UserLoginDialog1 {
     private String stringphone, stringpassword, stringlogin, stringpwd, stringispwd, stringfindphone;
     private EditText userphone, userpassword, setpassword, ispassword;
     private TextView login, vercode, forgetpassword, regist, longinTitle1, findphone, findpwd, findnext, findvercode;
@@ -45,9 +45,10 @@ public class UserLoginDialog {
     private ImageView findexit;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-
-    public UserLoginDialog(Context context) {
+    private String indexID;
+    public UserLoginDialog1(Context context,String indexID) {
         this.context = context;
+        this.indexID=indexID;
         sharedPreferences = context.getSharedPreferences("UserTag", context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
@@ -371,8 +372,8 @@ public class UserLoginDialog {
                     editor.putString("userid", bean.getRows().get(0).getID() + "");
                     editor.commit();
                     dialog.cancel();
-                    Intent intent = new Intent(context, MainActivity.class);
-                    intent.putExtra("fTag", 3);
+                    Intent intent = new Intent(context, CurriculumActivity.class);
+                    intent.putExtra("LXID",indexID);
                     context.startActivity(intent);
 
                     Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
@@ -459,8 +460,8 @@ public class UserLoginDialog {
                         editor.putString("userid", json.getString("YHID"));
                         editor.commit();
                         dialog1.cancel();
-                        Intent intent = new Intent(context, MainActivity.class);
-                        intent.putExtra("fTag", 3);
+                        Intent intent = new Intent(context, CurriculumActivity.class);
+                        intent.putExtra("LXID", indexID);
                         context.startActivity(intent);
                         Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
                     } else {

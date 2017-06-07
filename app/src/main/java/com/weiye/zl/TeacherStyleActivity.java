@@ -177,7 +177,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(TeacherStyleActivity.this, "老师具体信息失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TeacherStyleActivity.this, "获取老师信息失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
