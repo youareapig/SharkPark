@@ -24,11 +24,11 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class CurriculumListViewAdapter extends BaseAdapter{
-    private List<KCBBean.RowsBean> list;
+    private List<KCBBean.RowsBeanX.RowsBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
     private ViewHolder holder;
-    public CurriculumListViewAdapter(Activity activity,List<KCBBean.RowsBean> list) {
+    public CurriculumListViewAdapter(Activity activity,List<KCBBean.RowsBeanX.RowsBean> list) {
         this.layoutInflater=activity.getLayoutInflater();
         this.list=list;
 
@@ -57,7 +57,7 @@ public class CurriculumListViewAdapter extends BaseAdapter{
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        KCBBean.RowsBean bean=list.get(i);
+        final KCBBean.RowsBeanX.RowsBean bean=list.get(i);
         holder=new ViewHolder();
         if (view==null){
             view=layoutInflater.inflate(R.layout.curriculistviewitem,null);
@@ -72,17 +72,17 @@ public class CurriculumListViewAdapter extends BaseAdapter{
         holder.textViewStart.setText(myString(bean.getKSSJ()));
         holder.textViewEnd.setText(myString(bean.getJSSJ()));
 
-        final CurriculumListView_GridviewAdapter gridviewAdapter=new CurriculumListView_GridviewAdapter((Activity) view.getContext());
+        final CurriculumListView_GridviewAdapter gridviewAdapter=new CurriculumListView_GridviewAdapter((Activity) view.getContext(),list);
         holder.myGridView.setAdapter(gridviewAdapter);
         holder.myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TestBean bean= (TestBean) adapterView.getItemAtPosition(i);
-                if (bean.isaBoolean()){
-                    bean.setaBoolean(false);
-                }else {
-                    bean.setaBoolean(true);
-                }
+                KCBBean.RowsBeanX.RowsBean bean1= (KCBBean.RowsBeanX.RowsBean) adapterView.getItemAtPosition(i);
+//                if (bean.isaBoolean()){
+//                    bean.setaBoolean(false);
+//                }else {
+//                    bean.setaBoolean(true);
+//                }
                 gridviewAdapter.notifyDataSetChanged();
             }
         });

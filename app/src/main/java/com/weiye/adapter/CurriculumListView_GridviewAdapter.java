@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.weiye.data.KCBBean;
 import com.weiye.data.TestBean;
 import com.weiye.myview.MyGridView;
 import com.weiye.zl.R;
@@ -20,21 +21,14 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class CurriculumListView_GridviewAdapter extends BaseAdapter{
-    private List<TestBean> list=new ArrayList<>();
+    private List<KCBBean.RowsBeanX.RowsBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
     private ViewHolder holder;
     private TestBean testBean1,testBean2,testBean3,testBean4;
-    public CurriculumListView_GridviewAdapter(Activity activity) {
+    public CurriculumListView_GridviewAdapter(Activity activity,List<KCBBean.RowsBeanX.RowsBean> list) {
         this.layoutInflater=activity.getLayoutInflater();
-        testBean1=new TestBean("植物大战僵尸",true);
-        testBean2=new TestBean("植物大战僵尸",false);
-        testBean3=new TestBean("植物大战僵尸",false);
-        testBean4=new TestBean("植物大战僵尸",false);
-        list.add(testBean1);
-        list.add(testBean2);
-        list.add(testBean3);
-        list.add(testBean4);
+        this.list=list;
     }
 
     @Override
@@ -60,8 +54,8 @@ public class CurriculumListView_GridviewAdapter extends BaseAdapter{
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        KCBBean.RowsBeanX.RowsBean bean=list.get(i);
         holder=new ViewHolder();
-        TestBean bean=list.get(i);
         if (view==null){
             view=layoutInflater.inflate(R.layout.curriculumlistviewgridviewitem,null);
             holder.textView= (TextView) view.findViewById(R.id.curriculumlistviewgridviewitem_text);
@@ -70,12 +64,12 @@ public class CurriculumListView_GridviewAdapter extends BaseAdapter{
         }else {
             holder= (ViewHolder) view.getTag();
         }
-        holder.textView.setText(bean.getString());
-        if (bean.isaBoolean()){
-            holder.textView.setBackgroundResource(R.drawable.classbook1);
-        }else {
-            holder.textView.setBackgroundResource(R.drawable.classbook);
-        }
+        holder.textView.setText(bean.getKCMC());
+//        if (bean.isaBoolean()){
+//            holder.textView.setBackgroundResource(R.drawable.classbook1);
+//        }else {
+//            holder.textView.setBackgroundResource(R.drawable.classbook);
+//        }
         return view;
     }
     private class ViewHolder{

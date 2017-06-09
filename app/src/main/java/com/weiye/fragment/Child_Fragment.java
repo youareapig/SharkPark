@@ -54,7 +54,7 @@ public class Child_Fragment extends Fragment {
     }
 
     private void index() {
-        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
+        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         mGallery.setVisibility(View.GONE);

@@ -1,6 +1,7 @@
 package com.weiye.zl;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,9 +19,9 @@ import com.google.gson.Gson;
 import com.weiye.adapter.CurriculumGalleryAdapter;
 import com.weiye.adapter.CurriculumListViewAdapter;
 import com.weiye.data.KCBBean;
-import com.weiye.data.TestCurrBean;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
+import com.weiye.utils.UserLoginDialog1;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import org.xutils.common.Callback;
@@ -56,23 +57,28 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
     TextView Curriculumtitlerq;
     private Unbinder unbinder;
     private List<Integer> iconList;
-    private int height,iconID;
+    private int height, iconID;
     private String indexID;
-    private List<KCBBean.RowsBean> cList;
+    private List<KCBBean.RowsBeanX> cList;
+    private SharedPreferences sharedPreferences;
+    private KCBBean.RowsBeanX rowsBean;
+    private List<KCBBean.RowsBeanX.RowsBean> myList;
+private CurriculumListViewAdapter adapterList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curriculum);
         unbinder = ButterKnife.bind(this);
-        Intent intent=getIntent();
-        indexID=intent.getStringExtra("LXID");
+        sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
+        Intent intent = getIntent();
+        indexID = intent.getStringExtra("LXID");
         changDate();
         showDay();
         init();
     }
 
     private void changDate() {
-        iconList=new ArrayList<>();
+        iconList = new ArrayList<>();
         iconList.add(R.mipmap.day1);
         iconList.add(R.mipmap.day2);
         iconList.add(R.mipmap.day3);
@@ -95,29 +101,33 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
             }
         });
     }
-    private void init(){
-        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_KCAPDataService.ashx?op=getTAB_KCAP");
-        params.addBodyParameter("ID",indexID);
-        params.addBodyParameter("start","0");
+
+    private void init() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_KCAPDataService.ashx?op=getTAB_KCAP");
+        params.addBodyParameter("KCLX", indexID);
+        params.addBodyParameter("start", "0");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-            Log.d("tag","课程安排"+result);
-                Gson gson=new Gson();
-                KCBBean bean=gson.fromJson(result,KCBBean.class);
-                cList=bean.getRows();
-
-                final CurriculumGalleryAdapter adapter = new CurriculumGalleryAdapter(iconList,cList,CurriculumActivity.this);
+                Log.d("tag", "课程安排" + result);
+                Gson gson = new Gson();
+                final KCBBean bean = gson.fromJson(result, KCBBean.class);
+                cList = bean.getRows();
+                final CurriculumGalleryAdapter adapter = new CurriculumGalleryAdapter(iconList, cList, CurriculumActivity.this);
                 curricuGallery.setAdapter(adapter);
                 curricuGallery.setSpacing(60);
-                curricuGallery.setSelection(100);
+                curricuGallery.setSelection(77);
                 curricuGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        iconID=iconList.get(i%iconList.size());
+                        myList=bean.getRows().get(i% iconList.size()).getRows();
+                        rowsBean = cList.get(i % iconList.size());
+                        iconID = iconList.get(i % iconList.size());
                         adapter.setSelectItem(i % (iconList.size()));
                         adapter.notifyDataSetChanged();
-                        //adapterList.notifyDataSetChanged();
+                        adapterList = new CurriculumListViewAdapter(CurriculumActivity.this, myList);
+                        curricuListview.setAdapter(adapterList);
+                        adapterList.notifyDataSetChanged();
                     }
 
                     @Override
@@ -125,13 +135,12 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
 
                     }
                 });
-                final CurriculumListViewAdapter adapterList=new CurriculumListViewAdapter(CurriculumActivity.this,cList);
-                curricuListview.setAdapter(adapterList);
+
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag","课程安排请求错误");
+                Log.d("tag", "课程安排请求错误");
             }
 
             @Override
@@ -164,10 +173,10 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
             float alpha = (255 * scale);
             CurriculumtitleImage.setImageResource(iconID);
             CurriculumtitleImage.setAlpha(alpha);
-//            Curriculumtitlexq.setText(bean.getText1());
-//            Curriculumtitlexq.setAlpha(alpha);
-//            Curriculumtitlerq.setText(bean.getText2());
-//            Curriculumtitlerq.setAlpha(alpha);
+            Curriculumtitlexq.setText(rowsBean.getWeek());
+            Curriculumtitlexq.setAlpha(alpha);
+            Curriculumtitlerq.setText(rowsBean.getDate());
+            Curriculumtitlerq.setAlpha(alpha);
         }
     }
 
@@ -175,8 +184,13 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.curricuButton:
-                Intent intent = new Intent(CurriculumActivity.this, SubmitActivity.class);
-                startActivity(intent);
+                String tag = sharedPreferences.getString("usertag", "0");
+                if (tag.equals("1")) {
+                    Intent intent1 = new Intent(CurriculumActivity.this, SubmitActivity.class);
+                    startActivity(intent1);
+                } else {
+                    new UserLoginDialog1(this).loginDialog();
+                }
                 break;
             case R.id.back5:
                 finish();

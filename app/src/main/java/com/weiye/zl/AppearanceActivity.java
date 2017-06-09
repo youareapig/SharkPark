@@ -78,7 +78,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
     }
 
     private void visitXYFC() {
-        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main5.setVisibility(View.GONE);
@@ -118,7 +118,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
     }
 
     private void visitJXHJ() {
-        customProgressDialog1 = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog1 = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog1.setCanceledOnTouchOutside(false);
         customProgressDialog1.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XYFCDataService.ashx?op=getTAB_XYFC");

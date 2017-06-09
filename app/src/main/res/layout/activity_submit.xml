@@ -106,7 +106,7 @@
                 android:background="#d2d2d2" />
 
             <RelativeLayout
-                android:id="@+id/sex"
+                android:id="@+id/sex3"
                 android:layout_width="match_parent"
                 android:layout_height="200px"
                 android:layout_marginTop="20px">
@@ -147,12 +147,13 @@
                 android:background="#d2d2d2" />
 
             <RelativeLayout
-                android:id="@+id/sex1"
+                android:id="@+id/name3"
                 android:layout_width="match_parent"
                 android:layout_height="200px"
                 android:layout_marginTop="20px">
 
                 <TextView
+                    android:id="@+id/nc2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -161,24 +162,21 @@
                     android:textColor="#303030"
                     android:textSize="52px" />
 
-                <ImageView
-                    android:id="@+id/go1"
-                    android:layout_width="18px"
-                    android:layout_height="30px"
+                <EditText
+                    android:id="@+id/nameText3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="20px"
                     android:layout_marginRight="40px"
-                    android:src="@mipmap/right" />
-
-                <TextView
-                    android:id="@+id/sexText1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="20px"
-                    android:layout_toLeftOf="@+id/go1"
+                    android:layout_toRightOf="@+id/nc2"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:singleLine="true"
                     android:text="2岁"
                     android:textColor="#888888"
+                    android:textCursorDrawable="@drawable/cursor"
                     android:textSize="48px" />
             </RelativeLayout>
 
@@ -188,7 +186,7 @@
                 android:background="#d2d2d2" />
 
             <RelativeLayout
-                android:id="@+id/sex2"
+                android:id="@+id/jiazhang"
                 android:layout_width="match_parent"
                 android:layout_height="200px"
                 android:layout_marginTop="20px">
@@ -254,12 +252,13 @@
                     android:singleLine="true"
                     android:text="15983302246"
                     android:textColor="#888888"
+                    android:maxLength="11"
                     android:textCursorDrawable="@drawable/cursor"
                     android:textSize="48px" />
             </RelativeLayout>
 
             <Button
-                android:id="@+id/save"
+                android:id="@+id/submit1"
                 android:layout_width="900px"
                 android:layout_height="148px"
                 android:layout_gravity="bottom|center_horizontal"

@@ -220,15 +220,9 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 showFragment();
                 break;
             case R.id.btnOrder:
-                String tag = sharedPreferences.getString("usertag", "0");
-                if (tag.equals("1")) {
                     Intent intent1 = new Intent(SubjectActivity.this, CurriculumActivity.class);
                     intent1.putExtra("LXID",indexID);
                     startActivity(intent1);
-                } else {
-                    new UserLoginDialog1(this,indexID).loginDialog();
-                }
-
                 break;
             case R.id.back6:
                 finish();
@@ -248,7 +242,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
 
     //TODO 标题描述数据
     private void visit() {
-        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main2.setVisibility(View.GONE);
@@ -292,7 +286,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
 
     //TODO 老师介绍数据
     private void visitTeacher() {
-        customProgressDialog1 = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        customProgressDialog1 = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog1.setCanceledOnTouchOutside(false);
         customProgressDialog1.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXJSXX");

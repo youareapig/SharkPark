@@ -19,9 +19,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.weiye.data.LoginBean;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.zl.CurriculumActivity;
 import com.weiye.zl.MainActivity;
 import com.weiye.zl.R;
+import com.weiye.zl.SubmitActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,10 +47,10 @@ public class UserLoginDialog1 {
     private ImageView findexit;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private String indexID;
-    public UserLoginDialog1(Context context,String indexID) {
+    private CustomProgressDialog customProgressDialog;
+
+    public UserLoginDialog1(Context context) {
         this.context = context;
-        this.indexID=indexID;
         sharedPreferences = context.getSharedPreferences("UserTag", context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
@@ -358,6 +360,9 @@ public class UserLoginDialog1 {
      * 保存登录状态，1 表示登录状态，0 表示未登录状态
      */
     private void userLogin(String phone, String password) {
+        customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=login");
         params.addBodyParameter("DLZH", phone);
         params.addBodyParameter("DLMM", password);
@@ -372,8 +377,7 @@ public class UserLoginDialog1 {
                     editor.putString("userid", bean.getRows().get(0).getID() + "");
                     editor.commit();
                     dialog.cancel();
-                    Intent intent = new Intent(context, CurriculumActivity.class);
-                    intent.putExtra("LXID",indexID);
+                    Intent intent = new Intent(context, SubmitActivity.class);
                     context.startActivity(intent);
 
                     Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
@@ -395,13 +399,16 @@ public class UserLoginDialog1 {
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
         });
     }
 
     //TODO 检测用户是否存在
     private void detectionUser(String phone) {
+        customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=check");
         params.addBodyParameter("DLZH", phone);
         x.http().get(params, new Callback.CommonCallback<String>() {
@@ -439,13 +446,16 @@ public class UserLoginDialog1 {
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
         });
     }
 
     //TODO 用户注册接口
     private void requestRegister(String phone, String pwd) {
+        customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=register");
         params.addBodyParameter("YHZH", phone);
         params.addBodyParameter("YHMM", pwd);
@@ -460,8 +470,7 @@ public class UserLoginDialog1 {
                         editor.putString("userid", json.getString("YHID"));
                         editor.commit();
                         dialog1.cancel();
-                        Intent intent = new Intent(context, CurriculumActivity.class);
-                        intent.putExtra("LXID", indexID);
+                        Intent intent = new Intent(context, SubmitActivity.class);
                         context.startActivity(intent);
                         Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
                     } else {
@@ -484,7 +493,7 @@ public class UserLoginDialog1 {
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
         });
     }

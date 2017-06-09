@@ -24,12 +24,12 @@ import java.util.List;
  */
 public class CurriculumGalleryAdapter extends BaseAdapter {
     private List<Integer> iconList;
-    private List<KCBBean.RowsBean> list;
+    private List<KCBBean.RowsBeanX> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
     private int selectItem;
     private int count;
-    public CurriculumGalleryAdapter(List<Integer> iconList, List<KCBBean.RowsBean> list,Activity activity) {
+    public CurriculumGalleryAdapter(List<Integer> iconList, List<KCBBean.RowsBeanX> list,Activity activity) {
         this.iconList = iconList;
         this.list=list;
         this.layoutInflater = activity.getLayoutInflater();
@@ -60,15 +60,15 @@ public class CurriculumGalleryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        //KCBBean.RowsBean bean=list.get(i%count);
+        KCBBean.RowsBeanX bean=list.get(i%count);
         view = layoutInflater.inflate(R.layout.curricugalleryitem, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.curricuitem_img);
         TextView textView1 = (TextView) view.findViewById(R.id.curricuitem_text1);
         TextView textView2 = (TextView) view.findViewById(R.id.curricuitem_text2);
         AutoUtils.autoSize(view);
         imageView.setImageResource(iconList.get(i%count));
-        //textView1.setText(bean);
-//        textView2.setText(bean.getText2());
+        textView1.setText(bean.getWeek());
+        textView2.setText(bean.getDate());
         if (selectItem == i%count) {
             ViewGroup.MarginLayoutParams params=new ViewGroup.MarginLayoutParams(imageView.getLayoutParams());
             RelativeLayout.LayoutParams layoutParams=new RelativeLayout.LayoutParams(params);

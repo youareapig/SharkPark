@@ -37,7 +37,7 @@ public class AboutActivity extends AutoLayoutActivity {
         about();
     }
     private void about(){
-        final CustomProgressDialog customProgressDialog=new CustomProgressDialog(this,"玩命加载中...",R.drawable.frame);
+        final CustomProgressDialog customProgressDialog=new CustomProgressDialog(this,"玩命加载中...",R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_GYWMDataService.ashx?op=getTAB_GYWM");

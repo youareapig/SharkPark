@@ -236,7 +236,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
     //TODO 相册上传
     private void uploadhead(final String base) {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "正在上传...", R.drawable.frame);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "正在上传...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=upLoadImg");
@@ -270,7 +270,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
     //TODO 照相上传
     private void uploadhead1(String base) {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "正在上传...", R.drawable.frame);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "正在上传...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=upLoadImg");
@@ -318,7 +318,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
     //TODO 获取用户信息
     private void getUserInfo() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main6.setVisibility(View.GONE);

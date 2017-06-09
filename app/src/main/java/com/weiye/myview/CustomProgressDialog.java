@@ -31,8 +31,8 @@ public class CustomProgressDialog extends ProgressDialog {
 	private String oldLoadingTip;
 	private int mResid;
 
-	public CustomProgressDialog(Context context, String content, int id) {
-		super(context);
+	public CustomProgressDialog(Context context, String content, int id,int theme) {
+		super(context,theme);
 		this.mContext = context;
 		this.mLoadingTip = content;
 		this.mResid = id;

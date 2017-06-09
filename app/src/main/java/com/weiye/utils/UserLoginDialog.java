@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.weiye.data.LoginBean;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.zl.MainActivity;
 import com.weiye.zl.R;
 
@@ -45,6 +46,7 @@ public class UserLoginDialog {
     private ImageView findexit;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private CustomProgressDialog customProgressDialog;
 
     public UserLoginDialog(Context context) {
         this.context = context;
@@ -357,6 +359,9 @@ public class UserLoginDialog {
      * 保存登录状态，1 表示登录状态，0 表示未登录状态
      */
     private void userLogin(String phone, String password) {
+        customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=login");
         params.addBodyParameter("DLZH", phone);
         params.addBodyParameter("DLMM", password);
@@ -394,7 +399,7 @@ public class UserLoginDialog {
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
         });
     }
@@ -445,6 +450,9 @@ public class UserLoginDialog {
 
     //TODO 用户注册接口
     private void requestRegister(String phone, String pwd) {
+        customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=register");
         params.addBodyParameter("YHZH", phone);
         params.addBodyParameter("YHMM", pwd);
@@ -483,7 +491,7 @@ public class UserLoginDialog {
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
         });
     }
@@ -491,6 +499,9 @@ public class UserLoginDialog {
     //TODO 忘记密码
     private void updatePwd(String phone, String pwd) {
         Log.e("tag", "修改密码参数" + phone + pwd);
+        customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=ChangePwd");
         params.addBodyParameter("YHZH", phone);
         params.addBodyParameter("YHMM", pwd);
@@ -515,7 +526,7 @@ public class UserLoginDialog {
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
         });
 

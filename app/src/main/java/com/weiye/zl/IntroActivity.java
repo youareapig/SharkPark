@@ -28,8 +28,6 @@ import qiu.niorgai.StatusBarCompat;
 public class IntroActivity extends AutoLayoutActivity {
     private WebView webView;
     private RelativeLayout back;
-    private String hh="<meta name=\\\"viewport\\\" content=\\\"width=\"+ bodyWidth +\"px initial-scale=\"+ scale\n" +
-            "            + \", minimum-scale=0.1, maximum-scale=10.0, user-scalable=no\\\"/>\n";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +44,7 @@ public class IntroActivity extends AutoLayoutActivity {
     }
 
     private void visit() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XXJJDataService.ashx?op=getTAB_XXJJ");

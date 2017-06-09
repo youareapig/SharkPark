@@ -142,7 +142,7 @@ public class MyMaterialActivity extends AutoLayoutActivity {
         stringName = nameText.getText().toString().trim();
         stringSex = sexText.getText().toString().trim();
         stringDate = ageText.getText().toString().trim();
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_RYXXDataService.ashx?op=UpdateTAB_RYXXDataByYH");
@@ -192,7 +192,7 @@ public class MyMaterialActivity extends AutoLayoutActivity {
 
     //TODO 获取用户信息
     private void getUserInfo() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=getTAB_YHXX");

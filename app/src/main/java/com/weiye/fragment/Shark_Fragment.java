@@ -294,7 +294,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         });
     }
     private void subjectStation(){
-        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame);
+        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         refreshView.setVisibility(View.GONE);
@@ -304,6 +304,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag","科学驿站"+result);
                 refreshView.setVisibility(View.VISIBLE);
                 Gson gson=new Gson();
                 SubjectStationBean bean=gson.fromJson(result,SubjectStationBean.class);
