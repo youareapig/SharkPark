@@ -51,6 +51,8 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     ScrollView schoolScrollview;
     @BindView(R.id.screening)
     ImageView screening;
+    @BindView(R.id.main8)
+    LinearLayout main8;
     private Unbinder unbinder;
     private List<IndexBean.RowsBean> mList;
     private FragmentManager fragmentManager;
@@ -84,7 +86,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.videoText1, R.id.photoText1, R.id.screening,R.id.fourschoolBack})
+    @OnClick({R.id.videoText1, R.id.photoText1, R.id.screening, R.id.fourschoolBack})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.videoText1:
@@ -111,8 +113,9 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     }
 
     private void sdxyVisit() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
+        main8.setVisibility(View.GONE);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXXX");
         params.addBodyParameter("start", "1");
@@ -128,9 +131,9 @@ public class FourSchoolActivity extends AutoLayoutActivity {
                 fourschoolGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        IndexBean.RowsBean rBean = (IndexBean.RowsBean) adapterView.getItemAtPosition(i%mList.size());
+                        IndexBean.RowsBean rBean = (IndexBean.RowsBean) adapterView.getItemAtPosition(i % mList.size());
                         Intent intent = new Intent(FourSchoolActivity.this, SubjectActivity.class);
-                        intent.putExtra("indexID", rBean.getID()+"");
+                        intent.putExtra("indexID", rBean.getID() + "");
                         startActivity(intent);
                     }
                 });
@@ -138,7 +141,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(FourSchoolActivity.this,"数据加载失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(FourSchoolActivity.this, "数据加载失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -149,6 +152,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
             @Override
             public void onFinished() {
                 customProgressDialog.cancel();
+                main8.setVisibility(View.VISIBLE);
             }
 
             @Override

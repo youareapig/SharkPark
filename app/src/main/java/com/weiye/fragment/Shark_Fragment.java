@@ -187,7 +187,6 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         x.http().get(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","课堂风采"+result);
                 Gson gson = new Gson();
                 KTFCBean ktfcBean = gson.fromJson(result, KTFCBean.class);
                 listbean = ktfcBean.getRows();

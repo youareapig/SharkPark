@@ -9,16 +9,18 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/teacheritem_img"
-            android:layout_width="160px"
-            android:layout_height="160px"
-            android:layout_centerHorizontal="true"/>
+            android:layout_width="210px"
+            android:layout_height="210px"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80px"/>
         <TextView
             android:id="@+id/teacheritem_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/teacheritem_img"
-            android:layout_marginTop="20px"
+            android:layout_marginTop="30px"
+            android:textSize="44px"
             android:textColor="#121212"
 
             />

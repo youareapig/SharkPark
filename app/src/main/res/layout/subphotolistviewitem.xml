@@ -15,6 +15,7 @@
             android:layout_height="500px"
             android:layout_centerHorizontal="true"
             android:scaleType="centerCrop"
+            android:background="#eeeeee"
             app:riv_corner_radius="8px" />
 
         <TextView
@@ -26,6 +27,17 @@
             android:layout_marginTop="30px"
             android:textColor="#515151"
             android:textSize="52px" />
+
+        <TextView
+            android:id="@+id/subphtolistviewItem_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/subphotolistviewItem_img"
+            android:layout_marginTop="420px"
+            android:layout_marginRight="40px"
+            android:textColor="#FFF"
+            android:textSize="52px"
+            android:text="6"/>
 
     </com.zhy.autolayout.AutoRelativeLayout>
 

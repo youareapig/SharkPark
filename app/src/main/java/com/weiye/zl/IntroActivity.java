@@ -1,12 +1,8 @@
 package com.weiye.zl;
 
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -19,11 +15,14 @@ import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import qiu.niorgai.StatusBarCompat;
 
 public class IntroActivity extends AutoLayoutActivity {
     private WebView webView;
@@ -44,7 +43,7 @@ public class IntroActivity extends AutoLayoutActivity {
     }
 
     private void visit() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XXJJDataService.ashx?op=getTAB_XXJJ");
@@ -56,11 +55,12 @@ public class IntroActivity extends AutoLayoutActivity {
                 Gson gson = new Gson();
                 XYJJBean bean = gson.fromJson(result, XYJJBean.class);
                 String h5 = bean.getRows().get(0).getJJMS();
-                WebSettings webSettings=webView.getSettings();
+                WebSettings webSettings = webView.getSettings();
                 //TODO 适配手机屏幕
                 webSettings.setLoadWithOverviewMode(true);
                 webSettings.setUseWideViewPort(true);
-                webView.loadDataWithBaseURL("about:blank", h5, "text/html", "utf-8", null);
+                //webView.loadDataWithBaseURL("about:blank", html + h5, "text/html", "utf-8", null);
+                webView.loadDataWithBaseURL(null, getNewContent(h5), "text/html", "utf-8", null);
                 webView.setWebViewClient(new WebViewClient());
             }
 
@@ -85,4 +85,14 @@ public class IntroActivity extends AutoLayoutActivity {
             }
         });
     }
+    //TODO 屏幕适配
+    private String getNewContent(String htmltext) {
+        Document doc = Jsoup.parse(htmltext);
+        Elements elements = doc.getElementsByTag("img");
+        for (Element element:elements){
+            element.attr("width", "100%").attr("height", "auto");
+        }
+        return doc.toString();
+    }
+
 }

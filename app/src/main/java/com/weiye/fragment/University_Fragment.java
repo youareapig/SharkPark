@@ -30,6 +30,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.UserInfoBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
+import com.weiye.zl.MyGradeActivity;
 import com.weiye.zl.MyMaterialActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.RestartActivity;
@@ -135,6 +136,8 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 startActivity(intent1);
                 break;
             case R.id.myCourse:
+                Intent intent2=new Intent(getActivity(), MyGradeActivity.class);
+                startActivity(intent2);
                 break;
         }
     }
@@ -176,35 +179,35 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
     //TODO 将位图转换成base64编码
     private String Bitmap2StrByBase64(Bitmap bit) {
-//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-//        bit.compress(Bitmap.CompressFormat.JPEG, 100, bos);//参数100表示不压缩  
-//        byte[] bytes = bos.toByteArray();
-//        return Base64.encodeToString(bytes, Base64.DEFAULT);
-        String result =null;
-        ByteArrayOutputStream baos =null;
-        try{
-            if(bitmap!=null){
-                baos=new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-                baos.flush();
-                baos.close();
-
-                byte[] bitmapBytes=baos.toByteArray();
-                result=Base64.encodeToString(bitmapBytes,Base64.DEFAULT);
-            }
-        }catch(IOException e){
-            e.printStackTrace();
-        }finally{
-            try{
-                if(baos!=null){
-                    baos.flush();
-                    baos.close();
-                }
-            }catch(IOException e){
-                e.printStackTrace();
-            }
-        }
-        return result;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bit.compress(Bitmap.CompressFormat.PNG, 100, bos);//参数100表示不压缩  
+        byte[] bytes = bos.toByteArray();
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+//        String result =null;
+//        ByteArrayOutputStream baos =null;
+//        try{
+//            if(bitmap!=null){
+//                baos=new ByteArrayOutputStream();
+//                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+//                baos.flush();
+//                baos.close();
+//
+//                byte[] bitmapBytes=baos.toByteArray();
+//                result=Base64.encodeToString(bitmapBytes,Base64.DEFAULT);
+//            }
+//        }catch(IOException e){
+//            e.printStackTrace();
+//        }finally{
+//            try{
+//                if(baos!=null){
+//                    baos.flush();
+//                    baos.close();
+//                }
+//            }catch(IOException e){
+//                e.printStackTrace();
+//            }
+//        }
+//        return result;
     }
 
 

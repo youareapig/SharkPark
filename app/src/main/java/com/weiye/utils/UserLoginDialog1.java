@@ -48,9 +48,10 @@ public class UserLoginDialog1 {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private CustomProgressDialog customProgressDialog;
-
-    public UserLoginDialog1(Context context) {
+    private String kcid;
+    public UserLoginDialog1(Context context,String kcid) {
         this.context = context;
+        this.kcid=kcid;
         sharedPreferences = context.getSharedPreferences("UserTag", context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
@@ -378,6 +379,7 @@ public class UserLoginDialog1 {
                     editor.commit();
                     dialog.cancel();
                     Intent intent = new Intent(context, SubmitActivity.class);
+                    intent.putExtra("kcid",kcid);
                     context.startActivity(intent);
 
                     Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
@@ -471,6 +473,7 @@ public class UserLoginDialog1 {
                         editor.commit();
                         dialog1.cancel();
                         Intent intent = new Intent(context, SubmitActivity.class);
+                        intent.putExtra("kcid",kcid);
                         context.startActivity(intent);
                         Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
                     } else {

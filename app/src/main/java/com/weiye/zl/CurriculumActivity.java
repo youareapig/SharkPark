@@ -14,10 +14,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.weiye.adapter.CurriculumGalleryAdapter;
 import com.weiye.adapter.CurriculumListViewAdapter;
+import com.weiye.adapter.CurriculumListView_GridviewAdapter;
 import com.weiye.data.KCBBean;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
@@ -63,7 +65,8 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
     private SharedPreferences sharedPreferences;
     private KCBBean.RowsBeanX rowsBean;
     private List<KCBBean.RowsBeanX.RowsBean> myList;
-private CurriculumListViewAdapter adapterList;
+    private CurriculumListViewAdapter adapterList;
+    private CurriculumListViewAdapter.callBack callBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +75,23 @@ private CurriculumListViewAdapter adapterList;
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         Intent intent = getIntent();
         indexID = intent.getStringExtra("LXID");
+        callBack = new CurriculumListViewAdapter.callBack() {
+
+            @Override
+            public void callBackKCID(StringBuilder gradeID) {
+                if (gradeID.substring(0,1).equals(",")){
+                    gradeID.delete(0,1);
+                    String tag = sharedPreferences.getString("usertag", "0");
+                    if (tag.equals("1")) {
+                        Intent intent1 = new Intent(CurriculumActivity.this, SubmitActivity.class);
+                        intent1.putExtra("kcid",gradeID.toString());
+                        startActivity(intent1);
+                    } else {
+                        new UserLoginDialog1(CurriculumActivity.this,gradeID.toString()).loginDialog();
+                    }
+                }
+            }
+        };
         changDate();
         showDay();
         init();
@@ -120,12 +140,15 @@ private CurriculumListViewAdapter adapterList;
                 curricuGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        myList=bean.getRows().get(i% iconList.size()).getRows();
+                        myList = bean.getRows().get(i % iconList.size()).getRows();
+                        //List<KCBBean.RowsBeanX> list3=bean.getRows();
+                        //rowsBean= (KCBBean.RowsBeanX) adapterView.getItemAtPosition(i % iconList.size());
                         rowsBean = cList.get(i % iconList.size());
                         iconID = iconList.get(i % iconList.size());
                         adapter.setSelectItem(i % (iconList.size()));
                         adapter.notifyDataSetChanged();
-                        adapterList = new CurriculumListViewAdapter(CurriculumActivity.this, myList);
+
+                        adapterList = new CurriculumListViewAdapter(CurriculumActivity.this, myList, callBack);
                         curricuListview.setAdapter(adapterList);
                         adapterList.notifyDataSetChanged();
                     }
@@ -184,13 +207,7 @@ private CurriculumListViewAdapter adapterList;
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.curricuButton:
-                String tag = sharedPreferences.getString("usertag", "0");
-                if (tag.equals("1")) {
-                    Intent intent1 = new Intent(CurriculumActivity.this, SubmitActivity.class);
-                    startActivity(intent1);
-                } else {
-                    new UserLoginDialog1(this).loginDialog();
-                }
+                adapterList.KCyuyue();
                 break;
             case R.id.back5:
                 finish();
@@ -198,4 +215,6 @@ private CurriculumListViewAdapter adapterList;
         }
 
     }
+
+
 }

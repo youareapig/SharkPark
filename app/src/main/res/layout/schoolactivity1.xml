@@ -31,6 +31,7 @@
                     android:scaleType="centerCrop"
                     app:riv_corner_radius="8px" />
                 <ImageView
+                    android:visibility="gone"
                     android:id="@+id/videoplayerlogo"
                     android:layout_width="140px"
                     android:layout_height="140px"

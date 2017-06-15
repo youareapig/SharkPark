@@ -83,7 +83,7 @@
                     android:textSize="52px" />
 
                 <EditText
-                    android:id="@+id/nameText"
+                    android:id="@+id/nameText5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -130,7 +130,7 @@
                     android:src="@mipmap/right" />
 
                 <TextView
-                    android:id="@+id/sexText"
+                    android:id="@+id/sexText5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -163,7 +163,7 @@
                     android:textSize="52px" />
 
                 <EditText
-                    android:id="@+id/nameText3"
+                    android:id="@+id/ageText5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -210,7 +210,7 @@
                     android:src="@mipmap/right" />
 
                 <TextView
-                    android:id="@+id/sexText2"
+                    android:id="@+id/fumuText5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -242,7 +242,7 @@
                     android:textSize="52px" />
 
                 <EditText
-                    android:id="@+id/nameText2"
+                    android:id="@+id/telText5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

@@ -13,6 +13,7 @@
             android:id="@+id/r1"
             android:layout_width="1000px"
             android:layout_height="500px"
+            android:background="#eeeeee"
             android:layout_centerHorizontal="true">
 
             <com.makeramen.roundedimageview.RoundedImageView

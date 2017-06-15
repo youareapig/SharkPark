@@ -4,24 +4,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.weiye.zl.IntroActivity">
-    <RelativeLayout
-        style="@style/mytitle">
+    tools:context="com.weiye.zl.MyGradeActivity">
+    <RelativeLayout style="@style/mytitle">
         <RelativeLayout
-            android:id="@+id/back3"
+            android:id="@+id/mGradeBack"
             android:layout_width="108px"
             android:layout_height="match_parent">
-
             <ImageView
                 android:layout_width="28px"
                 android:layout_height="48px"
                 android:layout_centerInParent="true"
                 android:src="@mipmap/back1" />
         </RelativeLayout>
-
     </RelativeLayout>
-    <WebView
-        android:id="@+id/webview"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="45px"
+        android:text="预约课程"
+        android:textColor="#303030"
+        android:textSize="72px" />
+    <ListView
+        android:id="@+id/mGradeListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="40px"
+        android:scrollbars="none"
+        android:dividerHeight="40px"
+        android:divider="#fff"/>
 </LinearLayout>

@@ -8,8 +8,8 @@ import java.util.List;
 public class KCBBean {
 
     /**
-     * total : 1
-     * rows : [{"week":"星期五","monthWeek":"六月第二周","date":"2017-06-09","rows":[{"TEMPFYFILED":"1","ID":"1","KCID":"1","KSSJ":"2017/6/9 9:00:00","JSSJ":"2017/6/9 10:00:00","SKJSID":"2","CJRQ":"","CJRID":"","KCMC":"植物大战","KCMS":"植物大战","ZBSX":"植物大战","ZSXM":"肖雲云","TX":"100","TXLJ":"UploadFile/201703310303084831919.jpg"}]},{"week":"星期六","monthWeek":"六月第二周","date":"2017-06-10","rows":[]},{"week":"星期日","monthWeek":"六月第二周","date":"2017-06-11","rows":[]},{"week":"星期一","monthWeek":"六月第二周","date":"2017-06-12","rows":[]},{"week":"星期二","monthWeek":"六月第二周","date":"2017-06-13","rows":[]},{"week":"星期三","monthWeek":"六月第二周","date":"2017-06-14","rows":[]},{"week":"星期四","monthWeek":"六月第二周","date":"2017-06-15","rows":[]}]
+     * total : 2
+     * rows : [{"week":"星期二","monthWeek":"六月第二周","date":"2017-06-13","rows":[{"TEMPFYFILED":"1","ID":"6","KCID":"4","KSSJ":"2017/6/13 8:00:00","JSSJ":"2017/6/13 9:00:00","SKJSID":"4","CJRQ":"2017/6/13 9:47:49","CJRID":"2","KCMC":"我是一条鱼","KCMS":"<p style='text-align: center;'>植物大战3<\/p><p style='text-align: center;'><img width='355' height='149' title='Cache_-29cb419bcb7a2dc6..jpg' alt='Cache_-29cb419bcb7a2dc6..jpg' src='http://211.149.248.144:8820/upload/image/20170605/6363229062944744536602475.jpg'/><\/p>","ZBSX":"<p>植物大战3<\/p>","ZSXM":"贺琦鹏","TX":"99","TXLJ":"UploadFile/20170231030212941146.jpg","STATUS":"1"},{"TEMPFYFILED":"2","ID":"5","KCID":"4","KSSJ":"2017/6/13 8:00:00","JSSJ":"2017/6/13 9:00:00","SKJSID":"4","CJRQ":"2017/6/13 9:46:25","CJRID":"2","KCMC":"我是一条鱼","KCMS":"<p style='text-align: center;'>植物大战3<\/p><p style='text-align: center;'><img width='355' height='149' title='Cache_-29cb419bcb7a2dc6..jpg' alt='Cache_-29cb419bcb7a2dc6..jpg' src='http://211.149.248.144:8820/upload/image/20170605/6363229062944744536602475.jpg'/><\/p>","ZBSX":"<p>植物大战3<\/p>","ZSXM":"贺琦鹏","TX":"99","TXLJ":"UploadFile/20170231030212941146.jpg","STATUS":"1"}]},{"week":"星期三","monthWeek":"六月第二周","date":"2017-06-14","rows":[]},{"week":"星期四","monthWeek":"六月第二周","date":"2017-06-15","rows":[]},{"week":"星期五","monthWeek":"六月第二周","date":"2017-06-16","rows":[]},{"week":"星期六","monthWeek":"六月第二周","date":"2017-06-17","rows":[]},{"week":"星期日","monthWeek":"六月第二周","date":"2017-06-18","rows":[]},{"week":"星期一","monthWeek":"六月第二周","date":"2017-06-19","rows":[]}]
      */
 
     private int total;
@@ -33,10 +33,10 @@ public class KCBBean {
 
     public static class RowsBeanX {
         /**
-         * week : 星期五
+         * week : 星期二
          * monthWeek : 六月第二周
-         * date : 2017-06-09
-         * rows : [{"TEMPFYFILED":"1","ID":"1","KCID":"1","KSSJ":"2017/6/9 9:00:00","JSSJ":"2017/6/9 10:00:00","SKJSID":"2","CJRQ":"","CJRID":"","KCMC":"植物大战","KCMS":"植物大战","ZBSX":"植物大战","ZSXM":"肖雲云","TX":"100","TXLJ":"UploadFile/201703310303084831919.jpg"}]
+         * date : 2017-06-13
+         * rows : [{"TEMPFYFILED":"1","ID":"6","KCID":"4","KSSJ":"2017/6/13 8:00:00","JSSJ":"2017/6/13 9:00:00","SKJSID":"4","CJRQ":"2017/6/13 9:47:49","CJRID":"2","KCMC":"我是一条鱼","KCMS":"<p style='text-align: center;'>植物大战3<\/p><p style='text-align: center;'><img width='355' height='149' title='Cache_-29cb419bcb7a2dc6..jpg' alt='Cache_-29cb419bcb7a2dc6..jpg' src='http://211.149.248.144:8820/upload/image/20170605/6363229062944744536602475.jpg'/><\/p>","ZBSX":"<p>植物大战3<\/p>","ZSXM":"贺琦鹏","TX":"99","TXLJ":"UploadFile/20170231030212941146.jpg","STATUS":"1"},{"TEMPFYFILED":"2","ID":"5","KCID":"4","KSSJ":"2017/6/13 8:00:00","JSSJ":"2017/6/13 9:00:00","SKJSID":"4","CJRQ":"2017/6/13 9:46:25","CJRID":"2","KCMC":"我是一条鱼","KCMS":"<p style='text-align: center;'>植物大战3<\/p><p style='text-align: center;'><img width='355' height='149' title='Cache_-29cb419bcb7a2dc6..jpg' alt='Cache_-29cb419bcb7a2dc6..jpg' src='http://211.149.248.144:8820/upload/image/20170605/6363229062944744536602475.jpg'/><\/p>","ZBSX":"<p>植物大战3<\/p>","ZSXM":"贺琦鹏","TX":"99","TXLJ":"UploadFile/20170231030212941146.jpg","STATUS":"1"}]
          */
 
         private String week;
@@ -79,19 +79,20 @@ public class KCBBean {
         public static class RowsBean {
             /**
              * TEMPFYFILED : 1
-             * ID : 1
-             * KCID : 1
-             * KSSJ : 2017/6/9 9:00:00
-             * JSSJ : 2017/6/9 10:00:00
-             * SKJSID : 2
-             * CJRQ :
-             * CJRID :
-             * KCMC : 植物大战
-             * KCMS : 植物大战
-             * ZBSX : 植物大战
-             * ZSXM : 肖雲云
-             * TX : 100
-             * TXLJ : UploadFile/201703310303084831919.jpg
+             * ID : 6
+             * KCID : 4
+             * KSSJ : 2017/6/13 8:00:00
+             * JSSJ : 2017/6/13 9:00:00
+             * SKJSID : 4
+             * CJRQ : 2017/6/13 9:47:49
+             * CJRID : 2
+             * KCMC : 我是一条鱼
+             * KCMS : <p style='text-align: center;'>植物大战3</p><p style='text-align: center;'><img width='355' height='149' title='Cache_-29cb419bcb7a2dc6..jpg' alt='Cache_-29cb419bcb7a2dc6..jpg' src='http://211.149.248.144:8820/upload/image/20170605/6363229062944744536602475.jpg'/></p>
+             * ZBSX : <p>植物大战3</p>
+             * ZSXM : 贺琦鹏
+             * TX : 99
+             * TXLJ : UploadFile/20170231030212941146.jpg
+             * STATUS : 1
              */
 
             private String TEMPFYFILED;
@@ -108,6 +109,7 @@ public class KCBBean {
             private String ZSXM;
             private String TX;
             private String TXLJ;
+            private String STATUS;
 
             public String getTEMPFYFILED() {
                 return TEMPFYFILED;
@@ -219,6 +221,14 @@ public class KCBBean {
 
             public void setTXLJ(String TXLJ) {
                 this.TXLJ = TXLJ;
+            }
+
+            public String getSTATUS() {
+                return STATUS;
+            }
+
+            public void setSTATUS(String STATUS) {
+                this.STATUS = STATUS;
             }
         }
     }

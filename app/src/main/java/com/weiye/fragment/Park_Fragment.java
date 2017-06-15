@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andview.refreshview.XRefreshView;
@@ -35,6 +36,8 @@ import com.weiye.zl.VedioPlayerActivity;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
+import org.w3c.dom.Text;
+import org.w3c.dom.ls.LSOutput;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -52,6 +55,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
     private CustomProgressDialog customProgressDialog;
     private XRefreshView main1;
     private  long lastRefreshTime;
+    private TextView showNo;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,6 +65,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         appearance = (AutoRelativeLayout) view.findViewById(R.id.appearance);
         main1= (XRefreshView) view.findViewById(R.id.main1);
         intro = (AutoRelativeLayout) view.findViewById(R.id.intro);
+        showNo= (TextView) view.findViewById(R.id.showNO);
         sActivity.setOnClickListener(this);
         appearance.setOnClickListener(this);
         intro.setOnClickListener(this);
@@ -143,7 +148,13 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
                 Gson gson = new Gson();
                 HuodongBean bean = gson.fromJson(result, HuodongBean.class);
                 list = bean.getRows();
-                mListview.setAdapter(new ActivitiesGridAdpter(list, getActivity()));
+                if (bean.getTotal()==0){
+                    showNo.setVisibility(View.VISIBLE);
+                }else {
+                    showNo.setVisibility(View.GONE);
+                    mListview.setAdapter(new ActivitiesGridAdpter(list, getActivity()));
+                }
+
                 mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

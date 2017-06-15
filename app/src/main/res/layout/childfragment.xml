@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     gallery:scaleP="0.9"
-    gallery:gallery_pics_space="60px"
+    gallery:gallery_pics_space="30px"
     gallery:gallery_padding_left="150px"
     gallery:gallery_padding_right="150px"
     />

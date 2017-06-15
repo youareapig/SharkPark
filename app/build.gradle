@@ -47,4 +47,5 @@ dependencies {
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile 'com.huxq17.xrefreshview:xrefreshview:3.6.6'
     compile files('libs/jsms_android-1.1.0.jar')
+    compile 'org.jsoup:jsoup:1.10.3'
 }

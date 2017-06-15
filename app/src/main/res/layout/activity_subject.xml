@@ -55,7 +55,7 @@
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/recycleTeacher"
                         android:layout_width="wrap_content"
-                        android:layout_height="290px"
+                        android:layout_height="wrap_content"
                         android:layout_centerInParent="true" />
 
                 </RelativeLayout>

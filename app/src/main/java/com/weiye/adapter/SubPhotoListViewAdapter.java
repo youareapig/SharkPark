@@ -61,6 +61,7 @@ public class SubPhotoListViewAdapter extends BaseAdapter{
             view=layoutInflater.inflate(R.layout.subphotolistviewitem,null);
             holder.imageView= (RoundedImageView) view.findViewById(R.id.subphotolistviewItem_img);
             holder.textView= (TextView) view.findViewById(R.id.subphtolistviewItem_text);
+            holder.textViewnum= (TextView) view.findViewById(R.id.subphtolistviewItem_number);
             view.setTag(holder);
             AutoUtils.autoSize(view);
         }else {
@@ -68,11 +69,10 @@ public class SubPhotoListViewAdapter extends BaseAdapter{
         }
         ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+rowsBean.getTXLJ(),holder.imageView);
         holder.textView.setText(rowsBean.getMS().toString());
-        Log.d("tag","描述"+rowsBean.getMS());
         return view;
     }
     private class ViewHolder{
         private RoundedImageView imageView;
-        private TextView textView;
+        private TextView textView,textViewnum;
     }
 }
