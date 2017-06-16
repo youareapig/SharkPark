@@ -8,10 +8,10 @@ import android.support.v4.view.ViewPager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.weiye.schooltabfragment.SchoolActivity_1;
+import com.weiye.schooltabfragment.SchoolActivity_2;
+import com.weiye.schooltabfragment.SchoolActivity_3;
 import com.weiye.adapter.SchoolTabAdapter;
-import com.weiye.schoolTabFragment.SchoolActivity_1;
-import com.weiye.schoolTabFragment.SchoolActivity_2;
-import com.weiye.schoolTabFragment.SchoolActivity_3;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import java.util.ArrayList;

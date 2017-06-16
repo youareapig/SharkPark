@@ -72,7 +72,7 @@ public class ActivitiesGridAdpter extends BaseAdapter {
             ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBJTXLJ(), holder.imageView);
             holder.huodongPlay.setVisibility(View.VISIBLE);
         }
-        holder.textView.setText(bean.getHDMS());
+        //holder.textView.setText(bean.getHDMS());
         return view;
     }
 

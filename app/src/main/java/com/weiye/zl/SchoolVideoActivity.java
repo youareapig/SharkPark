@@ -5,10 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,6 +19,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,12 +49,12 @@ public class SchoolVideoActivity extends AutoLayoutActivity implements Observabl
     RelativeLayout share1;
     @BindView(R.id.title1)
     RelativeLayout title1;
-    @BindView(R.id.huodongsp_ms)
-    TextView huodongspMs;
+    @BindView(R.id.huodongweb)
+    WebView huodongweb;
     private Unbinder unbinder;
     private String videourl, videoimg, content;
     private int height;
-
+    private WebSettings webSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +65,24 @@ public class SchoolVideoActivity extends AutoLayoutActivity implements Observabl
         videourl = intent.getStringExtra("spdz");
         videoimg = intent.getStringExtra("txdz");
         content = intent.getStringExtra("hdms");
-        Log.e("tag","视频地址-------------"+videourl);
-        huodongspMs.setText(content);
+        Log.e("tag", "视频地址-------------" + videourl);
         schoolvideoVideo.setUp(videourl, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "鲨鱼公园");
         ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + videoimg, schoolvideoVideo.thumbImageView);
         schoolvideoVideo.thumbImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        webSettings=huodongweb.getSettings();
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
+        huodongweb.loadDataWithBaseURL(null, getNewContent(content), "text/html", "utf-8", null);
+        huodongweb.setWebViewClient(new WebViewClient());
+    }
+    //TODO 屏幕适配
+    private String getNewContent(String htmltext) {
+        Document doc = Jsoup.parse(htmltext);
+        Elements elements = doc.getElementsByTag("img");
+        for (Element element:elements){
+            element.attr("width", "100%").attr("height", "auto");
+        }
+        return doc.toString();
     }
 
     private void changTitle() {

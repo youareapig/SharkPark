@@ -68,7 +68,7 @@
                 android:textSize="50px" />
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="500px" />
+                android:layout_height="100px" />
         </LinearLayout>
     </com.weiye.myview.ObservableScrollView>
     <RelativeLayout

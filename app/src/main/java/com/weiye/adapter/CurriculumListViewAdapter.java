@@ -32,13 +32,13 @@ public class CurriculumListViewAdapter extends BaseAdapter {
     private LayoutInflater layoutInflater;
     private ViewHolder holder;
     private callBack callBack;
-    private List<String> idList=new ArrayList<>();
-    private List<KCBBean.RowsBeanX.RowsBean> tagList=new ArrayList<>();
+    private List<String> idList = new ArrayList<>();
+    private List<KCBBean.RowsBeanX.RowsBean> tagList = new ArrayList<>();
     private StringBuilder gradeID = new StringBuilder();
 
-    public CurriculumListViewAdapter(Context context, List<KCBBean.RowsBeanX.RowsBean> list,callBack callBack) {
-        this.context=context;
-        this.callBack=callBack;
+    public CurriculumListViewAdapter(Context context, List<KCBBean.RowsBeanX.RowsBean> list, callBack callBack) {
+        this.context = context;
+        this.callBack = callBack;
         this.layoutInflater = ((Activity) context).getLayoutInflater();
         this.list = list;
 
@@ -79,11 +79,9 @@ public class CurriculumListViewAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-
         holder.textViewStart.setText(myString(bean.getKSSJ()));
         holder.textViewEnd.setText(myString(bean.getJSSJ()));
-
-        final CurriculumListView_GridviewAdapter gridviewAdapter = new CurriculumListView_GridviewAdapter((Activity) view.getContext(),list);
+        final CurriculumListView_GridviewAdapter gridviewAdapter = new CurriculumListView_GridviewAdapter((Activity) view.getContext(), list);
         holder.myGridView.setAdapter(gridviewAdapter);
         holder.myGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -109,17 +107,17 @@ public class CurriculumListViewAdapter extends BaseAdapter {
         if (list != null) {
             gradeID.delete(0, gradeID.length());
 
-                for (KCBBean.RowsBeanX.RowsBean rowsBean : list) {
-                    if (rowsBean.getSTATUS().equals("0")) {
-                        tagList.add(rowsBean);
-                        gradeID.append(",");
-                        gradeID.append(rowsBean.getID());
-                    }
+            for (KCBBean.RowsBeanX.RowsBean rowsBean : list) {
+                if (rowsBean.getSTATUS().equals("0")) {
+                    tagList.add(rowsBean);
+                    gradeID.append(",");
+                    gradeID.append(rowsBean.getID());
                 }
+            }
             if (tagList != null & tagList.size() > 0) {
-                 callBack.callBackKCID(gradeID);
+                callBack.callBackKCID(gradeID);
             } else {
-                Toast.makeText(context,"没有选中",Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "没有选中", Toast.LENGTH_SHORT).show();
             }
         }
 

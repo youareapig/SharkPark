@@ -147,6 +147,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
                 main1.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 HuodongBean bean = gson.fromJson(result, HuodongBean.class);
+                Log.d("tag","活动数据"+result);
                 list = bean.getRows();
                 if (bean.getTotal()==0){
                     showNo.setVisibility(View.VISIBLE);
