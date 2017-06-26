@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.weiye.data.TeacherBean;
+import com.weiye.data.SubjectBean;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.weiye.zl.TeacherStyleActivity;
@@ -22,9 +22,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by DELL on 2017/4/14.
  */
 public class TeacherRecycleAdapter extends RecyclerView.Adapter{
-    private List<TeacherBean.RowsBean> list;
+    private List<SubjectBean.DataBean.TeacherBean> list;
 
-    public TeacherRecycleAdapter(List<TeacherBean.RowsBean> list) {
+    public TeacherRecycleAdapter(List<SubjectBean.DataBean.TeacherBean> list) {
         this.list = list;
     }
 
@@ -37,16 +37,14 @@ public class TeacherRecycleAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder= (ViewHolder) holder;
-        final TeacherBean.RowsBean bean=list.get(position);
-        viewHolder.textView.setText(bean.getNC());
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getTXLJ(),viewHolder.imageView);
+        final SubjectBean.DataBean.TeacherBean bean=list.get(position);
+        viewHolder.textView.setText(bean.getNickname());
+        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getHeadpic(),viewHolder.imageView);
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(view.getContext(), TeacherStyleActivity.class);
-                intent.putExtra("teacherID",bean.getRYID());
-                intent.putExtra("teacherName",bean.getZSXM());
-                intent.putExtra("teacherProduct",bean.getMS());
+                intent.putExtra("teacherID",bean.getTid());
                 view.getContext().startActivity(intent);
             }
         });

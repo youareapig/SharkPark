@@ -31,15 +31,12 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.TeacherRecycleAdapter;
-import com.weiye.data.IndexBean;
-import com.weiye.data.TeacherBean;
+import com.weiye.data.SubjectBean;
 import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.VideoFragment;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
-import com.weiye.utils.UserLoginDialog;
-import com.weiye.utils.UserLoginDialog1;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import org.xutils.common.Callback;
@@ -94,7 +91,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     private int currentIndex = 0;
     private FragmentManager fragmentManager;
     private String indexID;
-    private List<TeacherBean.RowsBean> mlist;
+    private List<SubjectBean.DataBean.TeacherBean> mlist;
     private int mOriginButtonTop;
     private GestureDetectorCompat mDetectorCompat;
     private SharedPreferences sharedPreferences;
@@ -121,10 +118,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
             showFragment();
         }
 
-
         visit();
-        visitTeacher();
-        //myScroll();
     }
 
 
@@ -180,23 +174,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         });
     }
 
-    private void myScroll() {
-        btnOrder.post(new Runnable() {
-            @Override
-            public void run() {
-                mOriginButtonTop = btnOrder.getTop();
-            }
-        });
-        mDetectorCompat = new GestureDetectorCompat(this, new MyGestureListener());
-        scrollview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                mDetectorCompat.onTouchEvent(event);
-                return false;
-            }
-        });
 
-    }
 
     @Override
     protected void onDestroy() {
@@ -242,23 +220,31 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
 
     //TODO 标题描述数据
     private void visit() {
+        main2.setVisibility(View.GONE);
         customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        main2.setVisibility(View.GONE);
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXXX");
-        params.addBodyParameter("ID", indexID);
-        params.addBodyParameter("start", "0");
-        x.http().get(params, new Callback.CacheCallback<String>() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/subLst");
+        params.addBodyParameter("sbid", indexID);
+        x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 changTitle();
                 main2.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
-                IndexBean bean = gson.fromJson(result, IndexBean.class);
-                mytitleText.setText(bean.getRows().get(0).getLXMC());
-                subjectContent.setText(bean.getRows().get(0).getLXMS());
-                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getRows().get(0).getBJTXLJ(), subjecttitlebackground);
+                SubjectBean bean=gson.fromJson(result,SubjectBean.class);
+                mlist=bean.getData().getTeacher();
+                if (bean.getCode()==1000){
+                    mytitleText.setText(bean.getData().getSbtitle());
+                    subjectContent.setText(bean.getData().getSbdesc());
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getBjpic(), subjecttitlebackground);
+                    recycleTeacher.setLayoutManager(new LinearLayoutManager(SubjectActivity.this, LinearLayoutManager.HORIZONTAL, false));
+                    recycleTeacher.setAdapter(new TeacherRecycleAdapter(mlist));
+                    recycleTeacher.setHasFixedSize(true);
+                }else {
+                    Toast.makeText(SubjectActivity.this,"暂无更多数据",Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
@@ -284,102 +270,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         });
     }
 
-    //TODO 老师介绍数据
-    private void visitTeacher() {
-        customProgressDialog1 = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
-        customProgressDialog1.setCanceledOnTouchOutside(false);
-        customProgressDialog1.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXJSXX");
-        params.addBodyParameter("LXID", indexID);
-        params.addBodyParameter("start", "0");
-        params.addBodyParameter("LX", "3");
-        x.http().get(params, new Callback.CacheCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Gson gson = new Gson();
-                TeacherBean teacherBean = gson.fromJson(result, TeacherBean.class);
-                mlist = teacherBean.getRows();
-                recycleTeacher.setLayoutManager(new LinearLayoutManager(SubjectActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                recycleTeacher.setAdapter(new TeacherRecycleAdapter(mlist));
-                recycleTeacher.setHasFixedSize(true);
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Intent intent=new Intent(SubjectActivity.this,RestartActivity.class);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-                customProgressDialog1.cancel();
-            }
-
-            @Override
-            public boolean onCache(String result) {
-                return false;
-            }
-        });
-    }
-
-    private class MyGestureListener extends GestureDetector.SimpleOnGestureListener {
-        boolean isScrollDown;
-
-        @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-
-            if (Math.abs(distanceY) > Math.abs(distanceX)) {//判断是否竖直滑动
-                int buttonTop = btnOrder.getTop();
-                int buttonBottom = btnOrder.getBottom();
-                try {
-                    isScrollDown = e1.getRawY() < e2.getRawY() ? true : false;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    isScrollDown = true;
-                }
-
-                if (!ifNeedScroll(isScrollDown)) return false;
-                if (isScrollDown) {
-                    btnOrder.setTop(buttonTop - (int) Math.abs(distanceY));
-                    btnOrder.setBottom(buttonBottom - (int) Math.abs(distanceY));
-                } else if (!isScrollDown) {
-                    btnOrder.setTop(buttonTop + (int) Math.abs(distanceY));
-                    btnOrder.setBottom(buttonBottom + (int) Math.abs(distanceY));
-                }
-            }
-            return super.onScroll(e1, e2, distanceX, distanceY);
-        }
-
-        private boolean ifNeedScroll(boolean isScrollDown) {
-            int nowButtonTop = btnOrder.getTop();
-            if (isScrollDown && nowButtonTop <= mOriginButtonTop) return false;
-
-            if (!isScrollDown) {
-                return isInScreen(btnOrder);
-            }
-            return true;
-        }
-
-        private boolean isInScreen(View view) {
-            int width, height;
-            Point p = new Point();
-            getWindowManager().getDefaultDisplay().getSize(p);
-            width = p.x;
-            height = p.y;
-
-            Rect rect = new Rect(0, 0, width, height);
-
-            if (!view.getLocalVisibleRect(rect)) return false;
-
-            return true;
-        }
 
 
-    }
 
 }

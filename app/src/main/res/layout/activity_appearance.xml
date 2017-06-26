@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main5"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.weiye.zl.AppearanceActivity"
-    android:id="@+id/main5">
-    <RelativeLayout
-        style="@style/mytitle">
+    tools:context="com.weiye.zl.AppearanceActivity">
+
+    <RelativeLayout style="@style/mytitle">
 
         <RelativeLayout
             android:id="@+id/back2"
@@ -23,6 +23,7 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,33 +32,58 @@
         android:text="校园风采"
         android:textColor="#303030"
         android:textSize="72px" />
+
     <TextView
         android:layout_width="820px"
         android:layout_height="1px"
         android:layout_gravity="center_horizontal"
-        android:background="#bfbfbf"
-        android:layout_marginTop="60px"/>
+        android:layout_marginTop="60px"
+        android:background="#bfbfbf" />
+
     <TextView
         android:layout_width="900px"
         android:layout_height="2px"
         android:layout_gravity="center_horizontal"
-        android:background="#bfbfbf"
-        android:layout_marginTop="10px"/>
+        android:layout_marginTop="10px"
+        android:background="#bfbfbf" />
+
     <TextView
         android:layout_width="960px"
         android:layout_height="3px"
         android:layout_gravity="center_horizontal"
-        android:background="#bfbfbf"
-        android:layout_marginTop="10px"/>
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/schoolappearance"
+        android:layout_marginTop="10px"
+        android:background="#bfbfbf" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="500px"
         android:layout_marginLeft="40px"
         android:layout_marginRight="40px"
-        android:layout_marginTop="10px"
-        app:riv_corner_radius="8px"
-        android:scaleType="centerCrop" />
+        android:layout_marginTop="10px">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/schoolappearance"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="8px" />
+
+        <TextView
+            android:id="@+id/number1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="40px"
+            android:layout_marginRight="40px"
+            android:textColor="#fff"
+            android:shadowColor="#222222"
+            android:shadowRadius="1"
+            android:shadowDx="0.8"
+            android:shadowDy="0.8"
+            android:textSize="52px" />
+    </RelativeLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -66,32 +92,57 @@
         android:text="教学环境"
         android:textColor="#303030"
         android:textSize="72px" />
+
     <TextView
         android:layout_width="820px"
         android:layout_height="1px"
         android:layout_gravity="center_horizontal"
-        android:background="#bfbfbf"
-        android:layout_marginTop="60px"/>
+        android:layout_marginTop="60px"
+        android:background="#bfbfbf" />
+
     <TextView
         android:layout_width="900px"
         android:layout_height="2px"
         android:layout_gravity="center_horizontal"
-        android:background="#bfbfbf"
-        android:layout_marginTop="10px"/>
+        android:layout_marginTop="10px"
+        android:background="#bfbfbf" />
+
     <TextView
         android:layout_width="960px"
         android:layout_height="3px"
         android:layout_gravity="center_horizontal"
-        android:background="#bfbfbf"
-        android:layout_marginTop="10px"/>
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/jxhj"
+        android:layout_marginTop="10px"
+        android:background="#bfbfbf" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="500px"
         android:layout_marginLeft="40px"
         android:layout_marginRight="40px"
-        android:layout_marginTop="10px"
-        app:riv_corner_radius="8px"
-        android:scaleType="centerCrop" />
+        android:layout_marginTop="10px">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/jxhj"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="8px" />
+
+        <TextView
+            android:id="@+id/number2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="40px"
+            android:layout_marginRight="40px"
+            android:shadowColor="#222222"
+            android:shadowRadius="1"
+            android:shadowDx="0.8"
+            android:shadowDy="0.8"
+            android:textColor="#fff"
+            android:textSize="52px" />
+    </RelativeLayout>
+
 
 </LinearLayout>

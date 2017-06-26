@@ -7,8 +7,11 @@ package com.weiye.utils;
 public class SingleModleUrl {
 //    private String testUrl = "http://192.168.10.253/Service/";
 //    private String imgUrl="http://192.168.10.253/";
-    private String testUrl = "http://211.149.248.144:8820/Service/";
-    private String imgUrl="http://211.149.248.144:8820/";
+    //private String testUrl = "http://211.149.248.144:8820/Service/";
+    private String imgUrl="http://192.168.10.130/";
+
+    private String testUrl = "http://192.168.10.130/app.php/";
+
 
     public String getImgUrl() {
         return imgUrl;

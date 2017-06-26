@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.weiye.data.MyGradeBean;
+import com.weiye.data.MyCorseBean;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -19,8 +19,8 @@ import java.util.List;
 public class MyGradeAdapter extends BaseAdapter{
     private Activity activity;
     private LayoutInflater layoutInflater;
-    private List<MyGradeBean> list;
-    public MyGradeAdapter(Activity activity,List<MyGradeBean> list) {
+    private List<MyCorseBean.DataBean> list;
+    public MyGradeAdapter(Activity activity,List<MyCorseBean.DataBean> list) {
         this.layoutInflater=activity.getLayoutInflater();
         this.list=list;
     }
@@ -49,7 +49,7 @@ public class MyGradeAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder=new ViewHolder();
-        MyGradeBean bean=list.get(i);
+        MyCorseBean.DataBean bean=list.get(i);
        if (view==null){
            view=layoutInflater.inflate(R.layout.gradelistitem,null);
            holder.content= (TextView) view.findViewById(R.id.mGradeItemName);
@@ -61,13 +61,17 @@ public class MyGradeAdapter extends BaseAdapter{
        }else {
            holder= (ViewHolder) view.getTag();
        }
-        holder.content.setText(bean.getContent());
-        holder.date.setText(bean.getDate());
-        holder.time.setText(bean.getTime());
+        holder.content.setText(bean.getConame());
+        holder.date.setText(myString(bean.getDates()));
+        holder.time.setText(bean.getDatename());
         holder.week.setText(bean.getWeek());
         return view;
     }
     private class ViewHolder{
         private TextView date,time,week,content;
+    }
+    private String myString(String string) {
+        String[] s = string.split("-");
+        return s[2];
     }
 }

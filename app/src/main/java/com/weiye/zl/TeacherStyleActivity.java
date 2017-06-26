@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -15,7 +16,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.BannerAdapter;
-import com.weiye.data.InfoBean;
+import com.weiye.data.TeacherBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
@@ -53,9 +54,9 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     LinearLayout main3;
     private Unbinder unbinder;
     private int height;
-    private List<InfoBean.RowsBean> bannerList;
+    private List<String> bannerList;
     private ImageView[] indexTips, indexBannerImage;
-    private String teacherID, name, product;
+    private String teacherID;
     private CustomProgressDialog customProgressDialog;
 
     @Override
@@ -65,10 +66,6 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
         unbinder = ButterKnife.bind(this);
         Intent intent = getIntent();
         teacherID = intent.getStringExtra("teacherID");
-        name = intent.getStringExtra("teacherName");
-        product = intent.getStringExtra("teacherProduct");
-        teacherName.setText(name);
-        teacherProduct.setText(product);
         changTitle();
         visit();
     }
@@ -134,18 +131,17 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main3.setVisibility(View.GONE);
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXSPTXXX");
-        params.addBodyParameter("LXID", teacherID);
-        params.addBodyParameter("start", "0");
-        params.addBodyParameter("LX", "2");
-        x.http().get(params, new Callback.CacheCallback<String>() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/teacherInfo");
+        params.addBodyParameter("tid",teacherID);
+        x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 main3.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
-                InfoBean benaInfo = gson.fromJson(result, InfoBean.class);
-                bannerList = benaInfo.getRows();
-
+                TeacherBean bean=gson.fromJson(result,TeacherBean.class);
+                bannerList=bean.getData().getPic();
+                teacherName.setText(bean.getData().getTruename());
+                teacherProduct.setText(bean.getData().getDesc());
                 indexTips = new ImageView[bannerList.size()];
                 for (int i = 0; i < indexTips.length; i++) {
                     ImageView imageView = new ImageView(TeacherStyleActivity.this);
@@ -168,7 +164,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
                     ImageView imageView = new ImageView(TeacherStyleActivity.this);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     indexBannerImage[i] = imageView;
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bannerList.get(i).getTXLJ(), imageView);
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bannerList.get(i), imageView);
 
                 }
                 teacherStyleBanner.setOnPageChangeListener(TeacherStyleActivity.this);
@@ -187,6 +183,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
 
             @Override
             public void onFinished() {
+
                 customProgressDialog.cancel();
             }
 

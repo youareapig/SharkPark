@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.weiye.data.KTFCBean;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -24,11 +23,11 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class GalleryAdapter extends BaseAdapter{
-    private List<KTFCBean.RowsBean> list;
+    private List<String> list;
     private Activity context;
     private int count;
     private LayoutInflater layoutInflater;
-    public GalleryAdapter(List<KTFCBean.RowsBean> list, Activity context) {
+    public GalleryAdapter(List<String> list, Activity context) {
         this.list = list;
         this.layoutInflater=context.getLayoutInflater();
     }
@@ -57,13 +56,11 @@ public class GalleryAdapter extends BaseAdapter{
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        KTFCBean.RowsBean bean=list.get(i%count);
         view=layoutInflater.inflate(R.layout.ktfc_item,null);
         TextView textView= (TextView) view.findViewById(R.id.ktfc_item_text);
         RoundedImageView imageView= (RoundedImageView) view.findViewById(R.id.ktfc_item_img);
         AutoUtils.autoSize(view);
-        textView.setText(bean.getFCMS());
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getTXLJ(),imageView);
+        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+list.get(i%list.size()),imageView);
         return view;
     }
 }

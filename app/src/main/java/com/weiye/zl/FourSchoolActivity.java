@@ -54,7 +54,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     @BindView(R.id.main8)
     LinearLayout main8;
     private Unbinder unbinder;
-    private List<IndexBean.RowsBean> mList;
+    private List<IndexBean.DataBean> mList;
     private FragmentManager fragmentManager;
     private Fragment fragment;
     private List<Fragment> list;
@@ -73,11 +73,11 @@ public class FourSchoolActivity extends AutoLayoutActivity {
 
     private void schoolFragment() {
         list = new ArrayList<>();
-        fragment = new VideoFragment(null);
+        fragment = new VideoFragment("0");
         fragmentManager = this.getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.schoolfragment, fragment).commit();
-        list.add(new VideoFragment(null));
-        list.add(new PhotoFragment(null));
+        list.add(new VideoFragment("0"));
+        list.add(new PhotoFragment("0"));
     }
 
     @Override
@@ -117,26 +117,31 @@ public class FourSchoolActivity extends AutoLayoutActivity {
         customProgressDialog.setCanceledOnTouchOutside(false);
         main8.setVisibility(View.GONE);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXXX");
-        params.addBodyParameter("start", "1");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/index");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                main8.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 IndexBean bean = gson.fromJson(result, IndexBean.class);
-                mList = bean.getRows();
-                fourschoolGallery.setAdapter(new FourSchoolGalleryAdapter(mList, FourSchoolActivity.this));
-                fourschoolGallery.setSpacing(60);
-                fourschoolGallery.setSelection(40);
-                fourschoolGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        IndexBean.RowsBean rBean = (IndexBean.RowsBean) adapterView.getItemAtPosition(i % mList.size());
-                        Intent intent = new Intent(FourSchoolActivity.this, SubjectActivity.class);
-                        intent.putExtra("indexID", rBean.getID() + "");
-                        startActivity(intent);
-                    }
-                });
+                mList = bean.getData();
+                if (bean.getCode()==1000){
+                    fourschoolGallery.setAdapter(new FourSchoolGalleryAdapter(mList, FourSchoolActivity.this));
+                    fourschoolGallery.setSpacing(60);
+                    fourschoolGallery.setSelection(40);
+                    fourschoolGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            IndexBean.DataBean rBean = (IndexBean.DataBean) adapterView.getItemAtPosition(i % mList.size());
+                            Intent intent = new Intent(FourSchoolActivity.this, SubjectActivity.class);
+                            intent.putExtra("indexID", rBean.getSbid() + "");
+                            startActivity(intent);
+                        }
+                    });
+                }else {
+                    Toast.makeText(FourSchoolActivity.this, "暂无更多数据", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
@@ -152,7 +157,6 @@ public class FourSchoolActivity extends AutoLayoutActivity {
             @Override
             public void onFinished() {
                 customProgressDialog.cancel();
-                main8.setVisibility(View.VISIBLE);
             }
 
             @Override

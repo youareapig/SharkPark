@@ -1,14 +1,15 @@
 package com.weiye.data;
 
 /**
- * Created by DELL on 2017/5/10.
+ * Created by DELL on 2017/6/21.
  */
-public class UserInfoBean {
+
+public class RegistBean {
 
     /**
-     * code : 3000
-     * message : 查询成功
-     * data : {"tel":"15983302246","headpic":"Uploads/users/default.png"}
+     * code : 3002
+     * message : 注册成功
+     * data : {"id":"1","tel":"15983302246","headpic":"Uploads/users/default.png"}
      */
 
     private int code;
@@ -41,12 +42,22 @@ public class UserInfoBean {
 
     public static class DataBean {
         /**
+         * id : 1
          * tel : 15983302246
          * headpic : Uploads/users/default.png
          */
 
+        private String id;
         private String tel;
         private String headpic;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
 
         public String getTel() {
             return tel;

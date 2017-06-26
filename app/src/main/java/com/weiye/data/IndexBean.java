@@ -8,132 +8,72 @@ import java.util.List;
 public class IndexBean {
 
     /**
-     * total : 5
-     * rows : [{"ID":5,"LXMC":"视频类","LXBC":"视频","LXMS":"视频类","TX":2,"TXLJ":"UploadFile/123.jpg","BJTX":3,"BJTXLJ":"UploadFile/123.jpg","CJRQ":"2017-05-01","CJRID":2},{"ID":4,"LXMC":"摄影类","LXBC":"观查","LXMS":"摄影类","TX":2,"TXLJ":"UploadFile/123.jpg","BJTX":3,"BJTXLJ":"UploadFile/123.jpg","CJRQ":"2017-05-01","CJRID":2},{"ID":3,"LXMC":"自然类","LXBC":"天文","LXMS":"自然类","TX":2,"TXLJ":"UploadFile/123.jpg","BJTX":3,"BJTXLJ":"UploadFile/123.jpg","CJRQ":"2017-05-01","CJRID":2},{"ID":2,"LXMC":"科学类","LXBC":"科学","LXMS":"科学类","TX":2,"TXLJ":"UploadFile/123.jpg","BJTX":3,"BJTXLJ":"UploadFile/123.jpg","CJRQ":"2017-05-01","CJRID":2},{"ID":1,"LXMC":"公开课","LXBC":"日常","LXMS":"公开课","TX":2,"TXLJ":"UploadFile/123.jpg","BJTX":3,"BJTXLJ":"UploadFile/123.jpg","CJRQ":"2017-05-01","CJRID":2}]
+     * code : 1000
+     * message : 成功
+     * data : [{"sbid":"1","sbtitle":"技术与工程学","sbpic":"Uploads/subject/2017-06-21//594a2a9d72f6a.jpg"},{"sbid":"2","sbtitle":"物质与科学","sbpic":"Uploads/subject/2017-06-21//594a2ac50ebc3.jpg"},{"sbid":"3","sbtitle":"地球与宇宙科学","sbpic":"Uploads/subject/2017-06-21//594a2ade87ccf.jpg"},{"sbid":"4","sbtitle":"生命与科学","sbpic":"Uploads/subject/2017-06-21//594a2af3d4659.jpg"}]
      */
 
-    private int total;
-    private List<RowsBean> rows;
+    private int code;
+    private String message;
+    private List<DataBean> data;
 
-    public int getTotal() {
-        return total;
+    public int getCode() {
+        return code;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public List<RowsBean> getRows() {
-        return rows;
+    public String getMessage() {
+        return message;
     }
 
-    public void setRows(List<RowsBean> rows) {
-        this.rows = rows;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public static class RowsBean {
+    public List<DataBean> getData() {
+        return data;
+    }
+
+    public void setData(List<DataBean> data) {
+        this.data = data;
+    }
+
+    public static class DataBean {
         /**
-         * ID : 5
-         * LXMC : 视频类
-         * LXBC : 视频
-         * LXMS : 视频类
-         * TX : 2
-         * TXLJ : UploadFile/123.jpg
-         * BJTX : 3
-         * BJTXLJ : UploadFile/123.jpg
-         * CJRQ : 2017-05-01
-         * CJRID : 2
+         * sbid : 1
+         * sbtitle : 技术与工程学
+         * sbpic : Uploads/subject/2017-06-21//594a2a9d72f6a.jpg
          */
 
-        private int ID;
-        private String LXMC;
-        private String LXBC;
-        private String LXMS;
-        private int TX;
-        private String TXLJ;
-        private int BJTX;
-        private String BJTXLJ;
-        private String CJRQ;
-        private int CJRID;
+        private String sbid;
+        private String sbtitle;
+        private String sbpic;
 
-        public int getID() {
-            return ID;
+        public String getSbid() {
+            return sbid;
         }
 
-        public void setID(int ID) {
-            this.ID = ID;
+        public void setSbid(String sbid) {
+            this.sbid = sbid;
         }
 
-        public String getLXMC() {
-            return LXMC;
+        public String getSbtitle() {
+            return sbtitle;
         }
 
-        public void setLXMC(String LXMC) {
-            this.LXMC = LXMC;
+        public void setSbtitle(String sbtitle) {
+            this.sbtitle = sbtitle;
         }
 
-        public String getLXBC() {
-            return LXBC;
+        public String getSbpic() {
+            return sbpic;
         }
 
-        public void setLXBC(String LXBC) {
-            this.LXBC = LXBC;
-        }
-
-        public String getLXMS() {
-            return LXMS;
-        }
-
-        public void setLXMS(String LXMS) {
-            this.LXMS = LXMS;
-        }
-
-        public int getTX() {
-            return TX;
-        }
-
-        public void setTX(int TX) {
-            this.TX = TX;
-        }
-
-        public String getTXLJ() {
-            return TXLJ;
-        }
-
-        public void setTXLJ(String TXLJ) {
-            this.TXLJ = TXLJ;
-        }
-
-        public int getBJTX() {
-            return BJTX;
-        }
-
-        public void setBJTX(int BJTX) {
-            this.BJTX = BJTX;
-        }
-
-        public String getBJTXLJ() {
-            return BJTXLJ;
-        }
-
-        public void setBJTXLJ(String BJTXLJ) {
-            this.BJTXLJ = BJTXLJ;
-        }
-
-        public String getCJRQ() {
-            return CJRQ;
-        }
-
-        public void setCJRQ(String CJRQ) {
-            this.CJRQ = CJRQ;
-        }
-
-        public int getCJRID() {
-            return CJRID;
-        }
-
-        public void setCJRID(int CJRID) {
-            this.CJRID = CJRID;
+        public void setSbpic(String sbpic) {
+            this.sbpic = sbpic;
         }
     }
 }

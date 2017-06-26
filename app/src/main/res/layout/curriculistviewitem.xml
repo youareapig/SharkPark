@@ -16,26 +16,10 @@
             android:id="@+id/curriculistview_item_timeStrar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="9:00"
             android:textColor="#005982"
             android:textSize="50px" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10px"
-            android:layout_marginRight="10px"
-            android:text="-"
-            android:textColor="#005982"
-            android:textSize="50px" />
 
-        <TextView
-            android:id="@+id/curriculistview_item_timeEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="9:00"
-            android:textColor="#005982"
-            android:textSize="50px" />
     </com.zhy.autolayout.AutoLinearLayout>
 
     <com.weiye.myview.MyGridView

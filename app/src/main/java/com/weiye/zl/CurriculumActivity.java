@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,10 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.CurriculumGalleryAdapter;
 import com.weiye.adapter.CurriculumListViewAdapter;
-import com.weiye.adapter.CurriculumListView_GridviewAdapter;
 import com.weiye.data.KCBBean;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.utils.UserLoginDialog1;
@@ -30,7 +32,6 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,55 +58,49 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
     TextView Curriculumtitlexq;
     @BindView(R.id.Curriculumtitlerq)
     TextView Curriculumtitlerq;
+    @BindView(R.id.wu)
+    TextView wu;
+    @BindView(R.id.main9)
+    LinearLayout main9;
+    @BindView(R.id.main11)
+    FrameLayout main11;
     private Unbinder unbinder;
-    private List<Integer> iconList;
-    private int height, iconID;
-    private String indexID;
-    private List<KCBBean.RowsBeanX> cList;
+    private int height;
+    private String indexID, userID, iconID;
     private SharedPreferences sharedPreferences;
-    private KCBBean.RowsBeanX rowsBean;
-    private List<KCBBean.RowsBeanX.RowsBean> myList;
     private CurriculumListViewAdapter adapterList;
     private CurriculumListViewAdapter.callBack callBack;
+    private List<KCBBean.DataBean> list1;
+    private KCBBean.DataBean bean15;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curriculum);
         unbinder = ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
+        userID = sharedPreferences.getString("userid", "0");
         Intent intent = getIntent();
         indexID = intent.getStringExtra("LXID");
         callBack = new CurriculumListViewAdapter.callBack() {
 
             @Override
             public void callBackKCID(StringBuilder gradeID) {
-                if (gradeID.substring(0,1).equals(",")){
-                    gradeID.delete(0,1);
+                if (gradeID.substring(0, 1).equals(",")) {
+                    gradeID.delete(0, 1);
                     String tag = sharedPreferences.getString("usertag", "0");
                     if (tag.equals("1")) {
                         Intent intent1 = new Intent(CurriculumActivity.this, SubmitActivity.class);
-                        intent1.putExtra("kcid",gradeID.toString());
+                        intent1.putExtra("kcid", gradeID.toString());
                         startActivity(intent1);
                     } else {
-                        new UserLoginDialog1(CurriculumActivity.this,gradeID.toString()).loginDialog();
+                        new UserLoginDialog1(CurriculumActivity.this, gradeID.toString()).loginDialog();
                     }
                 }
             }
         };
-        changDate();
         showDay();
         init();
-    }
-
-    private void changDate() {
-        iconList = new ArrayList<>();
-        iconList.add(R.mipmap.day1);
-        iconList.add(R.mipmap.day2);
-        iconList.add(R.mipmap.day3);
-        iconList.add(R.mipmap.day4);
-        iconList.add(R.mipmap.day5);
-        iconList.add(R.mipmap.day6);
-        iconList.add(R.mipmap.day7);
     }
 
 
@@ -123,47 +118,58 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
     }
 
     private void init() {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_KCAPDataService.ashx?op=getTAB_KCAP");
-        params.addBodyParameter("KCLX", indexID);
-        params.addBodyParameter("start", "0");
+        main11.setVisibility(View.GONE);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/courseLst");
+        params.addBodyParameter("sbid", indexID);
+        params.addBodyParameter("uid", userID);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "课程安排" + result);
+                main11.setVisibility(View.VISIBLE);
+                curricuScrollview.setVisibility(View.VISIBLE);
+                curricuButton.setVisibility(View.VISIBLE);
+                wu.setVisibility(View.GONE);
                 Gson gson = new Gson();
                 final KCBBean bean = gson.fromJson(result, KCBBean.class);
-                cList = bean.getRows();
-                final CurriculumGalleryAdapter adapter = new CurriculumGalleryAdapter(iconList, cList, CurriculumActivity.this);
-                curricuGallery.setAdapter(adapter);
-                curricuGallery.setSpacing(60);
-                curricuGallery.setSelection(77);
-                curricuGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        myList = bean.getRows().get(i % iconList.size()).getRows();
-                        //List<KCBBean.RowsBeanX> list3=bean.getRows();
-                        //rowsBean= (KCBBean.RowsBeanX) adapterView.getItemAtPosition(i % iconList.size());
-                        rowsBean = cList.get(i % iconList.size());
-                        iconID = iconList.get(i % iconList.size());
-                        adapter.setSelectItem(i % (iconList.size()));
-                        adapter.notifyDataSetChanged();
+                if (bean.getCode() == 1000) {
+                    list1 = bean.getData();
+                    final CurriculumGalleryAdapter adapter = new CurriculumGalleryAdapter(list1, CurriculumActivity.this);
+                    curricuGallery.setAdapter(adapter);
+                    curricuGallery.setSpacing(60);
+                    //curricuGallery.setSelection((list1.size())*10);
+                    curricuGallery.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            List<KCBBean.DataBean.ChildrenBean> list2 = bean.getData().get(i).getChildren();
+                            bean15 = bean.getData().get(i);
+                            iconID = list1.get(i).getPic();
+                            adapter.setSelectItem(i);
+                            adapter.notifyDataSetChanged();
+                            adapterList = new CurriculumListViewAdapter(CurriculumActivity.this, list2, list1, callBack);
+                            curricuListview.setAdapter(adapterList);
+                            adapterList.notifyDataSetChanged();
+                        }
 
-                        adapterList = new CurriculumListViewAdapter(CurriculumActivity.this, myList, callBack);
-                        curricuListview.setAdapter(adapterList);
-                        adapterList.notifyDataSetChanged();
-                    }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
+                        }
+                    });
+                } else {
+                    curricuScrollview.setVisibility(View.GONE);
+                    curricuButton.setVisibility(View.GONE);
+                    wu.setVisibility(View.VISIBLE);
+                }
 
-                    }
-                });
 
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag", "课程安排请求错误");
+                Toast.makeText(CurriculumActivity.this, "数据加载失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -173,7 +179,7 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
 
             @Override
@@ -194,11 +200,11 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
         if (y <= height) {
             float scale = (float) y / height;
             float alpha = (255 * scale);
-            CurriculumtitleImage.setImageResource(iconID);
+            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + iconID, CurriculumtitleImage);
             CurriculumtitleImage.setAlpha(alpha);
-            Curriculumtitlexq.setText(rowsBean.getWeek());
+            Curriculumtitlexq.setText(bean15.getWeek());
             Curriculumtitlexq.setAlpha(alpha);
-            Curriculumtitlerq.setText(rowsBean.getDate());
+            Curriculumtitlerq.setText(bean15.getDates());
             Curriculumtitlerq.setAlpha(alpha);
         }
     }

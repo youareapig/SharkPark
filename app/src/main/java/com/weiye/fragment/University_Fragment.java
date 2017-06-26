@@ -43,6 +43,8 @@ import com.zhy.m.permission.PermissionGrant;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -180,34 +182,9 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     //TODO 将位图转换成base64编码
     private String Bitmap2StrByBase64(Bitmap bit) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bit.compress(Bitmap.CompressFormat.PNG, 100, bos);//参数100表示不压缩  
+        bit.compress(Bitmap.CompressFormat.PNG, 40, bos);//参数100表示不压缩  
         byte[] bytes = bos.toByteArray();
         return Base64.encodeToString(bytes, Base64.DEFAULT);
-//        String result =null;
-//        ByteArrayOutputStream baos =null;
-//        try{
-//            if(bitmap!=null){
-//                baos=new ByteArrayOutputStream();
-//                bitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
-//                baos.flush();
-//                baos.close();
-//
-//                byte[] bitmapBytes=baos.toByteArray();
-//                result=Base64.encodeToString(bitmapBytes,Base64.DEFAULT);
-//            }
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }finally{
-//            try{
-//                if(baos!=null){
-//                    baos.flush();
-//                    baos.close();
-//                }
-//            }catch(IOException e){
-//                e.printStackTrace();
-//            }
-//        }
-//        return result;
     }
 
 
@@ -242,17 +219,24 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "正在上传...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=upLoadImg");
-        params.addBodyParameter("YHID", userID);
-        params.addBodyParameter("File", "我的头像");
-        params.addBodyParameter("Img", base);
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editPic");
+        params.addBodyParameter("id", userID);
+        params.addBodyParameter("headpic", "data:image/jpeg;base64,"+base);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","头像上传"+result);
-                myhead.setImageBitmap(bitmap);
-                Log.d("tag","00000000000-----"+base);
-                Toast.makeText(getActivity(), "头像更新成功", Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject jsonObject=new JSONObject(result);
+                    if (jsonObject.getString("code").equals("3004")){
+                        myhead.setImageBitmap(bitmap);
+                        Toast.makeText(getActivity(), "头像更新成功", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(getActivity(), "头像上传失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
@@ -276,30 +260,36 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "正在上传...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=upLoadImg");
-        params.addBodyParameter("YHID", userID);
-        params.addBodyParameter("File", "我的头像");
-        params.addBodyParameter("Img", base);
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editPic");
+        params.addBodyParameter("id", userID);
+        params.addBodyParameter("headpic", "data:image/jpeg;base64,"+base);
         params.setMultipart(true);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Toast.makeText(getActivity(), "头像更新成功", Toast.LENGTH_SHORT).show();
                 try {
-                    fileOutputStream[0] = new FileOutputStream(fileName);
-                    bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream[0]);
-                    myhead.setImageBitmap(bitmap1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        fileOutputStream[0].flush();
-                        fileOutputStream[0].close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    JSONObject jsonObject=new JSONObject(result);
+                    if (jsonObject.getString("code").equals("3004")){
+                        Toast.makeText(getActivity(), "头像更新成功", Toast.LENGTH_SHORT).show();
+                        try {
+                            fileOutputStream[0] = new FileOutputStream(fileName);
+                            bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream[0]);
+                            myhead.setImageBitmap(bitmap1);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                fileOutputStream[0].flush();
+                                fileOutputStream[0].close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
-
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
             }
 
             @Override
@@ -325,26 +315,19 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main6.setVisibility(View.GONE);
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=getTAB_YHXX");
-        params.addBodyParameter("ID", userID);
-        params.addBodyParameter("start", "1");
-        x.http().get(params, new Callback.CacheCallback<String>() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myInfo");
+        params.addBodyParameter("id", userID);
+        x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","用户信息"+result);
                 main6.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 UserInfoBean bean = gson.fromJson(result, UserInfoBean.class);
-                if (bean.getRows().get(0).getNC().toString().equals(null)) {
-                    myname.setText("鲨鱼大哥");
-                } else {
-                    myname.setText(bean.getRows().get(0).getNC().toString().trim());
-                }
-                Log.d("tag","头像地址"+bean.getRows().get(0).getTXLJ());
-                if (bean.getRows().get(0).getTXLJ().equals(null)){
-                    myhead.setImageResource(R.mipmap.head1);
+                if (bean.getCode()==3000){
+                    myname.setText(bean.getData().getTel());
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getData().getHeadpic(),myhead);
                 }else {
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getRows().get(0).getTXLJ(), myhead);
+                    Toast.makeText(getActivity(),"获取用户信息失败",Toast.LENGTH_SHORT).show();
                 }
 
             }

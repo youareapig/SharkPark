@@ -14,8 +14,12 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.weiye.data.AllHuodongBean;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
@@ -24,6 +28,9 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,9 +59,10 @@ public class SchoolVideoActivity extends AutoLayoutActivity implements Observabl
     @BindView(R.id.huodongweb)
     WebView huodongweb;
     private Unbinder unbinder;
-    private String videourl, videoimg, content;
+    private String huodongID, img;
     private int height;
     private WebSettings webSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,24 +70,65 @@ public class SchoolVideoActivity extends AutoLayoutActivity implements Observabl
         unbinder = ButterKnife.bind(this);
         changTitle();
         Intent intent = getIntent();
-        videourl = intent.getStringExtra("spdz");
-        videoimg = intent.getStringExtra("txdz");
-        content = intent.getStringExtra("hdms");
-        Log.e("tag", "视频地址-------------" + videourl);
-        schoolvideoVideo.setUp(videourl, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "鲨鱼公园");
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + videoimg, schoolvideoVideo.thumbImageView);
-        schoolvideoVideo.thumbImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        webSettings=huodongweb.getSettings();
-        webSettings.setLoadWithOverviewMode(true);
-        webSettings.setUseWideViewPort(true);
-        huodongweb.loadDataWithBaseURL(null, getNewContent(content), "text/html", "utf-8", null);
-        huodongweb.setWebViewClient(new WebViewClient());
+        huodongID = intent.getStringExtra("id");
+        visit();
+
     }
+
+    private void visit() {
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "正在提交....", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/universityDetail");
+        params.addBodyParameter("id", huodongID);
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                AllHuodongBean bean = gson.fromJson(result, AllHuodongBean.class);
+                img = bean.getData().getBjimg();
+                if (bean.getCode() == 1000) {
+                    schoolvideoVideo.setUp(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getVurl(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, "鲨鱼公园");
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + img, schoolvideoVideo.thumbImageView);
+                    schoolvideoVideo.thumbImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    webSettings = huodongweb.getSettings();
+                    webSettings.setLoadWithOverviewMode(true);
+                    webSettings.setUseWideViewPort(true);
+                    webSettings.setTextZoom(250);
+                    huodongweb.loadDataWithBaseURL(null, getNewContent(bean.getData().getContent()), "text/html", "utf-8", null);
+                    huodongweb.setWebViewClient(new WebViewClient());
+                } else {
+                    Toast.makeText(SchoolVideoActivity.this, "暂无活动详情", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(SchoolVideoActivity.this, "数据获取失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                customProgressDialog.cancel();
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+    }
+
     //TODO 屏幕适配
     private String getNewContent(String htmltext) {
         Document doc = Jsoup.parse(htmltext);
         Elements elements = doc.getElementsByTag("img");
-        for (Element element:elements){
+        for (Element element : elements) {
             element.attr("width", "100%").attr("height", "auto");
         }
         return doc.toString();
@@ -139,7 +188,7 @@ public class SchoolVideoActivity extends AutoLayoutActivity implements Observabl
         oks.setSite(getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl("http://www.sharkpark.cn/");
-        oks.setImageUrl(SingleModleUrl.singleModleUrl().getImgUrl() + videoimg);
+        oks.setImageUrl(SingleModleUrl.singleModleUrl().getImgUrl() + img);
         oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
             @Override
             public void onShare(Platform platform, Platform.ShareParams paramsToShare) {

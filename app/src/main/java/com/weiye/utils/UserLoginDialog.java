@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.weiye.data.LoginBean;
+import com.weiye.data.RegistBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.zl.MainActivity;
 import com.weiye.zl.R;
@@ -362,24 +363,22 @@ public class UserLoginDialog {
         customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=login");
-        params.addBodyParameter("DLZH", phone);
-        params.addBodyParameter("DLMM", password);
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/logo");
+        params.addBodyParameter("tel", phone);
+        params.addBodyParameter("password", password);
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", result);
                 Gson gson = new Gson();
                 LoginBean bean = gson.fromJson(result, LoginBean.class);
-                if (bean.isSuccess() == true) {
+                if (bean.getCode()==3000) {
                     editor.putString("usertag", "1");
-                    editor.putString("userid", bean.getRows().get(0).getID() + "");
+                    editor.putString("userid", bean.getData().getId());
                     editor.commit();
                     dialog.cancel();
                     Intent intent = new Intent(context, MainActivity.class);
                     intent.putExtra("fTag", 3);
                     context.startActivity(intent);
-
                     Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "不存在用户名或密码错误", Toast.LENGTH_SHORT).show();
@@ -406,14 +405,14 @@ public class UserLoginDialog {
 
     //TODO 检测用户是否存在
     private void detectionUser(String phone) {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=check");
-        params.addBodyParameter("DLZH", phone);
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/isRegist");
+        params.addBodyParameter("tel", phone);
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 try {
                     JSONObject json = new JSONObject(result);
-                    if (json.getBoolean("Success") == true) {
+                    if (json.getString("code").equals("-3001")) {
                         vercode.setVisibility(View.GONE);
                         userpassword.setHint("密码");
                         userpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);//输入类型为密码
@@ -453,30 +452,27 @@ public class UserLoginDialog {
         customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=register");
-        params.addBodyParameter("YHZH", phone);
-        params.addBodyParameter("YHMM", pwd);
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/regist");
+        params.addBodyParameter("tel", phone);
+        params.addBodyParameter("password", pwd);
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", result);
-                try {
-                    JSONObject json = new JSONObject(result);
-                    if (json.getBoolean("Success") == true) {
-                        editor.putString("usertag", "1");
-                        editor.putString("userid", json.getString("YHID"));
-                        editor.commit();
-                        dialog1.cancel();
-                        Intent intent = new Intent(context, MainActivity.class);
-                        intent.putExtra("fTag", 3);
-                        context.startActivity(intent);
-                        Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, "注册失败", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                Gson gson=new Gson();
+                RegistBean registBean=gson.fromJson(result,RegistBean.class);
+                if (registBean.getCode()==3002){
+                    editor.putString("usertag", "1");
+                    editor.putString("userid", registBean.getData().getId());
+                    editor.commit();
+                    dialog1.cancel();
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra("fTag", 3);
+                    context.startActivity(intent);
+                    Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(context, "注册失败", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
@@ -498,25 +494,33 @@ public class UserLoginDialog {
 
     //TODO 忘记密码
     private void updatePwd(String phone, String pwd) {
-        Log.e("tag", "修改密码参数" + phone + pwd);
         customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=ChangePwd");
-        params.addBodyParameter("YHZH", phone);
-        params.addBodyParameter("YHMM", pwd);
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/setPwd");
+        params.addBodyParameter("tel", phone);
+        params.addBodyParameter("password", pwd);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("tag", "修改密码" + result);
-                dialog1.cancel();
-                loginDialog();
-                Toast.makeText(context, "密码已修改，请重新登录", Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject jsonObject=new JSONObject(result);
+                    if (jsonObject.getString("code").equals("3003")){
+                        dialog1.cancel();
+                        loginDialog();
+                        Toast.makeText(context, "密码已修改，请重新登录", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(context, "修改密码失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(context, "修改密码失败", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override

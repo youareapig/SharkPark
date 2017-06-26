@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.weiye.data.SubjectStationBean;
+import com.weiye.data.ParkBean;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -23,11 +23,11 @@ import java.util.List;
  * Created by DELL on 2017/4/13.
  */
 public class ListView_1_Adapter extends BaseAdapter {
-    private List<SubjectStationBean.RowsBean> list;
+    private List<ParkBean.DataBean.InfoBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    public ListView_1_Adapter(List<SubjectStationBean.RowsBean> list, Activity activity) {
+    public ListView_1_Adapter(List<ParkBean.DataBean.InfoBean> list, Activity activity) {
         this.list = list;
         this.layoutInflater = activity.getLayoutInflater();
     }
@@ -56,7 +56,7 @@ public class ListView_1_Adapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder = new ViewHolder();
-        SubjectStationBean.RowsBean bean=list.get(i);
+        ParkBean.DataBean.InfoBean bean=list.get(i);
         if (view == null) {
             view = layoutInflater.inflate(R.layout.listviewitem1, null);
             holder.imageView = (RoundedImageView) view.findViewById(R.id.listview1_icon);
@@ -67,9 +67,9 @@ public class ListView_1_Adapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getTXLJ(),holder.imageView);
-        holder.textView.setText(bean.getFCMC());
-        holder.textView_time.setText(bean.getCJRQ());
+        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getPic(),holder.imageView);
+        holder.textView.setText(bean.getTitle());
+        holder.textView_time.setText(bean.getAddtime());
         return view;
     }
 

@@ -5,16 +5,31 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.weiye.data.AllHuodongBean;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,11 +53,11 @@ public class SchoolImageActivity extends AutoLayoutActivity implements Observabl
     RelativeLayout title1;
     @BindView(R.id.huodong_img)
     ImageView huodongImg;
-    @BindView(R.id.huodong_miaoshu)
-    TextView huodongMiaoshu;
+    @BindView(R.id.huodongweb1)
+    WebView huodongweb1;
     private Unbinder unbinder;
     private int height;
-    private String img, content;
+    private String huodongID, img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +66,67 @@ public class SchoolImageActivity extends AutoLayoutActivity implements Observabl
         unbinder = ButterKnife.bind(this);
         changTitle();
         Intent intent = getIntent();
-        img = intent.getStringExtra("txdz");
-        content = intent.getStringExtra("hdms");
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + img, huodongImg);
-        huodongMiaoshu.setText(content);
+        huodongID = intent.getStringExtra("id");
+        visit();
+    }
+
+    private void visit() {
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "正在提交....", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/universityDetail");
+        params.addBodyParameter("id", huodongID);
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("tag", "图片活动" + result);
+                Gson gson = new Gson();
+                AllHuodongBean bean = gson.fromJson(result, AllHuodongBean.class);
+                img = bean.getData().getBjimg();
+                if (bean.getCode() == 1000) {
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + img, huodongImg);
+                    WebSettings webSettings = huodongweb1.getSettings();
+                    //TODO 适配手机屏幕
+                    webSettings.setLoadWithOverviewMode(true);
+                    webSettings.setUseWideViewPort(true);
+                    webSettings.setTextZoom(250);
+                    huodongweb1.loadDataWithBaseURL(null, getNewContent(bean.getData().getContent()), "text/html", "utf-8", null);
+                    huodongweb1.setWebViewClient(new WebViewClient());
+                } else {
+                    Toast.makeText(SchoolImageActivity.this, "暂无活动详情", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(SchoolImageActivity.this, "数据获取失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                customProgressDialog.cancel();
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+    }
+
+    //TODO 屏幕适配
+    private String getNewContent(String htmltext) {
+        Document doc = Jsoup.parse(htmltext);
+        Elements elements = doc.getElementsByTag("img");
+        for (Element element : elements) {
+            element.attr("width", "100%").attr("height", "auto");
+        }
+        return doc.toString();
     }
 
     private void changTitle() {

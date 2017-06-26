@@ -26,9 +26,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.BannerAdapter;
 import com.weiye.adapter.GalleryAdapter;
 import com.weiye.adapter.ListView_1_Adapter;
-import com.weiye.data.KTFCBean;
-import com.weiye.data.InfoBean;
-import com.weiye.data.SubjectStationBean;
+import com.weiye.data.ParkBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.MyListView;
 import com.weiye.utils.SingleModleUrl;
@@ -40,8 +38,6 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -52,18 +48,18 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
     private Gallery gallery;
     private ViewPager viewPager;
     private ImageView[] indexTips, indexBannerImage;
-    private List<InfoBean.RowsBean> bannerList;
+    private List<ParkBean.DataBean.BannerBean> bannerList;
     private ViewGroup mView;
     private Handler handler;
     private TextView classAll;
-    private List<KTFCBean.RowsBean> listbean;
     private XRefreshView refreshView;
-    private  long lastRefreshTime;
+    private long lastRefreshTime;
     private RoundedImageView kexueyizhan_Img;
-    private List<SubjectStationBean.RowsBean> myList;
     private XScrollView myScroll;
-    private int num=1;
+    private int num = 1;
     private CustomProgressDialog customProgressDialog;
+    private MyThread myThread;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,13 +69,12 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         viewPager = (ViewPager) view.findViewById(R.id.banner);
         mView = (ViewGroup) view.findViewById(R.id.bannerGroup);
         classAll = (TextView) view.findViewById(R.id.classAll);
-        refreshView= (XRefreshView) view.findViewById(R.id.refresh);
-        kexueyizhan_Img= (RoundedImageView) view.findViewById(R.id.kexueyizhan_Img);
-        myScroll= (XScrollView) view.findViewById(R.id.myscroll);
+        refreshView = (XRefreshView) view.findViewById(R.id.refresh);
+        kexueyizhan_Img = (RoundedImageView) view.findViewById(R.id.kexueyizhan_Img);
+        myScroll = (XScrollView) view.findViewById(R.id.myscroll);
+        myThread = new MyThread();
         classAll.setOnClickListener(this);
-        visitClass();
         getBanner();
-        subjectStation();
         //TODO 刷新
         refreshView.setPullLoadEnable(true);
         refreshView.setPullRefreshEnable(true);
@@ -94,7 +89,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        subjectStation();
+                        setRefresh();
                         refreshView.stopRefresh();
                         lastRefreshTime = refreshView.getLastRefreshTime();
 
@@ -126,7 +121,6 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         });
         return view;
     }
-
 
 
     @Override
@@ -179,54 +173,22 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
             }
         }
     }
-    //TODO 课堂风采图片滚动
-    private void visitClass() {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_KTFCDataService.ashx?op=getTAB_KTFC");
-        params.addBodyParameter("start", "0");
-        params.addBodyParameter("LX","0");
-        x.http().get(params, new Callback.CacheCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Gson gson = new Gson();
-                KTFCBean ktfcBean = gson.fromJson(result, KTFCBean.class);
-                listbean = ktfcBean.getRows();
-                gallery.setSpacing(40);
-                gallery.setAdapter(new GalleryAdapter(listbean, getActivity()));
-                gallery.setSelection(1, true);
-            }
 
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(),"课堂风采数据加载失败",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-
-            @Override
-            public boolean onCache(String result) {
-                return false;
-            }
-        });
-    }
     //TODO banner图片
-    private void getBanner(){
-        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_LXXXDataService.ashx?op=getTAB_LXSPTXXX");
-        params.addBodyParameter("LX","3");
-        params.addBodyParameter("start","0");
+    private void getBanner() {
+        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        refreshView.setVisibility(View.GONE);
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/parkLst");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Gson gson=new Gson();
-                InfoBean bean=gson.fromJson(result,InfoBean.class);
-                bannerList=bean.getRows();
+                refreshView.setVisibility(View.VISIBLE);
+                Gson gson = new Gson();
+                ParkBean bean = gson.fromJson(result, ParkBean.class);
+                //TODO banner
+                bannerList = bean.getData().getBanner();
                 indexTips = new ImageView[bannerList.size()];
                 for (int i = 0; i < indexTips.length; i++) {
                     ImageView imageView = new ImageView(getActivity());
@@ -249,7 +211,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                     ImageView imageView = new ImageView(getActivity());
                     imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                     indexBannerImage[i] = imageView;
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bannerList.get(i).getTXLJ(),imageView);
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bannerList.get(i).getUrl(), imageView);
                 }
                 viewPager.setOnPageChangeListener(Shark_Fragment.this);
                 viewPager.setAdapter(new BannerAdapter(indexBannerImage));
@@ -267,59 +229,23 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                         viewPager.setCurrentItem(bannerNo, true);
                     }
                 };
-                new MyThread().start();
+                myThread.start();
+                //TODO 课堂风采
+                List<String> pictureList = bean.getData().getPic();
+                gallery.setSpacing(40);
+                gallery.setAdapter(new GalleryAdapter(pictureList, getActivity()));
+                gallery.setSelection(1, true);
+                //TODO 科学驿站
+                final List<ParkBean.DataBean.InfoBean> keList = bean.getData().getInfo();
+                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + keList.get(0).getPic(), kexueyizhan_Img);
 
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(),"数据加载失败",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-
-            @Override
-            public boolean onCache(String result) {
-                return false;
-            }
-        });
-    }
-    private void subjectStation(){
-        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame,R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
-        refreshView.setVisibility(View.GONE);
-        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_KTFCDataService.ashx?op=getTAB_KTFC");
-        params.addBodyParameter("start", "1");
-        params.addBodyParameter("LX","1");
-        x.http().post(params, new Callback.CacheCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Log.d("tag","科学驿站"+result);
-                refreshView.setVisibility(View.VISIBLE);
-                Gson gson=new Gson();
-                SubjectStationBean bean=gson.fromJson(result,SubjectStationBean.class);
-                myList=bean.getRows();
-                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getRows().get(0).getTXLJ(),kexueyizhan_Img);
-
-                mListView.setAdapter(new ListView_1_Adapter(myList, getActivity()));
+                mListView.setAdapter(new ListView_1_Adapter(keList, getActivity()));
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        SubjectStationBean.RowsBean rowBean= (SubjectStationBean.RowsBean) adapterView.getItemAtPosition(i);
+                        ParkBean.DataBean.InfoBean infoBean = (ParkBean.DataBean.InfoBean) adapterView.getItemAtPosition(i);
                         Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
-                        intent.putExtra("img",rowBean.getTXLJ());
-                        intent.putExtra("title",rowBean.getFCMC());
-                        intent.putExtra("time",rowBean.getKSSJ());
-                        intent.putExtra("content",rowBean.getFCMS());
+                        intent.putExtra("id", infoBean.getId());
                         startActivity(intent);
                     }
                 });
@@ -327,18 +253,16 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
-                        intent.putExtra("img",myList.get(0).getTXLJ());
-                        intent.putExtra("title",myList.get(0).getFCMC());
-                        intent.putExtra("time",myList.get(0).getKSSJ());
-                        intent.putExtra("content",myList.get(0).getFCMS());
+                        intent.putExtra("id", keList.get(0).getId());
                         startActivity(intent);
                     }
                 });
+
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(),"数据加载失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -348,7 +272,6 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
             @Override
             public void onFinished() {
-                myScroll.smoothScrollTo(0,20);
                 customProgressDialog.cancel();
             }
 
@@ -358,4 +281,70 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
             }
         });
     }
+
+    //TODO 刷新是不刷新banner，否则出现无限开启线程
+    private void setRefresh() {
+        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        refreshView.setVisibility(View.GONE);
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/parkLst");
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                ParkBean bean = gson.fromJson(result, ParkBean.class);
+                //TODO 课堂风采
+                List<String> pictureList = bean.getData().getPic();
+                gallery.setSpacing(40);
+                gallery.setAdapter(new GalleryAdapter(pictureList, getActivity()));
+                gallery.setSelection(1, true);
+                //TODO 科学驿站
+                final List<ParkBean.DataBean.InfoBean> keList = bean.getData().getInfo();
+                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + keList.get(0).getPic(), kexueyizhan_Img);
+
+                mListView.setAdapter(new ListView_1_Adapter(keList, getActivity()));
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        ParkBean.DataBean.InfoBean infoBean = (ParkBean.DataBean.InfoBean) adapterView.getItemAtPosition(i);
+                        Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
+                        intent.putExtra("id", infoBean.getId());
+                        startActivity(intent);
+                    }
+                });
+                kexueyizhan_Img.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
+                        intent.putExtra("id", keList.get(0).getId());
+                        startActivity(intent);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                refreshView.setVisibility(View.VISIBLE);
+                customProgressDialog.cancel();
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+    }
+
 }

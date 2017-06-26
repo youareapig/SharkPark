@@ -7,130 +7,73 @@ import java.util.List;
  */
 public class TeacherBean {
 
+    /**
+     * code : 1000
+     * message : 成功
+     * data : {"truename":"李晓晕","desc":"老师经验凤舞","pic":["Uploads/teacher/2017-06-21/594a307aa5669.jpg","Uploads/teacher/2017-06-21/594a3ed87968f.jpg"]}
+     */
 
+    private int code;
+    private String message;
+    private DataBean data;
 
-    private int total;
-    private List<RowsBean> rows;
-
-    public int getTotal() {
-        return total;
+    public int getCode() {
+        return code;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public List<RowsBean> getRows() {
-        return rows;
+    public String getMessage() {
+        return message;
     }
 
-    public void setRows(List<RowsBean> rows) {
-        this.rows = rows;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public static class RowsBean {
+    public DataBean getData() {
+        return data;
+    }
+
+    public void setData(DataBean data) {
+        this.data = data;
+    }
+
+    public static class DataBean {
         /**
-         * TEMPFYFILED : 1
-         * ID : 16
-         * LXID : 4
-         * RYID : 5
-         * MS : 22
-         * CJRQ :
-         * ZSXM :
-         * NC :
-         * TX :
-         * TXLJ :
+         * truename : 李晓晕
+         * desc : 老师经验凤舞
+         * pic : ["Uploads/teacher/2017-06-21/594a307aa5669.jpg","Uploads/teacher/2017-06-21/594a3ed87968f.jpg"]
          */
 
-        private String TEMPFYFILED;
-        private String ID;
-        private String LXID;
-        private String RYID;
-        private String MS;
-        private String CJRQ;
-        private String ZSXM;
-        private String NC;
-        private String TX;
-        private String TXLJ;
+        private String truename;
+        private String desc;
+        private List<String> pic;
 
-        public String getTEMPFYFILED() {
-            return TEMPFYFILED;
+        public String getTruename() {
+            return truename;
         }
 
-        public void setTEMPFYFILED(String TEMPFYFILED) {
-            this.TEMPFYFILED = TEMPFYFILED;
+        public void setTruename(String truename) {
+            this.truename = truename;
         }
 
-        public String getID() {
-            return ID;
+        public String getDesc() {
+            return desc;
         }
 
-        public void setID(String ID) {
-            this.ID = ID;
+        public void setDesc(String desc) {
+            this.desc = desc;
         }
 
-        public String getLXID() {
-            return LXID;
+        public List<String> getPic() {
+            return pic;
         }
 
-        public void setLXID(String LXID) {
-            this.LXID = LXID;
-        }
-
-        public String getRYID() {
-            return RYID;
-        }
-
-        public void setRYID(String RYID) {
-            this.RYID = RYID;
-        }
-
-        public String getMS() {
-            return MS;
-        }
-
-        public void setMS(String MS) {
-            this.MS = MS;
-        }
-
-        public String getCJRQ() {
-            return CJRQ;
-        }
-
-        public void setCJRQ(String CJRQ) {
-            this.CJRQ = CJRQ;
-        }
-
-        public String getZSXM() {
-            return ZSXM;
-        }
-
-        public void setZSXM(String ZSXM) {
-            this.ZSXM = ZSXM;
-        }
-
-        public String getNC() {
-            return NC;
-        }
-
-        public void setNC(String NC) {
-            this.NC = NC;
-        }
-
-        public String getTX() {
-            return TX;
-        }
-
-        public void setTX(String TX) {
-            this.TX = TX;
-        }
-
-        public String getTXLJ() {
-            return TXLJ;
-        }
-
-        public void setTXLJ(String TXLJ) {
-            this.TXLJ = TXLJ;
+        public void setPic(List<String> pic) {
+            this.pic = pic;
         }
     }
 }

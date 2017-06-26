@@ -8,41 +8,69 @@ import java.util.List;
 public class KCBBean {
 
     /**
-     * total : 2
-     * rows : [{"week":"星期二","monthWeek":"六月第二周","date":"2017-06-13","rows":[{"TEMPFYFILED":"1","ID":"6","KCID":"4","KSSJ":"2017/6/13 8:00:00","JSSJ":"2017/6/13 9:00:00","SKJSID":"4","CJRQ":"2017/6/13 9:47:49","CJRID":"2","KCMC":"我是一条鱼","KCMS":"<p style='text-align: center;'>植物大战3<\/p><p style='text-align: center;'><img width='355' height='149' title='Cache_-29cb419bcb7a2dc6..jpg' alt='Cache_-29cb419bcb7a2dc6..jpg' src='http://211.149.248.144:8820/upload/image/20170605/6363229062944744536602475.jpg'/><\/p>","ZBSX":"<p>植物大战3<\/p>","ZSXM":"贺琦鹏","TX":"99","TXLJ":"UploadFile/20170231030212941146.jpg","STATUS":"1"},{"TEMPFYFILED":"2","ID":"5","KCID":"4","KSSJ":"2017/6/13 8:00:00","JSSJ":"2017/6/13 9:00:00","SKJSID":"4","CJRQ":"2017/6/13 9:46:25","CJRID":"2","KCMC":"我是一条鱼","KCMS":"<p style='text-align: center;'>植物大战3<\/p><p style='text-align: center;'><img width='355' height='149' title='Cache_-29cb419bcb7a2dc6..jpg' alt='Cache_-29cb419bcb7a2dc6..jpg' src='http://211.149.248.144:8820/upload/image/20170605/6363229062944744536602475.jpg'/><\/p>","ZBSX":"<p>植物大战3<\/p>","ZSXM":"贺琦鹏","TX":"99","TXLJ":"UploadFile/20170231030212941146.jpg","STATUS":"1"}]},{"week":"星期三","monthWeek":"六月第二周","date":"2017-06-14","rows":[]},{"week":"星期四","monthWeek":"六月第二周","date":"2017-06-15","rows":[]},{"week":"星期五","monthWeek":"六月第二周","date":"2017-06-16","rows":[]},{"week":"星期六","monthWeek":"六月第二周","date":"2017-06-17","rows":[]},{"week":"星期日","monthWeek":"六月第二周","date":"2017-06-18","rows":[]},{"week":"星期一","monthWeek":"六月第二周","date":"2017-06-19","rows":[]}]
+     * code : 1000
+     * message : 成功
+     * data : [{"cid":"1","dates":"2017-06-26","week":"周一","pic":"/Public/week/w1.png","children":[{"cid":"2","datename":"9:30-10:30","course":[{"coid":"1","coname":"植物大战僵尸","uids":null,"ischeckd":0},{"coid":"2","coname":"英语","uids":null,"ischeckd":0}]},{"cid":"3","datename":"11：00-12:30","course":[{"coid":"3","coname":"语文","uids":null,"ischeckd":0},{"coid":"4","coname":"数学","uids":null,"ischeckd":0}]},{"cid":"4","datename":"2:30-5:30","course":[{"coid":"5","coname":"体育","uids":null,"ischeckd":0}]}]}]
      */
 
-    private int total;
-    private List<RowsBeanX> rows;
+    private int code;
+    private String message;
+    private List<DataBean> data;
 
-    public int getTotal() {
-        return total;
+    public int getCode() {
+        return code;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public List<RowsBeanX> getRows() {
-        return rows;
+    public String getMessage() {
+        return message;
     }
 
-    public void setRows(List<RowsBeanX> rows) {
-        this.rows = rows;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public static class RowsBeanX {
+    public List<DataBean> getData() {
+        return data;
+    }
+
+    public void setData(List<DataBean> data) {
+        this.data = data;
+    }
+
+    public static class DataBean {
         /**
-         * week : 星期二
-         * monthWeek : 六月第二周
-         * date : 2017-06-13
-         * rows : [{"TEMPFYFILED":"1","ID":"6","KCID":"4","KSSJ":"2017/6/13 8:00:00","JSSJ":"2017/6/13 9:00:00","SKJSID":"4","CJRQ":"2017/6/13 9:47:49","CJRID":"2","KCMC":"我是一条鱼","KCMS":"<p style='text-align: center;'>植物大战3<\/p><p style='text-align: center;'><img width='355' height='149' title='Cache_-29cb419bcb7a2dc6..jpg' alt='Cache_-29cb419bcb7a2dc6..jpg' src='http://211.149.248.144:8820/upload/image/20170605/6363229062944744536602475.jpg'/><\/p>","ZBSX":"<p>植物大战3<\/p>","ZSXM":"贺琦鹏","TX":"99","TXLJ":"UploadFile/20170231030212941146.jpg","STATUS":"1"},{"TEMPFYFILED":"2","ID":"5","KCID":"4","KSSJ":"2017/6/13 8:00:00","JSSJ":"2017/6/13 9:00:00","SKJSID":"4","CJRQ":"2017/6/13 9:46:25","CJRID":"2","KCMC":"我是一条鱼","KCMS":"<p style='text-align: center;'>植物大战3<\/p><p style='text-align: center;'><img width='355' height='149' title='Cache_-29cb419bcb7a2dc6..jpg' alt='Cache_-29cb419bcb7a2dc6..jpg' src='http://211.149.248.144:8820/upload/image/20170605/6363229062944744536602475.jpg'/><\/p>","ZBSX":"<p>植物大战3<\/p>","ZSXM":"贺琦鹏","TX":"99","TXLJ":"UploadFile/20170231030212941146.jpg","STATUS":"1"}]
+         * cid : 1
+         * dates : 2017-06-26
+         * week : 周一
+         * pic : /Public/week/w1.png
+         * children : [{"cid":"2","datename":"9:30-10:30","course":[{"coid":"1","coname":"植物大战僵尸","uids":null,"ischeckd":0},{"coid":"2","coname":"英语","uids":null,"ischeckd":0}]},{"cid":"3","datename":"11：00-12:30","course":[{"coid":"3","coname":"语文","uids":null,"ischeckd":0},{"coid":"4","coname":"数学","uids":null,"ischeckd":0}]},{"cid":"4","datename":"2:30-5:30","course":[{"coid":"5","coname":"体育","uids":null,"ischeckd":0}]}]
          */
 
+        private String cid;
+        private String dates;
         private String week;
-        private String monthWeek;
-        private String date;
-        private List<RowsBean> rows;
+        private String pic;
+        private List<ChildrenBean> children;
+
+        public String getCid() {
+            return cid;
+        }
+
+        public void setCid(String cid) {
+            this.cid = cid;
+        }
+
+        public String getDates() {
+            return dates;
+        }
+
+        public void setDates(String dates) {
+            this.dates = dates;
+        }
 
         public String getWeek() {
             return week;
@@ -52,183 +80,101 @@ public class KCBBean {
             this.week = week;
         }
 
-        public String getMonthWeek() {
-            return monthWeek;
+        public String getPic() {
+            return pic;
         }
 
-        public void setMonthWeek(String monthWeek) {
-            this.monthWeek = monthWeek;
+        public void setPic(String pic) {
+            this.pic = pic;
         }
 
-        public String getDate() {
-            return date;
+        public List<ChildrenBean> getChildren() {
+            return children;
         }
 
-        public void setDate(String date) {
-            this.date = date;
+        public void setChildren(List<ChildrenBean> children) {
+            this.children = children;
         }
 
-        public List<RowsBean> getRows() {
-            return rows;
-        }
-
-        public void setRows(List<RowsBean> rows) {
-            this.rows = rows;
-        }
-
-        public static class RowsBean {
+        public static class ChildrenBean {
             /**
-             * TEMPFYFILED : 1
-             * ID : 6
-             * KCID : 4
-             * KSSJ : 2017/6/13 8:00:00
-             * JSSJ : 2017/6/13 9:00:00
-             * SKJSID : 4
-             * CJRQ : 2017/6/13 9:47:49
-             * CJRID : 2
-             * KCMC : 我是一条鱼
-             * KCMS : <p style='text-align: center;'>植物大战3</p><p style='text-align: center;'><img width='355' height='149' title='Cache_-29cb419bcb7a2dc6..jpg' alt='Cache_-29cb419bcb7a2dc6..jpg' src='http://211.149.248.144:8820/upload/image/20170605/6363229062944744536602475.jpg'/></p>
-             * ZBSX : <p>植物大战3</p>
-             * ZSXM : 贺琦鹏
-             * TX : 99
-             * TXLJ : UploadFile/20170231030212941146.jpg
-             * STATUS : 1
+             * cid : 2
+             * datename : 9:30-10:30
+             * course : [{"coid":"1","coname":"植物大战僵尸","uids":null,"ischeckd":0},{"coid":"2","coname":"英语","uids":null,"ischeckd":0}]
              */
 
-            private String TEMPFYFILED;
-            private String ID;
-            private String KCID;
-            private String KSSJ;
-            private String JSSJ;
-            private String SKJSID;
-            private String CJRQ;
-            private String CJRID;
-            private String KCMC;
-            private String KCMS;
-            private String ZBSX;
-            private String ZSXM;
-            private String TX;
-            private String TXLJ;
-            private String STATUS;
+            private String cid;
+            private String datename;
+            private List<CourseBean> course;
 
-            public String getTEMPFYFILED() {
-                return TEMPFYFILED;
+            public String getCid() {
+                return cid;
             }
 
-            public void setTEMPFYFILED(String TEMPFYFILED) {
-                this.TEMPFYFILED = TEMPFYFILED;
+            public void setCid(String cid) {
+                this.cid = cid;
             }
 
-            public String getID() {
-                return ID;
+            public String getDatename() {
+                return datename;
             }
 
-            public void setID(String ID) {
-                this.ID = ID;
+            public void setDatename(String datename) {
+                this.datename = datename;
             }
 
-            public String getKCID() {
-                return KCID;
+            public List<CourseBean> getCourse() {
+                return course;
             }
 
-            public void setKCID(String KCID) {
-                this.KCID = KCID;
+            public void setCourse(List<CourseBean> course) {
+                this.course = course;
             }
 
-            public String getKSSJ() {
-                return KSSJ;
-            }
+            public static class CourseBean {
+                /**
+                 * coid : 1
+                 * coname : 植物大战僵尸
+                 * uids : null
+                 * ischeckd : 0
+                 */
 
-            public void setKSSJ(String KSSJ) {
-                this.KSSJ = KSSJ;
-            }
+                private String coid;
+                private String coname;
+                private Object uids;
+                private int ischeckd;
 
-            public String getJSSJ() {
-                return JSSJ;
-            }
+                public String getCoid() {
+                    return coid;
+                }
 
-            public void setJSSJ(String JSSJ) {
-                this.JSSJ = JSSJ;
-            }
+                public void setCoid(String coid) {
+                    this.coid = coid;
+                }
 
-            public String getSKJSID() {
-                return SKJSID;
-            }
+                public String getConame() {
+                    return coname;
+                }
 
-            public void setSKJSID(String SKJSID) {
-                this.SKJSID = SKJSID;
-            }
+                public void setConame(String coname) {
+                    this.coname = coname;
+                }
 
-            public String getCJRQ() {
-                return CJRQ;
-            }
+                public Object getUids() {
+                    return uids;
+                }
 
-            public void setCJRQ(String CJRQ) {
-                this.CJRQ = CJRQ;
-            }
+                public void setUids(Object uids) {
+                    this.uids = uids;
+                }
 
-            public String getCJRID() {
-                return CJRID;
-            }
+                public int getIscheckd() {
+                    return ischeckd;
+                }
 
-            public void setCJRID(String CJRID) {
-                this.CJRID = CJRID;
-            }
-
-            public String getKCMC() {
-                return KCMC;
-            }
-
-            public void setKCMC(String KCMC) {
-                this.KCMC = KCMC;
-            }
-
-            public String getKCMS() {
-                return KCMS;
-            }
-
-            public void setKCMS(String KCMS) {
-                this.KCMS = KCMS;
-            }
-
-            public String getZBSX() {
-                return ZBSX;
-            }
-
-            public void setZBSX(String ZBSX) {
-                this.ZBSX = ZBSX;
-            }
-
-            public String getZSXM() {
-                return ZSXM;
-            }
-
-            public void setZSXM(String ZSXM) {
-                this.ZSXM = ZSXM;
-            }
-
-            public String getTX() {
-                return TX;
-            }
-
-            public void setTX(String TX) {
-                this.TX = TX;
-            }
-
-            public String getTXLJ() {
-                return TXLJ;
-            }
-
-            public void setTXLJ(String TXLJ) {
-                this.TXLJ = TXLJ;
-            }
-
-            public String getSTATUS() {
-                return STATUS;
-            }
-
-            public void setSTATUS(String STATUS) {
-                this.STATUS = STATUS;
+                public void setIscheckd(int ischeckd) {
+                    this.ischeckd = ischeckd;
+                }
             }
         }
     }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.HuodongBean;
@@ -21,9 +22,9 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class SchoolRecyclerAdapter extends RecyclerView.Adapter {
-    private List<HuodongBean.RowsBean> list;
+    private List<HuodongBean.DataBean> list;
 
-    public SchoolRecyclerAdapter(List<HuodongBean.RowsBean> list) {
+    public SchoolRecyclerAdapter(List<HuodongBean.DataBean> list) {
         this.list = list;
     }
 
@@ -36,12 +37,14 @@ public class SchoolRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        final HuodongBean.RowsBean bean = list.get(position);
-        if (bean.getBJSFSP().equals("0")) {
-            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getTXLJ(), viewHolder.imageView);
+        final HuodongBean.DataBean bean = list.get(position);
+        if (bean.getIsvideo().equals("0")) {
+            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBjimg(), viewHolder.imageView);
+            viewHolder.textView.setText(bean.getTitle());
             viewHolder.play.setVisibility(View.GONE);
         } else {
-            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBJTXLJ(), viewHolder.imageView);
+            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBjimg(), viewHolder.imageView);
+            viewHolder.textView.setText(bean.getTitle());
             viewHolder.play.setVisibility(View.VISIBLE);
         }
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -49,15 +52,12 @@ public class SchoolRecyclerAdapter extends RecyclerView.Adapter {
             public void onClick(View view) {
 
                 Intent intent = null;
-                if (bean.getBJSFSP().equals("0")) {
+                if (bean.getIsvideo().equals("0")) {
                     intent = new Intent(view.getContext(), SchoolImageActivity.class);
-                    intent.putExtra("txdz", bean.getTXLJ());
-                    intent.putExtra("hdms", bean.getHDMS());
+                    intent.putExtra("id", bean.getId());
                 } else {
                     intent = new Intent(view.getContext(), SchoolVideoActivity.class);
-                    intent.putExtra("txdz", bean.getBJTXLJ());
-                    intent.putExtra("spdz", bean.getBJTXLJ());
-                    intent.putExtra("hdms", bean.getHDMS());
+                    intent.putExtra("id", bean.getId());
                 }
                 view.getContext().startActivity(intent);
             }
@@ -74,12 +74,14 @@ public class SchoolRecyclerAdapter extends RecyclerView.Adapter {
 
     private class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView, play;
+        private TextView textView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             AutoUtils.autoSize(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.schoolrecycleritem_img);
             play = (ImageView) itemView.findViewById(R.id.play);
+            textView= (TextView) itemView.findViewById(R.id.schoolrecycleritem_content);
         }
     }
 }

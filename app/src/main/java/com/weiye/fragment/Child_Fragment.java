@@ -40,8 +40,8 @@ import java.util.List;
  */
 public class Child_Fragment extends Fragment {
     private Gallery mGallery;
-    private QuickPagerAdapter<IndexBean.RowsBean> quickPagerAdapter;
-    private List<IndexBean.RowsBean> mList;
+    private QuickPagerAdapter<IndexBean.DataBean> quickPagerAdapter;
+    private List<IndexBean.DataBean> mList;
     private CustomProgressDialog customProgressDialog;
 
     @Nullable
@@ -54,40 +54,44 @@ public class Child_Fragment extends Fragment {
     }
 
     private void index() {
-        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame,R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         mGallery.setVisibility(View.GONE);
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_LXXXDataService.ashx?op=getTAB_LXXX");
-        params.addBodyParameter("start", "0");
-        x.http().get(params, new Callback.CacheCallback<String>() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/index");
+        x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 mGallery.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 IndexBean bean = gson.fromJson(result, IndexBean.class);
-                mList = bean.getRows();
-                quickPagerAdapter = new QuickPagerAdapter<IndexBean.RowsBean>(getActivity(), R.layout.galleryitem, mList) {
-                    @Override
-                    protected void convertView(BaseAdapterHelper helper, final IndexBean.RowsBean item) {
-                        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + item.getTXLJ(), (ImageView) helper.getView(R.id.galleryitem_img));
-                        helper.setText(R.id.galleryitem_title, item.getLXMC());
-                        helper.setImageOnClickListener(R.id.galleryitem_img, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(getActivity(), SubjectActivity.class);
-                                intent.putExtra("indexID", item.getID() + "");
-                                startActivity(intent);
-                            }
-                        });
-                    }
-                };
-                mGallery.setAdapter(quickPagerAdapter);
+                mList = bean.getData();
+                if (bean.getCode() == 1000) {
+                    quickPagerAdapter = new QuickPagerAdapter<IndexBean.DataBean>(getActivity(), R.layout.galleryitem, mList) {
+                        @Override
+                        protected void convertView(BaseAdapterHelper helper, final IndexBean.DataBean item) {
+                            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + item.getSbpic(), (ImageView) helper.getView(R.id.galleryitem_img));
+                            helper.setText(R.id.galleryitem_title, item.getSbtitle());
+                            helper.setImageOnClickListener(R.id.galleryitem_img, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getActivity(), SubjectActivity.class);
+                                    intent.putExtra("indexID", item.getSbid()+"");
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+                    };
+                    mGallery.setAdapter(quickPagerAdapter);
+                } else {
+                    Toast.makeText(getActivity(), "暂无更多数据", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(),"加载失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -21,11 +21,11 @@ import java.util.List;
  * Created by DELL on 2017/4/13.
  */
 public class ActivitiesGridAdpter extends BaseAdapter {
-    private List<HuodongBean.RowsBean> list;
+    private List<HuodongBean.DataBean> list;
     private Activity activity;
     private LayoutInflater inflater;
 
-    public ActivitiesGridAdpter(List<HuodongBean.RowsBean> list, Activity activity) {
+    public ActivitiesGridAdpter(List<HuodongBean.DataBean> list, Activity activity) {
         this.list = list;
         this.inflater = activity.getLayoutInflater();
     }
@@ -54,7 +54,7 @@ public class ActivitiesGridAdpter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder = new ViewHolder();
-        HuodongBean.RowsBean bean=list.get(i);
+        HuodongBean.DataBean bean=list.get(i);
         if (view == null) {
             view = inflater.inflate(R.layout.activitisegriditem, null);
             holder.imageView = (RoundedImageView) view.findViewById(R.id.activities_item_img);
@@ -65,14 +65,14 @@ public class ActivitiesGridAdpter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        if (bean.getBJSFSP().equals("0")) {
-            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getTXLJ(), holder.imageView);
+        if (bean.getIsvideo().equals("0")) {
+            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBjimg(), holder.imageView);
             holder.huodongPlay.setVisibility(View.GONE);
         } else {
-            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBJTXLJ(), holder.imageView);
+            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBjimg(), holder.imageView);
             holder.huodongPlay.setVisibility(View.VISIBLE);
         }
-        //holder.textView.setText(bean.getHDMS());
+        holder.textView.setText(bean.getTitle());
         return view;
     }
 

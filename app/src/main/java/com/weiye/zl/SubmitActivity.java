@@ -1,22 +1,31 @@
 package com.weiye.zl;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.weiye.data.SubmitUserBean;
+import com.weiye.myview.CustomProgressDialog;
+import com.weiye.utils.ClassPathResource;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -28,43 +37,31 @@ import butterknife.Unbinder;
 import cn.qqtheme.framework.picker.OptionPicker;
 
 public class SubmitActivity extends AutoLayoutActivity {
+
     @BindView(R.id.submitBack)
     RelativeLayout submitBack;
-
-    @BindView(R.id.submit1)
-    Button submit1;
-    @BindView(R.id.name)
-    RelativeLayout name;
-    @BindView(R.id.nc1)
-    TextView nc1;
-    @BindView(R.id.nameText5)
-    EditText nameText5;
-    @BindView(R.id.name1)
-    RelativeLayout name1;
-    @BindView(R.id.go)
+    @BindView(R.id.yyName)
+    TextView yyName;
+    @BindView(R.id.yyNameInput)
+    EditText yyNameInput;
+    @BindView(R.id.go4)
     ImageView go;
-    @BindView(R.id.sexText5)
-    TextView sexText5;
-    @BindView(R.id.sex3)
-    RelativeLayout sex3;
-    @BindView(R.id.nc2)
-    TextView nc2;
-    @BindView(R.id.ageText5)
-    EditText ageText5;
-    @BindView(R.id.name3)
-    RelativeLayout name3;
-    @BindView(R.id.go2)
-    ImageView go2;
-    @BindView(R.id.fumuText5)
-    TextView fumuText5;
-    @BindView(R.id.jiazhang)
-    RelativeLayout jiazhang;
-    @BindView(R.id.telText5)
-    EditText telText5;
-    @BindView(R.id.name2)
-    RelativeLayout name2;
+    @BindView(R.id.yySexInput)
+    TextView yySexInput;
+    @BindView(R.id.yySex)
+    RelativeLayout yySex;
+    @BindView(R.id.yyAgeInput)
+    EditText yyAgeInput;
+    @BindView(R.id.yyAge)
+    RelativeLayout yyAge;
+    @BindView(R.id.yyTel)
+    EditText yyTel;
+    @BindView(R.id.yySubmit)
+    Button yySubmit;
+    @BindView(R.id.main10)
+    LinearLayout main10;
     private Unbinder unbinder;
-    private String kcid, userID, stringJZ, stringTl;
+    private String kcid, userID, stringyyName, stringyyAge, stringyySex, stringyyTel, sexID;
     private SharedPreferences sharedPreferences;
 
     @Override
@@ -76,8 +73,7 @@ public class SubmitActivity extends AutoLayoutActivity {
         kcid = intent.getStringExtra("kcid");
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         userID = sharedPreferences.getString("userid", "未知");
-        Log.d("tag", "收到的id" + kcid);
-
+        init();
     }
 
     @Override
@@ -86,13 +82,13 @@ public class SubmitActivity extends AutoLayoutActivity {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.submitBack, R.id.sex3, R.id.jiazhang, R.id.submit1})
+    @OnClick({R.id.submitBack, R.id.yyNameInput, R.id.yySex, R.id.yyAge, R.id.yyTel, R.id.yySubmit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.submitBack:
                 finish();
                 break;
-            case R.id.sex3:
+            case R.id.yySex:
                 OptionPicker picker = new OptionPicker(this, new String[]{
                         "男", "女"
                 });
@@ -102,57 +98,64 @@ public class SubmitActivity extends AutoLayoutActivity {
                 picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
                     @Override
                     public void onOptionPicked(String option) {
-                        sexText5.setText(option);
+                        yyAgeInput.setText(option);
                     }
-
-
                 });
                 picker.show();
                 break;
-            case R.id.jiazhang:
-                OptionPicker picker1 = new OptionPicker(this, new String[]{
-                        "爸爸", "妈妈"
-                });
-                picker1.setOffset(2);
-                picker1.setTextSize(24);
-                picker1.setTextColor(Color.BLACK);
-                picker1.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
-                    @Override
-                    public void onOptionPicked(String option) {
-                        fumuText5.setText(option);
-                    }
 
-
-                });
-                picker1.show();
-                break;
-            case R.id.submit1:
-                stringJZ = fumuText5.getText().toString().trim();
-                stringTl = telText5.getText().toString().trim();
-                if (TextUtils.isEmpty(nameText5.getText().toString()) || TextUtils.isEmpty(sexText5.getText().toString()) || TextUtils.isEmpty(ageText5.getText().toString()) || TextUtils.isEmpty(stringJZ) || TextUtils.isEmpty(stringTl)) {
+            case R.id.yySubmit:
+                stringyyTel = yyTel.getText().toString().trim();
+                stringyyName = yyNameInput.getText().toString().trim();
+                stringyyAge = yyAgeInput.getText().toString().trim();
+                stringyySex = yySexInput.getText().toString().trim();
+                if (TextUtils.isEmpty(stringyyName) || TextUtils.isEmpty(stringyySex) || TextUtils.isEmpty(stringyyAge) || TextUtils.isEmpty(stringyyTel)) {
                     Toast.makeText(SubmitActivity.this, "请完善信息", Toast.LENGTH_SHORT).show();
                 } else {
-                    init();
+                    ClassPathResource classPathResource = new ClassPathResource();
+                    boolean b = classPathResource.isMobileNO(stringyyTel);
+                    if (b == true) {
+                        submitVist();
+                    } else {
+                        Toast.makeText(SubmitActivity.this, "请填写正确的电话号码", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
         }
     }
 
     private void init() {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_KCYYDataService.ashx?op=UpdateTAB_KCYY");
-        params.addBodyParameter("YHID", userID);
-        params.addBodyParameter("JZLX", stringJZ);
-        params.addBodyParameter("JZDH", stringTl);
-        params.addBodyParameter("KCID", kcid);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中....", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        main10.setVisibility(View.GONE);
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/ucarInfo");
+        params.addBodyParameter("uid", userID);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "提交信息" + result);
+                main10.setVisibility(View.VISIBLE);
+                Gson gson = new Gson();
+                SubmitUserBean bean = gson.fromJson(result, SubmitUserBean.class);
+                if (bean.getCode() == 3000) {
+                    if (bean.getData().getTruename() != null) {
+                        yyNameInput.setText(bean.getData().getTruename().toString());
+                    }
+                    if (bean.getData().getSex().equals("0")) {
+                        yySexInput.setText("男");
+                    } else {
+                        yySexInput.setText("女");
+                    }
+                    yyAgeInput.setText(bean.getData().getAge() + "岁");
+                    yyTel.setText(bean.getData().getTelnumber());
+                } else {
+                    Toast.makeText(SubmitActivity.this, "获取用户信息失败", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag", "提交信息失败");
+                Toast.makeText(SubmitActivity.this, "获取用户信息失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -162,7 +165,7 @@ public class SubmitActivity extends AutoLayoutActivity {
 
             @Override
             public void onFinished() {
-
+                customProgressDialog.cancel();
             }
 
             @Override
@@ -171,4 +174,82 @@ public class SubmitActivity extends AutoLayoutActivity {
             }
         });
     }
+
+    private void submitVist() {
+        if (stringyySex.equals("男")) {
+            sexID = "0";
+        } else {
+            sexID = "1";
+        }
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中....", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/addCar");
+        params.addBodyParameter("uid", userID);
+        params.addBodyParameter("coid", kcid);
+        params.addBodyParameter("truename", stringyyName);
+        params.addBodyParameter("sex", sexID);
+        params.addBodyParameter("age", stringyyAge);
+        params.addBodyParameter("telnumber", stringyyTel);
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                try {
+                    JSONObject jsonObject=new JSONObject(result);
+                    if (jsonObject.getString("code").equals("3006")){
+                        final AlertDialog dialog = new AlertDialog.Builder(SubmitActivity.this).create();
+                        LayoutInflater inflater = getLayoutInflater();
+                        View v = inflater.inflate(R.layout.submitsuccess, null);
+                        dialog.setView(v);
+                        dialog.setCanceledOnTouchOutside(false);
+                        dialog.show();
+                        v.findViewById(R.id.sNO).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(v.getContext(),CurriculumActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                        v.findViewById(R.id.sGo).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent=new Intent(v.getContext(),MyGradeActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+
+                    }else {
+                        Toast.makeText(SubmitActivity.this, "课程已经预约，提交失败", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(SubmitActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                customProgressDialog.cancel();
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+
+    }
+
+
 }

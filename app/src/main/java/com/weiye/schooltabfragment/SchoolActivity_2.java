@@ -38,12 +38,13 @@ import java.util.List;
  */
 public class SchoolActivity_2 extends Fragment {
     private RecyclerView schoolRecycler;
-    private List<HuodongBean.RowsBean> list;
+    private List<HuodongBean.DataBean> list;
     private ScrollView scrollView;
     private RoundedImageView mImage;
     private CustomProgressDialog customProgressDialog;
     private ImageView videoLogo;
     private TextView showView;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -52,7 +53,7 @@ public class SchoolActivity_2 extends Fragment {
         scrollView = (ScrollView) view.findViewById(R.id.mScroll);
         mImage = (RoundedImageView) view.findViewById(R.id.mImage);
         videoLogo = (ImageView) view.findViewById(R.id.videoplayerlogo);
-        showView= (TextView) view.findViewById(R.id.showview);
+        showView = (TextView) view.findViewById(R.id.showview);
         scrollView.smoothScrollTo(0, 20);
         visit();
 
@@ -60,28 +61,27 @@ public class SchoolActivity_2 extends Fragment {
     }
 
     private void visit() {
-        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame,R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XXHDDataService.ashx?op=getTAB_XXHD");
-        params.addBodyParameter("start", "0");
-        params.addBodyParameter("ZT", "1");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/university");
+        params.addBodyParameter("type", "2");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Gson gson = new Gson();
                 HuodongBean bean = gson.fromJson(result, HuodongBean.class);
-                list = bean.getRows();
-                if (bean.getTotal()==0){
+                list = bean.getData();
+                if (bean.getCode() == -1000) {
                     showView.setVisibility(View.VISIBLE);
-                }else {
+                } else if (bean.getCode() == 1000) {
                     showView.setVisibility(View.GONE);
-                    if (list.get(0).getBJSFSP().equals("0")) {
+                    if (list.get(0).getIsvideo().equals("0")) {
                         videoLogo.setVisibility(View.GONE);
-                        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+list.get(0).getTXLJ(),mImage);
+                        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + list.get(0).getBjimg(), mImage);
                     } else {
                         videoLogo.setVisibility(View.VISIBLE);
-                        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+list.get(0).getBJTXLJ(),mImage);
+                        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + list.get(0).getBjimg(), mImage);
                     }
                     schoolRecycler.setAdapter(new SchoolRecyclerAdapter(list));
                     schoolRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false));
@@ -89,19 +89,18 @@ public class SchoolActivity_2 extends Fragment {
                         @Override
                         public void onClick(View view) {
                             Intent intent = null;
-                            if (list.get(0).getBJSFSP().equals("0")) {
+                            if (list.get(0).getIsvideo().equals("0")) {
                                 intent = new Intent(view.getContext(), SchoolImageActivity.class);
-                                intent.putExtra("txdz", list.get(0).getTXLJ());
-                                intent.putExtra("hdms", list.get(0).getHDMS());
+                                intent.putExtra("id", list.get(0).getId());
                             } else {
                                 intent = new Intent(view.getContext(), SchoolVideoActivity.class);
-                                intent.putExtra("txdz", list.get(0).getTXLJ());
-                                intent.putExtra("spdz", list.get(0).getBJTXLJ());
-                                intent.putExtra("hdms", list.get(0).getHDMS());
+                                intent.putExtra("id", list.get(0).getId());
                             }
                             startActivity(intent);
                         }
                     });
+                } else {
+                    Toast.makeText(getActivity(), "暂无活动详情", Toast.LENGTH_SHORT).show();
                 }
 
             }

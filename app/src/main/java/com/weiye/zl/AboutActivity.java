@@ -8,16 +8,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.weiye.data.AboutBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
-import qiu.niorgai.StatusBarCompat;
 
 public class AboutActivity extends AutoLayoutActivity {
     private RelativeLayout back;
@@ -40,14 +40,20 @@ public class AboutActivity extends AutoLayoutActivity {
         final CustomProgressDialog customProgressDialog=new CustomProgressDialog(this,"玩命加载中...",R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"TAB_GYWMDataService.ashx?op=getTAB_GYWM");
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"Index/aboutUs");
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.v("tag",result);
-                Gson gson=new Gson();
-                AboutBean bean=gson.fromJson(result,AboutBean.class);
-                aboutText.setText(bean.getRows().get(0).getGYWM());
+                try {
+                    JSONObject jsonObject=new JSONObject(result);
+                    if (jsonObject.getString("code").equals("1000")){
+                        aboutText.setText(jsonObject.getString("data"));
+                    }else {
+                        Toast.makeText(AboutActivity.this,"暂无更多数据",Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

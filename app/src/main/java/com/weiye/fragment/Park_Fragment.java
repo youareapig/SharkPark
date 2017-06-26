@@ -50,7 +50,7 @@ import java.util.List;
  */
 public class Park_Fragment extends Fragment implements View.OnClickListener {
     private MyListView mListview;
-    private List<HuodongBean.RowsBean> list;
+    private List<HuodongBean.DataBean> list;
     private AutoRelativeLayout sActivity, appearance, intro;
     private CustomProgressDialog customProgressDialog;
     private XRefreshView main1;
@@ -138,20 +138,18 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main1.setVisibility(View.GONE);
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_XXHDDataService.ashx?op=getTAB_XXHD");
-        params.addBodyParameter("start", "0");
-        params.addBodyParameter("ZT", "0");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/university");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 main1.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 HuodongBean bean = gson.fromJson(result, HuodongBean.class);
-                Log.d("tag","活动数据"+result);
-                list = bean.getRows();
-                if (bean.getTotal()==0){
+
+                list = bean.getData();
+                if (bean.getCode()==-1000){
                     showNo.setVisibility(View.VISIBLE);
-                }else {
+                }else if (bean.getCode()==1000){
                     showNo.setVisibility(View.GONE);
                     mListview.setAdapter(new ActivitiesGridAdpter(list, getActivity()));
                 }
@@ -159,17 +157,14 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
                 mListview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        HuodongBean.RowsBean bean1 = (HuodongBean.RowsBean) adapterView.getItemAtPosition(i);
+                        HuodongBean.DataBean bean1 = (HuodongBean.DataBean) adapterView.getItemAtPosition(i);
                         Intent intent = null;
-                        if (bean1.getBJSFSP().equals("0")) {
+                        if (bean1.getIsvideo().equals("0")) {
                             intent = new Intent(getActivity(), SchoolImageActivity.class);
-                            intent.putExtra("txdz", bean1.getTXLJ());
-                            intent.putExtra("hdms", bean1.getHDMS());
+                            intent.putExtra("id", bean1.getId());
                         } else {
                             intent = new Intent(getActivity(), SchoolVideoActivity.class);
-                            intent.putExtra("txdz", bean1.getBJTXLJ());
-                            intent.putExtra("spdz", bean1.getTXLJ());
-                            intent.putExtra("hdms", bean1.getHDMS());
+                            intent.putExtra("id", bean1.getId());
                         }
                         getActivity().startActivity(intent);
                     }

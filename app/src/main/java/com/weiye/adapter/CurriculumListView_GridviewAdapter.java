@@ -1,34 +1,28 @@
 package com.weiye.adapter;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.weiye.data.KCBBean;
-import com.weiye.data.TestBean;
-import com.weiye.myview.MyGridView;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by DELL on 2017/4/14.
  */
 public class CurriculumListView_GridviewAdapter extends BaseAdapter {
-    private List<KCBBean.RowsBeanX.RowsBean> list;
+    private List<KCBBean.DataBean.ChildrenBean.CourseBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
     private ViewHolder holder;
-    private List<KCBBean.RowsBeanX> list2;
-    public CurriculumListView_GridviewAdapter(Activity activity, List<KCBBean.RowsBeanX.RowsBean> list) {
+    public CurriculumListView_GridviewAdapter(Activity activity, List<KCBBean.DataBean.ChildrenBean.CourseBean> list) {
         this.layoutInflater = activity.getLayoutInflater();
         this.list = list;
     }
@@ -56,7 +50,7 @@ public class CurriculumListView_GridviewAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        KCBBean.RowsBeanX.RowsBean bean = list.get(i);
+        KCBBean.DataBean.ChildrenBean.CourseBean bean = list.get(i);
         holder = new ViewHolder();
         if (view == null) {
             view = layoutInflater.inflate(R.layout.curriculumlistviewgridviewitem, null);
@@ -66,14 +60,14 @@ public class CurriculumListView_GridviewAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.textView.setText(bean.getKCMC());
+        holder.textView.setText(bean.getConame());
 
-        if (bean.getSTATUS().equals("0")) {
+        if (bean.getIscheckd()==1) {
             holder.textView.setBackgroundResource(R.drawable.classbook1);
-            holder.textView.setEnabled(false);
+            //holder.textView.setClickable(true);
         } else {
             holder.textView.setBackgroundResource(R.drawable.classbook);
-            holder.textView.setEnabled(true);
+            //holder.textView.setClickable(false);
         }
         return view;
     }

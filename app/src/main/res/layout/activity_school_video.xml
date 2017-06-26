@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".SchoolImageActivity">
 
+
     <com.weiye.myview.ObservableScrollView
         android:id="@+id/scrollview2"
         android:layout_width="match_parent"

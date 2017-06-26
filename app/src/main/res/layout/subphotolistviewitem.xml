@@ -35,9 +35,12 @@
             android:layout_alignRight="@+id/subphotolistviewItem_img"
             android:layout_marginTop="420px"
             android:layout_marginRight="40px"
-            android:textColor="#FFF"
+            android:textColor="#fff"
             android:textSize="52px"
-            android:text="6"/>
+            android:shadowColor="#222222"
+            android:shadowRadius="1"
+            android:shadowDx="0.8"
+            android:shadowDy="0.8" />
 
     </com.zhy.autolayout.AutoRelativeLayout>
 

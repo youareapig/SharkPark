@@ -5,16 +5,32 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.weiye.data.SubjectStationBean;
+import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,13 +56,13 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
     TextView scienceStationTitle;
     @BindView(R.id.scienceStation_Time)
     TextView scienceStationTime;
-    @BindView(R.id.scienceStation_Content)
-    TextView scienceStationContent;
     @BindView(R.id.toubu)
     RelativeLayout toubu;
+    @BindView(R.id.scienceStation_Content)
+    WebView scienceStationContent;
     private Unbinder unbinder;
     private int height;
-    private String myBackground, myTitle, myContent, myTime;
+    private String kcID,img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,14 +71,8 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
         ShareSDK.initSDK(this);
         unbinder = ButterKnife.bind(this);
         Intent intent = getIntent();
-        myBackground = intent.getStringExtra("img");
-        myTitle = intent.getStringExtra("title");
-        myContent = intent.getStringExtra("content");
-        myTime = intent.getStringExtra("time");
-        scienceStationTitle.setText(myTitle);
-        scienceStationTime.setText(myTime);
-        scienceStationContent.setText(myContent);
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + myBackground, scienceStationBJ);
+        kcID = intent.getStringExtra("id");
+        init();
         changTitle();
     }
 
@@ -133,7 +143,7 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
         oks.setSite(getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl("http://www.sharkpark.cn/");
-        oks.setImageUrl(SingleModleUrl.singleModleUrl().getImgUrl() + myBackground);
+        oks.setImageUrl(SingleModleUrl.singleModleUrl().getImgUrl() + img);
         oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
             @Override
             public void onShare(Platform platform, Platform.ShareParams paramsToShare) {
@@ -161,4 +171,63 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
         oks.show(this);
     }
 
+    private void init() {
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog.setCanceledOnTouchOutside(false);
+        customProgressDialog.show();
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/parkDetail");
+        params.addBodyParameter("id", kcID);
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                SubjectStationBean bean = gson.fromJson(result, SubjectStationBean.class);
+                img=bean.getData().getPic();
+                if (bean.getCode() == 1000) {
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + img, scienceStationBJ);
+                    scienceStationTime.setText(bean.getData().getAddtime());
+                    scienceStationTitle.setText(bean.getData().getTitle());
+                    WebSettings webSettings = scienceStationContent.getSettings();
+                    webSettings.setLoadWithOverviewMode(true);
+                    webSettings.setUseWideViewPort(true);
+                    webSettings.setTextZoom(240);
+                    scienceStationContent.loadDataWithBaseURL(null, getNewContent(bean.getData().getContent()), "text/html", "utf-8", null);
+                    scienceStationContent.setWebViewClient(new WebViewClient());
+                } else {
+                    Toast.makeText(ScienceStationActivity.this, "暂时没介绍", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Toast.makeText(ScienceStationActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                customProgressDialog.cancel();
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+    }
+
+    //TODO 屏幕适配
+    private String getNewContent(String htmltext) {
+        Document doc = Jsoup.parse(htmltext);
+        Elements elements = doc.getElementsByTag("img");
+        for (Element element : elements) {
+            element.attr("width", "100%").attr("height", "auto");
+        }
+        return doc.toString();
+    }
 }

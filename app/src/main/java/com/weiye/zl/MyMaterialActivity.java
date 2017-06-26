@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.weiye.data.UserInfoBean;
+import com.weiye.data.GetUserInfo;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
@@ -31,7 +31,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cn.qqtheme.framework.picker.DatePicker;
 import cn.qqtheme.framework.picker.OptionPicker;
-import qiu.niorgai.StatusBarCompat;
 
 public class MyMaterialActivity extends AutoLayoutActivity {
     @BindView(R.id.materialBack)
@@ -145,20 +144,17 @@ public class MyMaterialActivity extends AutoLayoutActivity {
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_RYXXDataService.ashx?op=UpdateTAB_RYXXDataByYH");
-        params.addBodyParameter("YHID", userID);
-        params.addBodyParameter("ZSXM", stringName);
-        params.addBodyParameter("XB", userSex);
-        params.addBodyParameter("CSRQ", stringDate);
-        params.addBodyParameter("NC", stringName);
-        params.addBodyParameter("LX", "1");
-        x.http().get(params, new Callback.CommonCallback<String>() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editUser");
+        params.addBodyParameter("id", userID);
+        params.addBodyParameter("nickname", stringName);
+        params.addBodyParameter("sex", userSex);
+        params.addBodyParameter("birthday", stringDate);
+        x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-
                 try {
                     JSONObject jsonObject = new JSONObject(result);
-                    if (jsonObject.getBoolean("Success") == true) {
+                    if (jsonObject.getString("code").equals("3003")) {
                         Toast.makeText(MyMaterialActivity.this, "资料更新成功", Toast.LENGTH_SHORT).show();
                         Intent intent=new Intent(MyMaterialActivity.this,MainActivity.class);
                         intent.putExtra("fTag",3);
@@ -195,24 +191,36 @@ public class MyMaterialActivity extends AutoLayoutActivity {
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "TAB_YHXXDataService.ashx?op=getTAB_YHXX");
-        params.addBodyParameter("ID", userID);
-        params.addBodyParameter("start", "0");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/userInfo");
+        params.addBodyParameter("id", userID);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "用户信息获取成功" + result);
                 Gson gson = new Gson();
-                UserInfoBean bean = gson.fromJson(result, UserInfoBean.class);
-                Log.d("tag","----0"+bean.getRows().get(0).getXB());
+                GetUserInfo bean = gson.fromJson(result, GetUserInfo.class);
+                if (bean.getCode()==3000){
+                    if (bean.getData().getNickname()==null){
+                        nameText.setText("鲨鱼宝宝");
+                    }else {
+                        nameText.setText(bean.getData().getNickname().toString());
+                    }
+                    if (bean.getData().getSex().equals("0")){
+                        sexText.setText("男");
+                    }else {
+                        sexText.setText("女");
+                    }
+                    if (bean.getData().getBirthday()==null){
+                        ageText.setText("2001-2-2");
+                    }else {
+                        ageText.setText(bean.getData().getBirthday().toString());
+                    }
+                }
 
-                nameText.setText(bean.getRows().get(0).getNC()+"");
-                sexText.setText(bean.getRows().get(0).getXB());
-                String str = bean.getRows().get(0).getCSRQ();
+//                String str = bean.getRows().get(0).getCSRQ();
                 //字符串截取
-                String[] s = str.split(" ");
-                String ss = s[0];
-                ageText.setText(ss);
+//                String[] s = str.split(" ");
+//                String ss = s[0];
+//                ageText.setText(ss);
             }
 
             @Override

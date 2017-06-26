@@ -8,142 +8,62 @@ import java.util.List;
 public class PhotoBean {
 
     /**
-     * total : 4
-     * rows : [{"TEMPFYFILED":"1","ID":"16","GLID":"2","TX":"8","MS":"四个","LX":"4","CJRQ":"","SP":"1","SFSP":"1","TXLJ":"UploadFile/4.jpg","SPLJ":"UploadFile/123.jpg"},{"TEMPFYFILED":"2","ID":"15","GLID":"2","TX":"7","MS":"三个","LX":"4","CJRQ":"","SP":"1","SFSP":"1","TXLJ":"UploadFile/3.jpg","SPLJ":"UploadFile/123.jpg"},{"TEMPFYFILED":"3","ID":"14","GLID":"2","TX":"6","MS":"二个","LX":"4","CJRQ":"","SP":"1","SFSP":"1","TXLJ":"UploadFile/2.jpg","SPLJ":"UploadFile/123.jpg"},{"TEMPFYFILED":"4","ID":"13","GLID":"2","TX":"5","MS":"一个","LX":"4","CJRQ":"","SP":"1","SFSP":"1","TXLJ":"UploadFile/1.jpg","SPLJ":"UploadFile/123.jpg"}]
+     * code : 1000
+     * message : 查询成功
+     * data : [{"ptitle":"第一张","purl":["Uploads/subject/2017-06-21/594a307b8d545.png","Uploads/subject/2017-06-21/594a307b8e59b.png","Uploads/subject/2017-06-21/594a307b8f45c.png","Uploads/subject/2017-06-21/594a307b90280.png","Uploads/subject/2017-06-21/594a307b9130b.png","Uploads/subject/2017-06-21/594a307b920da.png"]},{"ptitle":"第二张","purl":["Uploads/subject/2017-06-21/594a309804bfe.jpg","Uploads/subject/2017-06-21/594a309805297.png","Uploads/subject/2017-06-21/594a309805815.png","Uploads/subject/2017-06-21/594a309805dd0.png"]}]
      */
 
-    private int total;
-    private List<RowsBean> rows;
+    private int code;
+    private String message;
+    private List<DataBean> data;
 
-    public int getTotal() {
-        return total;
+    public int getCode() {
+        return code;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public List<RowsBean> getRows() {
-        return rows;
+    public String getMessage() {
+        return message;
     }
 
-    public void setRows(List<RowsBean> rows) {
-        this.rows = rows;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public static class RowsBean {
+    public List<DataBean> getData() {
+        return data;
+    }
+
+    public void setData(List<DataBean> data) {
+        this.data = data;
+    }
+
+    public static class DataBean {
         /**
-         * TEMPFYFILED : 1
-         * ID : 16
-         * GLID : 2
-         * TX : 8
-         * MS : 四个
-         * LX : 4
-         * CJRQ :
-         * SP : 1
-         * SFSP : 1
-         * TXLJ : UploadFile/4.jpg
-         * SPLJ : UploadFile/123.jpg
+         * ptitle : 第一张
+         * purl : ["Uploads/subject/2017-06-21/594a307b8d545.png","Uploads/subject/2017-06-21/594a307b8e59b.png","Uploads/subject/2017-06-21/594a307b8f45c.png","Uploads/subject/2017-06-21/594a307b90280.png","Uploads/subject/2017-06-21/594a307b9130b.png","Uploads/subject/2017-06-21/594a307b920da.png"]
          */
 
-        private String TEMPFYFILED;
-        private String ID;
-        private String GLID;
-        private String TX;
-        private String MS;
-        private String LX;
-        private String CJRQ;
-        private String SP;
-        private String SFSP;
-        private String TXLJ;
-        private String SPLJ;
+        private String ptitle;
+        private List<String> purl;
 
-        public String getTEMPFYFILED() {
-            return TEMPFYFILED;
+        public String getPtitle() {
+            return ptitle;
         }
 
-        public void setTEMPFYFILED(String TEMPFYFILED) {
-            this.TEMPFYFILED = TEMPFYFILED;
+        public void setPtitle(String ptitle) {
+            this.ptitle = ptitle;
         }
 
-        public String getID() {
-            return ID;
+        public List<String> getPurl() {
+            return purl;
         }
 
-        public void setID(String ID) {
-            this.ID = ID;
-        }
-
-        public String getGLID() {
-            return GLID;
-        }
-
-        public void setGLID(String GLID) {
-            this.GLID = GLID;
-        }
-
-        public String getTX() {
-            return TX;
-        }
-
-        public void setTX(String TX) {
-            this.TX = TX;
-        }
-
-        public String getMS() {
-            return MS;
-        }
-
-        public void setMS(String MS) {
-            this.MS = MS;
-        }
-
-        public String getLX() {
-            return LX;
-        }
-
-        public void setLX(String LX) {
-            this.LX = LX;
-        }
-
-        public String getCJRQ() {
-            return CJRQ;
-        }
-
-        public void setCJRQ(String CJRQ) {
-            this.CJRQ = CJRQ;
-        }
-
-        public String getSP() {
-            return SP;
-        }
-
-        public void setSP(String SP) {
-            this.SP = SP;
-        }
-
-        public String getSFSP() {
-            return SFSP;
-        }
-
-        public void setSFSP(String SFSP) {
-            this.SFSP = SFSP;
-        }
-
-        public String getTXLJ() {
-            return TXLJ;
-        }
-
-        public void setTXLJ(String TXLJ) {
-            this.TXLJ = TXLJ;
-        }
-
-        public String getSPLJ() {
-            return SPLJ;
-        }
-
-        public void setSPLJ(String SPLJ) {
-            this.SPLJ = SPLJ;
+        public void setPurl(List<String> purl) {
+            this.purl = purl;
         }
     }
 }

@@ -6,28 +6,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.weiye.data.InfoBean;
+import com.weiye.data.PhotoBean;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by DELL on 2017/4/14.
  */
 public class SubPhotoListViewAdapter extends BaseAdapter{
-    private List<InfoBean.RowsBean> list;
+    private List<PhotoBean.DataBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    public SubPhotoListViewAdapter(List<InfoBean.RowsBean> list, Activity activity) {
+    public SubPhotoListViewAdapter(List<PhotoBean.DataBean> list, Activity activity) {
         this.list = list;
         this.layoutInflater=activity.getLayoutInflater();
     }
@@ -56,7 +54,7 @@ public class SubPhotoListViewAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder=new ViewHolder();
-        InfoBean.RowsBean rowsBean=list.get(i);
+        PhotoBean.DataBean rowsBean=list.get(i);
         if (view==null){
             view=layoutInflater.inflate(R.layout.subphotolistviewitem,null);
             holder.imageView= (RoundedImageView) view.findViewById(R.id.subphotolistviewItem_img);
@@ -67,8 +65,9 @@ public class SubPhotoListViewAdapter extends BaseAdapter{
         }else {
             holder= (ViewHolder) view.getTag();
         }
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+rowsBean.getTXLJ(),holder.imageView);
-        holder.textView.setText(rowsBean.getMS().toString());
+        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+rowsBean.getPurl().get(0),holder.imageView);
+        holder.textView.setText(rowsBean.getPtitle());
+        holder.textViewnum.setText(rowsBean.getPurl().size()+"");
         return view;
     }
     private class ViewHolder{

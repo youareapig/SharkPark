@@ -23,6 +23,20 @@
             android:src="@mipmap/play"
             android:layout_centerInParent="true"
             android:visibility="gone"/>
+        <TextView
+            android:id="@+id/schoolrecycleritem_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="40px"
+            android:layout_marginBottom="40px"
+            android:textColor="#fff"
+            android:shadowColor="#222222"
+            android:shadowRadius="1"
+            android:shadowDx="0.8"
+            android:shadowDy="0.8"
+            android:textSize="36px"
+            />
 
     </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoLinearLayout>

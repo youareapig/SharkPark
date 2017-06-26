@@ -20,10 +20,10 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class FourSchoolGalleryAdapter extends BaseAdapter {
-    private List<IndexBean.RowsBean> list;
+    private List<IndexBean.DataBean> list;
     private LayoutInflater inflater;
     private int count;
-    public FourSchoolGalleryAdapter(List<IndexBean.RowsBean> list, Activity context) {
+    public FourSchoolGalleryAdapter(List<IndexBean.DataBean> list, Activity context) {
         this.list = list;
         this.inflater = context.getLayoutInflater();
     }
@@ -46,13 +46,13 @@ public class FourSchoolGalleryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        IndexBean.RowsBean bean=list.get(i%count);
+        IndexBean.DataBean bean=list.get(i%count);
         view = inflater.inflate(R.layout.fourschoolitem, null);
         TextView textView = (TextView) view.findViewById(R.id.fourschoolitem_text);
         RoundedImageView roundedImageView = (RoundedImageView) view.findViewById(R.id.fourschoolitem_img);
         AutoUtils.autoSize(view);
-        textView.setText(bean.getLXMC());
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getTXLJ(),roundedImageView);
+        textView.setText(bean.getSbtitle());
+        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getSbpic(),roundedImageView);
         return view;
     }
 }

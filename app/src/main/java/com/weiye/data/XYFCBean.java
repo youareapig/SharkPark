@@ -8,112 +8,62 @@ import java.util.List;
 public class XYFCBean {
 
     /**
-     * total : 1
-     * rows : [{"TEMPFYFILED":"1","ID":"1","FCMS":"风采","TX":"5","LX":"0","CJRQ":"","CJRID":"","TXLJ":"UploadFile/1.jpg"}]
+     * code : 1000
+     * message : 成功
+     * data : [{"title":"校园风采","imgurl":["Uploads/subject/2017-06-22/594b8503d593a.jpg","Uploads/subject/2017-06-22/594b8503d7d29.jpg","Uploads/subject/2017-06-22/594b8503d9267.jpg"]},{"title":"教学环境","imgurl":["Uploads/subject/2017-06-22/594b85396dc4c.png","Uploads/subject/2017-06-22/594b85396e3ee.jpg","Uploads/subject/2017-06-22/594b85396f65c.jpg"]}]
      */
 
-    private int total;
-    private List<RowsBean> rows;
+    private int code;
+    private String message;
+    private List<DataBean> data;
 
-    public int getTotal() {
-        return total;
+    public int getCode() {
+        return code;
     }
 
-    public void setTotal(int total) {
-        this.total = total;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    public List<RowsBean> getRows() {
-        return rows;
+    public String getMessage() {
+        return message;
     }
 
-    public void setRows(List<RowsBean> rows) {
-        this.rows = rows;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public static class RowsBean {
+    public List<DataBean> getData() {
+        return data;
+    }
+
+    public void setData(List<DataBean> data) {
+        this.data = data;
+    }
+
+    public static class DataBean {
         /**
-         * TEMPFYFILED : 1
-         * ID : 1
-         * FCMS : 风采
-         * TX : 5
-         * LX : 0
-         * CJRQ :
-         * CJRID :
-         * TXLJ : UploadFile/1.jpg
+         * title : 校园风采
+         * imgurl : ["Uploads/subject/2017-06-22/594b8503d593a.jpg","Uploads/subject/2017-06-22/594b8503d7d29.jpg","Uploads/subject/2017-06-22/594b8503d9267.jpg"]
          */
 
-        private String TEMPFYFILED;
-        private String ID;
-        private String FCMS;
-        private String TX;
-        private String LX;
-        private String CJRQ;
-        private String CJRID;
-        private String TXLJ;
+        private String title;
+        private List<String> imgurl;
 
-        public String getTEMPFYFILED() {
-            return TEMPFYFILED;
+        public String getTitle() {
+            return title;
         }
 
-        public void setTEMPFYFILED(String TEMPFYFILED) {
-            this.TEMPFYFILED = TEMPFYFILED;
+        public void setTitle(String title) {
+            this.title = title;
         }
 
-        public String getID() {
-            return ID;
+        public List<String> getImgurl() {
+            return imgurl;
         }
 
-        public void setID(String ID) {
-            this.ID = ID;
-        }
-
-        public String getFCMS() {
-            return FCMS;
-        }
-
-        public void setFCMS(String FCMS) {
-            this.FCMS = FCMS;
-        }
-
-        public String getTX() {
-            return TX;
-        }
-
-        public void setTX(String TX) {
-            this.TX = TX;
-        }
-
-        public String getLX() {
-            return LX;
-        }
-
-        public void setLX(String LX) {
-            this.LX = LX;
-        }
-
-        public String getCJRQ() {
-            return CJRQ;
-        }
-
-        public void setCJRQ(String CJRQ) {
-            this.CJRQ = CJRQ;
-        }
-
-        public String getCJRID() {
-            return CJRID;
-        }
-
-        public void setCJRID(String CJRID) {
-            this.CJRID = CJRID;
-        }
-
-        public String getTXLJ() {
-            return TXLJ;
-        }
-
-        public void setTXLJ(String TXLJ) {
-            this.TXLJ = TXLJ;
+        public void setImgurl(List<String> imgurl) {
+            this.imgurl = imgurl;
         }
     }
 }
