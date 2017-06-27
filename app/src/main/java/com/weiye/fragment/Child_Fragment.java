@@ -1,5 +1,6 @@
 package com.weiye.fragment;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -21,18 +23,25 @@ import com.weiye.myview.CustomProgressDialog;
 import com.weiye.third.BaseAdapterHelper;
 import com.weiye.third.Gallery;
 import com.weiye.third.QuickPagerAdapter;
+import com.weiye.updateversion.UpdateService;
 import com.weiye.utils.ShadowProperty;
 import com.weiye.utils.ShadowViewDrawable;
 import com.weiye.utils.SingleModleUrl;
+import com.weiye.zl.MainActivity;
+import com.weiye.zl.MyApplication;
 import com.weiye.zl.R;
 import com.weiye.zl.RestartActivity;
 import com.weiye.zl.SubjectActivity;
 import com.zhy.autolayout.AutoRelativeLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,11 +52,15 @@ public class Child_Fragment extends Fragment {
     private QuickPagerAdapter<IndexBean.DataBean> quickPagerAdapter;
     private List<IndexBean.DataBean> mList;
     private CustomProgressDialog customProgressDialog;
-
+    private String updateUrl,updateName,updateContent,updateVersion;
+    private int locationVersion = 0;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.childfragment, container, false);
+        MyApplication application= (MyApplication) getActivity().getApplication();
+        locationVersion=application.location;
+        updateVersion();
         mGallery = (Gallery) view.findViewById(R.id.myGallery);
         index();
         return view;
@@ -110,5 +123,65 @@ public class Child_Fragment extends Fragment {
             }
         });
     }
+    //TODO 检测版本更新
+    private void updateVersion(){
+        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"Index/updateInfo");
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("tag","版本更新"+result);
+                try {
+                    JSONObject json=new JSONObject(result);
+                    updateName=json.getString("versionName");
+                    updateContent=json.getString("description");
+                    updateVersion=json.getString("version");
+                    updateUrl=json.getString("url");
+                    if (Integer.parseInt(updateVersion)>locationVersion){
+                        final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
+                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                        View v = inflater.inflate(R.layout.update, null);
+                        dialog.setView(v);
+                        dialog.setCanceledOnTouchOutside(false);
+                        dialog.show();
+                        v.findViewById(R.id.unUpdate).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.cancel();
+                            }
+                        });
+                        TextView textContent= (TextView) v.findViewById(R.id.versionContent);
+                        //textContent.setText(updateContent);
+                        v.findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getActivity(), UpdateService.class);
+                                intent.putExtra("apkUrl", updateUrl);
+                                Log.d("tag","下载地址"+updateUrl);
+                                getActivity().startService(intent);
+                                dialog.cancel();
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("tag","版本更新错误");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
 }

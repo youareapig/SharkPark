@@ -2,6 +2,8 @@ package com.weiye.zl;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
@@ -22,10 +24,27 @@ import cn.jpush.sms.SMSSDK;
  */
 public class MyApplication extends Application {
     public ImageLoaderConfiguration config;
+    private boolean isUpdateWarning = true;
+    public static int location=1;
+    public boolean isUpdateWarning() {
+        return isUpdateWarning;
+    }
+
+    public void setUpdateWarning(boolean updateWarning) {
+        isUpdateWarning = updateWarning;
+    }
 
     @Override
+
     public void onCreate() {
         super.onCreate();
+        //获取本地版本号
+        try {
+            PackageInfo packageInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(),0);
+            location = packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         AutoLayoutConifg.getInstance().useDeviceSize();
         initImageLoader(getApplicationContext());
         x.Ext.init(this);

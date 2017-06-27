@@ -141,12 +141,14 @@ public class SubmitActivity extends AutoLayoutActivity {
                     if (bean.getData().getTruename() != null) {
                         yyNameInput.setText(bean.getData().getTruename().toString());
                     }
+                    if (bean.getData().getAge() != null) {
+                        yyAgeInput.setText(bean.getData().getAge() + "岁");
+                    }
                     if (bean.getData().getSex().equals("0")) {
                         yySexInput.setText("男");
                     } else {
                         yySexInput.setText("女");
                     }
-                    yyAgeInput.setText(bean.getData().getAge() + "岁");
                     yyTel.setText(bean.getData().getTelnumber());
                 } else {
                     Toast.makeText(SubmitActivity.this, "获取用户信息失败", Toast.LENGTH_SHORT).show();
@@ -195,8 +197,8 @@ public class SubmitActivity extends AutoLayoutActivity {
             @Override
             public void onSuccess(String result) {
                 try {
-                    JSONObject jsonObject=new JSONObject(result);
-                    if (jsonObject.getString("code").equals("3006")){
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getString("code").equals("3006")) {
                         final AlertDialog dialog = new AlertDialog.Builder(SubmitActivity.this).create();
                         LayoutInflater inflater = getLayoutInflater();
                         View v = inflater.inflate(R.layout.submitsuccess, null);
@@ -206,7 +208,7 @@ public class SubmitActivity extends AutoLayoutActivity {
                         v.findViewById(R.id.sNO).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent(v.getContext(),CurriculumActivity.class);
+                                Intent intent = new Intent(v.getContext(), CurriculumActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
@@ -214,14 +216,14 @@ public class SubmitActivity extends AutoLayoutActivity {
                         v.findViewById(R.id.sGo).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent=new Intent(v.getContext(),MyGradeActivity.class);
+                                Intent intent = new Intent(v.getContext(), MyGradeActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
                         });
 
-                    }else {
-                        Toast.makeText(SubmitActivity.this, "课程已经预约，提交失败", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SubmitActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

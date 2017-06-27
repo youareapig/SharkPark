@@ -128,9 +128,9 @@ public class MyGradeActivity extends AutoLayoutActivity {
     }
 
     private void delteCorse(String couseID, final int i, String carID) {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "正在删除....", R.drawable.frame, R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
+        final CustomProgressDialog customProgressDialog1 = new CustomProgressDialog(this, "正在删除....", R.drawable.frame, R.style.dialog);
+        customProgressDialog1.setCanceledOnTouchOutside(false);
+        customProgressDialog1.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/offCourse");
         params.addBodyParameter("uid", userID);
         params.addBodyParameter("coid", couseID);
@@ -168,12 +168,12 @@ public class MyGradeActivity extends AutoLayoutActivity {
 
             @Override
             public void onCancelled(CancelledException cex) {
-                customProgressDialog.cancel();
+
             }
 
             @Override
             public void onFinished() {
-
+                customProgressDialog1.cancel();
             }
         });
 

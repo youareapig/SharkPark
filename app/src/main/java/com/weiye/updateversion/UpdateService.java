@@ -32,7 +32,7 @@ public class UpdateService extends Service {
     public void onCreate() {
         Log.e("tag", "UpdateService onCreate()");
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        filePath = Environment.getExternalStorageDirectory() + "/AppUpdate/sharkpark.apk";
+        filePath = Environment.getExternalStorageDirectory() + "/AppUpdate/sharlpark.apk";
     }
 
     @Override

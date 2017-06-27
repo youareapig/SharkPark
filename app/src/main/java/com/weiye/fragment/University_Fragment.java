@@ -216,9 +216,6 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
     //TODO 相册上传
     private void uploadhead(final String base) {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "正在上传...", R.drawable.frame,R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editPic");
         params.addBodyParameter("id", userID);
         params.addBodyParameter("headpic", "data:image/jpeg;base64,"+base);
@@ -250,16 +247,12 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onFinished() {
-                customProgressDialog.cancel();
             }
         });
     }
 
     //TODO 照相上传
     private void uploadhead1(String base) {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "正在上传...", R.drawable.frame,R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editPic");
         params.addBodyParameter("id", userID);
         params.addBodyParameter("headpic", "data:image/jpeg;base64,"+base);
@@ -273,7 +266,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                         Toast.makeText(getActivity(), "头像更新成功", Toast.LENGTH_SHORT).show();
                         try {
                             fileOutputStream[0] = new FileOutputStream(fileName);
-                            bitmap1.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream[0]);
+                            bitmap1.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream[0]);
                             myhead.setImageBitmap(bitmap1);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -304,7 +297,6 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onFinished() {
-                customProgressDialog.cancel();
             }
         });
     }

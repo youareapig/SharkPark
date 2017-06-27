@@ -96,6 +96,9 @@
                     android:layout_marginRight="40px"
                     android:divider="#10405157"
                     android:dividerHeight="10px" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="280px"/>
             </LinearLayout>
         </com.weiye.myview.ObservableScrollView>
 

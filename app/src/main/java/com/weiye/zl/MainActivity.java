@@ -1,5 +1,6 @@
 package com.weiye.zl;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -21,9 +23,17 @@ import com.weiye.fragment.Child_Fragment;
 import com.weiye.fragment.Park_Fragment;
 import com.weiye.fragment.Shark_Fragment;
 import com.weiye.fragment.University_Fragment;
+import com.weiye.updateversion.UpdateService;
 import com.weiye.utils.ExamInternet;
+import com.weiye.utils.SingleModleUrl;
 import com.weiye.utils.UserLoginDialog;
 import com.zhy.autolayout.AutoLayoutActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +72,7 @@ public class MainActivity extends AutoLayoutActivity {
     private int currentIndex;
     private static boolean isExit = false;
     private SharedPreferences sharedPreferences;
+
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -83,6 +94,7 @@ public class MainActivity extends AutoLayoutActivity {
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         Intent intent = getIntent();
         currentIndex=intent.getIntExtra("fTag", 0);
+
         if (currentIndex==3){
             textA.setTextColor(getResources().getColor(R.color.no));
             textB.setTextColor(getResources().getColor(R.color.no));
@@ -224,5 +236,6 @@ public class MainActivity extends AutoLayoutActivity {
             System.exit(0);
         }
     }
+
 
 }

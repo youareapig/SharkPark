@@ -367,7 +367,7 @@ public class UserLoginDialog1 {
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/logo");
         params.addBodyParameter("tel", phone);
-        params.addBodyParameter("DLMM", password);
+        params.addBodyParameter("password", password);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -413,7 +413,7 @@ public class UserLoginDialog1 {
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/isRegist");
-        params.addBodyParameter("DLZH", phone);
+        params.addBodyParameter("tel", phone);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -460,8 +460,8 @@ public class UserLoginDialog1 {
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/regist");
-        params.addBodyParameter("YHZH", phone);
-        params.addBodyParameter("YHMM", pwd);
+        params.addBodyParameter("tel", phone);
+        params.addBodyParameter("password", pwd);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

@@ -66,12 +66,11 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
     FrameLayout main11;
     private Unbinder unbinder;
     private int height;
-    private String indexID, userID, iconID;
+    private String indexID, userID, iconID,hTime,hDate;
     private SharedPreferences sharedPreferences;
     private CurriculumListViewAdapter adapterList;
     private CurriculumListViewAdapter.callBack callBack;
     private List<KCBBean.DataBean> list1;
-    private KCBBean.DataBean bean15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,17 +117,16 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
     }
 
     private void init() {
-        main11.setVisibility(View.GONE);
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/courseLst");
         params.addBodyParameter("sbid", indexID);
         params.addBodyParameter("uid", userID);
+        Log.d("tag",indexID+"----"+userID);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                main11.setVisibility(View.VISIBLE);
                 curricuScrollview.setVisibility(View.VISIBLE);
                 curricuButton.setVisibility(View.VISIBLE);
                 wu.setVisibility(View.GONE);
@@ -144,8 +142,9 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                             List<KCBBean.DataBean.ChildrenBean> list2 = bean.getData().get(i).getChildren();
-                            bean15 = bean.getData().get(i);
                             iconID = list1.get(i).getPic();
+                            hDate=list1.get(i).getDates();
+                            hTime=list1.get(i).getWeek();
                             adapter.setSelectItem(i);
                             adapter.notifyDataSetChanged();
                             adapterList = new CurriculumListViewAdapter(CurriculumActivity.this, list2, list1, callBack);
@@ -198,14 +197,15 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
     @Override
     public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
         if (y <= height) {
+            Log.d("tag","滑动了"+iconID+hTime+hDate);
             float scale = (float) y / height;
             float alpha = (255 * scale);
+            Curriculumtitlexq.setText(hTime);
+            Curriculumtitlexq.setAlpha(alpha);
+            Curriculumtitlerq.setText(hDate);
+            Curriculumtitlerq.setAlpha(alpha);
             ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + iconID, CurriculumtitleImage);
             CurriculumtitleImage.setAlpha(alpha);
-            Curriculumtitlexq.setText(bean15.getWeek());
-            Curriculumtitlexq.setAlpha(alpha);
-            Curriculumtitlerq.setText(bean15.getDates());
-            Curriculumtitlerq.setAlpha(alpha);
         }
     }
 
