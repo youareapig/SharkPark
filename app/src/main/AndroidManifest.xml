@@ -95,7 +95,7 @@
         <activity android:name=".RestartActivity" />
         <activity android:name=".SchoolVideoActivity" />
         <activity android:name=".MyGradeActivity"></activity>
-        <service android:name="com.weiye.updateversion.UpdateService"  android:process=":update"/>
+        <service android:name="com.weiye.updateversion.UpdateService"  android:process=":update" />
     </application>
 
 </manifest>

@@ -123,10 +123,10 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/courseLst");
         params.addBodyParameter("sbid", indexID);
         params.addBodyParameter("uid", userID);
-        Log.d("tag",indexID+"----"+userID);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag","----"+result);
                 curricuScrollview.setVisibility(View.VISIBLE);
                 curricuButton.setVisibility(View.VISIBLE);
                 wu.setVisibility(View.GONE);

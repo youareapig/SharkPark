@@ -72,33 +72,22 @@ public class MyGradeAdapter extends BaseAdapter{
         holder.date.setText(myString(bean.getDates()));
         holder.time.setText(bean.getDatename());
         holder.week.setText(bean.getWeek());
-        //格式化时间格式
-        /*SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd  HH:mm");
-        //获取系统当前时间
-        Date date=new Date(System.currentTimeMillis());
-        String mTime=simpleDateFormat.format(date);
-        String eTime=bean.getDates()+"  "+getTime(bean.getDatename());
-        try {
-            Date beginTime=simpleDateFormat.parse(mTime);
-            Date endTime=simpleDateFormat.parse(eTime);
-            if (endTime.getTime()-beginTime.getTime()<0){
-                holder.bg.setBackgroundResource(R.drawable.classbook2);
-                holder.date.setTextColor(view.getContext().getResources().getColor(R.color.hui));
-                holder.time.setTextColor(view.getContext().getResources().getColor(R.color.hui));
-                holder.week.setTextColor(view.getContext().getResources().getColor(R.color.hui));
-                holder.content.setTextColor(view.getContext().getResources().getColor(R.color.hui));
-                holder.ri.setTextColor(view.getContext().getResources().getColor(R.color.hui));
-            }else {
-                holder.bg.setBackgroundResource(R.drawable.classbook);
-                holder.date.setTextColor(view.getContext().getResources().getColor(R.color.yes));
-                holder.time.setTextColor(view.getContext().getResources().getColor(R.color.yes));
-                holder.week.setTextColor(view.getContext().getResources().getColor(R.color.yes));
-                holder.content.setTextColor(view.getContext().getResources().getColor(R.color.yes));
-                holder.ri.setTextColor(view.getContext().getResources().getColor(R.color.yes));
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
+        if (bean.getIspast()==1){
+            holder.bg.setBackgroundResource(R.drawable.classbook2);
+            holder.date.setTextColor(view.getContext().getResources().getColor(R.color.hui));
+            holder.time.setTextColor(view.getContext().getResources().getColor(R.color.hui));
+            holder.week.setTextColor(view.getContext().getResources().getColor(R.color.hui));
+            holder.content.setTextColor(view.getContext().getResources().getColor(R.color.hui));
+            holder.ri.setTextColor(view.getContext().getResources().getColor(R.color.hui));
+        }else {
+            holder.bg.setBackgroundResource(R.drawable.classbook);
+            holder.date.setTextColor(view.getContext().getResources().getColor(R.color.yes));
+            holder.time.setTextColor(view.getContext().getResources().getColor(R.color.yes));
+            holder.week.setTextColor(view.getContext().getResources().getColor(R.color.yes));
+            holder.content.setTextColor(view.getContext().getResources().getColor(R.color.yes));
+            holder.ri.setTextColor(view.getContext().getResources().getColor(R.color.yes));
+        }
+
         return view;
     }
     private class ViewHolder{
@@ -109,9 +98,6 @@ public class MyGradeAdapter extends BaseAdapter{
         String[] s = string.split("-");
         return s[2];
     }
-    private String getTime(String string) {
-        String[] s = string.split("-");
-        return s[1];
-    }
+
 
 }

@@ -11,7 +11,7 @@ public class MyCorseBean {
     /**
      * code : 3000
      * message : 信息查询成功
-     * data : [{"coid":"1","carid":"1","coname":"植物大战僵尸22","week":"周一","datename":"9:30-10:30","dates":"2017-06-26"},{"coid":"6","carid":"2","coname":"心理将康教育","week":"周一","datename":"9:30-10:30","dates":"2017-06-26"}]
+     * data : [{"coid":"4","carid":"1","coname":"地理","week":"周二","datename":"1:00-2:30","dates":"2017-06-27","ispast":1}]
      */
 
     private int code;
@@ -44,12 +44,13 @@ public class MyCorseBean {
 
     public static class DataBean {
         /**
-         * coid : 1
+         * coid : 4
          * carid : 1
-         * coname : 植物大战僵尸22
-         * week : 周一
-         * datename : 9:30-10:30
-         * dates : 2017-06-26
+         * coname : 地理
+         * week : 周二
+         * datename : 1:00-2:30
+         * dates : 2017-06-27
+         * ispast : 1
          */
 
         private String coid;
@@ -58,6 +59,7 @@ public class MyCorseBean {
         private String week;
         private String datename;
         private String dates;
+        private int ispast;
 
         public String getCoid() {
             return coid;
@@ -105,6 +107,14 @@ public class MyCorseBean {
 
         public void setDates(String dates) {
             this.dates = dates;
+        }
+
+        public int getIspast() {
+            return ispast;
+        }
+
+        public void setIspast(int ispast) {
+            this.ispast = ispast;
         }
     }
 }

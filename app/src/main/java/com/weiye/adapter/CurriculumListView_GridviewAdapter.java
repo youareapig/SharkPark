@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.weiye.data.KCBBean;
 import com.weiye.zl.R;
+import com.zhy.autolayout.AutoRelativeLayout;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
@@ -55,18 +56,20 @@ public class CurriculumListView_GridviewAdapter extends BaseAdapter {
         if (view == null) {
             view = layoutInflater.inflate(R.layout.curriculumlistviewgridviewitem, null);
             holder.textView = (TextView) view.findViewById(R.id.curriculumlistviewgridviewitem_text);
+            holder.textView1= (TextView) view.findViewById(R.id.curriculumlistviewgridviewitem_text1);
+            holder.itemGrade= (AutoRelativeLayout) view.findViewById(R.id.itemGrade);
             view.setTag(holder);
             AutoUtils.autoSize(view);
         } else {
             holder = (ViewHolder) view.getTag();
         }
         holder.textView.setText(bean.getConame());
-
+        holder.textView1.setText(bean.getCoage());
         if (bean.getIscheckd()==1) {
-            holder.textView.setBackgroundResource(R.drawable.classbook1);
+            holder.itemGrade.setBackgroundResource(R.drawable.classbook1);
             //holder.textView.setClickable(true);
         } else {
-            holder.textView.setBackgroundResource(R.drawable.classbook);
+            holder.itemGrade.setBackgroundResource(R.drawable.classbook);
             //holder.textView.setClickable(false);
         }
         return view;
@@ -75,7 +78,8 @@ public class CurriculumListView_GridviewAdapter extends BaseAdapter {
 
 
     private class ViewHolder {
-        private TextView textView;
+        private TextView textView,textView1;
+        private AutoRelativeLayout itemGrade;
     }
 
 

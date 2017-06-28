@@ -218,7 +218,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private void uploadhead(final String base) {
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editPic");
         params.addBodyParameter("id", userID);
-        params.addBodyParameter("headpic", "data:image/jpeg;base64,"+base);
+        params.addBodyParameter("headpic", "data:image/png;base64,"+base);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -255,7 +255,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private void uploadhead1(String base) {
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editPic");
         params.addBodyParameter("id", userID);
-        params.addBodyParameter("headpic", "data:image/jpeg;base64,"+base);
+        params.addBodyParameter("headpic", "data:image/png;base64,"+base);
         params.setMultipart(true);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override

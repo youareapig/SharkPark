@@ -10,7 +10,7 @@ public class KCBBean {
     /**
      * code : 1000
      * message : 成功
-     * data : [{"cid":"1","dates":"2017-06-26","week":"周一","pic":"/Public/week/w1.png","children":[{"cid":"2","datename":"9:30-10:30","course":[{"coid":"1","coname":"植物大战僵尸","uids":null,"ischeckd":0},{"coid":"2","coname":"英语","uids":null,"ischeckd":0}]},{"cid":"3","datename":"11：00-12:30","course":[{"coid":"3","coname":"语文","uids":null,"ischeckd":0},{"coid":"4","coname":"数学","uids":null,"ischeckd":0}]},{"cid":"4","datename":"2:30-5:30","course":[{"coid":"5","coname":"体育","uids":null,"ischeckd":0}]}]}]
+     * data : [{"cid":"5","dates":"2017-06-28","week":"周三","pic":"/Public/week/w3.png","children":[{"cid":"6","datename":"10:30-12:30","course":[{"coid":"6","coname":"历史","uids":"","coage":"大四","ischeckd":0},{"coid":"7","coname":"针织","uids":"","coage":"大三","ischeckd":0},{"coid":"8","coname":"转入","uids":null,"coage":"大雾","ischeckd":0}]},{"cid":"7","datename":"11:30-1:30","course":[{"coid":"9","coname":"你猜","uids":null,"coage":"","ischeckd":0}]},{"cid":"8","datename":"2:30-2:30","course":[{"coid":"10","coname":"语文和历史","uids":"","coage":"","ischeckd":0}]}]},{"cid":"9","dates":"2017-06-29","week":"周四","pic":"/Public/week/w4.png","children":[{"cid":"10","datename":"10:30-12:30","course":[{"coid":"11","coname":"数学","uids":"","coage":"","ischeckd":0}]},{"cid":"11","datename":"1:20-2:30","course":[{"coid":"12","coname":"语文","uids":"","coage":"","ischeckd":0}]}]},{"cid":"12","dates":"2017-06-30","week":"周五","pic":"/Public/week/w5.png","children":[{"cid":"2","datename":"5:30-8:30","course":[{"coid":"1","coname":"数学","uids":null,"coage":"","ischeckd":0},{"coid":"2","coname":"语文","uids":"","coage":"","ischeckd":0}]},{"cid":"13","datename":"9:30-10:40","course":[]},{"cid":"14","datename":"11:30-1:30","course":[]}]}]
      */
 
     private int code;
@@ -43,11 +43,11 @@ public class KCBBean {
 
     public static class DataBean {
         /**
-         * cid : 1
-         * dates : 2017-06-26
-         * week : 周一
-         * pic : /Public/week/w1.png
-         * children : [{"cid":"2","datename":"9:30-10:30","course":[{"coid":"1","coname":"植物大战僵尸","uids":null,"ischeckd":0},{"coid":"2","coname":"英语","uids":null,"ischeckd":0}]},{"cid":"3","datename":"11：00-12:30","course":[{"coid":"3","coname":"语文","uids":null,"ischeckd":0},{"coid":"4","coname":"数学","uids":null,"ischeckd":0}]},{"cid":"4","datename":"2:30-5:30","course":[{"coid":"5","coname":"体育","uids":null,"ischeckd":0}]}]
+         * cid : 5
+         * dates : 2017-06-28
+         * week : 周三
+         * pic : /Public/week/w3.png
+         * children : [{"cid":"6","datename":"10:30-12:30","course":[{"coid":"6","coname":"历史","uids":"","coage":"大四","ischeckd":0},{"coid":"7","coname":"针织","uids":"","coage":"大三","ischeckd":0},{"coid":"8","coname":"转入","uids":null,"coage":"大雾","ischeckd":0}]},{"cid":"7","datename":"11:30-1:30","course":[{"coid":"9","coname":"你猜","uids":null,"coage":"","ischeckd":0}]},{"cid":"8","datename":"2:30-2:30","course":[{"coid":"10","coname":"语文和历史","uids":"","coage":"","ischeckd":0}]}]
          */
 
         private String cid;
@@ -98,9 +98,9 @@ public class KCBBean {
 
         public static class ChildrenBean {
             /**
-             * cid : 2
-             * datename : 9:30-10:30
-             * course : [{"coid":"1","coname":"植物大战僵尸","uids":null,"ischeckd":0},{"coid":"2","coname":"英语","uids":null,"ischeckd":0}]
+             * cid : 6
+             * datename : 10:30-12:30
+             * course : [{"coid":"6","coname":"历史","uids":"","coage":"大四","ischeckd":0},{"coid":"7","coname":"针织","uids":"","coage":"大三","ischeckd":0},{"coid":"8","coname":"转入","uids":null,"coage":"大雾","ischeckd":0}]
              */
 
             private String cid;
@@ -133,15 +133,17 @@ public class KCBBean {
 
             public static class CourseBean {
                 /**
-                 * coid : 1
-                 * coname : 植物大战僵尸
-                 * uids : null
+                 * coid : 6
+                 * coname : 历史
+                 * uids :
+                 * coage : 大四
                  * ischeckd : 0
                  */
 
                 private String coid;
                 private String coname;
-                private Object uids;
+                private String uids;
+                private String coage;
                 private int ischeckd;
 
                 public String getCoid() {
@@ -160,12 +162,20 @@ public class KCBBean {
                     this.coname = coname;
                 }
 
-                public Object getUids() {
+                public String getUids() {
                     return uids;
                 }
 
-                public void setUids(Object uids) {
+                public void setUids(String uids) {
                     this.uids = uids;
+                }
+
+                public String getCoage() {
+                    return coage;
+                }
+
+                public void setCoage(String coage) {
+                    this.coage = coage;
                 }
 
                 public int getIscheckd() {
