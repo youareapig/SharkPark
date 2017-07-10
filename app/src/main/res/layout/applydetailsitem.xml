@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="320px"
+        android:background="@drawable/classbook4">
+
+        <TextView
+            android:id="@+id/applydetailsItemDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40px"
+            android:layout_marginTop="30px"
+            android:text="26"
+            android:textColor="#fff"
+            android:textSize="72px" />
+
+        <TextView
+            android:id="@+id/applydetailsItemMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/applydetailsItemDay"
+            android:layout_toRightOf="@+id/applydetailsItemDay"
+            android:text="7"
+            android:textColor="#fff"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/ri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/applydetailsItemDay"
+            android:layout_toRightOf="@+id/applydetailsItemMonth"
+            android:text="月"
+            android:textColor="#fff"
+            android:textSize="36px" />
+
+        <TextView
+            android:id="@+id/applydetailsItemTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/applydetailsItemDay"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40px"
+            android:gravity="center"
+            android:text="9.00-10.00"
+            android:textColor="#fff"
+            android:textSize="40px" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/applydetailsItemDay"
+            android:layout_marginTop="30px"
+            android:alpha="0.2"
+            android:background="#fff" />
+
+        <TextView
+            android:id="@+id/applydetailsItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50px"
+            android:layout_marginLeft="40px"
+            android:text="黄欧"
+            android:textColor="#fff"
+            android:textSize="44px" />
+
+        <TextView
+            android:id="@+id/applydetailsItemAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50px"
+            android:layout_marginLeft="400px"
+            android:text="3"
+            android:textColor="#fff"
+            android:textSize="44px" />
+
+        <TextView
+            android:id="@+id/xiegang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50px"
+            android:layout_toRightOf="@+id/applydetailsItemAge"
+            android:text="岁/"
+            android:textColor="#fff"
+            android:textSize="44px" />
+
+        <TextView
+            android:id="@+id/applydetailsItemSex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50px"
+            android:layout_toRightOf="@+id/xiegang"
+            android:text="男"
+            android:textColor="#fff"
+            android:textSize="44px" />
+
+        <TextView
+            android:id="@+id/applydetailsItemTel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="50px"
+            android:layout_marginRight="40px"
+            android:text="15983302246"
+            android:textColor="#fff"
+            android:textSize="44px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

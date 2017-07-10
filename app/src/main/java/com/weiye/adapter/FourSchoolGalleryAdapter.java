@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.IndexBean;
+import com.weiye.data.Park_1Bean;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -20,10 +21,10 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class FourSchoolGalleryAdapter extends BaseAdapter {
-    private List<IndexBean.DataBean> list;
+    private List<Park_1Bean.DataBean.TeacherBean> list;
     private LayoutInflater inflater;
     private int count;
-    public FourSchoolGalleryAdapter(List<IndexBean.DataBean> list, Activity context) {
+    public FourSchoolGalleryAdapter(List<Park_1Bean.DataBean.TeacherBean> list, Activity context) {
         this.list = list;
         this.inflater = context.getLayoutInflater();
     }
@@ -46,13 +47,13 @@ public class FourSchoolGalleryAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        IndexBean.DataBean bean=list.get(i%count);
+        Park_1Bean.DataBean.TeacherBean bean=list.get(i%count);
         view = inflater.inflate(R.layout.fourschoolitem, null);
         TextView textView = (TextView) view.findViewById(R.id.fourschoolitem_text);
         RoundedImageView roundedImageView = (RoundedImageView) view.findViewById(R.id.fourschoolitem_img);
         AutoUtils.autoSize(view);
-        textView.setText(bean.getSbtitle());
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getSbpic(),roundedImageView);
+        textView.setText(bean.getNickname());
+        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getHeadpic(),roundedImageView);
         return view;
     }
 }

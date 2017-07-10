@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.weiye.manager.ApplyDetailsActivity">
+
+    <RelativeLayout style="@style/mytitle">
+
+        <RelativeLayout
+            android:id="@+id/applyDetailsBack"
+            android:layout_width="108px"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="28px"
+                android:layout_height="48px"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/back1" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/courseName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="45px"
+        android:text="海洋动物（3人）"
+        android:textColor="#303030"
+        android:textSize="72px" />
+    <ListView
+        android:id="@+id/courseListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px"
+        android:layout_marginTop="80px"
+        android:dividerHeight="40px"
+        android:divider="#00000000"
+        android:scrollbars="none"/>
+</LinearLayout>

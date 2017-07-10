@@ -1,11 +1,13 @@
 package com.weiye.zl;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -28,6 +30,8 @@ import com.weiye.utils.ExamInternet;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.utils.UserLoginDialog;
 import com.zhy.autolayout.AutoLayoutActivity;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionGrant;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,7 +76,8 @@ public class MainActivity extends AutoLayoutActivity {
     private int currentIndex;
     private static boolean isExit = false;
     private SharedPreferences sharedPreferences;
-
+    private String updateUrl,updateName,updateContent,updateVersion;
+    private int locationVersion = 0;
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -91,10 +96,14 @@ public class MainActivity extends AutoLayoutActivity {
             startActivity(intent);
         }
         unbinder = ButterKnife.bind(this);
+        MyApplication application= (MyApplication)getApplication();
+        locationVersion=application.location;
+        MPermissions.requestPermissions(MainActivity.this, 50, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE);
+        //updateVersion();
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         Intent intent = getIntent();
-        currentIndex=intent.getIntExtra("fTag", 0);
-
+        currentIndex=intent.getIntExtra("fTag", 1);
+        Log.d("tag","主页默认"+currentIndex);
         if (currentIndex==3){
             textA.setTextColor(getResources().getColor(R.color.no));
             textB.setTextColor(getResources().getColor(R.color.no));
@@ -104,7 +113,7 @@ public class MainActivity extends AutoLayoutActivity {
         list = new ArrayList<>();
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState != null) {
-            currentIndex = savedInstanceState.getInt(CURRENT_FRAGMENT, 0);
+            currentIndex = savedInstanceState.getInt(CURRENT_FRAGMENT, 1);
             list.removeAll(list);
             list.add(fragmentManager.findFragmentByTag(0 + ""));
             list.add(fragmentManager.findFragmentByTag(1 + ""));
@@ -168,6 +177,15 @@ public class MainActivity extends AutoLayoutActivity {
         unbinder.unbind();
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+    @PermissionGrant(50)
+    public void requestReadSuccess() {
+       updateVersion();
+    }
 
     @OnClick({R.id.child, R.id.shark, R.id.park, R.id.university})
     public void onViewClicked(View view) {
@@ -235,6 +253,65 @@ public class MainActivity extends AutoLayoutActivity {
             finish();
             System.exit(0);
         }
+    }
+    //TODO 检测版本更新
+    private void updateVersion(){
+        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"Index/updateInfo");
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                try {
+                    JSONObject json=new JSONObject(result);
+                    updateName=json.getString("versionName");
+                    updateContent=json.getString("description");
+                    updateVersion=json.getString("version");
+                    updateUrl=json.getString("url");
+                    if (Integer.parseInt(updateVersion)>locationVersion){
+                        final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
+                        LayoutInflater inflater = getLayoutInflater();
+                        View v = inflater.inflate(R.layout.update, null);
+                        dialog.setView(v);
+                        dialog.setCanceledOnTouchOutside(false);
+                        dialog.show();
+                        v.findViewById(R.id.unUpdate).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                dialog.cancel();
+                            }
+                        });
+                        TextView textContent= (TextView) v.findViewById(R.id.versionContent);
+                        //textContent.setText(updateContent);
+                        v.findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(MainActivity.this, UpdateService.class);
+                                intent.putExtra("apkUrl", updateUrl);
+                                startService(intent);
+                                dialog.cancel();
+                            }
+                        });
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.d("tag","版本更新错误");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
 

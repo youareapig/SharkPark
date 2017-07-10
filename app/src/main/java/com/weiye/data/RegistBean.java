@@ -9,7 +9,7 @@ public class RegistBean {
     /**
      * code : 3002
      * message : 注册成功
-     * data : {"id":"1","tel":"15983302246","headpic":"Uploads/users/default.png"}
+     * data : {"id":"2","tel":"15983302246","headpic":"Uploads/users/default.png","isfres":"1","utype":"3"}
      */
 
     private int code;
@@ -42,14 +42,18 @@ public class RegistBean {
 
     public static class DataBean {
         /**
-         * id : 1
+         * id : 2
          * tel : 15983302246
          * headpic : Uploads/users/default.png
+         * isfres : 1
+         * utype : 3
          */
 
         private String id;
         private String tel;
         private String headpic;
+        private String isfres;
+        private String utype;
 
         public String getId() {
             return id;
@@ -73,6 +77,22 @@ public class RegistBean {
 
         public void setHeadpic(String headpic) {
             this.headpic = headpic;
+        }
+
+        public String getIsfres() {
+            return isfres;
+        }
+
+        public void setIsfres(String isfres) {
+            this.isfres = isfres;
+        }
+
+        public String getUtype() {
+            return utype;
+        }
+
+        public void setUtype(String utype) {
+            this.utype = utype;
         }
     }
 }

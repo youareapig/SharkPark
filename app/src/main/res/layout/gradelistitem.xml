@@ -33,11 +33,13 @@
 
         <TextView
             android:id="@+id/mGradeItemName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="80px"
+            android:layout_marginRight="300px"
             android:layout_toRightOf="@+id/mGradeItemDay"
+            android:gravity="center"
             android:text="植物大战僵尸"
             android:textColor="#fff"
             android:textSize="48px" />

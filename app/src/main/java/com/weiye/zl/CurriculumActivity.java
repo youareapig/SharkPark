@@ -93,7 +93,7 @@ public class CurriculumActivity extends AutoLayoutActivity implements Observable
                         intent1.putExtra("kcid", gradeID.toString());
                         startActivity(intent1);
                     } else {
-                        new UserLoginDialog1(CurriculumActivity.this, gradeID.toString()).loginDialog();
+                        new UserLoginDialog1(CurriculumActivity.this).loginDialog();
                     }
                 }
             }

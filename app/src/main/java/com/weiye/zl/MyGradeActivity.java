@@ -2,6 +2,7 @@ package com.weiye.zl;
 
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.gson.Gson;
 import com.weiye.adapter.MyGradeAdapter;
 import com.weiye.data.MyCorseBean;
@@ -36,7 +41,7 @@ public class MyGradeActivity extends AutoLayoutActivity {
     @BindView(R.id.mGradeBack)
     RelativeLayout mGradeBack;
     @BindView(R.id.mGradeListView)
-    ListView mGradeListView;
+    SwipeMenuListView mGradeListView;
     @BindView(R.id.showNO1)
     TextView showNO1;
     private Unbinder unbinder;
@@ -72,12 +77,56 @@ public class MyGradeActivity extends AutoLayoutActivity {
             @Override
             public void onSuccess(String result) {
                 Gson gson = new Gson();
-                MyCorseBean corseBean = gson.fromJson(result, MyCorseBean.class);
+                final MyCorseBean corseBean = gson.fromJson(result, MyCorseBean.class);
                 list = corseBean.getData();
                 if (corseBean.getCode() == 3000) {
                     showNO1.setVisibility(View.GONE);
                     adapter = new MyGradeAdapter(MyGradeActivity.this, corseBean.getData());
                     mGradeListView.setAdapter(adapter);
+                    SwipeMenuCreator creator=new SwipeMenuCreator() {
+                        @Override
+                        public void create(SwipeMenu menu) {
+                            SwipeMenuItem deleteItem = new SwipeMenuItem(
+                                    getApplicationContext());
+                            deleteItem.setBackground(R.color.colorAccent);
+                            deleteItem.setWidth(150);
+                            deleteItem.setTitle("删除");
+                            deleteItem.setTitleSize(18);
+                            deleteItem.setTitleColor(Color.BLACK);
+                            menu.addMenuItem(deleteItem);
+
+                        }
+                    };
+//                    mGradeListView.setMenuCreator(creator);
+//                    mGradeListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+//                        @Override
+//                        public boolean onMenuItemClick(final int position, SwipeMenu menu, int index) {
+//                            Log.d("tag","-------id"+corseBean.getData().get(position).getCoid());
+//                            Log.d("tag","-------------id"+list.get(position).getCoid());
+//                            final AlertDialog dialog = new AlertDialog.Builder(MyGradeActivity.this).create();
+//                            LayoutInflater inflater = getLayoutInflater();
+//                            View v = inflater.inflate(R.layout.delete, null);
+//                            dialog.setView(v);
+//                            dialog.setCanceledOnTouchOutside(false);
+//                            dialog.show();
+//                            v.findViewById(R.id.sure1).setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View view) {
+//                                    delteCorse(list.get(position).getCoid(), position, list.get(position).getCarid());
+//                                    dialog.cancel();
+//
+//                                }
+//                            });
+//                            v.findViewById(R.id.off1).setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View view) {
+//                                    dialog.cancel();
+//                                }
+//                            });
+//                            return true;
+//                        }
+//                    });
+
                     mGradeListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                         @Override
                         public boolean onItemLongClick(AdapterView<?> adapterView, View view, final int i, long l) {
@@ -91,6 +140,7 @@ public class MyGradeActivity extends AutoLayoutActivity {
                             v.findViewById(R.id.sure1).setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
+                                    Log.d("tag","----->"+dataBean.getCoid());
                                     delteCorse(dataBean.getCoid(), i, dataBean.getCarid());
                                     dialog.cancel();
 
@@ -103,6 +153,7 @@ public class MyGradeActivity extends AutoLayoutActivity {
                                 }
                             });
                             return true;
+
                         }
                     });
                 } else {

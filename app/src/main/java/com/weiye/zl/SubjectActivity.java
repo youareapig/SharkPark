@@ -6,31 +6,28 @@ package com.weiye.zl;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.weiye.adapter.TeacherRecycleAdapter;
+import com.weiye.adapter.SpinnerAdpter;
 import com.weiye.data.SubjectBean;
 import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.VideoFragment;
@@ -62,10 +59,6 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     FrameLayout mytitle;
     @BindView(R.id.mytitleText)
     TextView mytitleText;
-    @BindView(R.id.recycleTeacher)
-    RecyclerView recycleTeacher;
-    @BindView(R.id.btnOrder)
-    Button btnOrder;
     @BindView(R.id.videoText)
     TextView videoText;
     @BindView(R.id.photoText)
@@ -82,6 +75,8 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     RelativeLayout back6;
     @BindView(R.id.main2)
     FrameLayout main2;
+    @BindView(R.id.jiantou)
+    ImageView jiantou;
 
     private Unbinder unbinder;
     private int height;
@@ -96,6 +91,9 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     private GestureDetectorCompat mDetectorCompat;
     private SharedPreferences sharedPreferences;
     private CustomProgressDialog customProgressDialog, customProgressDialog1;
+    private ListView popListView;
+    private PopupWindow popupWindow;
+    private List<String> list_1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +115,13 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
             list.add(new PhotoFragment(indexID));
             showFragment();
         }
+        list_1 = new ArrayList<>();
+        list_1.add("生命科学");
+        list_1.add("人文科学");
+        list_1.add("天文科学");
+        list_1.add("地理科学");
 
-        visit();
+        //visit();
     }
 
 
@@ -175,14 +178,13 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
     }
 
-    @OnClick({R.id.btnOrder, R.id.videoText, R.id.photoText, R.id.back6})
+    @OnClick({R.id.videoText, R.id.photoText, R.id.back6, R.id.mytitleText})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.videoText:
@@ -197,15 +199,39 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 currentIndex = 1;
                 showFragment();
                 break;
-            case R.id.btnOrder:
-                    Intent intent1 = new Intent(SubjectActivity.this, CurriculumActivity.class);
-                    intent1.putExtra("LXID",indexID);
-                    startActivity(intent1);
-                break;
             case R.id.back6:
                 finish();
                 break;
+            case R.id.mytitleText:
+                mypop(view);
+                popupWindow.showAsDropDown(view, 0, 45);
+                jiantou.setImageResource(R.mipmap.up);
+                break;
         }
+    }
+
+    private void mypop(View view) {
+        View customView = getLayoutInflater().inflate(R.layout.mypop,
+                null, false);
+        popListView = (ListView) customView.findViewById(R.id.popListView);
+        // 创建PopupWindow实例,宽度和高度
+        popupWindow = new PopupWindow(customView, 1080, 760);
+        // 设置动画效果
+        // popupWindow.setAnimationStyle(R.style.AnimationFade);
+        //点击外部消失
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setOutsideTouchable(true);
+        popListView.setAdapter(new SpinnerAdpter(this, list_1));
+        //TODO 选择品牌，请求数据
+        popListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("tag", "选择了" + list_1.get(position));
+                jiantou.setImageResource(R.mipmap.dwon);
+                popupWindow.dismiss();
+                mytitleText.setText(list_1.get(position));
+            }
+        });
     }
 
     @Override
@@ -221,7 +247,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     //TODO 标题描述数据
     private void visit() {
         main2.setVisibility(View.GONE);
-        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/subLst");
@@ -232,24 +258,21 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
                 changTitle();
                 main2.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
-                SubjectBean bean=gson.fromJson(result,SubjectBean.class);
-                mlist=bean.getData().getTeacher();
-                if (bean.getCode()==1000){
+                SubjectBean bean = gson.fromJson(result, SubjectBean.class);
+                mlist = bean.getData().getTeacher();
+                if (bean.getCode() == 1000) {
                     mytitleText.setText(bean.getData().getSbtitle());
                     subjectContent.setText(bean.getData().getSbdesc());
                     ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getBjpic(), subjecttitlebackground);
-                    recycleTeacher.setLayoutManager(new LinearLayoutManager(SubjectActivity.this, LinearLayoutManager.HORIZONTAL, false));
-                    recycleTeacher.setAdapter(new TeacherRecycleAdapter(mlist));
-                    recycleTeacher.setHasFixedSize(true);
-                }else {
-                    Toast.makeText(SubjectActivity.this,"暂无更多数据",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(SubjectActivity.this, "暂无更多数据", Toast.LENGTH_SHORT).show();
                 }
 
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Intent intent=new Intent(SubjectActivity.this,RestartActivity.class);
+                Intent intent = new Intent(SubjectActivity.this, RestartActivity.class);
                 startActivity(intent);
             }
 
@@ -269,8 +292,6 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
             }
         });
     }
-
-
 
 
 }

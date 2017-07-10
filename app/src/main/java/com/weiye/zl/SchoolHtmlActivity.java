@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.webkit.WebSettings;
@@ -13,6 +12,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -39,85 +39,40 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
-public class SchoolImageActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener {
-    @BindView(R.id.titleimage)
-    RelativeLayout titleimage;
+public class SchoolHtmlActivity extends AutoLayoutActivity {
     @BindView(R.id.scrollview2)
-    ObservableScrollView scrollview2;
+    ScrollView scrollview2;
     @BindView(R.id.back1)
     RelativeLayout back1;
     @BindView(R.id.share1)
     RelativeLayout share1;
     @BindView(R.id.title1)
     RelativeLayout title1;
-    @BindView(R.id.huodong_img)
-    ImageView huodongImg;
-    @BindView(R.id.huodongweb1)
-    WebView huodongweb1;
+    @BindView(R.id.huodongweb)
+    WebView huodongweb;
     private Unbinder unbinder;
-    private int height;
-    private String huodongID, img;
+    private String htmlUrl;
+    private WebSettings webSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_school_next);
+        setContentView(R.layout.activity_school_video);
         unbinder = ButterKnife.bind(this);
-        changTitle();
         Intent intent = getIntent();
-        huodongID = intent.getStringExtra("id");
-        visit();
+        htmlUrl = intent.getStringExtra("htmls");
+        webSettings = huodongweb.getSettings();
+        //TODO 适配手机屏幕
+        webSettings.setLoadWithOverviewMode(true);
+        webSettings.setUseWideViewPort(true);
+        webSettings.setTextZoom(250);
+        huodongweb.loadDataWithBaseURL(null, getNewContent(htmlUrl), "text/html", "utf-8", null);
+        huodongweb.setWebViewClient(new WebViewClient());
     }
 
-    private void visit() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "正在提交....", R.drawable.frame, R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/universityDetail");
-        params.addBodyParameter("id", huodongID);
-        x.http().post(params, new Callback.CacheCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Log.d("tag", "图片活动" + result);
-                Gson gson = new Gson();
-                AllHuodongBean bean = gson.fromJson(result, AllHuodongBean.class);
-                img = bean.getData().getBjimg();
-                if (bean.getCode() == 1000) {
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + img, huodongImg);
-                    WebSettings webSettings = huodongweb1.getSettings();
-                    //TODO 适配手机屏幕
-                    webSettings.setLoadWithOverviewMode(true);
-                    webSettings.setUseWideViewPort(true);
-                    webSettings.setTextZoom(250);
-                    huodongweb1.loadDataWithBaseURL(null, getNewContent(bean.getData().getContent()), "text/html", "utf-8", null);
-                    huodongweb1.setWebViewClient(new WebViewClient());
-                } else {
-                    Toast.makeText(SchoolImageActivity.this, "暂无活动详情", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(SchoolImageActivity.this, "数据获取失败", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-                customProgressDialog.cancel();
-            }
-
-            @Override
-            public boolean onCache(String result) {
-                return false;
-            }
-        });
-    }
 
     //TODO 屏幕适配
     private String getNewContent(String htmltext) {
@@ -129,34 +84,11 @@ public class SchoolImageActivity extends AutoLayoutActivity implements Observabl
         return doc.toString();
     }
 
-    private void changTitle() {
-        scrollview2.smoothScrollTo(0, 20);
-        title1.setBackgroundColor(Color.argb(0, 0xfd, 0x91, 0x5b));
-        ViewTreeObserver observer = titleimage.getViewTreeObserver();
-        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                titleimage.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                height = titleimage.getHeight();
-                titleimage.getWidth();
-                scrollview2.setScrollViewListener(SchoolImageActivity.this);
-            }
-        });
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
-    }
-
-    @Override
-    public void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy) {
-        if (y <= height) {
-            float scale = (float) y / height;
-            float alpha = (255 * scale);
-            title1.setBackgroundColor(Color.argb((int) alpha, 49, 189, 240));
-        }
     }
 
     private void showShare() {
@@ -183,7 +115,7 @@ public class SchoolImageActivity extends AutoLayoutActivity implements Observabl
         oks.setSite(getString(R.string.app_name));
         // siteUrl是分享此内容的网站地址，仅在QQ空间使用
         oks.setSiteUrl("http://www.sharkpark.cn/");
-        oks.setImageUrl(SingleModleUrl.singleModleUrl().getImgUrl() + img);
+        // oks.setImageUrl(SingleModleUrl.singleModleUrl().getImgUrl() + img);
         oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
             @Override
             public void onShare(Platform platform, Platform.ShareParams paramsToShare) {
@@ -196,11 +128,11 @@ public class SchoolImageActivity extends AutoLayoutActivity implements Observabl
                     paramsToShare.setText("http://www.sharkpark.cn/");
                 }
                 if ("Wechat".equals(platform.getName())) {
-                    Bitmap imageData = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+                    Bitmap imageData = BitmapFactory.decodeResource(getResources(), R.drawable.ssdk_logo);
                     paramsToShare.setImageData(imageData);
                 }
                 if ("WechatMoments".equals(platform.getName())) {
-                    Bitmap imageData = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+                    Bitmap imageData = BitmapFactory.decodeResource(getResources(), R.drawable.ssdk_logo);
                     paramsToShare.setImageData(imageData);
                 }
 
@@ -221,5 +153,19 @@ public class SchoolImageActivity extends AutoLayoutActivity implements Observabl
                 showShare();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayer.releaseAllVideos();
     }
 }

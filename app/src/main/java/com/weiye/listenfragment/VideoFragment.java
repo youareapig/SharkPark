@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -36,7 +37,7 @@ public class VideoFragment extends Fragment{
     private MyListView listView;
     private List<VideoBean.DataBean> list;
     private String indexID;
-
+    private TextView noShipin;
 
     public VideoFragment(String indexID) {
         this.indexID=indexID;
@@ -46,19 +47,23 @@ public class VideoFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.videofragment, container, false);
-        visitVideo();
         listView= (MyListView) view.findViewById(R.id.videofragment_listview);
+        noShipin= (TextView) view.findViewById(R.id.noVideo);
+        visitVideo();
         return view;
     }
     private void visitVideo(){
-        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"Index/subVideo");
-        params.addBodyParameter("sbid",indexID);
+        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"Index/isphotoVideo");
+        params.addBodyParameter("type",indexID);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag","视频数据"+result);
                 Gson gson=new Gson();
                 VideoBean bean=gson.fromJson(result,VideoBean.class);
                 if (bean.getCode()==1000){
+                    noShipin.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                     list=bean.getData();
                     listView.setAdapter(new SubVideoListViewAdapter(list,getActivity()));
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,7 +76,8 @@ public class VideoFragment extends Fragment{
                         }
                     });
                 }else {
-                    Toast.makeText(getActivity(), "暂无视频", Toast.LENGTH_SHORT).show();
+                    noShipin.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
                 }
 
             }

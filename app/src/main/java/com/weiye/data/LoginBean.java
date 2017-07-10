@@ -8,7 +8,7 @@ public class LoginBean {
     /**
      * code : 3000
      * message : 登录成功
-     * data : {"id":"2","tel":"15983302246","headpic":"Uploads/users/default.png"}
+     * data : {"id":"2","tel":"15983302246","headpic":"Uploads/users/default.png","isfres":"1","utype":"3"}
      */
 
     private int code;
@@ -44,11 +44,15 @@ public class LoginBean {
          * id : 2
          * tel : 15983302246
          * headpic : Uploads/users/default.png
+         * isfres : 1
+         * utype : 3
          */
 
         private String id;
         private String tel;
         private String headpic;
+        private String isfres;
+        private String utype;
 
         public String getId() {
             return id;
@@ -72,6 +76,22 @@ public class LoginBean {
 
         public void setHeadpic(String headpic) {
             this.headpic = headpic;
+        }
+
+        public String getIsfres() {
+            return isfres;
+        }
+
+        public void setIsfres(String isfres) {
+            this.isfres = isfres;
+        }
+
+        public String getUtype() {
+            return utype;
+        }
+
+        public void setUtype(String utype) {
+            this.utype = utype;
         }
     }
 }

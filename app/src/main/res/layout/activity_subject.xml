@@ -2,10 +2,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.weiye.zl.SubjectActivity"
-    android:id="@+id/main2">
+    tools:context="com.weiye.zl.SubjectActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,27 +37,15 @@
                         android:id="@+id/subject_content"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="#10000000"
+                        android:lineSpacingExtra="6px"
+                        android:lineSpacingMultiplier="1.2"
                         android:paddingLeft="40px"
                         android:paddingRight="40px"
                         android:paddingTop="250px"
-                        android:lineSpacingMultiplier="1.2"
-                        android:lineSpacingExtra="6px"
                         android:textColor="#fff"
-                        android:background="#10000000"
                         android:textSize="44px" />
                 </FrameLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="460px">
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/recycleTeacher"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true" />
-
-                </RelativeLayout>
 
 
                 <LinearLayout
@@ -101,28 +89,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="40px"
-                    android:orientation="vertical"/>
+                    android:orientation="vertical" />
 
             </LinearLayout>
         </com.weiye.myview.ObservableScrollView>
     </LinearLayout>
 
 
-    <Button
-        android:id="@+id/btnOrder"
-        android:layout_width="900px"
-        android:layout_height="148px"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="40px"
-        android:background="@drawable/btn"
-        android:text="预约试听"
-        android:textColor="#fff"
-        android:textSize="62px" />
 
 
     <RelativeLayout
         android:id="@+id/title_subject"
-        style="@style/mytitle">
+        style="@style/mytitle"
+        android:background="#c8c9"
+        >
 
         <TextView
             android:id="@+id/mytitleText"
@@ -130,7 +110,16 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:textColor="#fff"
-            android:textSize="64px" />
+            android:textSize="64px"
+            android:text="人文科学" />
+        <ImageView
+            android:id="@+id/jiantou"
+            android:layout_width="30px"
+            android:layout_height="18px"
+            android:src="@mipmap/dwon"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/mytitleText"
+            android:layout_marginLeft="20px"/>
 
         <RelativeLayout
             android:id="@+id/back6"

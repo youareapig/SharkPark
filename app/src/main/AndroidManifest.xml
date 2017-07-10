@@ -44,7 +44,9 @@
             android:name=".VedioPlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
-        <activity android:name=".SubjectActivity" />
+        <activity android:name=".SubjectActivity" >
+
+        </activity>
         <activity android:name=".MyMaterialActivity" />
         <activity android:name=".SettingActivity" />
         <activity android:name=".AboutActivity" />
@@ -53,7 +55,7 @@
         <activity android:name=".ScienceStationActivity" />
         <activity android:name=".TeacherStyleActivity" />
         <activity android:name=".SchoolActivity" />
-        <activity android:name=".SchoolImageActivity" />
+        <activity android:name=".SchoolWeiChatActivity" />
         <activity android:name=".AppearanceActivity" />
         <activity android:name=".IntroActivity" />
         <activity android:name=".ScreenActivity" />
@@ -93,9 +95,18 @@
         <activity android:name="com.weiye.photoshow.ImagePagerActivity" />
         <activity android:name=".SettingInternetActivity" />
         <activity android:name=".RestartActivity" />
-        <activity android:name=".SchoolVideoActivity" />
-        <activity android:name=".MyGradeActivity"></activity>
-        <service android:name="com.weiye.updateversion.UpdateService"  android:process=":update" />
+        <activity android:name=".SchoolHtmlActivity" />
+        <activity android:name=".MyGradeActivity" />
+
+        <service
+            android:name="com.weiye.updateversion.UpdateService"
+            android:process=":update" />
+
+        <activity android:name=".CourseActivity" />
+        <activity android:name=".ManageActivity"></activity>
+        <activity android:name="com.weiye.manager.ApplyDetailsActivity" />
+        <activity android:name="com.weiye.mycourse.MyCoruseActivity"></activity>
+        <activity android:name=".ShiZiActivity"></activity>
     </application>
 
 </manifest>

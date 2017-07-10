@@ -11,7 +11,7 @@ public class VideoBean {
     /**
      * code : 1000
      * message : 查询成功
-     * data : [{"vtitle":"视频来吧","vurl":"Video/vide1.mp4","vimg":"Uploads/subject/2017-06-22//594b322e5e045.jpg"}]
+     * data : [{"vimg":"Uploads/subject/2017-07-07//595ef83aac949.jpg","vtitle":"课堂风采","vurl":"/video/vide1.mp4"},{"vimg":"Uploads/subject/2017-07-07//595ef87982a6c.jpg","vtitle":"学生动手课堂","vurl":"/video/vide1.mp4"},{"vimg":"Uploads/subject/2017-07-07//595ef8965c239.jpg","vtitle":"雏鹰起飞","vurl":"/video/vide1.mp4"},{"vimg":"Uploads/subject/2017-07-07//595ef8bb3e375.jpg","vtitle":"初升的太阳","vurl":"/video/vide1.mp4"},{"vimg":"Uploads/subject/2017-07-07//595ef8ee94a55.jpg","vtitle":"时代在召唤","vurl":"/video/vide1.mp4"},{"vimg":"Uploads/subject/2017-07-07//595ef9026413d.jpg","vtitle":"学生风采","vurl":"/video/vide1.mp4"}]
      */
 
     private int code;
@@ -44,14 +44,22 @@ public class VideoBean {
 
     public static class DataBean {
         /**
-         * vtitle : 视频来吧
-         * vurl : Video/vide1.mp4
-         * vimg : Uploads/subject/2017-06-22//594b322e5e045.jpg
+         * vimg : Uploads/subject/2017-07-07//595ef83aac949.jpg
+         * vtitle : 课堂风采
+         * vurl : /video/vide1.mp4
          */
 
+        private String vimg;
         private String vtitle;
         private String vurl;
-        private String vimg;
+
+        public String getVimg() {
+            return vimg;
+        }
+
+        public void setVimg(String vimg) {
+            this.vimg = vimg;
+        }
 
         public String getVtitle() {
             return vtitle;
@@ -67,14 +75,6 @@ public class VideoBean {
 
         public void setVurl(String vurl) {
             this.vurl = vurl;
-        }
-
-        public String getVimg() {
-            return vimg;
-        }
-
-        public void setVimg(String vimg) {
-            this.vimg = vimg;
         }
     }
 }

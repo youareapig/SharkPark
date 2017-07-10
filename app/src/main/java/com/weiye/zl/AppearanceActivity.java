@@ -74,7 +74,8 @@ public class AppearanceActivity extends AutoLayoutActivity {
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main5.setVisibility(View.GONE);
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/universityPhoto");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/detailLst");
+        params.addBodyParameter("tp","3");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {

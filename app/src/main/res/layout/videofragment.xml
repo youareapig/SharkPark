@@ -4,13 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-        <com.weiye.myview.MyListView
-            android:id="@+id/videofragment_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="false" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="160px"/>
+    <com.weiye.myview.MyListView
+        android:id="@+id/videofragment_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="false" />
+    <TextView
+        android:id="@+id/noVideo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="暂无视频"
+        android:gravity="center"
+        android:textSize="38px"/>
 </com.zhy.autolayout.AutoLinearLayout>

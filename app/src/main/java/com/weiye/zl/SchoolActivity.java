@@ -8,9 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.weiye.schooltabfragment.SchoolActivity_1;
-import com.weiye.schooltabfragment.SchoolActivity_2;
-import com.weiye.schooltabfragment.SchoolActivity_3;
+import com.weiye.schooltabfragment.ZhaoMu;
+import com.weiye.schooltabfragment.WangQi;
 import com.weiye.adapter.SchoolTabAdapter;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -44,13 +43,11 @@ public class SchoolActivity extends AutoLayoutActivity {
         schooltab.setupWithViewPager(tabviewpager);
         fragmentManager = getSupportFragmentManager();
         titleList = new ArrayList<>();
-        titleList.add("幼儿园");
-        titleList.add("小学");
-        titleList.add("嘉年华");
+        titleList.add("招募");
+        titleList.add("往期");
         fragmentList = new ArrayList<>();
-        fragmentList.add(new SchoolActivity_1());
-        fragmentList.add(new SchoolActivity_2());
-        fragmentList.add(new SchoolActivity_3());
+        fragmentList.add(new ZhaoMu());
+        fragmentList.add(new WangQi());
         tabviewpager.setAdapter(new SchoolTabAdapter(fragmentManager, titleList, fragmentList));
         tabviewpager.setCurrentItem(0);
     }

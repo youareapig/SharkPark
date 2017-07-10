@@ -12,8 +12,11 @@
         android:divider="#00000000"
         android:dividerHeight="40px"
         android:focusable="false" />
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/noPhoto"
         android:layout_width="match_parent"
-        android:layout_height="160px" />
+        android:layout_height="match_parent"
+        android:text="暂无相册"
+        android:gravity="center"
+        android:textSize="38px"/>
 </com.zhy.autolayout.AutoLinearLayout>

@@ -9,8 +9,8 @@ public class HuodongBean {
 
     /**
      * code : 1000
-     * message : 成功
-     * data : [{"id":"1","title":"5月1号活动","isvideo":"0","bjimg":"Uploads/subject/active/2017-06-22//594b7b6613507.jpg"},{"id":"2","title":"6月1号活动能够","isvideo":"1","bjimg":"Uploads/subject/active/2017-06-22//594b7b8f4536f.jpg"}]
+     * message : 查询成功
+     * data : [{"title":"6月12号开学典礼","bjimg":"Uploads/subject/active/2017-07-06//595dd634650cb.jpg","isvideo":"0","vurl":"","photos":["Uploads/subject/active/2017-07-06/595dd668c9dbc.jpg","Uploads/subject/active/2017-07-06/595dd668cb84d.jpg"]},{"title":"展望未来","bjimg":"Uploads/subject/active/2017-07-06//595dfe7dae682.jpg","isvideo":"1","vurl":"","photos":["Uploads/subject/active/2017-07-06/595dfe7db2639.jpg"]},{"title":"课间实验室","bjimg":"Uploads/subject/active/2017-07-06//595e00307e57a.jpg","isvideo":"1","vurl":"/video/vide1.mp4","photos":[""]}]
      */
 
     private int code;
@@ -43,24 +43,18 @@ public class HuodongBean {
 
     public static class DataBean {
         /**
-         * id : 1
-         * title : 5月1号活动
+         * title : 6月12号开学典礼
+         * bjimg : Uploads/subject/active/2017-07-06//595dd634650cb.jpg
          * isvideo : 0
-         * bjimg : Uploads/subject/active/2017-06-22//594b7b6613507.jpg
+         * vurl :
+         * photos : ["Uploads/subject/active/2017-07-06/595dd668c9dbc.jpg","Uploads/subject/active/2017-07-06/595dd668cb84d.jpg"]
          */
 
-        private String id;
         private String title;
-        private String isvideo;
         private String bjimg;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
+        private String isvideo;
+        private String vurl;
+        private List<String> photos;
 
         public String getTitle() {
             return title;
@@ -68,6 +62,14 @@ public class HuodongBean {
 
         public void setTitle(String title) {
             this.title = title;
+        }
+
+        public String getBjimg() {
+            return bjimg;
+        }
+
+        public void setBjimg(String bjimg) {
+            this.bjimg = bjimg;
         }
 
         public String getIsvideo() {
@@ -78,12 +80,20 @@ public class HuodongBean {
             this.isvideo = isvideo;
         }
 
-        public String getBjimg() {
-            return bjimg;
+        public String getVurl() {
+            return vurl;
         }
 
-        public void setBjimg(String bjimg) {
-            this.bjimg = bjimg;
+        public void setVurl(String vurl) {
+            this.vurl = vurl;
+        }
+
+        public List<String> getPhotos() {
+            return photos;
+        }
+
+        public void setPhotos(List<String> photos) {
+            this.photos = photos;
         }
     }
 }

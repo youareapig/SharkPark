@@ -30,13 +30,19 @@
                     android:layout_height="500px"
                     android:scaleType="centerCrop"
                     app:riv_corner_radius="8px" />
-                <ImageView
-                    android:visibility="gone"
-                    android:id="@+id/videoplayerlogo"
-                    android:layout_width="140px"
-                    android:layout_height="140px"
-                    android:src="@mipmap/play"
-                    android:layout_centerInParent="true"/>
+                <TextView
+                    android:id="@+id/mContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="40px"
+                    android:layout_marginLeft="40px"
+                    android:shadowColor="#222222"
+                    android:shadowDx="0.8"
+                    android:shadowDy="0.8"
+                    android:shadowRadius="1"
+                    android:textColor="#fff"
+                    android:textSize="36px" />
             </com.zhy.autolayout.AutoRelativeLayout>
 
 

@@ -293,6 +293,7 @@ public class UserLoginDialog {
                         findvercode.setEnabled(false);
                         findvercode.setBackground(context.getResources().getDrawable(R.drawable.vercode));
                     } else {
+
                         findvercode.setEnabled(true);
                         findvercode.setBackground(context.getResources().getDrawable(R.drawable.vercode1));
                     }
@@ -311,19 +312,7 @@ public class UserLoginDialog {
                 if (isPhone2 == false) {
                     Toast.makeText(context, "请输入正确的电话号码!", Toast.LENGTH_SHORT).show();
                 } else {
-                    CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(findvercode, 60000, 1000);
-                    mCountDownTimerUtils.start();
-                    SMSSDK.getInstance().getSmsCodeAsyn(stringfindphone, "1", new SmscodeListener() {
-                        @Override
-                        public void getCodeSuccess(String s) {
-
-                        }
-
-                        @Override
-                        public void getCodeFail(int i, String s) {
-
-                        }
-                    });
+                    detectionUser_1(stringfindphone);
                 }
 
 
@@ -371,9 +360,10 @@ public class UserLoginDialog {
             public void onSuccess(String result) {
                 Gson gson = new Gson();
                 LoginBean bean = gson.fromJson(result, LoginBean.class);
-                if (bean.getCode()==3000) {
+                if (bean.getCode() == 3000) {
                     editor.putString("usertag", "1");
                     editor.putString("userid", bean.getData().getId());
+                    editor.putString("usertype", bean.getData().getUtype());
                     editor.commit();
                     dialog.cancel();
                     Intent intent = new Intent(context, MainActivity.class);
@@ -447,6 +437,54 @@ public class UserLoginDialog {
         });
     }
 
+    //Todo 修改密码时检测是否已经注册
+    private void detectionUser_1(String phone) {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/isRegist");
+        params.addBodyParameter("tel", phone);
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                try {
+                    JSONObject json = new JSONObject(result);
+                    if (json.getString("code").equals("-3001")) {
+                        CountDownTimerUtils mCountDownTimerUtils = new CountDownTimerUtils(findvercode, 60000, 1000);
+                        mCountDownTimerUtils.start();
+                        SMSSDK.getInstance().getSmsCodeAsyn(stringfindphone, "1", new SmscodeListener() {
+                            @Override
+                            public void getCodeSuccess(String s) {
+
+                            }
+
+                            @Override
+                            public void getCodeFail(int i, String s) {
+
+                            }
+                        });
+                    } else {
+                        Toast.makeText(context, "该电话还未注册", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.v("tag", "访问出错");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
     //TODO 用户注册接口
     private void requestRegister(String phone, String pwd) {
         customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
@@ -458,18 +496,19 @@ public class UserLoginDialog {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Gson gson=new Gson();
-                RegistBean registBean=gson.fromJson(result,RegistBean.class);
-                if (registBean.getCode()==3002){
+                Gson gson = new Gson();
+                RegistBean registBean = gson.fromJson(result, RegistBean.class);
+                if (registBean.getCode() == 3002) {
                     editor.putString("usertag", "1");
                     editor.putString("userid", registBean.getData().getId());
+                    editor.putString("usertype", registBean.getData().getUtype());
                     editor.commit();
                     dialog1.cancel();
                     Intent intent = new Intent(context, MainActivity.class);
                     intent.putExtra("fTag", 3);
                     context.startActivity(intent);
                     Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Toast.makeText(context, "注册失败", Toast.LENGTH_SHORT).show();
                 }
 
@@ -504,12 +543,12 @@ public class UserLoginDialog {
             @Override
             public void onSuccess(String result) {
                 try {
-                    JSONObject jsonObject=new JSONObject(result);
-                    if (jsonObject.getString("code").equals("3003")){
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getString("code").equals("3003")) {
                         dialog1.cancel();
                         loginDialog();
                         Toast.makeText(context, "密码已修改，请重新登录", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(context, "修改密码失败", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {

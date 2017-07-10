@@ -24,10 +24,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="预约课程"
+            android:text="我的课程"
             android:textColor="#303030"
             android:textSize="72px" />
-        <ListView
+        <com.baoyz.swipemenulistview.SwipeMenuListView
             android:layout_marginTop="140px"
             android:id="@+id/mGradeListView"
             android:layout_width="match_parent"

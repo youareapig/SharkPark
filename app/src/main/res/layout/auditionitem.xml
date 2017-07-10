@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.zhy.autolayout.AutoRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:background="@drawable/classbook4">
+
+        <TextView
+            android:id="@+id/auditionItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40px"
+            android:text="黄欧"
+            android:textColor="#fff"
+            android:textSize="44px" />
+
+        <TextView
+            android:id="@+id/auditionItemAge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="400px"
+            android:text="3"
+            android:textColor="#fff"
+            android:textSize="44px" />
+
+        <TextView
+            android:id="@+id/xiegang1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/auditionItemAge"
+            android:text="岁/"
+            android:textColor="#fff"
+            android:textSize="44px" />
+
+        <TextView
+            android:id="@+id/auditionItemSex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/xiegang1"
+            android:text="男"
+            android:textColor="#fff"
+            android:textSize="44px" />
+
+        <TextView
+            android:id="@+id/auditionItemTel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="40px"
+            android:text="15983302246"
+            android:textColor="#fff"
+            android:textSize="44px" />
+    </com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoRelativeLayout>

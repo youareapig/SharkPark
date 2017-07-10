@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.weiye.zl.ManageActivity">
+
+    <RelativeLayout style="@style/mytitle">
+
+        <RelativeLayout
+            android:id="@+id/manageBack"
+            android:layout_width="108px"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="28px"
+                android:layout_height="48px"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/back1" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="160px"
+        android:layout_marginLeft="40px"
+        android:layout_marginRight="40px">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="预约信息"
+            android:textColor="#303030"
+            android:textSize="72px" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/manageTab"
+            android:layout_width="380px"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            app:tabIndicatorColor="#31bdf0"
+            app:tabIndicatorHeight="4px"
+            app:tabSelectedTextColor="#31bdf0"
+            app:tabTextAppearance="@style/tab" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/manageTabView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eeeeee"
+        android:paddingLeft="40px"
+        android:paddingRight="40px"
+        android:paddingTop="40px">
+
+        <com.weiye.myview.NoScrollViewPager
+            android:id="@+id/managerTabPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </RelativeLayout>
+
+</LinearLayout>

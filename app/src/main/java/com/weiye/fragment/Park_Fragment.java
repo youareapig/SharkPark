@@ -5,17 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,19 +19,16 @@ import com.weiye.adapter.ActivitiesGridAdpter;
 import com.weiye.data.HuodongBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.MyListView;
+import com.weiye.photoshow.ImagePagerActivity;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.AppearanceActivity;
 import com.weiye.zl.IntroActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SchoolActivity;
-import com.weiye.zl.SchoolImageActivity;
-import com.weiye.zl.SchoolVideoActivity;
+import com.weiye.zl.ShiZiActivity;
 import com.weiye.zl.VedioPlayerActivity;
-import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
-import org.w3c.dom.Text;
-import org.w3c.dom.ls.LSOutput;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -51,11 +42,12 @@ import java.util.List;
 public class Park_Fragment extends Fragment implements View.OnClickListener {
     private MyListView mListview;
     private List<HuodongBean.DataBean> list;
-    private AutoRelativeLayout sActivity, appearance, intro;
+    private AutoRelativeLayout sActivity, appearance, intro,shizi;
     private CustomProgressDialog customProgressDialog;
     private XRefreshView main1;
-    private  long lastRefreshTime;
+    private long lastRefreshTime;
     private TextView showNo;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -63,9 +55,11 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         mListview = (MyListView) view.findViewById(R.id.parkListView);
         sActivity = (AutoRelativeLayout) view.findViewById(R.id.sActivity);
         appearance = (AutoRelativeLayout) view.findViewById(R.id.appearance);
-        main1= (XRefreshView) view.findViewById(R.id.main1);
+        main1 = (XRefreshView) view.findViewById(R.id.main1);
         intro = (AutoRelativeLayout) view.findViewById(R.id.intro);
-        showNo= (TextView) view.findViewById(R.id.showNO);
+        showNo = (TextView) view.findViewById(R.id.showNO);
+        shizi= (AutoRelativeLayout) view.findViewById(R.id.shizi);
+        shizi.setOnClickListener(this);
         sActivity.setOnClickListener(this);
         appearance.setOnClickListener(this);
         intro.setOnClickListener(this);
@@ -130,11 +124,15 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
                 Intent intent2 = new Intent(getActivity(), IntroActivity.class);
                 startActivity(intent2);
                 break;
+            case R.id.shizi:
+                Intent intent3 = new Intent(getActivity(), ShiZiActivity.class);
+                startActivity(intent3);
+                break;
         }
     }
 
     private void huodongVisit() {
-        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame,R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main1.setVisibility(View.GONE);
@@ -142,14 +140,15 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag", "大学-------" + result);
                 main1.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 HuodongBean bean = gson.fromJson(result, HuodongBean.class);
 
                 list = bean.getData();
-                if (bean.getCode()==-1000){
+                if (bean.getCode() == -1000) {
                     showNo.setVisibility(View.VISIBLE);
-                }else if (bean.getCode()==1000){
+                } else if (bean.getCode() == 1000) {
                     showNo.setVisibility(View.GONE);
                     mListview.setAdapter(new ActivitiesGridAdpter(list, getActivity()));
                 }
@@ -158,13 +157,14 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         HuodongBean.DataBean bean1 = (HuodongBean.DataBean) adapterView.getItemAtPosition(i);
+                        List<String> picture1=bean1.getPhotos();
                         Intent intent = null;
                         if (bean1.getIsvideo().equals("0")) {
-                            intent = new Intent(getActivity(), SchoolImageActivity.class);
-                            intent.putExtra("id", bean1.getId());
+                            intent = new Intent(getActivity(), ImagePagerActivity.class);
+                            intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture1);
                         } else {
-                            intent = new Intent(getActivity(), SchoolVideoActivity.class);
-                            intent.putExtra("id", bean1.getId());
+                            intent = new Intent(getActivity(), VedioPlayerActivity.class);
+                            intent.putExtra("videoUrl", bean1.getVurl());
                         }
                         getActivity().startActivity(intent);
                     }
@@ -173,7 +173,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(),"加载失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

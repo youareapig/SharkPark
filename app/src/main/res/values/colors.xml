@@ -5,8 +5,9 @@
     <color name="colorAccent">#bfbfbf</color>
     <color name="black">#303030</color>
     <color name="gray">#bfbfbf</color>
-    <color name="blue">#31bdf0</color>
+    <color name="blue">#00adec</color>
     <color name="yes">#ffffff</color>
     <color name="no">#90ffffff</color>
     <color name="hui">#bebebe</color>
+    <color name="red">#ff00</color>
 </resources>

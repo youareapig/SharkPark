@@ -138,6 +138,7 @@ public class SettingActivity extends AutoLayoutActivity {
                     public void onClick(View view) {
                         editor.putString("usertag", "0");
                         editor.putString("userid", "0");
+                        editor.putString("usertype", "0");
                         editor.commit();
                         Intent intent2 = new Intent(SettingActivity.this, MainActivity.class);
                         startActivity(intent2);

@@ -136,6 +136,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag","老师-----"+result);
                 main3.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 TeacherBean bean=gson.fromJson(result,TeacherBean.class);

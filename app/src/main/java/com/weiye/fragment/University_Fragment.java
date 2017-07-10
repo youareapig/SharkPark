@@ -28,8 +28,10 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.UserInfoBean;
+import com.weiye.mycourse.MyCoruseActivity;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
+import com.weiye.zl.ManageActivity;
 import com.weiye.zl.MyGradeActivity;
 import com.weiye.zl.MyMaterialActivity;
 import com.weiye.zl.R;
@@ -69,11 +71,10 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private FileOutputStream[] fileOutputStream = {null};
     private Bitmap bitmap, bitmap1;
     private String base64, base64_1, fileName;
-    private AutoRelativeLayout online, setting, myCourse;
-    private String userID;
+    private AutoRelativeLayout online, setting, myCourse,managecourse;
+    private String userID,userType;
     private SharedPreferences sharedPreferences;
     private AutoLinearLayout main6;
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,13 +86,21 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         myCourse = (AutoRelativeLayout) view.findViewById(R.id.myCourse);
         myname = (TextView) view.findViewById(R.id.myname);
         main6 = (AutoLinearLayout) view.findViewById(R.id.main6);
+        managecourse= (AutoRelativeLayout) view.findViewById(R.id.managecourse);
         infomation.setOnClickListener(this);
         myhead.setOnClickListener(this);
         online.setOnClickListener(this);
         setting.setOnClickListener(this);
         myCourse.setOnClickListener(this);
+        managecourse.setOnClickListener(this);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", getActivity().MODE_PRIVATE);
         userID = sharedPreferences.getString("userid", "未知");
+        userType=sharedPreferences.getString("usertype","未知");
+        if (userType.equals("1")){
+            managecourse.setVisibility(View.VISIBLE);
+        }else {
+            managecourse.setVisibility(View.GONE);
+        }
         getUserInfo();
         return view;
     }
@@ -138,8 +147,12 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 startActivity(intent1);
                 break;
             case R.id.myCourse:
-                Intent intent2=new Intent(getActivity(), MyGradeActivity.class);
+                Intent intent2=new Intent(getActivity(), MyCoruseActivity.class);
                 startActivity(intent2);
+                break;
+            case R.id.managecourse:
+                Intent intent3=new Intent(getActivity(), ManageActivity.class);
+                startActivity(intent3);
                 break;
         }
     }

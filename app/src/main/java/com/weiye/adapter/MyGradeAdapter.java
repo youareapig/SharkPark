@@ -72,7 +72,7 @@ public class MyGradeAdapter extends BaseAdapter{
         holder.date.setText(myString(bean.getDates()));
         holder.time.setText(bean.getDatename());
         holder.week.setText(bean.getWeek());
-        if (bean.getIspast()==1){
+        if (bean.getIspast()==0){
             holder.bg.setBackgroundResource(R.drawable.classbook2);
             holder.date.setTextColor(view.getContext().getResources().getColor(R.color.hui));
             holder.time.setTextColor(view.getContext().getResources().getColor(R.color.hui));

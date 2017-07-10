@@ -5,8 +5,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.weiye.zl.IntroActivity">
-    <RelativeLayout
-        style="@style/mytitle">
+
+    <RelativeLayout style="@style/mytitle">
+
         <RelativeLayout
             android:id="@+id/back3"
             android:layout_width="108px"
@@ -19,8 +20,17 @@
                 android:src="@mipmap/back1" />
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/introTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="#000"
+            android:textSize="64px" />
     </RelativeLayout>
+
     <WebView
+        android:layout_marginTop="40px"
         android:id="@+id/webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

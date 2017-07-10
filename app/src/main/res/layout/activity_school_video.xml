@@ -1,50 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SchoolImageActivity">
-
-
-    <com.weiye.myview.ObservableScrollView
-        android:id="@+id/scrollview2"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/titleimage"
-                android:layout_width="match_parent"
-                android:layout_height="660px">
-
-                <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
-                    android:id="@+id/schoolvideo_video"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="40px"
-                android:layout_marginRight="40px"
-                android:layout_marginTop="80px">
-
-                <WebView
-                    android:id="@+id/huodongweb"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </RelativeLayout>
-
-        </LinearLayout>
-    </com.weiye.myview.ObservableScrollView>
+    android:orientation="vertical"
+    tools:context=".SchoolWeiChatActivity">
 
     <RelativeLayout
         android:id="@+id/title1"
@@ -59,7 +19,7 @@
                 android:layout_width="28px"
                 android:layout_height="48px"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/back" />
+                android:src="@mipmap/back1" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -75,4 +35,32 @@
                 android:src="@mipmap/share" />
         </RelativeLayout>
     </RelativeLayout>
-</FrameLayout>
+
+    <ScrollView
+        android:id="@+id/scrollview2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="40px"
+                android:layout_marginRight="40px"
+                android:layout_marginTop="40px">
+
+                <WebView
+                    android:id="@+id/huodongweb"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

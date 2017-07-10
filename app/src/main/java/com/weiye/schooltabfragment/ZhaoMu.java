@@ -20,12 +20,13 @@ import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.SchoolRecyclerAdapter;
+import com.weiye.data.AllHuodongBean;
 import com.weiye.data.HuodongBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
-import com.weiye.zl.SchoolImageActivity;
-import com.weiye.zl.SchoolVideoActivity;
+import com.weiye.zl.SchoolWeiChatActivity;
+import com.weiye.zl.SchoolHtmlActivity;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -36,14 +37,13 @@ import java.util.List;
 /**
  * Created by DELL on 2017/4/20.
  */
-public class SchoolActivity_3 extends Fragment {
+public class ZhaoMu extends Fragment {
     private RecyclerView schoolRecycler;
-    private List<HuodongBean.DataBean> list;
+    private List<AllHuodongBean.DataBean> list;
     private ScrollView scrollView;
     private RoundedImageView mImage;
     private CustomProgressDialog customProgressDialog;
-    private ImageView videoLogo;
-    private TextView showView;
+    private TextView showView,mContent;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,9 +51,9 @@ public class SchoolActivity_3 extends Fragment {
         schoolRecycler = (RecyclerView) view.findViewById(R.id.schoolRecycler);
         scrollView = (ScrollView) view.findViewById(R.id.mScroll);
         mImage = (RoundedImageView) view.findViewById(R.id.mImage);
-        scrollView.smoothScrollTo(0, 20);
-        videoLogo= (ImageView) view.findViewById(R.id.videoplayerlogo);
         showView= (TextView) view.findViewById(R.id.showview);
+        mContent= (TextView) view.findViewById(R.id.mContent);
+        scrollView.smoothScrollTo(0, 20);
         visit();
         return view;
     }
@@ -62,38 +62,35 @@ public class SchoolActivity_3 extends Fragment {
         customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/university");
-        params.addBodyParameter("type", "3");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/activeLst");
+        params.addBodyParameter("tp", "1");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Gson gson = new Gson();
-                HuodongBean bean = gson.fromJson(result, HuodongBean.class);
+                AllHuodongBean bean = gson.fromJson(result, AllHuodongBean.class);
                 list = bean.getData();
+
                 if (bean.getCode()==-1000){
-                    showView.setVisibility(View.VISIBLE);
+                   showView.setVisibility(View.VISIBLE);
                 }else if (bean.getCode()==1000){
                     showView.setVisibility(View.GONE);
-                    if (list.get(0).getIsvideo().equals("0")) {
-                        videoLogo.setVisibility(View.GONE);
-                        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+list.get(0).getBjimg(),mImage);
-                    } else {
-                        videoLogo.setVisibility(View.VISIBLE);
-                        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+list.get(0).getBjimg(),mImage);
-                    }
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+list.get(0).getBjimg(),mImage);
+                    mContent.setText(list.get(0).getTitle());
                     schoolRecycler.setAdapter(new SchoolRecyclerAdapter(list));
                     schoolRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false));
                     mImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Intent intent = null;
-                            if (list.get(0).getIsvideo().equals("0")) {
-                                intent = new Intent(view.getContext(), SchoolImageActivity.class);
-                                intent.putExtra("id", list.get(0).getId());
-                            } else {
-                                intent = new Intent(view.getContext(), SchoolVideoActivity.class);
-                                intent.putExtra("id", list.get(0).getId());
-                            }
+                                if (list.get(0).getIswei().equals("1")) {
+                                    intent = new Intent(view.getContext(), SchoolWeiChatActivity.class);
+                                     intent.putExtra("wuxin", list.get(0).getWeurl());
+                                } else {
+                                    intent = new Intent(view.getContext(), SchoolHtmlActivity.class);
+                                    intent.putExtra("htmls", list.get(0).getContent());
+                                }
+
                             startActivity(intent);
                         }
                     });

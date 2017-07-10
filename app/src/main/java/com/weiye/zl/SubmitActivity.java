@@ -14,10 +14,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.nostra13.universalimageloader.utils.L;
 import com.weiye.data.SubmitUserBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.ClassPathResource;
@@ -60,6 +62,10 @@ public class SubmitActivity extends AutoLayoutActivity {
     Button yySubmit;
     @BindView(R.id.main10)
     LinearLayout main10;
+    @BindView(R.id.isyuyue)
+    ScrollView isyuyue;
+    @BindView(R.id.noyuyue)
+    TextView noyuyue;
     private Unbinder unbinder;
     private String kcid, userID, stringyyName, stringyyAge, stringyySex, stringyyTel, sexID;
     private SharedPreferences sharedPreferences;
@@ -134,10 +140,13 @@ public class SubmitActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag","是否预约"+result);
                 main10.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 SubmitUserBean bean = gson.fromJson(result, SubmitUserBean.class);
                 if (bean.getCode() == 3000) {
+                    isyuyue.setVisibility(View.VISIBLE);
+                    noyuyue.setVisibility(View.GONE);
                     if (bean.getData().getTruename() != null) {
                         yyNameInput.setText(bean.getData().getTruename().toString());
                     }
@@ -151,7 +160,8 @@ public class SubmitActivity extends AutoLayoutActivity {
                     }
                     yyTel.setText(bean.getData().getTelnumber());
                 } else {
-                    Toast.makeText(SubmitActivity.this, "获取用户信息失败", Toast.LENGTH_SHORT).show();
+                    isyuyue.setVisibility(View.GONE);
+                    noyuyue.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -188,35 +198,28 @@ public class SubmitActivity extends AutoLayoutActivity {
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/addCar");
         params.addBodyParameter("uid", userID);
-        params.addBodyParameter("coid", kcid);
         params.addBodyParameter("truename", stringyyName);
         params.addBodyParameter("sex", sexID);
-        params.addBodyParameter("age", stringyyAge);
-        params.addBodyParameter("telnumber", stringyyTel);
+        params.addBodyParameter("age", "24");
+        params.addBodyParameter("tel", stringyyTel);
+        Log.d("tag","提交参数说明"+userID+"  "+sexID+"  "+stringyyAge+"  "+stringyyName+"  "+stringyyTel);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag","提交"+result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
-                    if (jsonObject.getString("code").equals("3006")) {
+                    if (jsonObject.getString("code").equals("3007")) {
                         final AlertDialog dialog = new AlertDialog.Builder(SubmitActivity.this).create();
                         LayoutInflater inflater = getLayoutInflater();
                         View v = inflater.inflate(R.layout.submitsuccess, null);
                         dialog.setView(v);
                         dialog.setCanceledOnTouchOutside(false);
                         dialog.show();
-                        v.findViewById(R.id.sNO).setOnClickListener(new View.OnClickListener() {
+                        v.findViewById(R.id.haode).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(v.getContext(), CurriculumActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-                        v.findViewById(R.id.sGo).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(v.getContext(), MyGradeActivity.class);
+                                Intent intent = new Intent(v.getContext(), CourseActivity.class);
                                 startActivity(intent);
                                 finish();
                             }

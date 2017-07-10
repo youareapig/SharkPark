@@ -42,11 +42,7 @@ public class IndexBean {
     }
 
     public static class DataBean {
-        /**
-         * sbid : 1
-         * sbtitle : 技术与工程学
-         * sbpic : Uploads/subject/2017-06-21//594a2a9d72f6a.jpg
-         */
+
 
         private String sbid;
         private String sbtitle;

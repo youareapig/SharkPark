@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.weiye.adapter.FourSchoolGalleryAdapter;
 import com.weiye.data.IndexBean;
+import com.weiye.data.Park_1Bean;
 import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.VideoFragment;
 import com.weiye.myview.CustomProgressDialog;
@@ -49,12 +51,10 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     LinearLayout schoolfragment;
     @BindView(R.id.schoolScrollview)
     ScrollView schoolScrollview;
-    @BindView(R.id.screening)
-    ImageView screening;
     @BindView(R.id.main8)
     LinearLayout main8;
     private Unbinder unbinder;
-    private List<IndexBean.DataBean> mList;
+    private List<Park_1Bean.DataBean.TeacherBean> mList;
     private FragmentManager fragmentManager;
     private Fragment fragment;
     private List<Fragment> list;
@@ -73,11 +73,11 @@ public class FourSchoolActivity extends AutoLayoutActivity {
 
     private void schoolFragment() {
         list = new ArrayList<>();
-        fragment = new VideoFragment("0");
+        fragment = new VideoFragment("2");
         fragmentManager = this.getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.schoolfragment, fragment).commit();
-        list.add(new VideoFragment("0"));
-        list.add(new PhotoFragment("0"));
+        list.add(new VideoFragment("2"));
+        list.add(new PhotoFragment("1"));
     }
 
     @Override
@@ -86,7 +86,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.videoText1, R.id.photoText1, R.id.screening, R.id.fourschoolBack})
+    @OnClick({R.id.videoText1, R.id.photoText1, R.id.fourschoolBack})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.videoText1:
@@ -103,10 +103,6 @@ public class FourSchoolActivity extends AutoLayoutActivity {
                 fragmentTransaction.replace(R.id.schoolfragment, list.get(1));
                 fragmentTransaction.commit();
                 break;
-            case R.id.screening:
-//                Intent intent = new Intent(FourSchoolActivity.this, ScreenActivity.class);
-//                startActivity(intent);
-                break;
             case R.id.fourschoolBack:
                 finish();
         }
@@ -117,14 +113,14 @@ public class FourSchoolActivity extends AutoLayoutActivity {
         customProgressDialog.setCanceledOnTouchOutside(false);
         main8.setVisibility(View.GONE);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/index");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/parkAll");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 main8.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
-                IndexBean bean = gson.fromJson(result, IndexBean.class);
-                mList = bean.getData();
+                Park_1Bean bean = gson.fromJson(result, Park_1Bean.class);
+                mList = bean.getData().getTeacher();
                 if (bean.getCode()==1000){
                     fourschoolGallery.setAdapter(new FourSchoolGalleryAdapter(mList, FourSchoolActivity.this));
                     fourschoolGallery.setSpacing(60);
@@ -132,9 +128,9 @@ public class FourSchoolActivity extends AutoLayoutActivity {
                     fourschoolGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            IndexBean.DataBean rBean = (IndexBean.DataBean) adapterView.getItemAtPosition(i % mList.size());
-                            Intent intent = new Intent(FourSchoolActivity.this, SubjectActivity.class);
-                            intent.putExtra("indexID", rBean.getSbid() + "");
+                            Park_1Bean.DataBean.TeacherBean rBean = (Park_1Bean.DataBean.TeacherBean) adapterView.getItemAtPosition(i % mList.size());
+                            Intent intent = new Intent(FourSchoolActivity.this, TeacherStyleActivity.class);
+                            intent.putExtra("teacherID",rBean.getTid());
                             startActivity(intent);
                         }
                     });
