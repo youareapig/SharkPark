@@ -45,7 +45,8 @@
             app:tabIndicatorColor="#31bdf0"
             app:tabIndicatorHeight="4px"
             app:tabSelectedTextColor="#31bdf0"
-            app:tabTextAppearance="@style/tab" />
+            app:tabTextAppearance="@style/tab"
+            android:visibility="gone"/>
     </RelativeLayout>
 
     <RelativeLayout

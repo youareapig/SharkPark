@@ -364,6 +364,7 @@ public class UserLoginDialog {
                     editor.putString("usertag", "1");
                     editor.putString("userid", bean.getData().getId());
                     editor.putString("usertype", bean.getData().getUtype());
+                    editor.putString("usertimes", bean.getData().getIsfres());
                     editor.commit();
                     dialog.cancel();
                     Intent intent = new Intent(context, MainActivity.class);
@@ -444,6 +445,7 @@ public class UserLoginDialog {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag","检测"+result);
                 try {
                     JSONObject json = new JSONObject(result);
                     if (json.getString("code").equals("-3001")) {
@@ -502,6 +504,7 @@ public class UserLoginDialog {
                     editor.putString("usertag", "1");
                     editor.putString("userid", registBean.getData().getId());
                     editor.putString("usertype", registBean.getData().getUtype());
+                    editor.putString("usertimes", registBean.getData().getIsfres());
                     editor.commit();
                     dialog1.cancel();
                     Intent intent = new Intent(context, MainActivity.class);

@@ -21,9 +21,6 @@ import com.google.gson.Gson;
 import com.weiye.data.LoginBean;
 import com.weiye.data.RegistBean;
 import com.weiye.myview.CustomProgressDialog;
-import com.weiye.zl.CourseActivity;
-import com.weiye.zl.CurriculumActivity;
-import com.weiye.zl.MainActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SubmitActivity;
 
@@ -365,6 +362,7 @@ public class UserLoginDialog1 {
                     editor.putString("usertag", "1");
                     editor.putString("userid", bean.getData().getId());
                     editor.putString("usertype", bean.getData().getUtype());
+                    editor.putString("usertimes", bean.getData().getIsfres());
                     editor.commit();
                     dialog.cancel();
                     if (bean.getData().getUtype().equals("3")){
@@ -509,6 +507,7 @@ public class UserLoginDialog1 {
                     editor.putString("usertag", "1");
                     editor.putString("userid", registBean.getData().getId());
                     editor.putString("usertype", registBean.getData().getUtype());
+                    editor.putString("usertimes", registBean.getData().getIsfres());
                     editor.commit();
                     dialog1.cancel();
                     if (registBean.getData().getUtype().equals("3")){

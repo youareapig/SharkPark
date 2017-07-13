@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.weiye.data.ManagerBean;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
@@ -18,15 +19,13 @@ import java.util.List;
  */
 
 public class AuditionAdapter extends BaseAdapter{
-    private List<String> list=new ArrayList<>();
+    private List<ManagerBean.DataBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    public AuditionAdapter(Activity activity) {
+    public AuditionAdapter(Activity activity,List<ManagerBean.DataBean> list) {
         this.layoutInflater=activity.getLayoutInflater();
-        list.add("试听1");
-        list.add("试听2");
-        list.add("试听3");
+        this.list=list;
     }
 
     @Override
@@ -53,6 +52,7 @@ public class AuditionAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder=new ViewHolder();
+        ManagerBean.DataBean bean=list.get(position);
         if (convertView==null){
             convertView=layoutInflater.inflate(R.layout.auditionitem,null);
             holder.name= (TextView) convertView.findViewById(R.id.auditionItemName);
@@ -64,7 +64,10 @@ public class AuditionAdapter extends BaseAdapter{
         }else {
             holder= (ViewHolder) convertView.getTag();
         }
-        holder.name.setText(list.get(position));
+        holder.name.setText(bean.getBabyname());
+        holder.tel.setText(bean.getPhone());
+        holder.age.setText(bean.getOage());
+        holder.sex.setText(bean.getSex());
         return convertView;
     }
     private class ViewHolder{

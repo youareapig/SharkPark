@@ -75,9 +75,9 @@ public class ActivitiesGridAdpter extends BaseAdapter {
             ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getPhotos().get(0), holder.imageView);
             holder.huodongPlay.setVisibility(View.GONE);
         } else {
-            Bitmap bitmap = createVideoThumbnail(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getVurl(), 1000, 500);
-            //ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBjimg(), holder.imageView);
-            holder.imageView.setImageBitmap(bitmap);
+            //Bitmap bitmap = createVideoThumbnail(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getVurl(), 1000, 500);
+            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBjimg(), holder.imageView);
+            //holder.imageView.setImageBitmap(bitmap);
             holder.huodongPlay.setVisibility(View.VISIBLE);
         }
         holder.textView.setText(bean.getTitle());

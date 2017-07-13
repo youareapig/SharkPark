@@ -7,7 +7,7 @@
         android:id="@+id/manageapplyitem"
         android:layout_width="306px"
         android:layout_height="200px"
-        android:background="@drawable/classbook">
+        android:background="@drawable/classbook4">
 
         <TextView
             android:id="@+id/manageapplyitemName"

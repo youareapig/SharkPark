@@ -100,9 +100,7 @@
 
     <RelativeLayout
         android:id="@+id/title_subject"
-        style="@style/mytitle"
-        android:background="#c8c9"
-        >
+        style="@style/mytitle">
 
         <TextView
             android:id="@+id/mytitleText"

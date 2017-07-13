@@ -59,13 +59,15 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     private Fragment fragment;
     private List<Fragment> list;
     private FragmentTransaction fragmentTransaction;
-
+    private int myEvent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_four_school);
         unbinder = ButterKnife.bind(this);
         schoolScrollview.smoothScrollTo(0, 20);
+        Intent intent=getIntent();
+        myEvent=intent.getIntExtra("myevent",20);
         sdxyVisit();
         schoolFragment();
     }
@@ -73,11 +75,11 @@ public class FourSchoolActivity extends AutoLayoutActivity {
 
     private void schoolFragment() {
         list = new ArrayList<>();
-        fragment = new VideoFragment("2");
+        fragment = new VideoFragment(myEvent);
         fragmentManager = this.getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.schoolfragment, fragment).commit();
-        list.add(new VideoFragment("2"));
-        list.add(new PhotoFragment("1"));
+        list.add(new VideoFragment(myEvent));
+        list.add(new PhotoFragment(myEvent));
     }
 
     @Override

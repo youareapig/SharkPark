@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.weiye.data.YishangBean;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,15 +18,13 @@ import java.util.List;
  */
 
 public class YishangAdapter extends BaseAdapter{
-    private List<String> list=new ArrayList<>();
+    private List<YishangBean.DataBean.CourseBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    public YishangAdapter(Activity activity) {
+    public YishangAdapter(List<YishangBean.DataBean.CourseBean> list, Activity activity) {
+        this.list=list;
         this.layoutInflater=activity.getLayoutInflater();
-        list.add("已上1");
-        list.add("已上2");
-        list.add("已上3");
     }
 
     @Override
@@ -53,6 +51,7 @@ public class YishangAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder=new ViewHolder();
+        YishangBean.DataBean.CourseBean bean=list.get(position);
         if (convertView==null){
             convertView=layoutInflater.inflate(R.layout.yishangitem,null);
             holder.date= (TextView) convertView.findViewById(R.id.yishangItemDay);
@@ -64,10 +63,18 @@ public class YishangAdapter extends BaseAdapter{
         }else {
             holder= (ViewHolder) convertView.getTag();
         }
-        holder.content.setText(list.get(position));
+        holder.content.setText(bean.getConame());
+        holder.time.setText(bean.getDatename());
+        holder.month.setText(myString(bean.getDates(),1));
+        holder.date.setText(myString(bean.getDates(),2));
         return convertView;
     }
     private class ViewHolder{
         private TextView date,time,content,month;
+    }
+    //TODO 拆分字符串
+    private String myString(String string,int n) {
+        String[] s = string.split("-");
+        return s[n];
     }
 }

@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.weiye.data.YichangBean;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,15 +18,14 @@ import java.util.List;
  */
 
 public class YiChangAdapter extends BaseAdapter{
-    private List<String> list=new ArrayList<>();
+    private List<YichangBean.DataBean.CourseBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    public YiChangAdapter(Activity activity) {
+    public YiChangAdapter(Activity activity,List<YichangBean.DataBean.CourseBean> list) {
         this.layoutInflater=activity.getLayoutInflater();
-        list.add("异常1");
-        list.add("异常2");
-        list.add("异常3");
+        this.list=list;
+
     }
 
     @Override
@@ -53,6 +52,7 @@ public class YiChangAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder=new ViewHolder();
+        YichangBean.DataBean.CourseBean bean=list.get(position);
         if (convertView==null){
             convertView=layoutInflater.inflate(R.layout.yichangitem,null);
             holder.date= (TextView) convertView.findViewById(R.id.yichangItemDay);
@@ -64,7 +64,7 @@ public class YiChangAdapter extends BaseAdapter{
         }else {
             holder= (ViewHolder) convertView.getTag();
         }
-        holder.content.setText(list.get(position));
+        holder.content.setText(bean.getConame());
         return convertView;
     }
     private class ViewHolder{

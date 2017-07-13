@@ -7,10 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.weiye.data.WeishangBean;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,15 +18,13 @@ import java.util.List;
  */
 
 public class WeishangAdapter extends BaseAdapter{
-    private List<String> list=new ArrayList<>();
+    private List<WeishangBean.DataBean.CourseBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    public WeishangAdapter(Activity activity) {
+    public WeishangAdapter(Activity activity,List<WeishangBean.DataBean.CourseBean> list) {
         this.layoutInflater=activity.getLayoutInflater();
-        list.add("未上1");
-        list.add("未上2");
-        list.add("未上3");
+        this.list=list;
     }
 
     @Override
@@ -53,6 +51,8 @@ public class WeishangAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder=new ViewHolder();
+        WeishangBean.DataBean.CourseBean bean=list.get(position);
+
         if (convertView==null){
             convertView=layoutInflater.inflate(R.layout.weishangitem,null);
             holder.date= (TextView) convertView.findViewById(R.id.weishangItemDay);
@@ -64,10 +64,18 @@ public class WeishangAdapter extends BaseAdapter{
         }else {
             holder= (ViewHolder) convertView.getTag();
         }
-        holder.content.setText(list.get(position));
+        holder.content.setText(bean.getConame());
+        holder.time.setText(bean.getDatename());
+        holder.month.setText(myString(bean.getDates(),1));
+        holder.date.setText(myString(bean.getDates(),2));
         return convertView;
     }
     private class ViewHolder{
         private TextView date,time,content,month;
+    }
+    //TODO 拆分字符串
+    private String myString(String string,int n) {
+        String[] s = string.split("-");
+        return s[n];
     }
 }

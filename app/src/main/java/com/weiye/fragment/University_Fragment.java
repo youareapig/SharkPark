@@ -3,7 +3,6 @@ package com.weiye.fragment;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -32,19 +31,15 @@ import com.weiye.mycourse.MyCoruseActivity;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.ManageActivity;
-import com.weiye.zl.MyGradeActivity;
 import com.weiye.zl.MyMaterialActivity;
 import com.weiye.zl.R;
-import com.weiye.zl.RestartActivity;
 import com.weiye.zl.SettingActivity;
+import com.weiye.zl.SubjectActivity;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionGrant;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
@@ -71,10 +66,11 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private FileOutputStream[] fileOutputStream = {null};
     private Bitmap bitmap, bitmap1;
     private String base64, base64_1, fileName;
-    private AutoRelativeLayout online, setting, myCourse,managecourse;
-    private String userID,userType;
+    private AutoRelativeLayout online, setting, myCourse, managecourse, myClass;
+    private String userID, userType;
     private SharedPreferences sharedPreferences;
     private AutoLinearLayout main6;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,7 +82,9 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         myCourse = (AutoRelativeLayout) view.findViewById(R.id.myCourse);
         myname = (TextView) view.findViewById(R.id.myname);
         main6 = (AutoLinearLayout) view.findViewById(R.id.main6);
-        managecourse= (AutoRelativeLayout) view.findViewById(R.id.managecourse);
+        managecourse = (AutoRelativeLayout) view.findViewById(R.id.managecourse);
+        myClass = (AutoRelativeLayout) view.findViewById(R.id.myClass);
+        myClass.setOnClickListener(this);
         infomation.setOnClickListener(this);
         myhead.setOnClickListener(this);
         online.setOnClickListener(this);
@@ -95,11 +93,22 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         managecourse.setOnClickListener(this);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", getActivity().MODE_PRIVATE);
         userID = sharedPreferences.getString("userid", "未知");
-        userType=sharedPreferences.getString("usertype","未知");
-        if (userType.equals("1")){
-            managecourse.setVisibility(View.VISIBLE);
-        }else {
+        userType = sharedPreferences.getString("usertype", "未知");
+        //TODO 用户类型 1 管理员；2 会员；3 非会员；4 老师
+        if (userType.equals("1")) {
+            myClass.setVisibility(View.GONE);
+            myCourse.setVisibility(View.GONE);
+        }
+        if (userType.equals("2")) {
             managecourse.setVisibility(View.GONE);
+        }
+        if (userType.equals("3")) {
+            myClass.setVisibility(View.GONE);
+            managecourse.setVisibility(View.GONE);
+        }
+        if (userType.equals("4")) {
+            managecourse.setVisibility(View.GONE);
+            myCourse.setVisibility(View.GONE);
         }
         getUserInfo();
         return view;
@@ -147,12 +156,16 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 startActivity(intent1);
                 break;
             case R.id.myCourse:
-                Intent intent2=new Intent(getActivity(), MyCoruseActivity.class);
+                Intent intent2 = new Intent(getActivity(), MyCoruseActivity.class);
                 startActivity(intent2);
                 break;
             case R.id.managecourse:
-                Intent intent3=new Intent(getActivity(), ManageActivity.class);
+                Intent intent3 = new Intent(getActivity(), ManageActivity.class);
                 startActivity(intent3);
+                break;
+            case R.id.myClass:
+                Intent intent4=new Intent(getActivity(), SubjectActivity.class);
+                startActivity(intent4);
                 break;
         }
     }
@@ -231,16 +244,16 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private void uploadhead(final String base) {
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editPic");
         params.addBodyParameter("id", userID);
-        params.addBodyParameter("headpic", "data:image/png;base64,"+base);
+        params.addBodyParameter("headpic", "data:image/png;base64," + base);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 try {
-                    JSONObject jsonObject=new JSONObject(result);
-                    if (jsonObject.getString("code").equals("3004")){
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getString("code").equals("3004")) {
                         myhead.setImageBitmap(bitmap);
                         Toast.makeText(getActivity(), "头像更新成功", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(getActivity(), "头像上传失败", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
@@ -268,14 +281,14 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private void uploadhead1(String base) {
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editPic");
         params.addBodyParameter("id", userID);
-        params.addBodyParameter("headpic", "data:image/png;base64,"+base);
+        params.addBodyParameter("headpic", "data:image/png;base64," + base);
         params.setMultipart(true);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 try {
-                    JSONObject jsonObject=new JSONObject(result);
-                    if (jsonObject.getString("code").equals("3004")){
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getString("code").equals("3004")) {
                         Toast.makeText(getActivity(), "头像更新成功", Toast.LENGTH_SHORT).show();
                         try {
                             fileOutputStream[0] = new FileOutputStream(fileName);
@@ -316,7 +329,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
     //TODO 获取用户信息
     private void getUserInfo() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame,R.style.dialog);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main6.setVisibility(View.GONE);
@@ -328,18 +341,18 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 main6.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 UserInfoBean bean = gson.fromJson(result, UserInfoBean.class);
-                if (bean.getCode()==3000){
+                if (bean.getCode() == 3000) {
                     myname.setText(bean.getData().getTel());
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getData().getHeadpic(),myhead);
-                }else {
-                    Toast.makeText(getActivity(),"获取用户信息失败",Toast.LENGTH_SHORT).show();
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getHeadpic(), myhead);
+                } else {
+                    Toast.makeText(getActivity(), "获取用户信息失败", Toast.LENGTH_SHORT).show();
                 }
 
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(),"获取用户信息失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "获取用户信息失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override

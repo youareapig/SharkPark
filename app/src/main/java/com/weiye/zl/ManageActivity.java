@@ -47,10 +47,10 @@ public class ManageActivity extends AutoLayoutActivity {
         fragmentManager = getSupportFragmentManager();
         nameList = new ArrayList<>();
         nameList.add("试听");
-        nameList.add("报名");
+        //nameList.add("报名");
         fList = new ArrayList<>();
         fList.add(new Audition());
-        fList.add(new Apply());
+        //fList.add(new Apply());
         managerTabPager.setAdapter(new ManagerAdapter(fragmentManager, nameList, fList));
         managerTabPager.setCurrentItem(0);
     }

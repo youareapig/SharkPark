@@ -9,5 +9,13 @@
         android:layout_height="match_parent"
         android:scrollbars="none"
         android:dividerHeight="40px"
-        android:divider="#fff"/>
+        android:divider="#00000000" />
+    <TextView
+        android:id="@+id/myCourseNo1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="您还没有预约课程哦！"
+        android:textSize="48px"
+        android:gravity="center"
+        android:visibility="gone"/>
 </com.zhy.autolayout.AutoLinearLayout>

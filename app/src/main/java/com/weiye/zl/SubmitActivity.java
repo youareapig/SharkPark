@@ -69,6 +69,7 @@ public class SubmitActivity extends AutoLayoutActivity {
     private Unbinder unbinder;
     private String kcid, userID, stringyyName, stringyyAge, stringyySex, stringyyTel, sexID;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class SubmitActivity extends AutoLayoutActivity {
         Intent intent = getIntent();
         kcid = intent.getStringExtra("kcid");
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         userID = sharedPreferences.getString("userid", "未知");
         init();
     }
@@ -140,7 +142,7 @@ public class SubmitActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","是否预约"+result);
+                Log.d("tag", "是否预约" + result);
                 main10.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 SubmitUserBean bean = gson.fromJson(result, SubmitUserBean.class);
@@ -202,11 +204,10 @@ public class SubmitActivity extends AutoLayoutActivity {
         params.addBodyParameter("sex", sexID);
         params.addBodyParameter("age", "24");
         params.addBodyParameter("tel", stringyyTel);
-        Log.d("tag","提交参数说明"+userID+"  "+sexID+"  "+stringyyAge+"  "+stringyyName+"  "+stringyyTel);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","提交"+result);
+                Log.d("tag", "提交" + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("code").equals("3007")) {
@@ -216,10 +217,13 @@ public class SubmitActivity extends AutoLayoutActivity {
                         dialog.setView(v);
                         dialog.setCanceledOnTouchOutside(false);
                         dialog.show();
+                        editor.putString("usertimes", "0");
+                        editor.commit();
                         v.findViewById(R.id.haode).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(v.getContext(), CourseActivity.class);
+                                Intent intent = new Intent(v.getContext(), MainActivity.class);
+                                intent.putExtra("fTag", 0);
                                 startActivity(intent);
                                 finish();
                             }

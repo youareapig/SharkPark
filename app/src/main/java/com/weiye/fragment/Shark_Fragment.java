@@ -153,6 +153,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         switch (view.getId()) {
             case R.id.classAll:
                 Intent intent = new Intent(getActivity(), FourSchoolActivity.class);
+                intent.putExtra("myevent",10);
                 startActivity(intent);
                 break;
         }

@@ -76,7 +76,7 @@ public class MainActivity extends AutoLayoutActivity {
     private int currentIndex;
     private static boolean isExit = false;
     private SharedPreferences sharedPreferences;
-    private String updateUrl,updateName,updateContent,updateVersion;
+    private String updateUrl, updateName, updateContent, updateVersion;
     private int locationVersion = 0;
     Handler mHandler = new Handler() {
         @Override
@@ -96,19 +96,25 @@ public class MainActivity extends AutoLayoutActivity {
             startActivity(intent);
         }
         unbinder = ButterKnife.bind(this);
-        MyApplication application= (MyApplication)getApplication();
-        locationVersion=application.location;
-        MPermissions.requestPermissions(MainActivity.this, 50, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE);
+        MyApplication application = (MyApplication) getApplication();
+        locationVersion = application.location;
+        MPermissions.requestPermissions(MainActivity.this, 50, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE);
         //updateVersion();
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         Intent intent = getIntent();
-        currentIndex=intent.getIntExtra("fTag", 1);
-        Log.d("tag","主页默认"+currentIndex);
-        if (currentIndex==3){
+        currentIndex = intent.getIntExtra("fTag", 1);
+        Log.d("tag", "主页默认" + currentIndex);
+        if (currentIndex == 3) {
             textA.setTextColor(getResources().getColor(R.color.no));
             textB.setTextColor(getResources().getColor(R.color.no));
             textC.setTextColor(getResources().getColor(R.color.no));
             textD.setTextColor(getResources().getColor(R.color.yes));
+        }
+        if (currentIndex == 0) {
+            textA.setTextColor(getResources().getColor(R.color.yes));
+            textB.setTextColor(getResources().getColor(R.color.no));
+            textC.setTextColor(getResources().getColor(R.color.no));
+            textD.setTextColor(getResources().getColor(R.color.no));
         }
         list = new ArrayList<>();
         fragmentManager = getSupportFragmentManager();
@@ -182,9 +188,10 @@ public class MainActivity extends AutoLayoutActivity {
         MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
     @PermissionGrant(50)
     public void requestReadSuccess() {
-       updateVersion();
+        updateVersion();
     }
 
     @OnClick({R.id.child, R.id.shark, R.id.park, R.id.university})
@@ -254,19 +261,20 @@ public class MainActivity extends AutoLayoutActivity {
             System.exit(0);
         }
     }
+
     //TODO 检测版本更新
-    private void updateVersion(){
-        RequestParams params=new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl()+"Index/updateInfo");
+    private void updateVersion() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/updateInfo");
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 try {
-                    JSONObject json=new JSONObject(result);
-                    updateName=json.getString("versionName");
-                    updateContent=json.getString("description");
-                    updateVersion=json.getString("version");
-                    updateUrl=json.getString("url");
-                    if (Integer.parseInt(updateVersion)>locationVersion){
+                    JSONObject json = new JSONObject(result);
+                    updateName = json.getString("versionName");
+                    updateContent = json.getString("description");
+                    updateVersion = json.getString("version");
+                    updateUrl = json.getString("url");
+                    if (Integer.parseInt(updateVersion) > locationVersion) {
                         final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
                         LayoutInflater inflater = getLayoutInflater();
                         View v = inflater.inflate(R.layout.update, null);
@@ -279,7 +287,7 @@ public class MainActivity extends AutoLayoutActivity {
                                 dialog.cancel();
                             }
                         });
-                        TextView textContent= (TextView) v.findViewById(R.id.versionContent);
+                        TextView textContent = (TextView) v.findViewById(R.id.versionContent);
                         //textContent.setText(updateContent);
                         v.findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -299,7 +307,7 @@ public class MainActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag","版本更新错误");
+                Log.d("tag", "版本更新错误");
             }
 
             @Override

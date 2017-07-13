@@ -10,7 +10,7 @@ public class TeacherBean {
     /**
      * code : 1000
      * message : 成功
-     * data : {"truename":"李晓晕","desc":"老师经验凤舞","pic":["Uploads/teacher/2017-06-21/594a307aa5669.jpg","Uploads/teacher/2017-06-21/594a3ed87968f.jpg"]}
+     * data : {"nickname":"小六","desc":"","pic":["Uploads/teacher/2017-07-07/595f010f3a5f9.jpg","Uploads/teacher/2017-07-07/595f010f3acb4.jpg"]}
      */
 
     private int code;
@@ -43,21 +43,21 @@ public class TeacherBean {
 
     public static class DataBean {
         /**
-         * truename : 李晓晕
-         * desc : 老师经验凤舞
-         * pic : ["Uploads/teacher/2017-06-21/594a307aa5669.jpg","Uploads/teacher/2017-06-21/594a3ed87968f.jpg"]
+         * nickname : 小六
+         * desc :
+         * pic : ["Uploads/teacher/2017-07-07/595f010f3a5f9.jpg","Uploads/teacher/2017-07-07/595f010f3acb4.jpg"]
          */
 
-        private String truename;
+        private String nickname;
         private String desc;
         private List<String> pic;
 
-        public String getTruename() {
-            return truename;
+        public String getNickname() {
+            return nickname;
         }
 
-        public void setTruename(String truename) {
-            this.truename = truename;
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
         }
 
         public String getDesc() {

@@ -141,7 +141,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
                 Gson gson = new Gson();
                 TeacherBean bean=gson.fromJson(result,TeacherBean.class);
                 bannerList=bean.getData().getPic();
-                teacherName.setText(bean.getData().getTruename());
+                teacherName.setText(bean.getData().getNickname());
                 teacherProduct.setText(bean.getData().getDesc());
                 indexTips = new ImageView[bannerList.size()];
                 for (int i = 0; i < indexTips.length; i++) {

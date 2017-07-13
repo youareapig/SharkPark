@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.HuodongBean;
+import com.weiye.data.TeacherManagerBean;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -30,8 +31,8 @@ import java.util.List;
 public class SpinnerAdpter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
-    private List<String> list;
-    public SpinnerAdpter( Activity activity,List<String> list) {
+    private List<TeacherManagerBean.DataBean.GradeBean> list;
+    public SpinnerAdpter( Activity activity,List<TeacherManagerBean.DataBean.GradeBean> list) {
         this.inflater = activity.getLayoutInflater();
         this.list=list;
 
@@ -61,6 +62,7 @@ public class SpinnerAdpter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder = new ViewHolder();
+        TeacherManagerBean.DataBean.GradeBean bean=list.get(i);
         if (view == null) {
             view = inflater.inflate(R.layout.spinneritem, null);
             holder.textView = (TextView) view.findViewById(R.id.spinnerText);
@@ -70,7 +72,7 @@ public class SpinnerAdpter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        holder.textView.setText(list.get(i));
+        holder.textView.setText(bean.getGname());
         return view;
     }
 

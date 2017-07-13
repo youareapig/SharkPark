@@ -200,7 +200,7 @@ public class MyMaterialActivity extends AutoLayoutActivity {
                 GetUserInfo bean = gson.fromJson(result, GetUserInfo.class);
                 if (bean.getCode()==3000){
                     if (bean.getData().getNickname()==null){
-                        nameText.setText("鲨鱼宝宝");
+                        nameText.setText(" ");
                     }else {
                         nameText.setText(bean.getData().getNickname().toString());
                     }

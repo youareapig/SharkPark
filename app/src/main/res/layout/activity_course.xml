@@ -32,6 +32,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="40px"
                 android:text="我的"
+                android:textSize="38px"
                 android:textColor="#fff" />
 
             <RelativeLayout

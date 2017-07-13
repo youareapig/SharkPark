@@ -30,6 +30,7 @@ dependencies {
     compile files('libs/MobTools-2017.0412.1554.jar')
     compile files('libs/nineoldandroids-2.4.0.jar')
     compile files('libs/jsms_android-1.1.0.jar')
+
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'org.xutils:xutils:3.5.0'
@@ -50,5 +51,4 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'com.zhy:mpermission-compiler:1.0.0'
-
 }

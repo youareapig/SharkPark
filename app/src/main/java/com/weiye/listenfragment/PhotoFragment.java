@@ -2,6 +2,7 @@ package com.weiye.listenfragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,19 +12,28 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
-import com.nostra13.universalimageloader.utils.L;
 import com.weiye.adapter.SubPhotoListViewAdapter;
+import com.weiye.adapter.TeacherPhotoListViewAdapter;
+import com.weiye.adapter.TeacherVideoListViewAdapter;
+import com.weiye.adapter.VipPhotoListViewAdapter;
 import com.weiye.data.PhotoBean;
+import com.weiye.data.TeacherManagePhotoBean;
+import com.weiye.data.TeacherManageVideoBean;
+import com.weiye.data.VipClassPhotoBean;
+import com.weiye.data.VipClassVidioBean;
 import com.weiye.myview.MyListView;
 import com.weiye.photoshow.ImagePagerActivity;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
+import com.weiye.zl.VedioPlayerActivity;
+import com.zhy.autolayout.AutoLinearLayout;
 
-import org.w3c.dom.Text;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,33 +44,54 @@ import java.util.List;
 public class PhotoFragment extends Fragment {
     private MyListView listView;
     private List<PhotoBean.DataBean> list;
-    private List<String> photoList = new ArrayList<>();
-    private String indexID;
+    private String userID, userType;
     private TextView noPhoto;
+    private AutoLinearLayout main20;
+    private SharedPreferences sharedPreferences;
+    private int myevent;
+    private String gid;
 
-    public PhotoFragment(String indexID) {
-        this.indexID = indexID;
+    public PhotoFragment(int myevent) {
+        this.myevent = myevent;
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.photofragment, container, false);
+        sharedPreferences = getActivity().getSharedPreferences("UserTag", getActivity().MODE_PRIVATE);
+        userID = sharedPreferences.getString("userid", "未知");
+        userType = sharedPreferences.getString("usertype", "未知");
+
         listView = (MyListView) view.findViewById(R.id.photofragment_listview);
-        noPhoto= (TextView) view.findViewById(R.id.noPhoto);
-        visitPhoto();
+        noPhoto = (TextView) view.findViewById(R.id.noPhoto);
+        main20 = (AutoLinearLayout) view.findViewById(R.id.main20);
+        if (myevent == 10) {
+            visitPhoto();
+        } else {
+            if (userType.equals("2")) {
+                vipVisit();
+            } else {
+                teacherManger1();
+            }
+
+        }
+
         return view;
     }
 
+    //TODO 公园点击全部数据
     private void visitPhoto() {
+        main20.setVisibility(View.GONE);
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/isphotoVideo");
-        params.addBodyParameter("type", indexID);
+        params.addBodyParameter("type", "1");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","相册数据"+result);
+                main20.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 PhotoBean bean = gson.fromJson(result, PhotoBean.class);
-                if (bean.getCode()==1000){
+                if (bean.getCode() == 1000) {
                     noPhoto.setVisibility(View.GONE);
                     listView.setVisibility(View.VISIBLE);
                     list = bean.getData();
@@ -75,7 +106,7 @@ public class PhotoFragment extends Fragment {
                             startActivity(intent);
                         }
                     });
-                }else {
+                } else {
                     noPhoto.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
                 }
@@ -104,5 +135,168 @@ public class PhotoFragment extends Fragment {
         });
     }
 
+    //TODO 会员点击我的班级数据
+    private void vipVisit() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myClass");
+        params.addBodyParameter("uid", userID);
+        params.addBodyParameter("tp", "1");
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                main20.setVisibility(View.VISIBLE);
+                Gson gson = new Gson();
+                final VipClassPhotoBean bean = gson.fromJson(result, VipClassPhotoBean.class);
+                if (bean.getCode() == 3000) {
+                    noPhoto.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                    listView.setAdapter(new VipPhotoListViewAdapter(bean.getData().getPv(), getActivity()));
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            List<String> picture = bean.getData().getPv().get(i).getPurl();
+                            Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
+                            intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture);
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    noPhoto.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+
+    }
+
+    //TODO 老师班级
+    private void teacherManger1() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/teacherCenter");
+        params.addBodyParameter("uid", userID);
+        params.addBodyParameter("tp", "1");
+        params.addBodyParameter("gid", "0");
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("tag", "默认相册" +gid);
+                Log.d("tag", "默认相册数据" + result);
+                Gson gson = new Gson();
+                final TeacherManagePhotoBean bean = gson.fromJson(result, TeacherManagePhotoBean.class);
+                if (bean.getCode() == 3000) {
+                    noPhoto.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                    TeacherPhotoListViewAdapter adapter = new TeacherPhotoListViewAdapter(bean.getData().getPv(), getActivity());
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            List<String> picture = bean.getData().getPv().get(i).getPurl();
+                            Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
+                            intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture);
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    noPhoto.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+    }
+
+    public void teacherManger_1(final String userID, final String gid) {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/teacherCenter");
+        params.addBodyParameter("uid", userID);
+        params.addBodyParameter("tp", "1");
+        params.addBodyParameter("gid", gid);
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Log.d("tag", "调用相册" +gid);
+                Log.d("tag", "调用相册数据" + result);
+                Gson gson = new Gson();
+                final TeacherManagePhotoBean bean = gson.fromJson(result, TeacherManagePhotoBean.class);
+                if (bean.getCode() == 3000) {
+                    noPhoto.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                    TeacherPhotoListViewAdapter adapter = new TeacherPhotoListViewAdapter(bean.getData().getPv(), getActivity());
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            List<String> picture = bean.getData().getPv().get(i).getPurl();
+                            Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
+                            intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture);
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    noPhoto.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+    }
 
 }
