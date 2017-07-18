@@ -5,10 +5,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -59,7 +62,7 @@ public class SubmitActivity extends AutoLayoutActivity {
     @BindView(R.id.yyTel)
     EditText yyTel;
     @BindView(R.id.yySubmit)
-    Button yySubmit;
+    TextView yySubmit;
     @BindView(R.id.main10)
     LinearLayout main10;
     @BindView(R.id.isyuyue)
@@ -94,7 +97,24 @@ public class SubmitActivity extends AutoLayoutActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.submitBack:
-                finish();
+                final AlertDialog dialog1 = new AlertDialog.Builder(this).create();
+                LayoutInflater inflater1 = getLayoutInflater();
+                View view1 = inflater1.inflate(R.layout.sureback, null);
+                dialog1.setView(view1);
+                dialog1.setCanceledOnTouchOutside(true);
+                dialog1.show();
+                view1.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+                view1.findViewById(R.id.cancle).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog1.cancel();
+                    }
+                });
                 break;
             case R.id.yySex:
                 OptionPicker picker = new OptionPicker(this, new String[]{
@@ -133,7 +153,7 @@ public class SubmitActivity extends AutoLayoutActivity {
     }
 
     private void init() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中....", R.drawable.frame, R.style.dialog);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main10.setVisibility(View.GONE);
@@ -142,7 +162,6 @@ public class SubmitActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "是否预约" + result);
                 main10.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 SubmitUserBean bean = gson.fromJson(result, SubmitUserBean.class);
@@ -195,7 +214,7 @@ public class SubmitActivity extends AutoLayoutActivity {
         } else {
             sexID = "1";
         }
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中....", R.drawable.frame, R.style.dialog);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/addCar");
@@ -207,7 +226,6 @@ public class SubmitActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "提交" + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("code").equals("3007")) {
@@ -215,19 +233,27 @@ public class SubmitActivity extends AutoLayoutActivity {
                         LayoutInflater inflater = getLayoutInflater();
                         View v = inflater.inflate(R.layout.submitsuccess, null);
                         dialog.setView(v);
+                        //Todo 设置对话框透明度
+                        Window window=dialog.getWindow();
+                        WindowManager.LayoutParams layoutParams=window.getAttributes();
+                        layoutParams.alpha=0.6f;
+                        window.setAttributes(layoutParams);
+
                         dialog.setCanceledOnTouchOutside(false);
                         dialog.show();
+
                         editor.putString("usertimes", "0");
                         editor.commit();
-                        v.findViewById(R.id.haode).setOnClickListener(new View.OnClickListener() {
+                        new Handler().postDelayed(new Runnable() {
                             @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(v.getContext(), MainActivity.class);
-                                intent.putExtra("fTag", 0);
+                            public void run() {
+                                Intent intent = new Intent(SubmitActivity.this, CourseActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
-                        });
+                        },3000);
+
+
 
                     } else {
                         Toast.makeText(SubmitActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
@@ -260,5 +286,26 @@ public class SubmitActivity extends AutoLayoutActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        final AlertDialog dialog1 = new AlertDialog.Builder(this).create();
+        LayoutInflater inflater1 = getLayoutInflater();
+        View view1 = inflater1.inflate(R.layout.sureback, null);
+        dialog1.setView(view1);
+        dialog1.setCanceledOnTouchOutside(true);
+        dialog1.show();
+        view1.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        view1.findViewById(R.id.cancle).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog1.cancel();
+            }
+        });
+    }
 }

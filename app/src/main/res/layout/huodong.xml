@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/main21">
+    android:layout_height="match_parent">
 
-    <com.weiye.myview.MyListView
-        android:id="@+id/videofragment_listview"
+    <com.baoyz.swipemenulistview.SwipeMenuListView
+        android:id="@+id/huodongListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#00000000"
-        android:dividerHeight="100px"
-        android:focusable="false" />
+        android:scrollbars="none"
+        android:dividerHeight="40px"
+        android:divider="#00000000" />
     <TextView
-        android:id="@+id/noVideo"
+        android:id="@+id/myCourseNo4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="暂无视频"
+        android:text="您还没有预约课程哦！"
+        android:textSize="48px"
         android:gravity="center"
-        android:textSize="38px"
         android:visibility="gone"/>
 </com.zhy.autolayout.AutoLinearLayout>

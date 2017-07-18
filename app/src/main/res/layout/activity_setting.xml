@@ -13,8 +13,7 @@
         android:orientation="vertical">
 
 
-        <RelativeLayout
-            style="@style/mytitle">
+        <RelativeLayout style="@style/mytitle">
 
             <RelativeLayout
                 android:id="@+id/materialBack"
@@ -63,10 +62,12 @@
                 android:src="@mipmap/right" />
 
         </RelativeLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#d2d2d2" />
+
         <RelativeLayout
             android:id="@+id/ideal"
             android:layout_width="match_parent"
@@ -91,10 +92,12 @@
                 android:src="@mipmap/right" />
 
         </RelativeLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#d2d2d2" />
+
         <RelativeLayout
             android:id="@+id/updateversion"
             android:layout_width="match_parent"
@@ -130,6 +133,7 @@
                 android:textColor="#888888"
                 android:textSize="48px" />
         </RelativeLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1px"

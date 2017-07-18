@@ -21,6 +21,8 @@ import com.google.gson.Gson;
 import com.weiye.data.LoginBean;
 import com.weiye.data.RegistBean;
 import com.weiye.myview.CustomProgressDialog;
+import com.weiye.zl.CourseActivity;
+import com.weiye.zl.MainActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SubmitActivity;
 
@@ -346,7 +348,7 @@ public class UserLoginDialog1 {
      * 保存登录状态，1 表示登录状态，0 表示未登录状态
      */
     private void userLogin(String phone, String password) {
-        customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(context, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/logo");
@@ -367,6 +369,9 @@ public class UserLoginDialog1 {
                     dialog.cancel();
                     if (bean.getData().getUtype().equals("3")){
                         Intent intent = new Intent(context, SubmitActivity.class);
+                        context.startActivity(intent);
+                    }else {
+                        Intent intent = new Intent(context, CourseActivity.class);
                         context.startActivity(intent);
                     }
 
@@ -397,7 +402,7 @@ public class UserLoginDialog1 {
 
     //TODO 检测用户是否存在
     private void detectionUser(String phone) {
-        customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(context, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/isRegist");
@@ -492,7 +497,7 @@ public class UserLoginDialog1 {
 
     //TODO 用户注册接口
     private void requestRegister(String phone, String pwd) {
-        customProgressDialog = new CustomProgressDialog(context, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(context, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/regist");

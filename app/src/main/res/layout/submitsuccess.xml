@@ -2,40 +2,41 @@
 <com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/logindialog">
+    android:background="@drawable/bantoumin">
 
-    <com.zhy.autolayout.AutoLinearLayout
+    <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="460px"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical">
+        android:layout_height="520px"
+        android:layout_centerHorizontal="true">
+
+        <ImageView
+            android:id="@+id/sure1"
+            android:layout_width="91px"
+            android:layout_height="91px"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="90px"
+            android:src="@mipmap/sure" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="预约成功,稍后我们的老师将给您联系"
-            android:textColor="#888888"
-            android:textSize="52px" />
+            android:id="@+id/textsuccess"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sure1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40px"
+            android:text="预约成功"
+            android:textColor="#fff"
+            android:textSize="50px" />
 
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:background="@color/blue"
-            android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textsuccess"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="90px"
+            android:text="老师将稍后与您联系，请稍等!"
+            android:textColor="#fff"
+            android:textSize="44px" />
 
-            <TextView
-                android:id="@+id/haode"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="好的"
-                android:textColor="#fff"
-                android:textSize="48px" />
-
-        </com.zhy.autolayout.AutoLinearLayout>
-
-    </com.zhy.autolayout.AutoLinearLayout>
+    </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

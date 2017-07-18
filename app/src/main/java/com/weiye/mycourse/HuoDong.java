@@ -33,7 +33,7 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by DELL on 2017/7/5.
  */
 
-public class WeiShang extends Fragment {
+public class HuoDong extends Fragment {
     private SwipeMenuListView swipeMenuListView;
     private WeishangAdapter adapter;
     private SharedPreferences sharedPreferences;
@@ -42,42 +42,17 @@ public class WeiShang extends Fragment {
     private TextView textViewNo;
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.weishang, container, false);
-        swipeMenuListView = (SwipeMenuListView) view.findViewById(R.id.weishangListView);
-        textViewNo= (TextView) view.findViewById(R.id.myCourseNo1);
+        View view = inflater.inflate(R.layout.huodong, container, false);
+        swipeMenuListView = (SwipeMenuListView) view.findViewById(R.id.huodongListView);
+        textViewNo= (TextView) view.findViewById(R.id.myCourseNo4);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", MODE_PRIVATE);
         userID = sharedPreferences.getString("userid", "未知");
         visit();
         return view;
-    }
-
-    private void init() {
-        SwipeMenuCreator creator = new SwipeMenuCreator() {
-            @Override
-            public void create(SwipeMenu menu) {
-                SwipeMenuItem deleteItem = new SwipeMenuItem(
-                        getActivity().getApplicationContext());
-                deleteItem.setBackground(R.color.red);
-                deleteItem.setWidth(240);
-                deleteItem.setTitle("删除");
-                deleteItem.setTitleSize(18);
-                deleteItem.setTitleColor(Color.WHITE);
-                menu.addMenuItem(deleteItem);
-
-            }
-        };
-
-        //swipeMenuListView.setMenuCreator(creator);
-        swipeMenuListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                Toast.makeText(getActivity(), "模拟删除成功", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
     }
 
     private void visit() {
@@ -86,7 +61,7 @@ public class WeiShang extends Fragment {
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myCourselst");
         params.addBodyParameter("uid", userID);
-        params.addBodyParameter("tp", "1");
+        params.addBodyParameter("tp", "4");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -97,6 +72,7 @@ public class WeiShang extends Fragment {
                     textViewNo.setVisibility(View.GONE);
                     adapter = new WeishangAdapter(getActivity(), bean.getData().getCourse());
                     swipeMenuListView.setAdapter(adapter);
+
                 } else {
                     swipeMenuListView.setVisibility(View.GONE);
                     textViewNo.setVisibility(View.VISIBLE);
@@ -124,5 +100,7 @@ public class WeiShang extends Fragment {
             }
         });
     }
+
+
 
 }

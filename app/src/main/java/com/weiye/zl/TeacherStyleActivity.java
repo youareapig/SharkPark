@@ -127,7 +127,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     }
 
     private void visit() {
-        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame,R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame,R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main3.setVisibility(View.GONE);

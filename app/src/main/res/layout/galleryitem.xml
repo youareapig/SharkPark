@@ -13,20 +13,14 @@
         android:textColor="#121212"
         android:textSize="72px" />
 
-    <com.zhy.autolayout.AutoRelativeLayout
-        android:id="@+id/yinyin"
-        android:layout_width="912px"
-        android:layout_height="1372px"
-        android:layout_below="@+id/galleryitem_title"
-        android:layout_centerHorizontal="true">
-
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/galleryitem_img"
             android:layout_width="840px"
             android:layout_height="1300px"
             android:layout_centerInParent="true"
             android:scaleType="centerCrop"
-            app:riv_corner_radius="12px" />
-    </com.zhy.autolayout.AutoRelativeLayout>
+            android:background="#fff"
+            android:elevation="50px"
+            app:riv_corner_radius="8px" />
 
 </com.zhy.autolayout.AutoRelativeLayout>

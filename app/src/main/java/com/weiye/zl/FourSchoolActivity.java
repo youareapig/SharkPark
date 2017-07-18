@@ -111,7 +111,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     }
 
     private void sdxyVisit() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         main8.setVisibility(View.GONE);
         customProgressDialog.show();

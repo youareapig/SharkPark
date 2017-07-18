@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eeeeee"
+    android:background="#efefef"
     android:orientation="vertical"
     tools:context="com.weiye.zl.CourseActivity">
 
@@ -13,7 +13,8 @@
         android:layout_height="460px"
         android:background="@mipmap/coursebg">
 
-        <RelativeLayout style="@style/mytitle">
+        <RelativeLayout style="@style/mytitle"
+            android:layout_marginTop="30px">
 
             <TextView
                 android:id="@+id/courseClass"
@@ -33,6 +34,7 @@
                 android:layout_marginRight="40px"
                 android:text="我的"
                 android:textSize="38px"
+                android:visibility="gone"
                 android:textColor="#fff" />
 
             <RelativeLayout
@@ -112,15 +114,16 @@
             android:scrollbars="none"
             android:verticalSpacing="40px" />
 
-        <Button
+        <TextView
             android:id="@+id/courseButton"
             android:layout_width="900px"
             android:layout_height="148px"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40px"
+            android:layout_marginBottom="80px"
             android:background="@drawable/btn"
             android:text="预约报名"
+            android:gravity="center"
             android:textColor="#fff"
             android:textSize="62px" />
 

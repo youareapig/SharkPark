@@ -5,19 +5,17 @@
     android:orientation="vertical"
     android:id="@+id/main21">
 
-    <com.weiye.myview.MyListView
+    <ListView
         android:id="@+id/videofragment_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#00000000"
-        android:dividerHeight="100px"
-        android:focusable="false" />
+        android:focusable="false"
+        android:scrollbars="none"/>
     <TextView
         android:id="@+id/noVideo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="暂无视频"
         android:gravity="center"
-        android:textSize="38px"
-        android:visibility="gone"/>
+        android:textSize="38px"/>
 </com.zhy.autolayout.AutoLinearLayout>

@@ -67,7 +67,6 @@ public class TeacherVideoListViewAdapter extends BaseAdapter{
         }
         holder.textView.setText(bean.getVtitle());
         ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getVimg(),holder.imageView);
-        Log.d("tag","视频封面"+bean.getVimg());
         return view;
     }
     private class ViewHolder{

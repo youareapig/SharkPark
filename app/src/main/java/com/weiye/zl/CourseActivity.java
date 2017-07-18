@@ -52,7 +52,7 @@ public class CourseActivity extends AutoLayoutActivity {
     @BindView(R.id.courseGridView)
     GridView courseGridView;
     @BindView(R.id.courseButton)
-    Button courseButton;
+    TextView courseButton;
     @BindView(R.id.courseWode)
     TextView courseWode;
     @BindView(R.id.isCourse)
@@ -61,7 +61,7 @@ public class CourseActivity extends AutoLayoutActivity {
     TextView noCourse;
     private Unbinder unbinder;
     private int year, month, day;
-    private String indexID, userID, userType, userTag, date, mydate, mytime, s1, s2;
+    private String indexID, userID, userType, userTag, date, mydate, mytime, s1, s2,userTimes;
     private SharedPreferences sharedPreferences;
     private CourseAdpters adpters;
     private List<CourseBeans.DataBean> list;
@@ -73,17 +73,18 @@ public class CourseActivity extends AutoLayoutActivity {
         StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
         makeDate();
-        visit(indexID, date, "");
+        visit(indexID, "", "");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         makeDate();
+        visit(indexID, "", "");
     }
 
     private void visit(String classid, String riqi, String shijian) {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/courseLst");
@@ -93,7 +94,6 @@ public class CourseActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "课表" + result);
                 Gson gson = new Gson();
                 CourseBeans beans = gson.fromJson(result, CourseBeans.class);
                 list = beans.getData();
@@ -150,7 +150,7 @@ public class CourseActivity extends AutoLayoutActivity {
                         mydate = year + "-" + month + "-" + day;
                         chooseDate.setText(mydate);
                         s1 = chooseDate.getText().toString();
-                        chooseTime.setText("选择时间");
+                        chooseTime.setText("上课时间");
                         visit(indexID, s1, "");
 
                     }
@@ -182,8 +182,13 @@ public class CourseActivity extends AutoLayoutActivity {
                 if (userTag.equals("0")) {
                     new UserLoginDialog1(this).loginDialog();
                 } else {
-                    Intent intent = new Intent(this, SubmitActivity.class);
-                    startActivity(intent);
+                    if (userTimes.equals("0")){
+                        Toast.makeText(CourseActivity.this,"您已经预约！",Toast.LENGTH_SHORT).show();
+                    }else {
+                        Intent intent = new Intent(this, SubmitActivity.class);
+                        startActivity(intent);
+                    }
+
                 }
                 break;
             case R.id.courseWode:
@@ -198,12 +203,12 @@ public class CourseActivity extends AutoLayoutActivity {
     }
 
     private void makeDate() {
-        Intent intent = getIntent();
-        indexID = intent.getStringExtra("indexID");
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         userID = sharedPreferences.getString("userid", "未知");
         userType = sharedPreferences.getString("usertype", "未知");
-        userTag = sharedPreferences.getString("usertag", "未知");
+        userTag = sharedPreferences.getString("usertag", "0");
+        indexID = sharedPreferences.getString("indexID", "0");
+        userTimes = sharedPreferences.getString("usertimes", "1");
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
@@ -211,8 +216,8 @@ public class CourseActivity extends AutoLayoutActivity {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间       
         date = formatter.format(curDate);
-        chooseDate.setText(date);
-        chooseTime.setText("选择时间");
+        chooseDate.setText("上课日期");
+        chooseTime.setText("上课时间");
         //TODO 通过用户类型判断按钮问题
 
         Log.d("tag", "用户类型----" + userTag);
@@ -224,7 +229,7 @@ public class CourseActivity extends AutoLayoutActivity {
                 courseWode.setVisibility(View.GONE);
                 courseButton.setVisibility(View.VISIBLE);
             } else {
-                courseWode.setVisibility(View.VISIBLE);
+                courseWode.setVisibility(View.GONE);
                 courseButton.setVisibility(View.GONE);
             }
         }

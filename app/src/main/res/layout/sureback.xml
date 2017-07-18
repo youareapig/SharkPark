@@ -6,18 +6,18 @@
 
     <com.zhy.autolayout.AutoLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="460px"
+        android:layout_height="490px"
         android:layout_centerHorizontal="true"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:gravity="center"
-            android:text="确定退出登录吗？"
+            android:text="确定要放弃预约吗？"
             android:textColor="#888888"
-            android:textSize="52px" />
+            android:textSize="50px" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="3px"
@@ -26,31 +26,32 @@
             android:layout_width="match_parent"
             android:layout_height="150px"
             android:orientation="horizontal">
-            <TextView
-                android:id="@+id/sure"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="确定"
-                android:layout_weight="1"
-                android:textColor="@color/blue"
-                android:textSize="48px" />
 
             <TextView
-                android:layout_width="3px"
-                android:layout_height="90px"
-                android:layout_gravity="center"
-                android:background="#f0f0f0" />
-
-            <TextView
-                android:id="@+id/off"
+                android:id="@+id/cancle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="取消"
                 android:textColor="#888888"
-                android:textSize="48px" />
+                android:textSize="52px"
+                />
+
+            <TextView
+                android:layout_width="3px"
+                android:layout_height="match_parent"
+                android:background="#f0f0f0" />
+
+            <TextView
+                android:id="@+id/ok"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/blue"
+                android:textSize="52px" />
         </com.zhy.autolayout.AutoLinearLayout>
 
     </com.zhy.autolayout.AutoLinearLayout>

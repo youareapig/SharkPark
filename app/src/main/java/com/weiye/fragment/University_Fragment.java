@@ -35,6 +35,7 @@ import com.weiye.zl.MyMaterialActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SettingActivity;
 import com.weiye.zl.SubjectActivity;
+import com.weiye.zl.TeacherManageActivity;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zhy.m.permission.MPermissions;
@@ -164,8 +165,14 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 startActivity(intent3);
                 break;
             case R.id.myClass:
-                Intent intent4=new Intent(getActivity(), SubjectActivity.class);
-                startActivity(intent4);
+                if (userType.equals("2")){
+                    Intent intent4=new Intent(getActivity(), SubjectActivity.class);
+                    startActivity(intent4);
+                }else {
+                    Intent intent4=new Intent(getActivity(), TeacherManageActivity.class);
+                    startActivity(intent4);
+                }
+
                 break;
         }
     }

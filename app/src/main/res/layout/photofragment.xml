@@ -9,9 +9,8 @@
         android:id="@+id/photofragment_listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"
         android:divider="#00000000"
-        android:dividerHeight="40px"
+        android:dividerHeight="100px"
         android:focusable="false" />
     <TextView
         android:id="@+id/noPhoto"
@@ -19,5 +18,6 @@
         android:layout_height="match_parent"
         android:text="暂无相册"
         android:gravity="center"
-        android:textSize="38px"/>
+        android:textSize="38px"
+        android:visibility="gone"/>
 </com.zhy.autolayout.AutoLinearLayout>

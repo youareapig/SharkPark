@@ -47,6 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import qiu.niorgai.StatusBarCompat;
 
 public class SubjectActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener {
 
@@ -75,8 +76,6 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     RelativeLayout back6;
     @BindView(R.id.main2)
     FrameLayout main2;
-    @BindView(R.id.jiantou)
-    ImageView jiantou;
 
     private Unbinder unbinder;
     private int height;
@@ -89,22 +88,15 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     private SharedPreferences sharedPreferences;
     private CustomProgressDialog customProgressDialog;
     private ListView popListView;
-    private PopupWindow popupWindow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_subject);
+        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         userType = sharedPreferences.getString("usertype", "未知");
         userID = sharedPreferences.getString("userid", "未知");
-        if (userType.equals("2")) {
-            mytitleText.setEnabled(false);
-            jiantou.setVisibility(View.GONE);
-        } else {
-            mytitleText.setEnabled(true);
-            jiantou.setVisibility(View.VISIBLE);
-        }
         //TODO 会员
         if (userType.equals("2")) {
             fragmentManager = getSupportFragmentManager();
@@ -121,21 +113,6 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
             }
 
             visit();
-        } else {
-            teacherManager_first();
-            fragmentManager = getSupportFragmentManager();
-            if (savedInstanceState != null) {
-                currentIndex = savedInstanceState.getInt(CURRENT_FRAGMENT, 0);
-                list.removeAll(list);
-                list.add(fragmentManager.findFragmentByTag(0 + ""));
-                list.add(fragmentManager.findFragmentByTag(1 + ""));
-                restoreFragment();
-            } else {
-                list.add(new VideoFragment(20));
-                list.add(new PhotoFragment(20));
-                showFragment();
-            }
-
         }
 
 
@@ -219,10 +196,6 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
             case R.id.back6:
                 finish();
                 break;
-            case R.id.mytitleText:
-                popupWindow.showAsDropDown(view, 0, 45);
-                jiantou.setImageResource(R.mipmap.up);
-                break;
         }
     }
 
@@ -240,7 +213,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     //TODO 标题描述数据
     private void visit() {
         main2.setVisibility(View.GONE);
-        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myClass");
@@ -286,113 +259,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
         });
     }
 
-    private void teacherManager_first() {
-        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame, R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/teacherCenter");
-        params.addBodyParameter("uid", userID);
-        params.addBodyParameter("tp", "1");
-        params.addBodyParameter("gid", "0");
-        x.http().post(params, new Callback.CacheCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Log.d("tag", "老师管理" + result);
-                Gson gson = new Gson();
-                final TeacherManagerBean bean = gson.fromJson(result, TeacherManagerBean.class);
-                if (bean.getCode() == 3000) {
-                    mytitleText.setText(bean.getData().getGrade().get(0).getGname());
-                    subjectContent.setText(bean.getData().getGrade().get(0).getInform());
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getGrade().get(0).getGpic(), subjecttitlebackground);
 
-                    View customView = getLayoutInflater().inflate(R.layout.mypop,
-                            null, false);
-                    popListView = (ListView) customView.findViewById(R.id.popListView);
-                    popupWindow = new PopupWindow(customView, 1080, 760);
-                    popupWindow.setBackgroundDrawable(new BitmapDrawable());
-                    popupWindow.setOutsideTouchable(true);
-                    popListView.setAdapter(new SpinnerAdpter(SubjectActivity.this, bean.getData().getGrade()));
-
-                    popListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            jiantou.setImageResource(R.mipmap.dwon);
-                            popupWindow.dismiss();
-                            mytitleText.setText(bean.getData().getGrade().get(position).getGname());
-                            teacherManger(bean.getData().getGrade().get(position).getGid(), position);
-
-                        }
-                    });
-
-
-                }
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-                customProgressDialog.cancel();
-            }
-
-            @Override
-            public boolean onCache(String result) {
-                return false;
-            }
-        });
-    }
-
-    private void teacherManger(String classID, final int position) {
-        customProgressDialog = new CustomProgressDialog(this, "玩命加载中...", R.drawable.frame, R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/teacherCenter");
-        params.addBodyParameter("uid", userID);
-        params.addBodyParameter("tp", "1");
-        params.addBodyParameter("gid", classID);
-        x.http().post(params, new Callback.CacheCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Gson gson = new Gson();
-                final TeacherManagerBean bean = gson.fromJson(result, TeacherManagerBean.class);
-                if (bean.getCode() == 3000) {
-                    mytitleText.setText(bean.getData().getGrade().get(position).getGname());
-                    subjectContent.setText(bean.getData().getGrade().get(position).getInform());
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getGrade().get(position).getGpic(), subjecttitlebackground);
-                    new PhotoFragment(20).teacherManger_1(userID,bean.getData().getGrade().get(position).getGid());
-                    new VideoFragment(20).teacherManger_1(userID,bean.getData().getGrade().get(position).getGid());
-                }
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-                customProgressDialog.cancel();
-            }
-
-            @Override
-            public boolean onCache(String result) {
-                return false;
-            }
-        });
-    }
 
 
 }

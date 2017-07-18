@@ -49,7 +49,7 @@ public class YiShang extends Fragment {
     }
 
     private void visit() {
-        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myCourselst");
@@ -58,7 +58,6 @@ public class YiShang extends Fragment {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "已上" + result);
                 Gson gson = new Gson();
                 YishangBean bean = gson.fromJson(result, YishangBean.class);
                 if (bean.getCode() == 3000) {
@@ -94,4 +93,6 @@ public class YiShang extends Fragment {
             }
         });
     }
+
+
 }

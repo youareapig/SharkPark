@@ -177,7 +177,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
     //TODO banner图片
     private void getBanner() {
-        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         refreshView.setVisibility(View.GONE);
@@ -285,7 +285,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
     //TODO 刷新是不刷新banner，否则出现无限开启线程
     private void setRefresh() {
-        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         refreshView.setVisibility(View.GONE);

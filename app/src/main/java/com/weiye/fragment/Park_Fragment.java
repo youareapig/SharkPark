@@ -132,7 +132,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
     }
 
     private void huodongVisit() {
-        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main1.setVisibility(View.GONE);

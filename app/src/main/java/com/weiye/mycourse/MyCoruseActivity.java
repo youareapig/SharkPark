@@ -1,20 +1,23 @@
 package com.weiye.mycourse;
 
+import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.weiye.adapter.ManagerAdapter;
-import com.weiye.adapter.WeishangAdapter;
-import com.weiye.data.WeishangBean;
+import com.weiye.adapter.YiChangAdapter;
+import com.weiye.data.YichangBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.NoScrollViewPager;
 import com.weiye.utils.SingleModleUrl;
@@ -52,12 +55,22 @@ public class MyCoruseActivity extends AutoLayoutActivity {
     LinearLayout myCourseShow;
     @BindView(R.id.wuyuyue)
     RelativeLayout wuyuyue;
+    @BindView(R.id.courseallName)
+    TextView courseallName;
     private Unbinder unbinder;
     private List<String> nameList;
     private List<Fragment> fList;
     private FragmentManager fragmentManager;
     private SharedPreferences sharedPreferences;
     private String userTimes, userType, userID;
+    private String all,sy,yh;
+    private YiChang yiChang;
+
+    private YiShang yiShang;
+
+    private WeiShang weiShang;
+
+    private HuoDong huoDong;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +82,6 @@ public class MyCoruseActivity extends AutoLayoutActivity {
         userType = sharedPreferences.getString("usertype", "未知");
         userID = sharedPreferences.getString("userid", "未知");
         init();
-        visit();
     }
 
     private void init() {
@@ -85,37 +97,88 @@ public class MyCoruseActivity extends AutoLayoutActivity {
                 wuyuyue.setVisibility(View.VISIBLE);
             }
         }
+        visit("1");
         mycourseTab.setupWithViewPager(courseTabPager);
         fragmentManager = getSupportFragmentManager();
         nameList = new ArrayList<>();
         nameList.add("未上");
         nameList.add("已上");
         nameList.add("异常");
+        nameList.add("活动");
         fList = new ArrayList<>();
-        fList.add(new WeiShang());
-        fList.add(new YiShang());
-        fList.add(new YiChang());
+        weiShang = new WeiShang();
+        yiShang = new YiShang();
+        yiChang = new YiChang();
+        huoDong = new HuoDong();
+        fList.add(weiShang);
+        fList.add(yiShang);
+        fList.add(yiChang);
+        fList.add(huoDong);
         courseTabPager.setAdapter(new ManagerAdapter(fragmentManager, nameList, fList));
         courseTabPager.setCurrentItem(0);
+        mycourseTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 3) {
+                    courseallName.setText("活动");
+                    visit("4");
+                } else {
+                    courseallName.setText("总课");
+                    visit("1");
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
 
-    private void visit() {
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
+
+
+    @OnClick({R.id.mycourseBack})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.mycourseBack:
+                finish();
+                break;
+        }
+    }
+    private void visit(String type) {
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myCourselst");
         params.addBodyParameter("uid", userID);
-        params.addBodyParameter("tp", "1");
+        params.addBodyParameter("tp", type);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Gson gson = new Gson();
-                WeishangBean bean = gson.fromJson(result, WeishangBean.class);
-                courseAll.setText(bean.getData().getNums().getTotalnum());
-                courseSheng.setText(bean.getData().getNums().getEnablenum());
-                courseYong.setText(bean.getData().getNums().getWithdrawed());
+                final YichangBean bean = gson.fromJson(result, YichangBean.class);
+                if (bean.getCode() == 3000) {
+                    all = bean.getData().getNums().getTotalnum();
+                    sy = bean.getData().getNums().getEnablenum();
+                    yh = bean.getData().getNums().getWithdrawed();
+                    courseAll.setText(all);
+                    courseSheng.setText(sy);
+                    courseYong.setText(yh);
+                }
+
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag", "未上错误");
+                Log.d("tag", "异常错误");
             }
 
             @Override
@@ -132,21 +195,5 @@ public class MyCoruseActivity extends AutoLayoutActivity {
                 return false;
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
-
-    @OnClick({R.id.mycourseBack})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.mycourseBack:
-                finish();
-                break;
-        }
     }
 }

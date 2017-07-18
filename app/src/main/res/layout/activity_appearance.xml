@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40px"
         android:layout_marginTop="45px"
-        android:text="校园风采"
+        android:text="校园环境"
         android:textColor="#303030"
         android:textSize="72px" />
 

@@ -19,28 +19,6 @@
             android:textColor="#888888"
             android:textSize="52px" />
 
-        <com.zhy.autolayout.AutoLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="150px"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="1px"
-                android:layout_height="90px"
-                android:layout_gravity="center"
-                android:background="#90ffffff" />
-
-            <TextView
-                android:id="@+id/yes"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/blue"
-                android:gravity="center"
-                android:text="知道了"
-                android:textColor="#fff"
-                android:textSize="48px" />
-        </com.zhy.autolayout.AutoLinearLayout>
 
     </com.zhy.autolayout.AutoLinearLayout>
 </com.zhy.autolayout.AutoRelativeLayout>

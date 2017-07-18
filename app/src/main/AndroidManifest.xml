@@ -102,6 +102,7 @@
         <activity android:name="com.weiye.manager.ApplyDetailsActivity" />
         <activity android:name="com.weiye.mycourse.MyCoruseActivity" />
         <activity android:name=".ShiZiActivity" />
+        <activity android:name=".TeacherManageActivity"/>
     </application>
 
 </manifest>

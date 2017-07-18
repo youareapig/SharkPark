@@ -74,7 +74,7 @@ public class IdealActivity extends AutoLayoutActivity {
     }
 
     private void init(String string) {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, "正在提交....", R.drawable.frame, R.style.dialog);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/addMessage");

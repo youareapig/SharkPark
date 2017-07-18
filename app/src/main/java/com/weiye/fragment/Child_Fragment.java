@@ -3,6 +3,7 @@ package com.weiye.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -54,19 +55,21 @@ public class Child_Fragment extends Fragment {
     private QuickPagerAdapter<IndexBean.DataBean> quickPagerAdapter;
     private List<IndexBean.DataBean> mList;
     private CustomProgressDialog customProgressDialog;
-
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.childfragment, container, false);
-
         mGallery = (Gallery) view.findViewById(R.id.myGallery);
+        sharedPreferences = getActivity().getSharedPreferences("UserTag", getActivity().MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         index();
         return view;
     }
 
     private void index() {
-        customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
+        customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         mGallery.setVisibility(View.GONE);
@@ -88,7 +91,8 @@ public class Child_Fragment extends Fragment {
                                 @Override
                                 public void onClick(View view) {
                                     Intent intent = new Intent(getActivity(), CourseActivity.class);
-                                    intent.putExtra("indexID", item.getSbid()+"");
+                                    editor.putString("indexID",item.getSbid()+"");
+                                    editor.commit();
                                     startActivity(intent);
                                 }
                             });

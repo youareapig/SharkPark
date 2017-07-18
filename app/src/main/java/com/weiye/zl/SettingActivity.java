@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -81,12 +83,12 @@ public class SettingActivity extends AutoLayoutActivity {
                 startActivity(intent1);
                 break;
             case R.id.updateversion:
-                if (Integer.parseInt(versionID) >locationVersion){
+                if (Integer.parseInt(versionID) > locationVersion) {
                     final AlertDialog dialog = new AlertDialog.Builder(SettingActivity.this).create();
-                    LayoutInflater inflater =getLayoutInflater();
+                    LayoutInflater inflater = getLayoutInflater();
                     View v = inflater.inflate(R.layout.update, null);
                     dialog.setView(v);
-                    dialog.setCanceledOnTouchOutside(false);
+                    dialog.setCanceledOnTouchOutside(true);
                     dialog.show();
                     v.findViewById(R.id.unUpdate).setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -103,29 +105,23 @@ public class SettingActivity extends AutoLayoutActivity {
                             dialog.cancel();
                         }
                     });
-                }else {
+                } else {
                     final AlertDialog dialog = new AlertDialog.Builder(SettingActivity.this).create();
-                    LayoutInflater inflater =getLayoutInflater();
+                    LayoutInflater inflater = getLayoutInflater();
                     View v = inflater.inflate(R.layout.bestversion, null);
                     dialog.setView(v);
-                    dialog.setCanceledOnTouchOutside(false);
+                    dialog.setCanceledOnTouchOutside(true);
                     dialog.show();
-                    v.findViewById(R.id.yes).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.cancel();
-                        }
-                    });
                 }
 
 
-            break;
+                break;
             case R.id.btnloginout:
                 final AlertDialog dialog = new AlertDialog.Builder(this).create();
                 LayoutInflater inflater = getLayoutInflater();
                 View v = inflater.inflate(R.layout.oncesure, null);
                 dialog.setView(v);
-                dialog.setCanceledOnTouchOutside(false);
+                dialog.setCanceledOnTouchOutside(true);
                 dialog.show();
                 v.findViewById(R.id.off).setOnClickListener(new View.OnClickListener() {
                     @Override
