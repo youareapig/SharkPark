@@ -90,6 +90,7 @@ public class WeiShang extends Fragment {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag","未上"+result);
                 Gson gson = new Gson();
                 WeishangBean bean = gson.fromJson(result, WeishangBean.class);
                 if (bean.getCode() == 3000) {

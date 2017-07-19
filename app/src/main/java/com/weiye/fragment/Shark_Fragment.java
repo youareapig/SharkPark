@@ -40,6 +40,8 @@ import org.xutils.x;
 
 import java.util.List;
 
+import qiu.niorgai.StatusBarCompat;
+
 /**
  * Created by DELL on 2017/4/6.
  */
@@ -51,7 +53,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
     private List<ParkBean.DataBean.BannerBean> bannerList;
     private ViewGroup mView;
     private Handler handler;
-    private TextView classAll;
+    private TextView classAll,kexueyizhan_text;
     private XRefreshView refreshView;
     private long lastRefreshTime;
     private RoundedImageView kexueyizhan_Img;
@@ -64,12 +66,14 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sharkfragment, container, false);
+        StatusBarCompat.translucentStatusBar(getActivity(), false);
         mListView = (MyListView) view.findViewById(R.id.listview1);
         gallery = (Gallery) view.findViewById(R.id.gallery);
         viewPager = (ViewPager) view.findViewById(R.id.banner);
         mView = (ViewGroup) view.findViewById(R.id.bannerGroup);
         classAll = (TextView) view.findViewById(R.id.classAll);
         refreshView = (XRefreshView) view.findViewById(R.id.refresh);
+        kexueyizhan_text= (TextView) view.findViewById(R.id.kexueyizhan_text);
         kexueyizhan_Img = (RoundedImageView) view.findViewById(R.id.kexueyizhan_Img);
         myScroll = (XScrollView) view.findViewById(R.id.myscroll);
         myThread = new MyThread();
@@ -239,7 +243,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 //TODO 科学驿站
                 final List<ParkBean.DataBean.InfoBean> keList = bean.getData().getInfo();
                 ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + keList.get(0).getPic(), kexueyizhan_Img);
-
+                kexueyizhan_text.setText(keList.get(0).getTitle());
                 mListView.setAdapter(new ListView_1_Adapter(keList, getActivity()));
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

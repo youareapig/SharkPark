@@ -13,7 +13,8 @@
         android:layout_height="460px"
         android:background="@mipmap/coursebg">
 
-        <RelativeLayout style="@style/mytitle"
+        <RelativeLayout
+            style="@style/mytitle"
             android:layout_marginTop="30px">
 
             <TextView
@@ -33,9 +34,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="40px"
                 android:text="我的"
+                android:textColor="#fff"
                 android:textSize="38px"
-                android:visibility="gone"
-                android:textColor="#fff" />
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/courseBack"
@@ -102,7 +103,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="40px"
         android:layout_marginRight="40px"
-        android:layout_marginTop="100px"
+        android:layout_marginTop="40px"
         android:layout_weight="1">
 
         <GridView
@@ -122,19 +123,21 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="80px"
             android:background="@drawable/btn"
-            android:text="预约报名"
             android:gravity="center"
+            android:text="预约报名"
             android:textColor="#fff"
             android:textSize="62px" />
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/noCourse"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="暂无课程"
-        android:textSize="48px"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/noCourse"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="暂无课程"
+            android:textSize="48px"
+            android:textColor="#b5b5b5"
+            android:visibility="gone"/>
+
 </LinearLayout>

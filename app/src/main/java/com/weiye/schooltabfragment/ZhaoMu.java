@@ -24,6 +24,7 @@ import com.weiye.data.AllHuodongBean;
 import com.weiye.data.HuodongBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
+import com.weiye.utils.SpacesItemDecoration;
 import com.weiye.zl.R;
 import com.weiye.zl.SchoolWeiChatActivity;
 import com.weiye.zl.SchoolHtmlActivity;
@@ -79,6 +80,7 @@ public class ZhaoMu extends Fragment {
                     mContent.setText(list.get(0).getTitle());
                     schoolRecycler.setAdapter(new SchoolRecyclerAdapter(list));
                     schoolRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false));
+                    schoolRecycler.addItemDecoration(new SpacesItemDecoration(6));
                     mImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

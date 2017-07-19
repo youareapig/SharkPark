@@ -10,7 +10,7 @@ public class IndexBean {
     /**
      * code : 1000
      * message : 成功
-     * data : [{"sbid":"1","sbtitle":"技术与工程学","sbpic":"Uploads/subject/2017-06-21//594a2a9d72f6a.jpg"},{"sbid":"2","sbtitle":"物质与科学","sbpic":"Uploads/subject/2017-06-21//594a2ac50ebc3.jpg"},{"sbid":"3","sbtitle":"地球与宇宙科学","sbpic":"Uploads/subject/2017-06-21//594a2ade87ccf.jpg"},{"sbid":"4","sbtitle":"生命与科学","sbpic":"Uploads/subject/2017-06-21//594a2af3d4659.jpg"}]
+     * data : [{"sbid":"1","sbtitle":"大一","sbpic":"Uploads/subject/2017-07-18//596da596f0dfd.jpg","agenumber":"0-6岁"},{"sbid":"2","sbtitle":"大二","sbpic":"Uploads/subject/2017-07-18//596da5bbc5bd9.jpg","agenumber":"3-6岁"},{"sbid":"3","sbtitle":"大三","sbpic":"Uploads/subject/2017-07-18//596da5c801078.jpg","agenumber":"5-10岁"}]
      */
 
     private int code;
@@ -42,11 +42,17 @@ public class IndexBean {
     }
 
     public static class DataBean {
-
+        /**
+         * sbid : 1
+         * sbtitle : 大一
+         * sbpic : Uploads/subject/2017-07-18//596da596f0dfd.jpg
+         * agenumber : 0-6岁
+         */
 
         private String sbid;
         private String sbtitle;
         private String sbpic;
+        private String agenumber;
 
         public String getSbid() {
             return sbid;
@@ -70,6 +76,14 @@ public class IndexBean {
 
         public void setSbpic(String sbpic) {
             this.sbpic = sbpic;
+        }
+
+        public String getAgenumber() {
+            return agenumber;
+        }
+
+        public void setAgenumber(String agenumber) {
+            this.agenumber = agenumber;
         }
     }
 }

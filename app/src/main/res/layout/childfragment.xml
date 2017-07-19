@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.autolayout.AutoRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff"
+    android:orientation="vertical"
     xmlns:gallery="http://schemas.android.com/apk/res-auto">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="70px"
+        android:background="@color/blue"/>
 <com.weiye.third.Gallery
     android:id="@+id/myGallery"
     android:layout_width="match_parent"
@@ -13,4 +18,4 @@
     gallery:gallery_padding_left="150px"
     gallery:gallery_padding_right="150px"
     />
-</com.zhy.autolayout.AutoRelativeLayout>
+</com.zhy.autolayout.AutoLinearLayout>

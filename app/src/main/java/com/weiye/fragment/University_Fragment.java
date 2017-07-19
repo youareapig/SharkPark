@@ -49,6 +49,7 @@ import org.xutils.x;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
@@ -141,9 +142,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 layout.findViewById(R.id.photo).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(Intent.ACTION_PICK,
-                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intent, 1);
+                        MPermissions.requestPermissions(University_Fragment.this, 30, Manifest.permission.WRITE_EXTERNAL_STORAGE);
                         builder.cancel();
                     }
                 });
@@ -165,11 +164,11 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 startActivity(intent3);
                 break;
             case R.id.myClass:
-                if (userType.equals("2")){
-                    Intent intent4=new Intent(getActivity(), SubjectActivity.class);
+                if (userType.equals("2")) {
+                    Intent intent4 = new Intent(getActivity(), SubjectActivity.class);
                     startActivity(intent4);
-                }else {
-                    Intent intent4=new Intent(getActivity(), TeacherManageActivity.class);
+                } else {
+                    Intent intent4 = new Intent(getActivity(), TeacherManageActivity.class);
                     startActivity(intent4);
                 }
 
@@ -182,16 +181,25 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_OK && requestCode == 1) {
             uri = data.getData();
-            contentResolver = getActivity().getContentResolver();
-            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumns, null, null, null);
-            cursor.moveToFirst();
             try {
-                bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(uri));
+                bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri));
+                Log.d("tag", "bitmap" + bitmap);
                 base64 = Bitmap2StrByBase64(bitmap);
-            } catch (Exception e) {
+            } catch (FileNotFoundException e) {
+                Log.d("tag", "程序崩溃");
                 e.printStackTrace();
             }
+            //imageView.setImageBitmap(bit);
+//            contentResolver = getActivity().getContentResolver();
+//            String[] filePathColumns = {MediaStore.Images.Media.DATA};
+//            Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumns, null, null, null);
+//            cursor.moveToFirst();
+//            try {
+//                bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(uri));
+//                base64 = Bitmap2StrByBase64(bitmap);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
             uploadhead(base64);
         } else if (requestCode == 2) {
@@ -237,6 +245,16 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     public void requestCameraSuccess() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, 2);
+    }
+
+    @PermissionGrant(30)
+    public void requestPhotoSuccess() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        //intent.putExtra("return-data", true);
+        startActivityForResult(intent, 1);
     }
 
 
@@ -349,8 +367,13 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 Gson gson = new Gson();
                 UserInfoBean bean = gson.fromJson(result, UserInfoBean.class);
                 if (bean.getCode() == 3000) {
+                    if (bean.getData().getHeadpic() == null) {
+                        myhead.setImageResource(R.mipmap.head1);
+                    } else {
+                        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getHeadpic(), myhead);
+                    }
                     myname.setText(bean.getData().getTel());
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getHeadpic(), myhead);
+
                 } else {
                     Toast.makeText(getActivity(), "获取用户信息失败", Toast.LENGTH_SHORT).show();
                 }

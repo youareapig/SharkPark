@@ -79,20 +79,26 @@ public class TeacherPhotoFragment extends Fragment {
                 Gson gson = new Gson();
                 final TeacherManagePhotoBean bean = gson.fromJson(result, TeacherManagePhotoBean.class);
                 if (bean.getCode() == 3000) {
-                    noPhoto.setVisibility(View.GONE);
-                    listView.setVisibility(View.VISIBLE);
-                    TeacherPhotoListViewAdapter adapter = new TeacherPhotoListViewAdapter(bean.getData().getPv(), getActivity());
-                    listView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            List<String> picture = bean.getData().getPv().get(i).getPurl();
-                            Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
-                            intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture);
-                            startActivity(intent);
-                        }
-                    });
+                    if (bean.getData().getPv().size()!=0){
+                        noPhoto.setVisibility(View.GONE);
+                        listView.setVisibility(View.VISIBLE);
+                        TeacherPhotoListViewAdapter adapter = new TeacherPhotoListViewAdapter(bean.getData().getPv(), getActivity());
+                        listView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                List<String> picture = bean.getData().getPv().get(i).getPurl();
+                                Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
+                                intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture);
+                                startActivity(intent);
+                            }
+                        });
+                    }else {
+                        noPhoto.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.GONE);
+                    }
+
                 } else {
                     noPhoto.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
@@ -101,7 +107,7 @@ public class TeacherPhotoFragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                Log.d("tag", "调用相册错误" );
             }
 
             @Override

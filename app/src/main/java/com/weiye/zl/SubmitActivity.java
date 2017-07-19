@@ -126,7 +126,7 @@ public class SubmitActivity extends AutoLayoutActivity {
                 picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
                     @Override
                     public void onOptionPicked(String option) {
-                        yyAgeInput.setText(option);
+                        yySexInput.setText(option);
                     }
                 });
                 picker.show();

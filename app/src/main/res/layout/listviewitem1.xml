@@ -12,9 +12,9 @@
             android:id="@+id/listview1_icon"
             android:layout_width="250px"
             android:layout_height="250px"
-            app:riv_corner_radius="20px"
             android:layout_centerVertical="true"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="20px" />
 
 
         <TextView
@@ -27,6 +27,7 @@
             android:layout_toRightOf="@+id/listview1_icon"
             android:textColor="#303030"
             android:textSize="48px" />
+
         <TextView
             android:id="@+id/listview1_time"
             android:layout_width="wrap_content"
@@ -34,6 +35,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="39px"
-            android:layout_marginRight="40px"/>
+            android:layout_marginRight="40px" />
     </com.zhy.autolayout.AutoRelativeLayout>
 </com.zhy.autolayout.AutoLinearLayout>

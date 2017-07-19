@@ -5,11 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -18,7 +16,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.weiye.adapter.FourSchoolGalleryAdapter;
-import com.weiye.data.IndexBean;
 import com.weiye.data.Park_1Bean;
 import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.VideoFragment;
@@ -53,6 +50,8 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     ScrollView schoolScrollview;
     @BindView(R.id.main8)
     LinearLayout main8;
+    @BindView(R.id.backtop)
+    RelativeLayout backtop;
     private Unbinder unbinder;
     private List<Park_1Bean.DataBean.TeacherBean> mList;
     private FragmentManager fragmentManager;
@@ -60,14 +59,15 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     private List<Fragment> list;
     private FragmentTransaction fragmentTransaction;
     private int myEvent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_four_school);
         unbinder = ButterKnife.bind(this);
         schoolScrollview.smoothScrollTo(0, 20);
-        Intent intent=getIntent();
-        myEvent=intent.getIntExtra("myevent",20);
+        Intent intent = getIntent();
+        myEvent = intent.getIntExtra("myevent", 20);
         sdxyVisit();
         schoolFragment();
     }
@@ -88,7 +88,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.videoText1, R.id.photoText1, R.id.fourschoolBack})
+    @OnClick({R.id.videoText1, R.id.photoText1, R.id.fourschoolBack,R.id.backtop})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.videoText1:
@@ -107,6 +107,15 @@ public class FourSchoolActivity extends AutoLayoutActivity {
                 break;
             case R.id.fourschoolBack:
                 finish();
+                break;
+            case R.id.backtop:
+                schoolScrollview.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        schoolScrollview.fullScroll(View.FOCUS_UP);
+                    }
+                });
+                break;
         }
     }
 
@@ -123,7 +132,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
                 Gson gson = new Gson();
                 Park_1Bean bean = gson.fromJson(result, Park_1Bean.class);
                 mList = bean.getData().getTeacher();
-                if (bean.getCode()==1000){
+                if (bean.getCode() == 1000) {
                     fourschoolGallery.setAdapter(new FourSchoolGalleryAdapter(mList, FourSchoolActivity.this));
                     fourschoolGallery.setSpacing(60);
                     fourschoolGallery.setSelection(40);
@@ -132,11 +141,11 @@ public class FourSchoolActivity extends AutoLayoutActivity {
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             Park_1Bean.DataBean.TeacherBean rBean = (Park_1Bean.DataBean.TeacherBean) adapterView.getItemAtPosition(i % mList.size());
                             Intent intent = new Intent(FourSchoolActivity.this, TeacherStyleActivity.class);
-                            intent.putExtra("teacherID",rBean.getTid());
+                            intent.putExtra("teacherID", rBean.getTid());
                             startActivity(intent);
                         }
                     });
-                }else {
+                } else {
                     Toast.makeText(FourSchoolActivity.this, "暂无更多数据", Toast.LENGTH_SHORT).show();
                 }
 

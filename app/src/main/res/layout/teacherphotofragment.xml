@@ -20,5 +20,6 @@
         android:layout_height="match_parent"
         android:text="暂无相册"
         android:gravity="center"
-        android:textSize="38px"/>
+        android:textColor="#b5b5b5"
+        android:textSize="48px"/>
 </com.zhy.autolayout.AutoLinearLayout>

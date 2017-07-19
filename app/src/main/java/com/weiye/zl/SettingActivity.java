@@ -41,7 +41,7 @@ public class SettingActivity extends AutoLayoutActivity {
     @BindView(R.id.updateversion)
     RelativeLayout updateversion;
     @BindView(R.id.btnloginout)
-    Button btnloginout;
+    TextView btnloginout;
     @BindView(R.id.version)
     TextView version;
     private Unbinder unbinder;

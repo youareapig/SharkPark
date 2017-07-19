@@ -350,9 +350,9 @@ public class UserLoginDialog {
      * 保存登录状态，1 表示登录状态，0 表示未登录状态
      */
     private void userLogin(String phone, String password) {
-        customProgressDialog = new CustomProgressDialog(context, null, R.drawable.frame, R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/logo");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", password);
@@ -390,7 +390,7 @@ public class UserLoginDialog {
 
             @Override
             public void onFinished() {
-                customProgressDialog.cancel();
+                progressDialog.cancel();
             }
         });
     }
@@ -446,7 +446,6 @@ public class UserLoginDialog {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","检测"+result);
                 try {
                     JSONObject json = new JSONObject(result);
                     if (json.getString("code").equals("-3001")) {
@@ -490,9 +489,9 @@ public class UserLoginDialog {
 
     //TODO 用户注册接口
     private void requestRegister(String phone, String pwd) {
-        customProgressDialog = new CustomProgressDialog(context, null, R.drawable.frame, R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/regist");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", pwd);
@@ -530,7 +529,7 @@ public class UserLoginDialog {
 
             @Override
             public void onFinished() {
-                customProgressDialog.cancel();
+                progressDialog.cancel();
             }
         });
     }

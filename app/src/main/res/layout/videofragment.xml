@@ -18,6 +18,7 @@
         android:layout_height="match_parent"
         android:text="暂无视频"
         android:gravity="center"
-        android:textSize="38px"
+        android:textSize="48px"
+        android:textColor="#b5b5b5"
         android:visibility="gone"/>
 </com.zhy.autolayout.AutoLinearLayout>

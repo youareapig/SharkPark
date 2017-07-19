@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.weiye.zl.IntroActivity">
+    tools:context="com.weiye.zl.IntroActivity"
+    android:background="#fff">
 
     <RelativeLayout style="@style/mytitle">
 
@@ -20,17 +21,19 @@
                 android:src="@mipmap/back1" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/shiziTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="#000"
-            android:textSize="64px" />
-    </RelativeLayout>
 
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/shiziTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#303030"
+        android:layout_marginTop="45px"
+        android:layout_marginLeft="40px"
+        android:text="师资"
+        android:textSize="64px" />
     <WebView
-        android:layout_marginTop="40px"
+        android:layout_margin="40px"
         android:id="@+id/shiziweb"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

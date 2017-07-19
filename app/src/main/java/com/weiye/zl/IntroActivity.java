@@ -59,7 +59,7 @@ public class IntroActivity extends AutoLayoutActivity {
                 Gson gson = new Gson();
                 IntroBean bean = gson.fromJson(result, IntroBean.class);
                 if (bean.getCode() == 1000) {
-                    title.setText(bean.getData().getTitle());
+                    //title.setText(bean.getData().getTitle());
                     WebSettings webSettings = webView.getSettings();
                     //TODO 适配手机屏幕
                     webSettings.setLoadWithOverviewMode(true);
@@ -68,6 +68,7 @@ public class IntroActivity extends AutoLayoutActivity {
                     String h5 = bean.getData().getIntrotext();
                     //webView.loadDataWithBaseURL("about:blank", html + h5, "text/html", "utf-8", null);
                     webView.loadDataWithBaseURL(null, getNewContent(h5), "text/html", "utf-8", null);
+                    Log.d("tag","介绍--------------------->"+h5);
                     webView.setWebViewClient(new WebViewClient());
                 }if (bean.getCode() == -1000) {
                     Toast.makeText(IntroActivity.this, "暂无更多介绍", Toast.LENGTH_SHORT).show();

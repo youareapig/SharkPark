@@ -82,19 +82,25 @@ public class TeacherVideoFragment extends Fragment {
                 Gson gson = new Gson();
                 final TeacherManageVideoBean bean = gson.fromJson(result, TeacherManageVideoBean.class);
                 if (bean.getCode() == 3000) {
-                    noShipin.setVisibility(View.GONE);
-                    listView.setVisibility(View.VISIBLE);
-                    TeacherVideoListViewAdapter adapter=new TeacherVideoListViewAdapter(bean.getData().getPv(), getActivity());
-                    listView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            Intent intent = new Intent(getActivity(), VedioPlayerActivity.class);
-                            intent.putExtra("videoUrl", bean.getData().getPv().get(i).getVurl());
-                            startActivity(intent);
-                        }
-                    });
+                    if (bean.getData().getPv().size()!=0){
+                        noShipin.setVisibility(View.GONE);
+                        listView.setVisibility(View.VISIBLE);
+                        TeacherVideoListViewAdapter adapter=new TeacherVideoListViewAdapter(bean.getData().getPv(), getActivity());
+                        listView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                Intent intent = new Intent(getActivity(), VedioPlayerActivity.class);
+                                intent.putExtra("videoUrl", bean.getData().getPv().get(i).getVurl());
+                                startActivity(intent);
+                            }
+                        });
+                    }else {
+                        noShipin.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.GONE);
+                    }
+
                 }else {
                     noShipin.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);

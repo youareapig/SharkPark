@@ -61,7 +61,7 @@ public class CourseActivity extends AutoLayoutActivity {
     TextView noCourse;
     private Unbinder unbinder;
     private int year, month, day;
-    private String indexID, userID, userType, userTag, date, mydate, mytime, s1, s2,userTimes;
+    private String indexID, userID, userType, userTag, date, mydate, mytime, s1, s2,userTimes,gradename;
     private SharedPreferences sharedPreferences;
     private CourseAdpters adpters;
     private List<CourseBeans.DataBean> list;
@@ -209,6 +209,7 @@ public class CourseActivity extends AutoLayoutActivity {
         userTag = sharedPreferences.getString("usertag", "0");
         indexID = sharedPreferences.getString("indexID", "0");
         userTimes = sharedPreferences.getString("usertimes", "1");
+        gradename = sharedPreferences.getString("gradename", "未知");
         Calendar calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
@@ -218,6 +219,7 @@ public class CourseActivity extends AutoLayoutActivity {
         date = formatter.format(curDate);
         chooseDate.setText("上课日期");
         chooseTime.setText("上课时间");
+        courseClass.setText(gradename);
         //TODO 通过用户类型判断按钮问题
 
         Log.d("tag", "用户类型----" + userTag);

@@ -40,6 +40,7 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
+import qiu.niorgai.StatusBarCompat;
 
 public class ScienceStationActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener {
     @BindView(R.id.scienceStationImg)
@@ -68,6 +69,7 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_science_station);
+        StatusBarCompat.translucentStatusBar(this, false);
         ShareSDK.initSDK(this);
         unbinder = ButterKnife.bind(this);
         Intent intent = getIntent();

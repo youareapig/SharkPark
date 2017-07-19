@@ -32,6 +32,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import qiu.niorgai.StatusBarCompat;
 
 public class TeacherStyleActivity extends AutoLayoutActivity implements ObservableScrollView.ScrollViewListener, ViewPager.OnPageChangeListener {
     @BindView(R.id.teacherStyle_banner)
@@ -63,6 +64,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_style);
+        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
         Intent intent = getIntent();
         teacherID = intent.getStringExtra("teacherID");
@@ -136,7 +138,6 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","老师-----"+result);
                 main3.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 TeacherBean bean=gson.fromJson(result,TeacherBean.class);

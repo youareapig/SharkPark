@@ -17,5 +17,6 @@
         android:text="您还没有上课！"
         android:textSize="48px"
         android:gravity="center"
+        android:textColor="#b5b5b5"
         android:visibility="gone"/>
 </com.zhy.autolayout.AutoLinearLayout>

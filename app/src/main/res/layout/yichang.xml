@@ -16,6 +16,7 @@
         android:layout_height="match_parent"
         android:text="暂无异常"
         android:textSize="48px"
+        android:textColor="#b5b5b5"
         android:gravity="center"
         android:visibility="gone"/>
 </com.zhy.autolayout.AutoLinearLayout>

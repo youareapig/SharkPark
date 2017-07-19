@@ -140,7 +140,6 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "大学-------" + result);
                 main1.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 HuodongBean bean = gson.fromJson(result, HuodongBean.class);

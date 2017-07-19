@@ -91,6 +91,7 @@ public class Child_Fragment extends Fragment {
                                 @Override
                                 public void onClick(View view) {
                                     Intent intent = new Intent(getActivity(), CourseActivity.class);
+                                    editor.putString("gradename",item.getSbtitle());
                                     editor.putString("indexID",item.getSbid()+"");
                                     editor.commit();
                                     startActivity(intent);

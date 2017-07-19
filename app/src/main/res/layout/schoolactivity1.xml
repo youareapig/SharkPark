@@ -35,14 +35,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="40px"
-                    android:layout_marginLeft="40px"
+                    android:layout_marginBottom="30px"
+                    android:layout_marginLeft="30px"
                     android:shadowColor="#222222"
                     android:shadowDx="0.8"
                     android:shadowDy="0.8"
                     android:shadowRadius="1"
                     android:textColor="#fff"
-                    android:textSize="36px" />
+                    android:textSize="48px" />
             </com.zhy.autolayout.AutoRelativeLayout>
 
 
@@ -51,8 +51,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="30px"
-                android:layout_marginRight="30px"
-                android:layout_marginTop="40px" />
+                android:layout_marginRight="20px"
+                android:layout_marginTop="10px" />
         </com.zhy.autolayout.AutoLinearLayout>
     </ScrollView>
     <TextView
@@ -62,6 +62,7 @@
         android:gravity="center"
         android:text="暂无活动信息"
         android:textSize="48px"
+        android:textColor="#b5b5b5"
         android:visibility="gone" />
 
 </com.zhy.autolayout.AutoRelativeLayout>

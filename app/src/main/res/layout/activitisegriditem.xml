@@ -2,11 +2,12 @@
 <com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.zhy.autolayout.AutoRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="500px">
+        android:layout_height="wrap_content">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/activities_item_img"
@@ -15,7 +16,7 @@
             app:riv_corner_radius="8px"
             android:scaleType="centerCrop"
             android:background="#eeeeee"
-            android:layout_centerInParent="true"/>
+            android:layout_centerHorizontal="true"/>
         <ImageView
             android:id="@+id/huodongplay"
             android:layout_width="140px"
@@ -27,11 +28,11 @@
             android:id="@+id/activities_item_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="40px"
-            android:layout_marginBottom="40px"
-            android:textColor="#fff"
-            android:textSize="36px"/>
+            android:layout_below="@+id/activities_item_img"
+            android:layout_alignLeft="@+id/activities_item_img"
+            android:textColor="#515151"
+            android:layout_marginTop="30px"
+            android:textSize="48px"/>
     </com.zhy.autolayout.AutoRelativeLayout>
 
 

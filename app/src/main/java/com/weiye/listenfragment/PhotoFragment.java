@@ -147,18 +147,24 @@ public class PhotoFragment extends Fragment {
                 Gson gson = new Gson();
                 final VipClassPhotoBean bean = gson.fromJson(result, VipClassPhotoBean.class);
                 if (bean.getCode() == 3000) {
-                    noPhoto.setVisibility(View.GONE);
-                    listView.setVisibility(View.VISIBLE);
-                    listView.setAdapter(new VipPhotoListViewAdapter(bean.getData().getPv(), getActivity()));
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            List<String> picture = bean.getData().getPv().get(i).getPurl();
-                            Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
-                            intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture);
-                            startActivity(intent);
-                        }
-                    });
+                    if (bean.getData().getPv().size()!=0){
+                        noPhoto.setVisibility(View.GONE);
+                        listView.setVisibility(View.VISIBLE);
+                        listView.setAdapter(new VipPhotoListViewAdapter(bean.getData().getPv(), getActivity()));
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                List<String> picture = bean.getData().getPv().get(i).getPurl();
+                                Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
+                                intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture);
+                                startActivity(intent);
+                            }
+                        });
+                    }else {
+                        noPhoto.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.GONE);
+                    }
+
                 } else {
                     noPhoto.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);

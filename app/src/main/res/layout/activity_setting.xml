@@ -140,12 +140,13 @@
             android:background="#d2d2d2" />
     </LinearLayout>
 
-    <Button
+    <TextView
         android:id="@+id/btnloginout"
         android:layout_width="900px"
         android:layout_height="148px"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="140px"
+        android:gravity="center"
         android:background="@drawable/btnloginout"
         android:text="退出登陆"
         android:textColor="#fff"

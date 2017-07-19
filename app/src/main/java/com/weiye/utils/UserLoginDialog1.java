@@ -2,6 +2,7 @@ package com.weiye.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -348,9 +349,9 @@ public class UserLoginDialog1 {
      * 保存登录状态，1 表示登录状态，0 表示未登录状态
      */
     private void userLogin(String phone, String password) {
-        customProgressDialog = new CustomProgressDialog(context, null, R.drawable.frame, R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/logo");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", password);
@@ -375,7 +376,6 @@ public class UserLoginDialog1 {
                         context.startActivity(intent);
                     }
 
-
                     Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(context, "不存在用户名或密码错误", Toast.LENGTH_SHORT).show();
@@ -395,7 +395,7 @@ public class UserLoginDialog1 {
 
             @Override
             public void onFinished() {
-                customProgressDialog.cancel();
+                progressDialog.cancel();
             }
         });
     }
@@ -497,9 +497,9 @@ public class UserLoginDialog1 {
 
     //TODO 用户注册接口
     private void requestRegister(String phone, String pwd) {
-        customProgressDialog = new CustomProgressDialog(context, null, R.drawable.frame, R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
+        final ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/regist");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", pwd);
@@ -518,8 +518,10 @@ public class UserLoginDialog1 {
                     if (registBean.getData().getUtype().equals("3")){
                         Intent intent = new Intent(context, SubmitActivity.class);
                         context.startActivity(intent);
+                    }else {
+                        Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
                     }
-                    Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
+
                 }else {
                     Toast.makeText(context, "注册失败", Toast.LENGTH_SHORT).show();
                 }
@@ -537,7 +539,7 @@ public class UserLoginDialog1 {
 
             @Override
             public void onFinished() {
-                customProgressDialog.cancel();
+                progressDialog.cancel();
             }
         });
     }

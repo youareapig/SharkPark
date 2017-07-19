@@ -73,7 +73,8 @@
     </com.weiye.myview.ObservableScrollView>
     <RelativeLayout
         android:id="@+id/teacherStyle_title"
-        style="@style/mytitle">
+        style="@style/mytitle"
+        android:layout_marginTop="20px">
 
         <RelativeLayout
             android:id="@+id/teacherStyle_Back"

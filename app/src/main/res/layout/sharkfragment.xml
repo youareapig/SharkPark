@@ -4,8 +4,8 @@
     android:id="@+id/refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:background="#fff"
+    android:orientation="vertical">
 
     <com.andview.refreshview.XScrollView
         android:id="@+id/myscroll"
@@ -94,21 +94,36 @@
 
             </com.zhy.autolayout.AutoRelativeLayout>
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/kexueyizhan_Img"
+            <com.zhy.autolayout.AutoRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="500px"
                 android:layout_marginLeft="40px"
                 android:layout_marginRight="40px"
-                android:layout_marginTop="30px"
-                android:scaleType="centerCrop"
-                app:riv_corner_radius="20px" />
+                android:layout_marginTop="30px">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/kexueyizhan_Img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    app:riv_corner_radius="20px" />
+                <TextView
+                    android:id="@+id/kexueyizhan_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="30px"
+                    android:layout_marginBottom="30px"
+                    android:textColor="#fff"
+                    android:textSize="48px" />
+            </com.zhy.autolayout.AutoRelativeLayout>
+
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="6dp"
-                android:layout_marginLeft="60px"
-                android:layout_marginRight="60px"
+                android:layout_height="1px"
+                android:layout_marginLeft="40px"
+                android:layout_marginRight="40px"
                 android:layout_marginTop="30px"
                 android:background="#f0f0f0" />
 
@@ -116,9 +131,11 @@
                 android:id="@+id/listview1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="60px"
-                android:layout_marginRight="60px"
-                android:layout_marginTop="30px" />
+                android:layout_marginLeft="40px"
+                android:layout_marginRight="40px"
+                android:layout_marginTop="10px"
+                android:divider="#f0f0f0"
+                android:dividerHeight="1px" />
         </com.zhy.autolayout.AutoLinearLayout>
 
     </com.andview.refreshview.XScrollView>
