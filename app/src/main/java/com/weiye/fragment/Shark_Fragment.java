@@ -333,7 +333,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "数据加载失败!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
