@@ -110,6 +110,10 @@ public class SettingActivity extends AutoLayoutActivity {
                     LayoutInflater inflater = getLayoutInflater();
                     View v = inflater.inflate(R.layout.bestversion, null);
                     dialog.setView(v);
+                    Window window=dialog.getWindow();
+                    WindowManager.LayoutParams layoutParams=window.getAttributes();
+                    layoutParams.alpha=0.6f;
+                    window.setAttributes(layoutParams);
                     dialog.setCanceledOnTouchOutside(true);
                     dialog.show();
                 }

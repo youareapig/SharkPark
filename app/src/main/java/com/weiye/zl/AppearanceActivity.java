@@ -79,7 +79,6 @@ public class AppearanceActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "图片集" + result);
                 main5.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 XYFCBean bean = gson.fromJson(result, XYFCBean.class);

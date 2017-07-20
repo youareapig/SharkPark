@@ -66,6 +66,7 @@ public class ActivitiesGridAdpter extends BaseAdapter {
             holder.imageView = (RoundedImageView) view.findViewById(R.id.activities_item_img);
             holder.textView = (TextView) view.findViewById(R.id.activities_item_text);
             holder.huodongPlay = (ImageView) view.findViewById(R.id.huodongplay);
+            holder.textViewNumber= (TextView) view.findViewById(R.id.number2);
             view.setTag(holder);
             AutoUtils.autoSize(view);
         } else {
@@ -74,6 +75,7 @@ public class ActivitiesGridAdpter extends BaseAdapter {
         if (bean.getIsvideo().equals("0")) {
             ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getPhotos().get(0), holder.imageView);
             holder.huodongPlay.setVisibility(View.GONE);
+            holder.textViewNumber.setText(bean.getPhotos().size()+"");
         } else {
             //Bitmap bitmap = createVideoThumbnail(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getVurl(), 1000, 500);
             ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBjimg(), holder.imageView);
@@ -86,7 +88,7 @@ public class ActivitiesGridAdpter extends BaseAdapter {
 
     private class ViewHolder {
         private RoundedImageView imageView;
-        private TextView textView;
+        private TextView textView,textViewNumber;
         private ImageView huodongPlay;
     }
 

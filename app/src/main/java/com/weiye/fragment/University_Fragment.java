@@ -354,7 +354,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
     //TODO 获取用户信息
     private void getUserInfo() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), "玩命加载中...", R.drawable.frame, R.style.dialog);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main6.setVisibility(View.GONE);

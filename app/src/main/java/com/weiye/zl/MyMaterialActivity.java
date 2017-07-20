@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,6 +55,8 @@ public class MyMaterialActivity extends AutoLayoutActivity {
     RelativeLayout age;
     @BindView(R.id.save)
     Button save;
+    @BindView(R.id.main25)
+    LinearLayout main25;
     private Unbinder unbinder;
     private String stringName, stringSex, stringDate;
     private String userID;
@@ -122,14 +126,19 @@ public class MyMaterialActivity extends AutoLayoutActivity {
                 picker1.show();
                 break;
             case R.id.save:
-                stringSex = sexText.getText().toString();
-                String sex;
-                if (stringSex.equals("男")) {
-                    sex = "0";
+                if (TextUtils.isEmpty(nameText.getText().toString().trim())) {
+                    Toast.makeText(MyMaterialActivity.this, "昵称不能为空", Toast.LENGTH_SHORT).show();
                 } else {
-                    sex = "1";
+                    stringSex = sexText.getText().toString();
+                    String sex;
+                    if (stringSex.equals("男")) {
+                        sex = "0";
+                    } else {
+                        sex = "1";
+                    }
+                    updateUserInfo(sex);
                 }
-                updateUserInfo(sex);
+
                 break;
         }
     }
@@ -141,7 +150,7 @@ public class MyMaterialActivity extends AutoLayoutActivity {
         stringName = nameText.getText().toString().trim();
         stringSex = sexText.getText().toString().trim();
         stringDate = ageText.getText().toString().trim();
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame,R.style.dialog);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editUser");
@@ -156,8 +165,8 @@ public class MyMaterialActivity extends AutoLayoutActivity {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("code").equals("3003")) {
                         Toast.makeText(MyMaterialActivity.this, "资料更新成功", Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(MyMaterialActivity.this,MainActivity.class);
-                        intent.putExtra("fTag",3);
+                        Intent intent = new Intent(MyMaterialActivity.this, MainActivity.class);
+                        intent.putExtra("fTag", 3);
                         startActivity(intent);
                         finish();
                     } else {
@@ -188,7 +197,8 @@ public class MyMaterialActivity extends AutoLayoutActivity {
 
     //TODO 获取用户信息
     private void getUserInfo() {
-        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame,R.style.dialog);
+        main25.setVisibility(View.GONE);
+        final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/userInfo");
@@ -196,22 +206,23 @@ public class MyMaterialActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                main25.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 GetUserInfo bean = gson.fromJson(result, GetUserInfo.class);
-                if (bean.getCode()==3000){
-                    if (bean.getData().getNickname()==null){
-                        nameText.setText(" ");
-                    }else {
+                if (bean.getCode() == 3000) {
+                    if (bean.getData().getNickname() == null) {
+                        nameText.setText("鲨鱼宝贝");
+                    } else {
                         nameText.setText(bean.getData().getNickname().toString());
                     }
-                    if (bean.getData().getSex().equals("0")){
+                    if (bean.getData().getSex().equals("0")) {
                         sexText.setText("男");
-                    }else {
+                    } else {
                         sexText.setText("女");
                     }
-                    if (bean.getData().getBirthday()==null){
-                        ageText.setText("2001-2-2");
-                    }else {
+                    if (bean.getData().getBirthday() == null) {
+                        ageText.setText("2001-01-01");
+                    } else {
                         ageText.setText(bean.getData().getBirthday().toString());
                     }
                 }

@@ -43,10 +43,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/xiegang1"
             android:text="男"
             android:textColor="#fff"
-            android:textSize="44px" />
+            android:textSize="44px"
+            android:layout_toEndOf="@+id/xiegang1" />
 
         <TextView
             android:id="@+id/auditionItemTel"

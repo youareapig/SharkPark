@@ -6,7 +6,6 @@
     android:orientation="vertical">
 
 
-
     <com.andview.refreshview.XScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -111,7 +110,7 @@
                         android:layout_height="180px"
                         android:layout_centerHorizontal="true"
                         android:scaleType="fitXY"
-                        android:src="@mipmap/a2" />
+                        android:src="@mipmap/shizi" />
 
                     <TextView
                         android:layout_width="wrap_content"

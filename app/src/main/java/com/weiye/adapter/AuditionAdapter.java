@@ -64,9 +64,13 @@ public class AuditionAdapter extends BaseAdapter{
         }else {
             holder= (ViewHolder) convertView.getTag();
         }
+        if (bean.getOage().equals("0")){
+            holder.age.setText("男");
+        }if (bean.getOage().equals("1")){
+            holder.age.setText("女");
+        }
         holder.name.setText(bean.getBabyname());
         holder.tel.setText(bean.getPhone());
-        holder.age.setText(bean.getOage());
         holder.sex.setText(bean.getSex());
         return convertView;
     }
