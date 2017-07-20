@@ -21,4 +21,8 @@
         android:textColor="#b5b5b5"
         android:textSize="48px"
         android:visibility="gone"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100px"
+        android:background="#fff"/>
 </com.zhy.autolayout.AutoLinearLayout>

@@ -50,6 +50,7 @@ public class UserLoginDialog1 {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private CustomProgressDialog customProgressDialog;
+
     public UserLoginDialog1(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences("UserTag", context.MODE_PRIVATE);
@@ -361,19 +362,21 @@ public class UserLoginDialog1 {
                 Log.d("tag", result);
                 Gson gson = new Gson();
                 LoginBean bean = gson.fromJson(result, LoginBean.class);
-                if (bean.getCode()==3000) {
+                if (bean.getCode() == 3000) {
                     editor.putString("usertag", "1");
                     editor.putString("userid", bean.getData().getId());
                     editor.putString("usertype", bean.getData().getUtype());
                     editor.putString("usertimes", bean.getData().getIsfres());
                     editor.commit();
                     dialog.cancel();
-                    if (bean.getData().getUtype().equals("3")){
+                    if (bean.getData().getUtype().equals("3")) {
                         Intent intent = new Intent(context, SubmitActivity.class);
                         context.startActivity(intent);
-                    }else {
+                        ((Activity) context).finish();
+                    } else {
                         Intent intent = new Intent(context, CourseActivity.class);
                         context.startActivity(intent);
+                        ((Activity) context).finish();
                     }
 
                     Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
@@ -506,23 +509,24 @@ public class UserLoginDialog1 {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Gson gson=new Gson();
-                RegistBean registBean=gson.fromJson(result,RegistBean.class);
-                if (registBean.getCode()==3002){
+                Gson gson = new Gson();
+                RegistBean registBean = gson.fromJson(result, RegistBean.class);
+                if (registBean.getCode() == 3002) {
                     editor.putString("usertag", "1");
                     editor.putString("userid", registBean.getData().getId());
                     editor.putString("usertype", registBean.getData().getUtype());
                     editor.putString("usertimes", registBean.getData().getIsfres());
                     editor.commit();
                     dialog1.cancel();
-                    if (registBean.getData().getUtype().equals("3")){
+                    if (registBean.getData().getUtype().equals("3")) {
                         Intent intent = new Intent(context, SubmitActivity.class);
                         context.startActivity(intent);
-                    }else {
+                        ((Activity) context).finish();
+                    } else {
                         Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
                     }
 
-                }else {
+                } else {
                     Toast.makeText(context, "注册失败", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -554,12 +558,12 @@ public class UserLoginDialog1 {
             @Override
             public void onSuccess(String result) {
                 try {
-                    JSONObject jsonObject=new JSONObject(result);
-                    if (jsonObject.getString("code").equals("3003")){
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getString("code").equals("3003")) {
                         dialog1.cancel();
                         loginDialog();
                         Toast.makeText(context, "密码已修改，请重新登录", Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(context, "修改密码失败", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {

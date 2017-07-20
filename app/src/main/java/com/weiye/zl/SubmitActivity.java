@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -84,6 +85,7 @@ public class SubmitActivity extends AutoLayoutActivity {
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         userID = sharedPreferences.getString("userid", "未知");
+        yyNameInput.setSelection(yyNameInput.getText().length());
         init();
     }
 
@@ -234,9 +236,9 @@ public class SubmitActivity extends AutoLayoutActivity {
                         View v = inflater.inflate(R.layout.submitsuccess, null);
                         dialog.setView(v);
                         //Todo 设置对话框透明度
-                        Window window=dialog.getWindow();
-                        WindowManager.LayoutParams layoutParams=window.getAttributes();
-                        layoutParams.alpha=0.6f;
+                        Window window = dialog.getWindow();
+                        WindowManager.LayoutParams layoutParams = window.getAttributes();
+                        layoutParams.alpha = 0.6f;
                         window.setAttributes(layoutParams);
 
                         dialog.setCanceledOnTouchOutside(false);
@@ -251,8 +253,7 @@ public class SubmitActivity extends AutoLayoutActivity {
                                 startActivity(intent);
                                 finish();
                             }
-                        },3000);
-
+                        }, 3000);
 
 
                     } else {
@@ -286,26 +287,30 @@ public class SubmitActivity extends AutoLayoutActivity {
 
     }
 
+    //TODO 重写返回键
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        final AlertDialog dialog1 = new AlertDialog.Builder(this).create();
-        LayoutInflater inflater1 = getLayoutInflater();
-        View view1 = inflater1.inflate(R.layout.sureback, null);
-        dialog1.setView(view1);
-        dialog1.setCanceledOnTouchOutside(true);
-        dialog1.show();
-        view1.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-        view1.findViewById(R.id.cancle).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog1.cancel();
-            }
-        });
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            final AlertDialog dialog1 = new AlertDialog.Builder(this).create();
+            LayoutInflater inflater1 = getLayoutInflater();
+            View view1 = inflater1.inflate(R.layout.sureback, null);
+            dialog1.setView(view1);
+            dialog1.setCanceledOnTouchOutside(true);
+            dialog1.show();
+            view1.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            view1.findViewById(R.id.cancle).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog1.cancel();
+                }
+            });
+            return true;
+        }
+        return false;
     }
 }

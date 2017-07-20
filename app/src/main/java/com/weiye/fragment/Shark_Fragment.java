@@ -93,7 +93,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        setRefresh();
+                        //setRefresh();
                         refreshView.stopRefresh();
                         lastRefreshTime = refreshView.getLastRefreshTime();
 
@@ -189,9 +189,10 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.e("tag","-------------------->"+result);
                 refreshView.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
-                ParkBean bean = gson.fromJson(result, ParkBean.class);
+                final ParkBean bean = gson.fromJson(result, ParkBean.class);
                 //TODO banner
                 bannerList = bean.getData().getBanner();
                 indexTips = new ImageView[bannerList.size()];
@@ -242,8 +243,9 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 gallery.setSelection(1, true);
                 //TODO 科学驿站
                 final List<ParkBean.DataBean.InfoBean> keList = bean.getData().getInfo();
-                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + keList.get(0).getPic(), kexueyizhan_Img);
-                kexueyizhan_text.setText(keList.get(0).getTitle());
+                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getUp().getPic(), kexueyizhan_Img);
+                kexueyizhan_text.setText(bean.getData().getUp().getTitle());
+
                 mListView.setAdapter(new ListView_1_Adapter(keList, getActivity()));
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -258,7 +260,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
-                        intent.putExtra("id", keList.get(0).getId());
+                        intent.putExtra("id", bean.getData().getUp().getId());
                         startActivity(intent);
                     }
                 });
@@ -298,7 +300,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
             @Override
             public void onSuccess(String result) {
                 Gson gson = new Gson();
-                ParkBean bean = gson.fromJson(result, ParkBean.class);
+                final ParkBean bean = gson.fromJson(result, ParkBean.class);
                 //TODO 课堂风采
                 List<String> pictureList = bean.getData().getPic();
                 gallery.setSpacing(40);
@@ -306,8 +308,8 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 gallery.setSelection(1, true);
                 //TODO 科学驿站
                 final List<ParkBean.DataBean.InfoBean> keList = bean.getData().getInfo();
-                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + keList.get(0).getPic(), kexueyizhan_Img);
-
+                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getUp().getPic(), kexueyizhan_Img);
+                kexueyizhan_text.setText(bean.getData().getUp().getTitle());
                 mListView.setAdapter(new ListView_1_Adapter(keList, getActivity()));
                 mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -322,7 +324,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
-                        intent.putExtra("id", keList.get(0).getId());
+                        intent.putExtra("id", bean.getData().getUp().getId());
                         startActivity(intent);
                     }
                 });

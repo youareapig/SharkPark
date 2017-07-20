@@ -148,7 +148,7 @@
         android:layout_marginBottom="140px"
         android:gravity="center"
         android:background="@drawable/btnloginout"
-        android:text="退出登陆"
+        android:text="退出登录"
         android:textColor="#fff"
         android:textSize="62px" />
 </LinearLayout>

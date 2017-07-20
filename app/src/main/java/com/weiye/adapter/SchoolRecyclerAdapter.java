@@ -38,7 +38,7 @@ public class SchoolRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
-        final AllHuodongBean.DataBean bean = list.get(position);
+        final AllHuodongBean.DataBean bean = list.get(position+1);
         ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBjimg(), viewHolder.imageView);
         viewHolder.textView.setText(bean.getTitle());
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -61,7 +61,7 @@ public class SchoolRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         if (list != null) {
-            return list.size();
+            return list.size()-1;
         }
         return 0;
     }
