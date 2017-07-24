@@ -41,6 +41,10 @@
                         android:paddingRight="40px"
                         android:paddingTop="250px"
                         android:textColor="#fff"
+                        android:shadowColor="#222222"
+                        android:shadowDx="0.8"
+                        android:shadowDy="0.8"
+                        android:shadowRadius="1"
                         android:textSize="44px" />
                 </FrameLayout>
 

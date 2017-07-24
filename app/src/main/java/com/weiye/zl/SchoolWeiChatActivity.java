@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -54,15 +55,20 @@ public class SchoolWeiChatActivity extends AutoLayoutActivity {
     WebView huodongweb1;
     private Unbinder unbinder;
     private String weixinUrl;
-
+    private WebSettings webSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school_next);
         unbinder = ButterKnife.bind(this);
+        webSettings = huodongweb1.getSettings();
+        webSettings.setJavaScriptEnabled(true);//启用js
+        webSettings.setBlockNetworkImage(false);//解决图片不显示
         Intent intent = getIntent();
         weixinUrl = intent.getStringExtra("wuxin");
         huodongweb1.loadUrl(weixinUrl);
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP)
+            webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         huodongweb1.setWebViewClient(new WebViewClient());
     }
 

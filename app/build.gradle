@@ -51,4 +51,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'com.zhy:mpermission-compiler:1.0.0'
+    compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
 }

@@ -94,10 +94,16 @@ public class WeiShang extends Fragment {
                 Gson gson = new Gson();
                 WeishangBean bean = gson.fromJson(result, WeishangBean.class);
                 if (bean.getCode() == 3000) {
-                    swipeMenuListView.setVisibility(View.VISIBLE);
-                    textViewNo.setVisibility(View.GONE);
-                    adapter = new WeishangAdapter(getActivity(), bean.getData().getCourse());
-                    swipeMenuListView.setAdapter(adapter);
+                    if (bean.getData().getCourse().size()==0){
+                        swipeMenuListView.setVisibility(View.GONE);
+                        textViewNo.setVisibility(View.VISIBLE);
+                    }else {
+                        swipeMenuListView.setVisibility(View.VISIBLE);
+                        textViewNo.setVisibility(View.GONE);
+                        adapter = new WeishangAdapter(getActivity(), bean.getData().getCourse());
+                        swipeMenuListView.setAdapter(adapter);
+                    }
+
                 } else {
                     swipeMenuListView.setVisibility(View.GONE);
                     textViewNo.setVisibility(View.VISIBLE);

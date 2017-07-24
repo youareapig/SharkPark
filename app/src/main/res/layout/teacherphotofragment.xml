@@ -16,10 +16,12 @@
         android:focusable="false" />
     <TextView
         android:id="@+id/noPhoto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="暂无相册"
-        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="48px"
         android:textColor="#b5b5b5"
-        android:textSize="48px"/>
+        android:layout_marginTop="300px"
+        android:visibility="gone"/>
 </com.zhy.autolayout.AutoLinearLayout>

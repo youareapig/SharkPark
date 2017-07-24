@@ -85,7 +85,12 @@ public class SubmitActivity extends AutoLayoutActivity {
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         userID = sharedPreferences.getString("userid", "未知");
-        yyNameInput.setSelection(yyNameInput.getText().length());
+        yyNameInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                yyNameInput.setSelection(yyNameInput.getText().length());
+            }
+        });
         init();
     }
 

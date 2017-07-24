@@ -61,10 +61,16 @@ public class YiShang extends Fragment {
                 Gson gson = new Gson();
                 YishangBean bean = gson.fromJson(result, YishangBean.class);
                 if (bean.getCode() == 3000) {
-                    listView.setVisibility(View.VISIBLE);
-                    textViewNo.setVisibility(View.GONE);
-                    adapter = new YishangAdapter(bean.getData().getCourse(), getActivity());
-                    listView.setAdapter(adapter);
+                    if (bean.getData().getCourse().size()==0){
+                        listView.setVisibility(View.GONE);
+                        textViewNo.setVisibility(View.VISIBLE);
+                    }else {
+                        listView.setVisibility(View.VISIBLE);
+                        textViewNo.setVisibility(View.GONE);
+                        adapter = new YishangAdapter(bean.getData().getCourse(), getActivity());
+                        listView.setAdapter(adapter);
+                    }
+
                 } else {
                     listView.setVisibility(View.GONE);
                     textViewNo.setVisibility(View.VISIBLE);

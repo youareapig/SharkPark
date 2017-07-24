@@ -124,7 +124,7 @@
             android:layout_marginBottom="80px"
             android:background="@drawable/btn"
             android:gravity="center"
-            android:text="预约报名"
+            android:text="预约试听"
             android:textColor="#fff"
             android:textSize="62px" />
 

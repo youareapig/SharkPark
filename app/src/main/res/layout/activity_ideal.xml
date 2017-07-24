@@ -52,13 +52,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <Button
+        <TextView
             android:id="@+id/submit"
             android:layout_width="900px"
             android:layout_height="148px"
             android:layout_marginBottom="100px"
             android:background="@drawable/btn"
             android:text="保存"
+            android:gravity="center"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:textColor="#fff"

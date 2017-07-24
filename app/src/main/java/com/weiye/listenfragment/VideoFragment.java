@@ -141,7 +141,6 @@ public class VideoFragment extends Fragment {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","0-0-0--0"+result);
                 main21.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 final VipClassVidioBean bean = gson.fromJson(result, VipClassVidioBean.class);

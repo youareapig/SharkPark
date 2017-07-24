@@ -13,11 +13,12 @@
         android:scrollbars="none"/>
     <TextView
         android:id="@+id/noVideo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="暂无视频"
-        android:gravity="center"
-        android:textColor="#b5b5b5"
+        android:layout_gravity="center"
         android:textSize="48px"
+        android:textColor="#b5b5b5"
+        android:layout_marginTop="300px"
         android:visibility="gone"/>
 </com.zhy.autolayout.AutoLinearLayout>

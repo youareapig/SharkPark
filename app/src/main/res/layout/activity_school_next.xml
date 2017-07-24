@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SchoolWeiChatActivity">
+    tools:context=".SchoolWeiChatActivity"
+    android:background="#fff">
 
     <RelativeLayout
         android:id="@+id/title1"
@@ -32,7 +33,7 @@
                 android:layout_width="54px"
                 android:layout_height="58px"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/share" />
+                android:src="@mipmap/share1" />
         </RelativeLayout>
     </RelativeLayout>
 

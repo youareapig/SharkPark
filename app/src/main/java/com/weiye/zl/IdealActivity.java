@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.weiye.myview.CustomProgressDialog;
@@ -36,7 +37,7 @@ public class IdealActivity extends AutoLayoutActivity {
     @BindView(R.id.inputIdeal)
     EditText inputIdeal;
     @BindView(R.id.submit)
-    Button submit;
+    TextView submit;
     private Unbinder unbinder;
     private SharedPreferences sharedPreferences;
     private String userID;

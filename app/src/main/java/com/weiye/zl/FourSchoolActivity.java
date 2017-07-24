@@ -34,6 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import qiu.niorgai.StatusBarCompat;
 
 public class FourSchoolActivity extends AutoLayoutActivity {
     @BindView(R.id.fourschoolBack)
@@ -64,6 +65,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_four_school);
+        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
         schoolScrollview.smoothScrollTo(0, 20);
         Intent intent = getIntent();

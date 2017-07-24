@@ -42,13 +42,12 @@ public class HuoDong extends Fragment {
     private TextView textViewNo;
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.huodong, container, false);
         swipeMenuListView = (SwipeMenuListView) view.findViewById(R.id.huodongListView);
-        textViewNo= (TextView) view.findViewById(R.id.myCourseNo4);
+        textViewNo = (TextView) view.findViewById(R.id.myCourseNo4);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", MODE_PRIVATE);
         userID = sharedPreferences.getString("userid", "未知");
         visit();
@@ -68,11 +67,15 @@ public class HuoDong extends Fragment {
                 Gson gson = new Gson();
                 WeishangBean bean = gson.fromJson(result, WeishangBean.class);
                 if (bean.getCode() == 3000) {
-                    swipeMenuListView.setVisibility(View.VISIBLE);
-                    textViewNo.setVisibility(View.GONE);
-                    adapter = new WeishangAdapter(getActivity(), bean.getData().getCourse());
-                    swipeMenuListView.setAdapter(adapter);
-
+                    if (bean.getData().getCourse().size() == 0) {
+                        swipeMenuListView.setVisibility(View.GONE);
+                        textViewNo.setVisibility(View.VISIBLE);
+                    }else {
+                        swipeMenuListView.setVisibility(View.VISIBLE);
+                        textViewNo.setVisibility(View.GONE);
+                        adapter = new WeishangAdapter(getActivity(), bean.getData().getCourse());
+                        swipeMenuListView.setAdapter(adapter);
+                    }
                 } else {
                     swipeMenuListView.setVisibility(View.GONE);
                     textViewNo.setVisibility(View.VISIBLE);
@@ -100,7 +103,6 @@ public class HuoDong extends Fragment {
             }
         });
     }
-
 
 
 }

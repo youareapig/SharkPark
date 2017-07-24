@@ -53,7 +53,7 @@ public class MyCoruseActivity extends AutoLayoutActivity {
     @BindView(R.id.courseTabPager)
     NoScrollViewPager courseTabPager;
     @BindView(R.id.wodeyuyue)
-    TextView wodeyuyue;
+    RelativeLayout wodeyuyue;
     @BindView(R.id.myCourseShow)
     LinearLayout myCourseShow;
     @BindView(R.id.wuyuyue)
@@ -122,17 +122,17 @@ public class MyCoruseActivity extends AutoLayoutActivity {
         mycourseTab.post(new Runnable() {
             @Override
             public void run() {
-                setIndicator(mycourseTab, 40, 40);
+                setIndicator(mycourseTab, 25, 25);
             }
         });
         mycourseTab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 3) {
-                    courseallName.setText("活动");
+                    courseallName.setText("活动课");
                     visit("4");
                 } else {
-                    courseallName.setText("总课");
+                    courseallName.setText("常规课");
                     visit("1");
                 }
             }

@@ -66,29 +66,35 @@ public class YiChang extends Fragment {
                 Gson gson = new Gson();
                 final YichangBean bean = gson.fromJson(result, YichangBean.class);
                 if (bean.getCode() == 3000) {
-                    textViewNo.setVisibility(View.GONE);
-                    listView.setVisibility(View.VISIBLE);
-                    adapter = new YiChangAdapter(getActivity(), bean.getData().getCourse());
-                    listView.setAdapter(adapter);
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
-                            LayoutInflater inflater = getActivity().getLayoutInflater();
-                            View v = inflater.inflate(R.layout.yichangdilog, null);
-                            dialog.setView(v);
-                            dialog.setCanceledOnTouchOutside(true);
-                            dialog.show();
-                            Window window=dialog.getWindow();
-                            WindowManager.LayoutParams layoutParams=window.getAttributes();
-                            //TODO 设置对话框的大小时，一定要在dialog.show();的后面，否则没用
-                            layoutParams.alpha=0.6f;
-                            layoutParams.width=800;
-                            window.setAttributes(layoutParams);
-                            TextView textView = (TextView) v.findViewById(R.id.yichang);
-                            textView.setText(bean.getData().getCourse().get(position).getInfo());
-                        }
-                    });
+                    if (bean.getData().getCourse().size()==0){
+                        textViewNo.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.GONE);
+                    }else {
+                        textViewNo.setVisibility(View.GONE);
+                        listView.setVisibility(View.VISIBLE);
+                        adapter = new YiChangAdapter(getActivity(), bean.getData().getCourse());
+                        listView.setAdapter(adapter);
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
+                                LayoutInflater inflater = getActivity().getLayoutInflater();
+                                View v = inflater.inflate(R.layout.yichangdilog, null);
+                                dialog.setView(v);
+                                dialog.setCanceledOnTouchOutside(true);
+                                dialog.show();
+                                Window window=dialog.getWindow();
+                                WindowManager.LayoutParams layoutParams=window.getAttributes();
+                                //TODO 设置对话框的大小时，一定要在dialog.show();的后面，否则没用
+                                layoutParams.alpha=0.6f;
+                                layoutParams.width=800;
+                                window.setAttributes(layoutParams);
+                                TextView textView = (TextView) v.findViewById(R.id.yichang);
+                                textView.setText(bean.getData().getCourse().get(position).getInfo());
+                            }
+                        });
+                    }
+
                 } else {
                     textViewNo.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);

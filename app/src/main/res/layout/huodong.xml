@@ -14,7 +14,7 @@
         android:id="@+id/myCourseNo4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="您还没有预约课程哦！"
+        android:text="暂无活动！"
         android:textSize="48px"
         android:textColor="#b5b5b5"
         android:gravity="center"

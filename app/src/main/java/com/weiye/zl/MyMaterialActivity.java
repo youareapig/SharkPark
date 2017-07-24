@@ -74,6 +74,7 @@ public class MyMaterialActivity extends AutoLayoutActivity {
             @Override
             public void onClick(View view) {
                 nameText.setCursorVisible(true);
+                nameText.setSelection(nameText.getText().length());
             }
         });
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
