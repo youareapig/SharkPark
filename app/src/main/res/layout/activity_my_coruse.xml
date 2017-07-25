@@ -28,20 +28,21 @@
         android:id="@+id/wodeyuyue"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="gone"
+        >
 
         <ImageView
             android:layout_width="160px"
             android:layout_height="160px"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="540px"
+            android:layout_marginTop="580px"
             android:src="@drawable/d1" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
+            android:layout_marginTop="780px"
             android:text="您已经预约试听，鲨鱼老师将与您保持联系！"
             android:textColor="#b5b5b5"
             android:textSize="48px" />
@@ -57,14 +58,14 @@
             android:layout_width="160px"
             android:layout_height="160px"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="540px"
+            android:layout_marginTop="580px"
             android:src="@drawable/d1" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
+            android:layout_marginTop="780px"
             android:text="您还没有预约课程！赶紧去预约吧！"
             android:textColor="#b5b5b5"
             android:textSize="48px" />
@@ -179,8 +180,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginBottom="15px"
-            android:layout_marginTop="15px"
+            android:layout_marginTop="25px"
             android:background="#f0f0f0" />
 
         <RelativeLayout
@@ -211,7 +211,7 @@
             android:paddingRight="40px"
             android:paddingTop="40px">
 
-            <com.weiye.myview.NoScrollViewPager
+            <android.support.v4.view.ViewPager
                 android:id="@+id/courseTabPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

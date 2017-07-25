@@ -23,6 +23,14 @@
             android:layout_centerInParent="true"
             android:src="@mipmap/head1" />
 
+        <ImageView
+            android:id="@+id/vipimage"
+            android:layout_width="68px"
+            android:layout_height="68px"
+            android:layout_marginLeft="610px"
+            android:layout_marginTop="300px"
+            android:src="@mipmap/viptag" />
+
         <TextView
             android:id="@+id/myname"
             android:layout_width="wrap_content"
@@ -83,6 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="#f0f0f0" />
+
     <com.zhy.autolayout.AutoRelativeLayout
         android:id="@+id/myClass"
         android:layout_width="match_parent"
@@ -163,8 +172,7 @@
         android:id="@+id/managecourse"
         android:layout_width="match_parent"
         android:layout_height="180px"
-        android:layout_marginTop="6px"
-        >
+        android:layout_marginTop="6px">
 
         <ImageView
             android:id="@+id/managecourseImg"

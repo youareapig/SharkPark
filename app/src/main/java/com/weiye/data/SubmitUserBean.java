@@ -8,8 +8,8 @@ public class SubmitUserBean {
 
     /**
      * code : 3000
-     * message : 成功
-     * data : {"truename":null,"age":"28","sex":"0","telnumber":"15983302246"}
+     * message : 成功获取信息
+     * data : {"truename":"鲨鱼宝贝","age":"17","isfres":"1","tel":"13713899194","sex":"1"}
      */
 
     private int code;
@@ -42,22 +42,24 @@ public class SubmitUserBean {
 
     public static class DataBean {
         /**
-         * truename : null
-         * age : 28
-         * sex : 0
-         * telnumber : 15983302246
+         * truename : 鲨鱼宝贝
+         * age : 17
+         * isfres : 1
+         * tel : 13713899194
+         * sex : 1
          */
 
-        private Object truename;
+        private String truename;
         private String age;
+        private String isfres;
+        private String tel;
         private String sex;
-        private String telnumber;
 
-        public Object getTruename() {
+        public String getTruename() {
             return truename;
         }
 
-        public void setTruename(Object truename) {
+        public void setTruename(String truename) {
             this.truename = truename;
         }
 
@@ -69,20 +71,28 @@ public class SubmitUserBean {
             this.age = age;
         }
 
+        public String getIsfres() {
+            return isfres;
+        }
+
+        public void setIsfres(String isfres) {
+            this.isfres = isfres;
+        }
+
+        public String getTel() {
+            return tel;
+        }
+
+        public void setTel(String tel) {
+            this.tel = tel;
+        }
+
         public String getSex() {
             return sex;
         }
 
         public void setSex(String sex) {
             this.sex = sex;
-        }
-
-        public String getTelnumber() {
-            return telnumber;
-        }
-
-        public void setTelnumber(String telnumber) {
-            this.telnumber = telnumber;
         }
     }
 }

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -51,7 +52,7 @@ public class MyCoruseActivity extends AutoLayoutActivity {
     @BindView(R.id.mycourseTab)
     TabLayout mycourseTab;
     @BindView(R.id.courseTabPager)
-    NoScrollViewPager courseTabPager;
+    ViewPager courseTabPager;
     @BindView(R.id.wodeyuyue)
     RelativeLayout wodeyuyue;
     @BindView(R.id.myCourseShow)

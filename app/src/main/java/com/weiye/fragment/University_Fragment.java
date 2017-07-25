@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,7 +73,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private String userID, userType;
     private SharedPreferences sharedPreferences;
     private AutoLinearLayout main6;
-
+    private ImageView vipImage;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -86,6 +87,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         main6 = (AutoLinearLayout) view.findViewById(R.id.main6);
         managecourse = (AutoRelativeLayout) view.findViewById(R.id.managecourse);
         myClass = (AutoRelativeLayout) view.findViewById(R.id.myClass);
+        vipImage= (ImageView) view.findViewById(R.id.vipimage);
         myClass.setOnClickListener(this);
         infomation.setOnClickListener(this);
         myhead.setOnClickListener(this);
@@ -100,17 +102,21 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         if (userType.equals("1")) {
             myClass.setVisibility(View.GONE);
             myCourse.setVisibility(View.GONE);
+            vipImage.setVisibility(View.GONE);
         }
         if (userType.equals("2")) {
             managecourse.setVisibility(View.GONE);
+            vipImage.setVisibility(View.VISIBLE);
         }
         if (userType.equals("3")) {
             myClass.setVisibility(View.GONE);
             managecourse.setVisibility(View.GONE);
+            vipImage.setVisibility(View.GONE);
         }
         if (userType.equals("4")) {
             managecourse.setVisibility(View.GONE);
             myCourse.setVisibility(View.GONE);
+            vipImage.setVisibility(View.GONE);
         }
         getUserInfo();
         return view;

@@ -69,9 +69,10 @@
                     android:layout_marginStart="8dp"
                     android:layout_toEndOf="@+id/yyName"
                     android:background="@null"
+                    android:hint="请填写真实姓名"
+                    android:textColorHint="#30000000"
                     android:gravity="right|center_vertical"
                     android:singleLine="true"
-                    android:text="鲨鱼宝贝"
                     android:textColor="#888888"
                     android:textCursorDrawable="@drawable/cursor"
                     android:textSize="48px" />
@@ -149,8 +150,6 @@
                     android:gravity="right"
                     android:inputType="number"
                     android:singleLine="true"
-                    android:text="3"
-                    android:maxLength="3"
                     android:textColor="#888888"
                     android:textCursorDrawable="@drawable/cursor"
                     android:textSize="48px" />

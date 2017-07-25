@@ -175,18 +175,16 @@ public class SubmitActivity extends AutoLayoutActivity {
                 if (bean.getCode() == 3000) {
                     isyuyue.setVisibility(View.VISIBLE);
                     noyuyue.setVisibility(View.GONE);
-                    if (bean.getData().getTruename() != null) {
-                        yyNameInput.setText(bean.getData().getTruename().toString());
-                    }
+
                     if (bean.getData().getAge() != null) {
-                        yyAgeInput.setText(bean.getData().getAge() + "岁");
+                        yyAgeInput.setText(bean.getData().getAge());
                     }
                     if (bean.getData().getSex().equals("0")) {
                         yySexInput.setText("男");
                     } else {
                         yySexInput.setText("女");
                     }
-                    yyTel.setText(bean.getData().getTelnumber());
+                    yyTel.setText(bean.getData().getTel());
                 } else {
                     isyuyue.setVisibility(View.GONE);
                     noyuyue.setVisibility(View.VISIBLE);
