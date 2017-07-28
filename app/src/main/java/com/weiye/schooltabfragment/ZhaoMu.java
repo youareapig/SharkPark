@@ -104,7 +104,7 @@ public class ZhaoMu extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "获取数据失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

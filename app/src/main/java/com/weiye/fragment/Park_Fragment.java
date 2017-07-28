@@ -172,7 +172,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

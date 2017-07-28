@@ -2,6 +2,7 @@ package com.weiye.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +51,6 @@ public class UserLoginDialog {
     private ImageView findexit;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private CustomProgressDialog customProgressDialog;
 
     public UserLoginDialog(Context context) {
         this.context = context;
@@ -97,7 +97,7 @@ public class UserLoginDialog {
                         vercode.setVisibility(View.GONE);
                         userpassword.setHint("密码");
                         userpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                        login.setText("登陆");
+                        login.setText("登录");
                     }
                 }
             }
@@ -112,7 +112,7 @@ public class UserLoginDialog {
                 if (TextUtils.isEmpty(stringpassword)) {
                     Toast.makeText(context, "请输入验证码或密码!", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (stringlogin.equals("登陆")) {
+                    if (stringlogin.equals("登录")) {
                         ClassPathResource classPathResource = new ClassPathResource();
                         boolean isPhone = classPathResource.isMobileNO(stringphone);
                         if (isPhone == false) {
@@ -241,7 +241,6 @@ public class UserLoginDialog {
                         if (stringpwd.length() < 6) {
                             Toast.makeText(context, "密码不能少于6位", Toast.LENGTH_SHORT).show();
                         } else {
-                            Log.v("tag", "注册信息" + sharedPreferences.getString("tel", null) + "       " + stringpwd);
                             requestRegister(stringphone, stringispwd);
                             dialog1.cancel();
                         }
@@ -352,14 +351,11 @@ public class UserLoginDialog {
      * 保存登录状态，1 表示登录状态，0 表示未登录状态
      */
     private void userLogin(String phone, String password) {
-        final ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.setCanceledOnTouchOutside(false);
+        final Dialog progressDialog =  new Dialog(context,R.style.mydialog);
+        progressDialog.setContentView(R.layout.mydialog);
+        progressDialog.setCancelable(true);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        Window window=progressDialog.getWindow();
-        WindowManager.LayoutParams layoutParams=window.getAttributes();
-        layoutParams.alpha=0.6f;
-        layoutParams.width=500;
-        layoutParams.height=500;
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/logo");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", password);
@@ -375,7 +371,7 @@ public class UserLoginDialog {
                     editor.putString("usertimes", bean.getData().getIsfres());
                     editor.commit();
                     dialog.cancel();
-                    Intent intent = new Intent(context, MainActivity.class);
+                    Intent intent = new Intent(context, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("fTag", 3);
                     context.startActivity(intent);
                     Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
@@ -387,7 +383,7 @@ public class UserLoginDialog {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.v("tag", "访问出错");
+                Toast.makeText(context, "网络不佳，请稍后再试！", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -415,7 +411,7 @@ public class UserLoginDialog {
                         vercode.setVisibility(View.GONE);
                         userpassword.setHint("密码");
                         userpassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);//输入类型为密码
-                        login.setText("登陆");
+                        login.setText("登录");
                         forgetpassword.setVisibility(View.VISIBLE);
                     } else {
                         vercode.setVisibility(View.VISIBLE);
@@ -431,7 +427,7 @@ public class UserLoginDialog {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.v("tag", "访问出错");
+                Toast.makeText(context, "网络不佳，请稍后再试！", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -479,7 +475,7 @@ public class UserLoginDialog {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.v("tag", "访问出错");
+                Toast.makeText(context, "网络不佳，请稍后再试！", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -496,14 +492,11 @@ public class UserLoginDialog {
 
     //TODO 用户注册接口
     private void requestRegister(String phone, String pwd) {
-        final ProgressDialog progressDialog = new ProgressDialog(context);
-        progressDialog.setCanceledOnTouchOutside(false);
+        final Dialog progressDialog =  new Dialog(context,R.style.mydialog);
+        progressDialog.setContentView(R.layout.mydialog);
+        progressDialog.setCancelable(true);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        Window window=progressDialog.getWindow();
-        WindowManager.LayoutParams layoutParams=window.getAttributes();
-        layoutParams.alpha=0.6f;
-        layoutParams.width=500;
-        layoutParams.height=500;
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/regist");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", pwd);
@@ -519,7 +512,7 @@ public class UserLoginDialog {
                     editor.putString("usertimes", registBean.getData().getIsfres());
                     editor.commit();
                     dialog1.cancel();
-                    Intent intent = new Intent(context, MainActivity.class);
+                    Intent intent = new Intent(context, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra("fTag", 3);
                     context.startActivity(intent);
                     Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
@@ -531,7 +524,7 @@ public class UserLoginDialog {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.v("tag", "请求失败");
+                Toast.makeText(context, "网络不佳，请稍后再试！", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -548,9 +541,11 @@ public class UserLoginDialog {
 
     //TODO 忘记密码
     private void updatePwd(String phone, String pwd) {
-        customProgressDialog = new CustomProgressDialog(context, null, R.drawable.frame, R.style.dialog);
-        customProgressDialog.setCanceledOnTouchOutside(false);
-        customProgressDialog.show();
+        final Dialog progressDialog =  new Dialog(context,R.style.mydialog);
+        progressDialog.setContentView(R.layout.mydialog);
+        progressDialog.setCancelable(true);
+        progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        progressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/setPwd");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", pwd);
@@ -574,7 +569,7 @@ public class UserLoginDialog {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                Toast.makeText(context, "网络不佳，请稍后再试！", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -584,7 +579,7 @@ public class UserLoginDialog {
 
             @Override
             public void onFinished() {
-                customProgressDialog.cancel();
+                progressDialog.cancel();
             }
         });
 

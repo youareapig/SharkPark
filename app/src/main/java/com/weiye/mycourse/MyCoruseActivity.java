@@ -1,6 +1,7 @@
 package com.weiye.mycourse;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.NoScrollViewPager;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
+import com.weiye.zl.RestartActivity;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import org.xutils.common.Callback;
@@ -81,14 +83,20 @@ public class MyCoruseActivity extends AutoLayoutActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_coruse);
         unbinder = ButterKnife.bind(this);
-        sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
-        userTimes = sharedPreferences.getString("usertimes", "未知");
-        userType = sharedPreferences.getString("usertype", "未知");
-        userID = sharedPreferences.getString("userid", "未知");
+        init();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
         init();
     }
 
     private void init() {
+        sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
+        userTimes = sharedPreferences.getString("usertimes", "未知");
+        userType = sharedPreferences.getString("usertype", "未知");
+        userID = sharedPreferences.getString("userid", "未知");
         //TODO 非会员用户
         if (userType.equals("3")) {
             if (userTimes.equals("0")) {
@@ -188,7 +196,8 @@ public class MyCoruseActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag", "异常错误");
+                Intent intent=new Intent(MyCoruseActivity.this, RestartActivity.class);
+                startActivity(intent);
             }
 
             @Override

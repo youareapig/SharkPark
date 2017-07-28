@@ -67,6 +67,8 @@
                 android:gravity="right|center_vertical"
                 android:singleLine="true"
                 android:textColor="#888888"
+                android:hint="请填写"
+                android:textColorHint="#30000000"
                 android:textCursorDrawable="@drawable/cursor"
                 android:textSize="48px" />
         </RelativeLayout>
@@ -160,13 +162,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
+            <TextView
                 android:id="@+id/save"
                 android:layout_width="900px"
                 android:layout_height="148px"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="100px"
+                android:gravity="center"
                 android:background="@drawable/btn"
                 android:text="保存"
                 android:textColor="#fff"

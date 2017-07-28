@@ -16,8 +16,6 @@ import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -59,16 +57,13 @@ public class IntroActivity extends AutoLayoutActivity {
                 Gson gson = new Gson();
                 IntroBean bean = gson.fromJson(result, IntroBean.class);
                 if (bean.getCode() == 1000) {
-                    //title.setText(bean.getData().getTitle());
                     WebSettings webSettings = webView.getSettings();
                     //TODO 适配手机屏幕
                     webSettings.setLoadWithOverviewMode(true);
                     webSettings.setUseWideViewPort(true);
                     webSettings.setTextZoom(250);
                     String h5 = bean.getData().getIntrotext();
-                    //webView.loadDataWithBaseURL("about:blank", html + h5, "text/html", "utf-8", null);
                     webView.loadDataWithBaseURL(null, getNewContent(h5), "text/html", "utf-8", null);
-                    Log.d("tag","介绍--------------------->"+h5);
                     webView.setWebViewClient(new WebViewClient());
                 }if (bean.getCode() == -1000) {
                     Toast.makeText(IntroActivity.this, "暂无更多介绍", Toast.LENGTH_SHORT).show();
@@ -79,7 +74,7 @@ public class IntroActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(IntroActivity.this, "数据加载失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(IntroActivity.this,"网络不佳，请稍后再试",Toast.LENGTH_SHORT).show();
             }
 
             @Override

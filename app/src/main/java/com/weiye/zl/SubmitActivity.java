@@ -68,10 +68,8 @@ public class SubmitActivity extends AutoLayoutActivity {
     LinearLayout main10;
     @BindView(R.id.isyuyue)
     ScrollView isyuyue;
-    @BindView(R.id.noyuyue)
-    TextView noyuyue;
     private Unbinder unbinder;
-    private String kcid, userID, stringyyName, stringyyAge, stringyySex, stringyyTel, sexID;
+    private String kcid, userID, stringyyName, stringyyAge, stringyySex, stringyyTel, sexID, userType, userTimes;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
@@ -85,12 +83,15 @@ public class SubmitActivity extends AutoLayoutActivity {
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         userID = sharedPreferences.getString("userid", "未知");
+        userType = sharedPreferences.getString("usertype", "未知");
+        userTimes = sharedPreferences.getString("usertimes", "1");
         yyNameInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 yyNameInput.setSelection(yyNameInput.getText().length());
             }
         });
+
         init();
     }
 
@@ -173,8 +174,6 @@ public class SubmitActivity extends AutoLayoutActivity {
                 Gson gson = new Gson();
                 SubmitUserBean bean = gson.fromJson(result, SubmitUserBean.class);
                 if (bean.getCode() == 3000) {
-                    isyuyue.setVisibility(View.VISIBLE);
-                    noyuyue.setVisibility(View.GONE);
 
                     if (bean.getData().getAge() != null) {
                         yyAgeInput.setText(bean.getData().getAge());
@@ -186,14 +185,13 @@ public class SubmitActivity extends AutoLayoutActivity {
                     }
                     yyTel.setText(bean.getData().getTel());
                 } else {
-                    isyuyue.setVisibility(View.GONE);
-                    noyuyue.setVisibility(View.VISIBLE);
+                    Toast.makeText(SubmitActivity.this, "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(SubmitActivity.this, "获取用户信息失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SubmitActivity.this, "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -252,7 +250,8 @@ public class SubmitActivity extends AutoLayoutActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(SubmitActivity.this, CourseActivity.class);
+                                Intent intent = new Intent(SubmitActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);;
+                                intent.putExtra("fTag",0);
                                 startActivity(intent);
                                 finish();
                             }
@@ -269,7 +268,7 @@ public class SubmitActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(SubmitActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SubmitActivity.this, "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

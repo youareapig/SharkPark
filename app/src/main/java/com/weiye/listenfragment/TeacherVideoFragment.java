@@ -64,7 +64,6 @@ public class TeacherVideoFragment extends Fragment {
         listView = (ListView) view.findViewById(R.id.videofragment_listview);
         noShipin = (TextView) view.findViewById(R.id.noVideo);
         main21 = (AutoLinearLayout) view.findViewById(R.id.main21);
-        Log.d("tag","重新加载了视频-------------"+gID);
         teacherManger();
         return view;
     }
@@ -109,59 +108,7 @@ public class TeacherVideoFragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-
-            @Override
-            public boolean onCache(String result) {
-                return false;
-            }
-        });
-    }
-
-    public void teacherManger_1(String userID,String gid) {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/teacherCenter");
-        params.addBodyParameter("uid", userID);
-        params.addBodyParameter("tp", "2");
-        params.addBodyParameter("gid", gid);
-        x.http().post(params, new Callback.CacheCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Gson gson = new Gson();
-                final TeacherManageVideoBean bean = gson.fromJson(result, TeacherManageVideoBean.class);
-                if (bean.getCode() == 3000) {
-                    noShipin.setVisibility(View.GONE);
-                    listView.setVisibility(View.VISIBLE);
-                    TeacherVideoListViewAdapter adapter=new TeacherVideoListViewAdapter(bean.getData().getPv(), getActivity());
-                    listView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            Intent intent = new Intent(getActivity(), VedioPlayerActivity.class);
-                            intent.putExtra("videoUrl", bean.getData().getPv().get(i).getVurl());
-                            startActivity(intent);
-                        }
-                    });
-                }else {
-                    noShipin.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

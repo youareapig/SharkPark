@@ -5,13 +5,10 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -31,6 +28,7 @@ import com.weiye.utils.SingleModleUrl;
 import com.weiye.utils.UserLoginDialog;
 import com.zhy.autolayout.AutoLayoutActivity;
 import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
 import org.json.JSONException;
@@ -46,7 +44,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import qiu.niorgai.StatusBarCompat;
 
 
 public class MainActivity extends AutoLayoutActivity {
@@ -78,13 +75,15 @@ public class MainActivity extends AutoLayoutActivity {
     private SharedPreferences sharedPreferences;
     private String updateUrl, updateName, updateContent, updateVersion;
     private int locationVersion = 0;
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            isExit = false;
-        }
-    };
+    private long firstTime = 0;
+
+//    Handler mHandler = new Handler() {
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            isExit = false;
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +102,6 @@ public class MainActivity extends AutoLayoutActivity {
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
         Intent intent = getIntent();
         currentIndex = intent.getIntExtra("fTag", 1);
-        Log.d("tag", "主页默认" + currentIndex);
         if (currentIndex == 3) {
             textA.setTextColor(getResources().getColor(R.color.no));
             textB.setTextColor(getResources().getColor(R.color.no));
@@ -194,6 +192,11 @@ public class MainActivity extends AutoLayoutActivity {
         updateVersion();
     }
 
+    @PermissionDenied(50)
+    public void requestReadFailed() {
+        Toast.makeText(this, "您没有相关访问权限！", Toast.LENGTH_SHORT).show();
+    }
+
     @OnClick({R.id.child, R.id.shark, R.id.park, R.id.university})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -239,28 +242,28 @@ public class MainActivity extends AutoLayoutActivity {
                 break;
         }
     }
+//
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            exit();
+//            return false;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//
+//    }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            exit();
-            return false;
-        }
-        return super.onKeyDown(keyCode, event);
-
-    }
-
-    private void exit() {
-        if (!isExit) {
-            isExit = true;
-            Toast.makeText(getApplicationContext(), "再按一次退出程序",
-                    Toast.LENGTH_SHORT).show();
-            mHandler.sendEmptyMessageDelayed(0, 2000);
-        } else {
-            finish();
-            System.exit(0);
-        }
-    }
+//    private void exit() {
+//        if (!isExit) {
+//            isExit = true;
+//            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+//                    Toast.LENGTH_SHORT).show();
+//            mHandler.sendEmptyMessageDelayed(0, 2000);
+//        } else {
+//            finish();
+//            System.exit(0);
+//        }
+//    }
 
     //TODO 检测版本更新
     private void updateVersion() {
@@ -322,5 +325,21 @@ public class MainActivity extends AutoLayoutActivity {
         });
     }
 
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                long secondTime = System.currentTimeMillis();
+                if (secondTime - firstTime > 2000) {
+                    Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    firstTime = secondTime;
+                    return true;
+                } else {
+                    System.exit(0);
+                }
+                break;
+        }
+        return super.onKeyUp(keyCode, event);
 
+    }
 }

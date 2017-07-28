@@ -34,7 +34,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import qiu.niorgai.StatusBarCompat;
 
 public class FourSchoolActivity extends AutoLayoutActivity {
     @BindView(R.id.fourschoolBack)
@@ -65,7 +64,6 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_four_school);
-        StatusBarCompat.translucentStatusBar(this, false);
         unbinder = ButterKnife.bind(this);
         schoolScrollview.smoothScrollTo(0, 20);
         Intent intent = getIntent();
@@ -124,13 +122,13 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     private void sdxyVisit() {
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
-        main8.setVisibility(View.GONE);
+        schoolScrollview.setVisibility(View.GONE);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/parkAll");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                main8.setVisibility(View.VISIBLE);
+                schoolScrollview.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 Park_1Bean bean = gson.fromJson(result, Park_1Bean.class);
                 mList = bean.getData().getTeacher();
@@ -155,7 +153,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(FourSchoolActivity.this, "数据加载失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FourSchoolActivity.this,"网络不佳，请稍后再试",Toast.LENGTH_SHORT).show();
             }
 
             @Override

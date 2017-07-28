@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.weiye.zl.SchoolActivity"
-    android:id="@+id/main4">
+    tools:context="com.weiye.zl.SchoolActivity">
 
     <RelativeLayout
         android:id="@+id/teacherStyle_title"
@@ -55,7 +55,7 @@
                 app:tabIndicatorColor="#31bdf0"
                 app:tabIndicatorHeight="4px"
                 app:tabSelectedTextColor="#31bdf0"
-                app:tabTextAppearance="@style/tab" />
+                app:tabTextAppearance="@style/tab1" />
         </HorizontalScrollView>
 
 

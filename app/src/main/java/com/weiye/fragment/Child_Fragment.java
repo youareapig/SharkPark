@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -25,26 +26,12 @@ import com.weiye.myview.CustomProgressDialog;
 import com.weiye.third.BaseAdapterHelper;
 import com.weiye.third.Gallery;
 import com.weiye.third.QuickPagerAdapter;
-import com.weiye.updateversion.UpdateService;
-import com.weiye.utils.ShadowProperty;
-import com.weiye.utils.ShadowViewDrawable;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.CourseActivity;
-import com.weiye.zl.MainActivity;
-import com.weiye.zl.MyApplication;
 import com.weiye.zl.R;
-import com.weiye.zl.RestartActivity;
-import com.weiye.zl.SubjectActivity;
-import com.zhy.autolayout.AutoRelativeLayout;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -57,13 +44,22 @@ public class Child_Fragment extends Fragment {
     private CustomProgressDialog customProgressDialog;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private TextView textViewTag;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.childfragment, container, false);
         mGallery = (Gallery) view.findViewById(R.id.myGallery);
+        textViewTag = (TextView) view.findViewById(R.id.mytag);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", getActivity().MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        //TODO 23表示Android 6.0
+        if (Build.VERSION.SDK_INT >= 23) {
+            textViewTag.setVisibility(View.VISIBLE);
+        } else {
+            textViewTag.setVisibility(View.GONE);
+        }
         index();
         return view;
     }
@@ -91,8 +87,8 @@ public class Child_Fragment extends Fragment {
                                 @Override
                                 public void onClick(View view) {
                                     Intent intent = new Intent(getActivity(), CourseActivity.class);
-                                    editor.putString("gradename",item.getSbtitle());
-                                    editor.putString("indexID",item.getSbid()+"");
+                                    editor.putString("gradename", item.getSbtitle());
+                                    editor.putString("indexID", item.getSbid() + "");
                                     editor.commit();
                                     startActivity(intent);
                                 }
@@ -108,7 +104,7 @@ public class Child_Fragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "加载失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

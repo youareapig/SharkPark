@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -54,7 +53,7 @@ public class MyMaterialActivity extends AutoLayoutActivity {
     @BindView(R.id.age)
     RelativeLayout age;
     @BindView(R.id.save)
-    Button save;
+    TextView save;
     @BindView(R.id.main25)
     LinearLayout main25;
     private Unbinder unbinder;
@@ -166,7 +165,7 @@ public class MyMaterialActivity extends AutoLayoutActivity {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("code").equals("3003")) {
                         Toast.makeText(MyMaterialActivity.this, "资料更新成功", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MyMaterialActivity.this, MainActivity.class);
+                        Intent intent = new Intent(MyMaterialActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("fTag", 3);
                         startActivity(intent);
                         finish();
@@ -180,7 +179,7 @@ public class MyMaterialActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(MyMaterialActivity.this, "更新用户信息失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyMaterialActivity.this, "网络不佳，请稍后再试！", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -207,23 +206,22 @@ public class MyMaterialActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag","------"+result);
                 main25.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 GetUserInfo bean = gson.fromJson(result, GetUserInfo.class);
                 if (bean.getCode() == 3000) {
-                    if (bean.getData().getNickname() == null) {
-                        nameText.setText("鲨鱼宝贝");
-                    } else {
+                    if (bean.getData().getNickname() != null) {
                         nameText.setText(bean.getData().getNickname().toString());
                     }
-                    if (bean.getData().getSex().equals("0")) {
-                        sexText.setText("男");
-                    } else {
-                        sexText.setText("女");
+                    if (bean.getData().getSex()!=null){
+                        if (bean.getData().getSex().equals("0")) {
+                            sexText.setText("男");
+                        } else {
+                            sexText.setText("女");
+                        }
                     }
-                    if (bean.getData().getBirthday() == null) {
-                        ageText.setText("2001-01-01");
-                    } else {
+                    if (bean.getData().getBirthday() != null) {
                         ageText.setText(bean.getData().getBirthday().toString());
                     }
                 }
@@ -237,7 +235,7 @@ public class MyMaterialActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(MyMaterialActivity.this, "获取用户信息失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyMaterialActivity.this,"网络不佳，请稍后再试",Toast.LENGTH_SHORT).show();
             }
 
             @Override

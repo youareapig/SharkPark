@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.weiye.adapter.YiChangAdapter;
@@ -59,7 +60,7 @@ public class YiChang extends Fragment {
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myCourselst");
         params.addBodyParameter("uid", userID);
-        params.addBodyParameter("tp", "2");
+        params.addBodyParameter("tp", "3");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -104,7 +105,7 @@ public class YiChang extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag", "异常错误");
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

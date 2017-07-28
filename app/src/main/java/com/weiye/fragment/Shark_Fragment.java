@@ -33,6 +33,7 @@ import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.FourSchoolActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.ScienceStationActivity;
+import com.zhy.autolayout.AutoRelativeLayout;
 
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
@@ -61,6 +62,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
     private int num = 1;
     private CustomProgressDialog customProgressDialog;
     private MyThread myThread;
+    private AutoRelativeLayout kexueyizhan_top;
 
     @Nullable
     @Override
@@ -76,6 +78,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         kexueyizhan_text= (TextView) view.findViewById(R.id.kexueyizhan_text);
         kexueyizhan_Img = (RoundedImageView) view.findViewById(R.id.kexueyizhan_Img);
         myScroll = (XScrollView) view.findViewById(R.id.myscroll);
+        kexueyizhan_top= (AutoRelativeLayout) view.findViewById(R.id.kexueyizhan_top);
         myThread = new MyThread();
         classAll.setOnClickListener(this);
         getBanner();
@@ -93,7 +96,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        //setRefresh();
+                        setRefresh();
                         refreshView.stopRefresh();
                         lastRefreshTime = refreshView.getLastRefreshTime();
 
@@ -242,20 +245,27 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 gallery.setAdapter(new GalleryAdapter(pictureList, getActivity()));
                 gallery.setSelection(1, true);
                 //TODO 科学驿站
-                final List<ParkBean.DataBean.InfoBean> keList = bean.getData().getInfo();
-                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getUp().getPic(), kexueyizhan_Img);
-                kexueyizhan_text.setText(bean.getData().getUp().getTitle());
 
-                mListView.setAdapter(new ListView_1_Adapter(keList, getActivity()));
-                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        ParkBean.DataBean.InfoBean infoBean = (ParkBean.DataBean.InfoBean) adapterView.getItemAtPosition(i);
-                        Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
-                        intent.putExtra("id", infoBean.getId());
-                        startActivity(intent);
-                    }
-                });
+                if (bean.getData().getUp()!=null){
+                    kexueyizhan_top.setVisibility(View.VISIBLE);
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getUp().getPic(), kexueyizhan_Img);
+                    kexueyizhan_text.setText(bean.getData().getUp().getTitle());
+                }else {
+                    kexueyizhan_top.setVisibility(View.GONE);
+                }
+                if (bean.getData().getInfo().size()!=0){
+                    final List<ParkBean.DataBean.InfoBean> keList = bean.getData().getInfo();
+                    mListView.setAdapter(new ListView_1_Adapter(keList, getActivity()));
+                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            ParkBean.DataBean.InfoBean infoBean = (ParkBean.DataBean.InfoBean) adapterView.getItemAtPosition(i);
+                            Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
+                            intent.putExtra("id", infoBean.getId());
+                            startActivity(intent);
+                        }
+                    });
+                }
                 kexueyizhan_Img.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -269,7 +279,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -307,19 +317,26 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 gallery.setAdapter(new GalleryAdapter(pictureList, getActivity()));
                 gallery.setSelection(1, true);
                 //TODO 科学驿站
-                final List<ParkBean.DataBean.InfoBean> keList = bean.getData().getInfo();
-                ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getUp().getPic(), kexueyizhan_Img);
-                kexueyizhan_text.setText(bean.getData().getUp().getTitle());
-                mListView.setAdapter(new ListView_1_Adapter(keList, getActivity()));
-                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        ParkBean.DataBean.InfoBean infoBean = (ParkBean.DataBean.InfoBean) adapterView.getItemAtPosition(i);
-                        Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
-                        intent.putExtra("id", infoBean.getId());
-                        startActivity(intent);
-                    }
-                });
+                if (bean.getData().getUp()!=null){
+                    kexueyizhan_top.setVisibility(View.VISIBLE);
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getUp().getPic(), kexueyizhan_Img);
+                    kexueyizhan_text.setText(bean.getData().getUp().getTitle());
+                }else {
+                    kexueyizhan_top.setVisibility(View.GONE);
+                }
+                if (bean.getData().getInfo().size()!=0){
+                    final List<ParkBean.DataBean.InfoBean> keList = bean.getData().getInfo();
+                    mListView.setAdapter(new ListView_1_Adapter(keList, getActivity()));
+                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            ParkBean.DataBean.InfoBean infoBean = (ParkBean.DataBean.InfoBean) adapterView.getItemAtPosition(i);
+                            Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
+                            intent.putExtra("id", infoBean.getId());
+                            startActivity(intent);
+                        }
+                    });
+                }
                 kexueyizhan_Img.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -333,7 +350,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "数据加载失败!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

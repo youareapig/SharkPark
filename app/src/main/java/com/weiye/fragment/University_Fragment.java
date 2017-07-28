@@ -40,6 +40,7 @@ import com.weiye.zl.TeacherManageActivity;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
 import org.json.JSONException;
@@ -74,6 +75,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private SharedPreferences sharedPreferences;
     private AutoLinearLayout main6;
     private ImageView vipImage;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -87,7 +89,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         main6 = (AutoLinearLayout) view.findViewById(R.id.main6);
         managecourse = (AutoRelativeLayout) view.findViewById(R.id.managecourse);
         myClass = (AutoRelativeLayout) view.findViewById(R.id.myClass);
-        vipImage= (ImageView) view.findViewById(R.id.vipimage);
+        vipImage = (ImageView) view.findViewById(R.id.vipimage);
         myClass.setOnClickListener(this);
         infomation.setOnClickListener(this);
         myhead.setOnClickListener(this);
@@ -263,6 +265,21 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         startActivityForResult(intent, 1);
     }
 
+    @PermissionDenied(30)
+    public void requestPhotoFailed() {
+        Toast.makeText(getActivity(), "你没有访问相册权限", Toast.LENGTH_SHORT).show();
+    }
+
+    @PermissionDenied(20)
+    public void requestCameraFailed() {
+        Toast.makeText(getActivity(), "你没有访问相机权限", Toast.LENGTH_SHORT).show();
+    }
+
+    @PermissionDenied(10)
+    public void requestCallFailed() {
+        Toast.makeText(getActivity(), "你没有拨打电话权限", Toast.LENGTH_SHORT).show();
+    }
+
 
     //TODO 拨打电话
     private void call() {
@@ -295,7 +312,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "头像上传失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -344,7 +361,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "头像上传失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -388,7 +405,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "获取用户信息失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

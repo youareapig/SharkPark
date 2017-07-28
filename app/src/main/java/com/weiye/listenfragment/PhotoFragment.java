@@ -115,7 +115,7 @@ public class PhotoFragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "获取相册失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -203,8 +203,6 @@ public class PhotoFragment extends Fragment {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "默认相册" +gid);
-                Log.d("tag", "默认相册数据" + result);
                 Gson gson = new Gson();
                 final TeacherManagePhotoBean bean = gson.fromJson(result, TeacherManagePhotoBean.class);
                 if (bean.getCode() == 3000) {
@@ -230,62 +228,7 @@ public class PhotoFragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-
-            @Override
-            public boolean onCache(String result) {
-                return false;
-            }
-        });
-    }
-
-    public void teacherManger_1(final String userID, final String gid) {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/teacherCenter");
-        params.addBodyParameter("uid", userID);
-        params.addBodyParameter("tp", "1");
-        params.addBodyParameter("gid", gid);
-        x.http().post(params, new Callback.CacheCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Log.d("tag", "调用相册" +gid);
-                Log.d("tag", "调用相册数据" + result);
-                Gson gson = new Gson();
-                final TeacherManagePhotoBean bean = gson.fromJson(result, TeacherManagePhotoBean.class);
-                if (bean.getCode() == 3000) {
-                    noPhoto.setVisibility(View.GONE);
-                    listView.setVisibility(View.VISIBLE);
-                    TeacherPhotoListViewAdapter adapter = new TeacherPhotoListViewAdapter(bean.getData().getPv(), getActivity());
-                    listView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            List<String> picture = bean.getData().getPv().get(i).getPurl();
-                            Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
-                            intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture);
-                            startActivity(intent);
-                        }
-                    });
-                } else {
-                    noPhoto.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

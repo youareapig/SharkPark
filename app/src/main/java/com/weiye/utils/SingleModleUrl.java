@@ -5,8 +5,11 @@ package com.weiye.utils;
  * 单例模式实现全局变量
  */
 public class SingleModleUrl {
-    private String imgUrl="http://www.sharkparkcd.xyz:8820/";
+    private String imgUrl = "http://www.sharkparkcd.xyz:8820/";
     private String testUrl = "http://www.sharkparkcd.xyz:8820/app.php/";
+
+//    private String imgUrl = "http://192.168.10.130/";
+//    private String testUrl = "http://192.168.10.130/app.php/";
 
 
     public String getImgUrl() {

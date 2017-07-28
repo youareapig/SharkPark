@@ -203,7 +203,7 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(ScienceStationActivity.this, "获取数据失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScienceStationActivity.this, "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

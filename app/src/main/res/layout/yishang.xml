@@ -14,7 +14,7 @@
         android:id="@+id/myCourseNo3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="您还没有上课！"
+        android:text="暂无课程！"
         android:textSize="48px"
         android:gravity="center"
         android:textColor="#b5b5b5"

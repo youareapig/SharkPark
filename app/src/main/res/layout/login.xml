@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="100px"
-            android:text="登陆"
+            android:text="登录"
             android:textColor="#303030"
             android:textSize="62px" />
 
@@ -107,7 +107,7 @@
             android:background="@color/gray"
             android:enabled="false"
             android:gravity="center"
-            android:text="登陆"
+            android:text="登录"
             android:textColor="#fff"
             android:textSize="58px" />
     </com.zhy.autolayout.AutoRelativeLayout>

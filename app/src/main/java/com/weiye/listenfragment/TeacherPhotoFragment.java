@@ -74,8 +74,6 @@ public class TeacherPhotoFragment extends Fragment {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "调用相册" +gid);
-                Log.d("tag", "调用相册数据" + result);
                 Gson gson = new Gson();
                 final TeacherManagePhotoBean bean = gson.fromJson(result, TeacherManagePhotoBean.class);
                 if (bean.getCode() == 3000) {
@@ -107,7 +105,7 @@ public class TeacherPhotoFragment extends Fragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Log.d("tag", "调用相册错误" );
+                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

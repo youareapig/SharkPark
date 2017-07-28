@@ -3,11 +3,7 @@ package com.weiye.zl;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -99,7 +95,7 @@ public class IdealActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                Toast.makeText(IdealActivity.this,"网络不佳，请稍后再试",Toast.LENGTH_SHORT).show();
             }
 
             @Override

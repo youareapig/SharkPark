@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -142,7 +141,7 @@ public class SettingActivity extends AutoLayoutActivity {
                         editor.putString("userid", "0");
                         editor.putString("usertype", "0");
                         editor.commit();
-                        Intent intent2 = new Intent(SettingActivity.this, MainActivity.class);
+                        Intent intent2 = new Intent(SettingActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent2);
                         finish();
                         dialog.cancel();

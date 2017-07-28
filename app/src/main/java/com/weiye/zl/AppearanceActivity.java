@@ -2,13 +2,11 @@ package com.weiye.zl;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -17,14 +15,11 @@ import com.weiye.myview.CustomProgressDialog;
 import com.weiye.photoshow.ImagePagerActivity;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
-
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -115,7 +110,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(AppearanceActivity.this, "数据加载失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AppearanceActivity.this,"网络不佳，请稍后再试",Toast.LENGTH_SHORT).show();
             }
 
             @Override

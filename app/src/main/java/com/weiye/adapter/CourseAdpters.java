@@ -19,11 +19,11 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class CourseAdpters extends BaseAdapter {
-    private List<CourseBeans.DataBean> list;
+    private List<CourseBeans.DataBeanX.DataBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
     private ViewHolder holder;
-    public CourseAdpters(Activity activity, List<CourseBeans.DataBean> list) {
+    public CourseAdpters(Activity activity, List<CourseBeans.DataBeanX.DataBean> list) {
         this.layoutInflater = activity.getLayoutInflater();
         this.list = list;
     }
@@ -51,7 +51,7 @@ public class CourseAdpters extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        CourseBeans.DataBean bean = list.get(i);
+        CourseBeans.DataBeanX.DataBean bean = list.get(i);
         holder = new ViewHolder();
         if (view == null) {
             view = layoutInflater.inflate(R.layout.manageapplyitem, null);

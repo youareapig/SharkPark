@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -61,10 +60,11 @@ public class CourseActivity extends AutoLayoutActivity {
     TextView noCourse;
     private Unbinder unbinder;
     private int year, month, day;
-    private String indexID, userID, userType, userTag, date, mydate, mytime, s1, s2,userTimes,gradename;
+    private String indexID, userID, userType, userTag, date, mydate, mytime, s1, s2, userTimes, gradename;
     private SharedPreferences sharedPreferences;
     private CourseAdpters adpters;
-    private List<CourseBeans.DataBean> list;
+    private List<CourseBeans.DataBeanX.DataBean> list;
+    private String[] arry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +77,8 @@ public class CourseActivity extends AutoLayoutActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onRestart() {
+        super.onRestart();
         makeDate();
         visit(indexID, "", "");
     }
@@ -94,14 +94,25 @@ public class CourseActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.d("tag", "k---------" + result);
                 Gson gson = new Gson();
                 CourseBeans beans = gson.fromJson(result, CourseBeans.class);
-                list = beans.getData();
+                list = beans.getData().getData();
+                arry = new String[beans.getData().getTime().size()];
+                for (int i = 0; i < beans.getData().getTime().size(); i++) {
+                    arry[i] = beans.getData().getTime().get(i).getDatename();
+                }
+
                 if (beans.getCode() == 1000) {
-                    noCourse.setVisibility(View.GONE);
-                    isCourse.setVisibility(View.VISIBLE);
-                    adpters = new CourseAdpters(CourseActivity.this, list);
-                    courseGridView.setAdapter(adpters);
+                    if (beans.getData().getData().size() != 0) {
+                        noCourse.setVisibility(View.GONE);
+                        isCourse.setVisibility(View.VISIBLE);
+                        adpters = new CourseAdpters(CourseActivity.this, list);
+                        courseGridView.setAdapter(adpters);
+                    } else {
+                        noCourse.setVisibility(View.VISIBLE);
+                        isCourse.setVisibility(View.GONE);
+                    }
                 } else {
                     noCourse.setVisibility(View.VISIBLE);
                     isCourse.setVisibility(View.GONE);
@@ -110,7 +121,8 @@ public class CourseActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(CourseActivity.this, "服务器故障", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CourseActivity.this, RestartActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -141,7 +153,7 @@ public class CourseActivity extends AutoLayoutActivity {
         switch (view.getId()) {
             case R.id.chooseDate:
                 DatePicker picker1 = new DatePicker(this, DatePicker.YEAR_MONTH_DAY);
-                picker1.setRange(2017, 2017);
+                picker1.setRange(2017, 2020);
                 picker1.setSelectedItem(year, month + 1, day);
                 picker1.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
                     @Override
@@ -158,41 +170,50 @@ public class CourseActivity extends AutoLayoutActivity {
                 picker1.show();
                 break;
             case R.id.chooseTime:
-                OptionPicker picker = new OptionPicker(this, new String[]{
-                        "09:30-10:30", "13:30-14:30"
-                });
-                picker.setOffset(2);
-                picker.setTextSize(18);
-                picker.setTextColor(Color.BLACK);
-                picker.setSelectedIndex(1);
-                picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
-                    @Override
-                    public void onOptionPicked(String option) {
-                        mytime = option;
-                        chooseTime.setText(mytime);
-                        s2 = chooseTime.getText().toString();
-                        visit(indexID, s1, s2);
-                    }
+                try {
+                    OptionPicker picker = new OptionPicker(this, arry);
+                    picker.setOffset(2);
+                    picker.setTextSize(18);
+                    picker.setTextColor(Color.BLACK);
+                    picker.setSelectedIndex(1);
+                    picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+                        @Override
+                        public void onOptionPicked(String option) {
+                            mytime = option;
+                            chooseTime.setText(mytime);
+                            s2 = chooseTime.getText().toString();
+                            visit(indexID, s1, s2);
+                        }
 
 
-                });
-                picker.show();
+                    });
+                    picker.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(CourseActivity.this, "暂无课程安排", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.courseButton:
                 if (userTag.equals("0")) {
                     new UserLoginDialog1(this).loginDialog();
-                } else {
-                    if (userTimes.equals("0")){
-                        Toast.makeText(CourseActivity.this,"您已经预约！",Toast.LENGTH_SHORT).show();
-                    }else {
+                }
+                else {
+                    if (userType.equals("1")||userType.equals("4")){
                         Intent intent = new Intent(this, SubmitActivity.class);
                         startActivity(intent);
+                    }else {
+                        if (userTimes.equals("0")) {
+                            Toast.makeText(CourseActivity.this, "您已经预约！", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(this, SubmitActivity.class);
+                            startActivity(intent);
+                        }
                     }
 
                 }
                 break;
             case R.id.courseWode:
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("fTag", 3);
                 startActivity(intent);
                 break;
@@ -220,21 +241,7 @@ public class CourseActivity extends AutoLayoutActivity {
         chooseDate.setText("上课日期");
         chooseTime.setText("上课时间");
         courseClass.setText(gradename);
-        //TODO 通过用户类型判断按钮问题
-
-        Log.d("tag", "用户类型----" + userTag);
-        if (userTag.equals("0")) {
-            courseWode.setVisibility(View.GONE);
-            courseButton.setVisibility(View.VISIBLE);
-        } else {
-            if (userType.equals("3")) {
-                courseWode.setVisibility(View.GONE);
-                courseButton.setVisibility(View.VISIBLE);
-            } else {
-                courseWode.setVisibility(View.GONE);
-                courseButton.setVisibility(View.GONE);
-            }
-        }
 
     }
+
 }

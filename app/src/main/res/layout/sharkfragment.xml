@@ -95,6 +95,7 @@
             </com.zhy.autolayout.AutoRelativeLayout>
 
             <com.zhy.autolayout.AutoRelativeLayout
+                android:id="@+id/kexueyizhan_top"
                 android:layout_width="match_parent"
                 android:layout_height="500px"
                 android:layout_marginLeft="40px"
@@ -124,7 +125,7 @@
                 android:layout_height="1px"
                 android:layout_marginLeft="40px"
                 android:layout_marginRight="40px"
-                android:layout_marginTop="30px"
+                android:layout_marginTop="48px"
                 android:background="#f0f0f0" />
 
             <com.weiye.myview.MyListView

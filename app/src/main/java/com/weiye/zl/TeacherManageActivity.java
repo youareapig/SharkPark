@@ -12,12 +12,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -111,6 +113,12 @@ public class TeacherManageActivity extends AutoLayoutActivity {
         list = new ArrayList<>();
         list.add(new TeacherVideoFragment("0"));
         list.add(new TeacherPhotoFragment("0"));
+        //TODO 给TabLayout添加分割线
+        LinearLayout linearLayout = (LinearLayout) teachermanagerTab.getChildAt(0);
+        linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+        linearLayout.setDividerDrawable(ContextCompat.getDrawable(this,
+                R.drawable.tabline));
+        linearLayout.setDividerPadding(60);
 
         teachermanagerTab.setupWithViewPager(teachermanagerPager);
         fragmentManager = getSupportFragmentManager();
@@ -120,15 +128,11 @@ public class TeacherManageActivity extends AutoLayoutActivity {
     }
 
 
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
     }
-
-
 
 
     private void teacherManager_first() {
@@ -142,8 +146,6 @@ public class TeacherManageActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                //changTitle();
-                Log.d("tag", "老师管理" + result);
                 Gson gson = new Gson();
                 final TeacherManagerBean bean = gson.fromJson(result, TeacherManagerBean.class);
                 if (bean.getCode() == 3000) {
