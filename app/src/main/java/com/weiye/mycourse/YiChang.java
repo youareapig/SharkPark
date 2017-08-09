@@ -91,7 +91,12 @@ public class YiChang extends Fragment {
                                 layoutParams.width=800;
                                 window.setAttributes(layoutParams);
                                 TextView textView = (TextView) v.findViewById(R.id.yichang);
-                                textView.setText(bean.getData().getCourse().get(position).getInfo());
+                                if (bean.getData().getCourse().get(position).getInfo()!=null){
+                                    textView.setText(bean.getData().getCourse().get(position).getInfo());
+                                }else {
+                                    textView.setText("无法显示");
+                                }
+
                             }
                         });
                     }

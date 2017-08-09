@@ -13,85 +13,95 @@
         android:orientation="vertical">
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <FrameLayout
+                android:id="@+id/mytitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="660px">
 
-                <FrameLayout
-                    android:id="@+id/mytitle"
+                <ImageView
+                    android:id="@+id/teachermanagerBg"
                     android:layout_width="match_parent"
-                    android:layout_height="660px">
+                    android:layout_height="660px"
+                    android:scaleType="centerCrop" />
 
-                    <ImageView
-                        android:id="@+id/teachermanagerBg"
-                        android:layout_width="match_parent"
-                        android:layout_height="660px"
-                        android:scaleType="fitXY" />
-
-                    <TextView
-                        android:id="@+id/teachermanagerContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#10000000"
-                        android:lineSpacingExtra="6px"
-                        android:lineSpacingMultiplier="1.2"
-                        android:paddingLeft="40px"
-                        android:paddingRight="40px"
-                        android:paddingTop="250px"
-                        android:textColor="#fff"
-                        android:shadowColor="#222222"
-                        android:shadowDx="0.8"
-                        android:shadowDy="0.8"
-                        android:shadowRadius="1"
-                        android:textSize="44px" />
-                </FrameLayout>
-
-
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/teachermanagerTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="200px"
-                    app:tabGravity="fill"
-                    app:tabIndicatorColor="#eeeeee"
-                    app:tabIndicatorHeight="4px"
-                    app:tabMaxWidth="0px"
-                    android:background="#eeeeee"
-                    app:tabMode="fixed"
-                    app:tabSelectedTextColor="#000"
-                    app:tabTextAppearance="@style/tab" />
-
-
-                <com.weiye.myview.NoScrollViewPager
-                    android:id="@+id/teachermanagerPager"
+                <TextView
+                    android:id="@+id/teachermanagerContent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="40px"/>
+                    android:background="#10000000"
+                    android:lineSpacingExtra="6px"
+                    android:lineSpacingMultiplier="1.2"
+                    android:paddingLeft="40px"
+                    android:paddingRight="40px"
+                    android:paddingTop="250px"
+                    android:shadowColor="#222222"
+                    android:shadowDx="0.8"
+                    android:shadowDy="0.8"
+                    android:shadowRadius="1"
+                    android:textColor="#fff"
+                    android:textSize="44px" />
+            </FrameLayout>
 
-            </LinearLayout>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/teachermanagerTab"
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                android:background="#eeeeee"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="#eeeeee"
+                app:tabIndicatorHeight="4px"
+                app:tabMaxWidth="0px"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="#000"
+                app:tabTextAppearance="@style/tab" />
+
+
+            <com.weiye.myview.NoScrollViewPager
+                android:id="@+id/teachermanagerPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="40px" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/title_subject"
         style="@style/mytitle">
 
-        <TextView
-            android:id="@+id/teachermanagerTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="#fff"
-            android:textSize="64px"
-            android:text="人文科学" />
-        <ImageView
-            android:id="@+id/teachermanagerJt"
-            android:layout_width="30px"
-            android:layout_height="18px"
-            android:src="@mipmap/dwon"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/teachermanagerTitle"
-            android:layout_marginLeft="20px"/>
+        <RelativeLayout
+            android:id="@+id/teachermanagerDom"
+            android:layout_width="480px"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/teachermanagerTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="#fff"
+                android:textSize="64px" />
+
+            <ImageView
+                android:id="@+id/teachermanagerJt"
+                android:layout_width="30px"
+                android:layout_height="18px"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="35px"
+                android:layout_marginLeft="25px"
+                android:layout_toRightOf="@+id/teachermanagerTitle"
+                android:src="@mipmap/dwon" />
+        </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/back7"
@@ -101,7 +111,8 @@
             <ImageView
                 android:layout_width="28px"
                 android:layout_height="48px"
-                android:layout_centerInParent="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="40px"
                 android:src="@mipmap/back" />
         </RelativeLayout>
 

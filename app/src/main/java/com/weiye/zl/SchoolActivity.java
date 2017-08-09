@@ -47,11 +47,11 @@ public class SchoolActivity extends AutoLayoutActivity {
         schooltab.setupWithViewPager(tabviewpager);
         fragmentManager = getSupportFragmentManager();
         titleList = new ArrayList<>();
-        titleList.add("招募");
         titleList.add("往期");
+        titleList.add("进行");
         fragmentList = new ArrayList<>();
-        fragmentList.add(new ZhaoMu());
         fragmentList.add(new WangQi());
+        fragmentList.add(new ZhaoMu());
         tabviewpager.setAdapter(new SchoolTabAdapter(fragmentManager, titleList, fragmentList));
         tabviewpager.setCurrentItem(0);
         schooltab.post(new Runnable() {

@@ -299,6 +299,7 @@ public class MainActivity extends AutoLayoutActivity {
                                 intent.putExtra("apkUrl", updateUrl);
                                 startService(intent);
                                 dialog.cancel();
+
                             }
                         });
                     }

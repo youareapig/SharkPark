@@ -7,11 +7,14 @@ import android.app.Service;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
+import android.widget.Toast;
 
 
 import com.weiye.zl.R;
@@ -22,11 +25,11 @@ import java.io.File;
  * Created by Administrator on 2016/12/27.
  */
 public class UpdateService extends Service {
+
     private String apkUrl;
     private String filePath;
     private NotificationManager notificationManager;
     private Notification notification;
-
 
     @Override
     public void onCreate() {
@@ -91,7 +94,7 @@ public class UpdateService extends Service {
     private void notifyUser(String result, String msg, int progress) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.mipmap.logo)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.sharkpark))
                 .setContentTitle(getString(R.string.app_name));
         if (progress > 0 && progress <= 100) {
 
@@ -116,16 +119,42 @@ public class UpdateService extends Service {
      * @return
      */
     private PendingIntent getContentIntent() {
-        Log.e("tag", "getContentIntent()");
+        PendingIntent pendingIntent = null;
         File apkFile = new File(filePath);
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setDataAndType(Uri.parse("file://" + apkFile.getAbsolutePath()),
-                "application/vnd.android.package-archive");
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        startActivity(intent);
+        if (Build.VERSION.SDK_INT >= 24) {
+            if (apkFile.exists()) {
+                Intent intent = new Intent();
+                intent.addFlags(268435456);
+                intent.setAction("android.intent.action.VIEW");
+                String type = getMIMEType(apkFile);
+                intent.setDataAndType(Uri.fromFile(apkFile), type);
+                try {
+                    pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    startActivity(intent);
+                } catch (Exception var5) {
+                    var5.printStackTrace();
+                    Toast.makeText(this, "下载完成，请手动安装。", Toast.LENGTH_LONG).show();
+                }
+            }
+        } else {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(Uri.parse("file://" + apkFile.getAbsolutePath()),
+                    "application/vnd.android.package-archive");
+            pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            startActivity(intent);
+        }
         return pendingIntent;
+    }
 
+
+    public String getMIMEType(File var0) {
+        String var1 = "";
+        String var2 = var0.getName();
+        String var3 = var2.substring(var2.lastIndexOf(".") + 1, var2.length()).toLowerCase();
+        var1 = MimeTypeMap.getSingleton().getMimeTypeFromExtension(var3);
+        return var1;
     }
 
 

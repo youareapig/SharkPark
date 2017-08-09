@@ -68,6 +68,7 @@
                 android:gravity="center"
                 android:paddingRight="40px"
                 android:text="9.00-10.00"
+                android:alpha="0.7"
                 android:textColor="#fff"
                 android:textSize="40px" />
         </com.zhy.autolayout.AutoRelativeLayout>

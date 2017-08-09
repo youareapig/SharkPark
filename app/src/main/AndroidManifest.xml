@@ -115,7 +115,11 @@
 
         <service
             android:name="com.weiye.updateversion.UpdateService"
-            android:process=":update" />
+            android:process=":update" >
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </service>
 
         <activity android:name=".CourseActivity"
             android:screenOrientation="portrait"/>
@@ -129,6 +133,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".TeacherManageActivity"
             android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

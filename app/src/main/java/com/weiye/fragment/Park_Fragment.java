@@ -1,6 +1,7 @@
 package com.weiye.fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -46,7 +47,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
     private CustomProgressDialog customProgressDialog;
     private XRefreshView main1;
     private long lastRefreshTime;
-    private TextView showNo;
+    private TextView showNo,mytag1;
 
     @Nullable
     @Override
@@ -58,11 +59,17 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         main1 = (XRefreshView) view.findViewById(R.id.main1);
         intro = (AutoRelativeLayout) view.findViewById(R.id.intro);
         showNo = (TextView) view.findViewById(R.id.showNO);
+        mytag1= (TextView) view.findViewById(R.id.mytag1);
         shizi= (AutoRelativeLayout) view.findViewById(R.id.shizi);
         shizi.setOnClickListener(this);
         sActivity.setOnClickListener(this);
         appearance.setOnClickListener(this);
         intro.setOnClickListener(this);
+        if (Build.VERSION.SDK_INT >= 23) {
+            mytag1.setVisibility(View.VISIBLE);
+        } else {
+            mytag1.setVisibility(View.GONE);
+        }
         huodongVisit();
         main1.setPullLoadEnable(true);
         main1.setPullRefreshEnable(true);

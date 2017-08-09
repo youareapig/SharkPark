@@ -3,19 +3,14 @@ package com.weiye.zl;
  * 首页的二级界面
  */
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -31,14 +26,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.ManagerAdapter;
 import com.weiye.adapter.SpinnerAdpter;
 import com.weiye.data.TeacherManagerBean;
-import com.weiye.data.VipClassVidioBean;
-import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.TeacherPhotoFragment;
 import com.weiye.listenfragment.TeacherVideoFragment;
-import com.weiye.listenfragment.VideoFragment;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.NoScrollViewPager;
-import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -78,6 +69,8 @@ public class TeacherManageActivity extends AutoLayoutActivity {
     NoScrollViewPager teachermanagerPager;
     @BindView(R.id.main2)
     FrameLayout main2;
+    @BindView(R.id.teachermanagerDom)
+    RelativeLayout teachermanagerDom;
     private Unbinder unbinder;
     private int height;
     private static final String CURRENT_FRAGMENT = "STATE_FRAGMENT_SHOW";
@@ -92,6 +85,7 @@ public class TeacherManageActivity extends AutoLayoutActivity {
     private FragmentManager fragmentManager;
     private SharedPreferences.Editor editor;
     private String gid;
+    private boolean aBoolean = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,36 +143,43 @@ public class TeacherManageActivity extends AutoLayoutActivity {
                 Gson gson = new Gson();
                 final TeacherManagerBean bean = gson.fromJson(result, TeacherManagerBean.class);
                 if (bean.getCode() == 3000) {
-                    teachermanagerTitle.setText(bean.getData().getGrade().get(0).getGname());
-                    teachermanagerContent.setText(bean.getData().getGrade().get(0).getInform());
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getGrade().get(0).getGpic(), teachermanagerBg);
-
-                    View customView = getLayoutInflater().inflate(R.layout.mypop,
-                            null, false);
-                    popListView = (ListView) customView.findViewById(R.id.popListView);
-                    popupWindow = new PopupWindow(customView, 1080, 760);
-                    popupWindow.setBackgroundDrawable(new BitmapDrawable());
-                    popupWindow.setOutsideTouchable(true);
-                    popListView.setAdapter(new SpinnerAdpter(TeacherManageActivity.this, bean.getData().getGrade()));
-
-                    popListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            teachermanagerJt.setImageResource(R.mipmap.dwon);
-                            popupWindow.dismiss();
-                            teachermanagerTitle.setText(bean.getData().getGrade().get(position).getGname());
-                            teacherManger(bean.getData().getGrade().get(position).getGid(), position);
-
-                        }
-                    });
+                    if (bean.getData().getGrade() != null) {
 
 
+                        teachermanagerTitle.setText(bean.getData().getGrade().get(0).getGname());
+                        teachermanagerContent.setText(bean.getData().getGrade().get(0).getInform());
+                        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getGrade().get(0).getGpic(), teachermanagerBg);
+
+                        View customView = getLayoutInflater().inflate(R.layout.mypop,
+                                null, false);
+                        popListView = (ListView) customView.findViewById(R.id.popListView);
+                        popupWindow = new PopupWindow(customView, 1080, 760);
+                        popupWindow.setBackgroundDrawable(null);
+                        popupWindow.setOutsideTouchable(false);
+                        popupWindow.setFocusable(false);
+                        popListView.setAdapter(new SpinnerAdpter(TeacherManageActivity.this, bean.getData().getGrade()));
+
+                        popListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                aBoolean = true;
+                                teachermanagerJt.setImageResource(R.mipmap.dwon);
+                                popupWindow.dismiss();
+                                teachermanagerTitle.setText(bean.getData().getGrade().get(position).getGname());
+                                teacherManger(bean.getData().getGrade().get(position).getGid(), position);
+
+                            }
+                        });
+
+                    } else {
+                        Toast.makeText(TeacherManageActivity.this, "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                Toast.makeText(TeacherManageActivity.this, "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -220,17 +221,18 @@ public class TeacherManageActivity extends AutoLayoutActivity {
                     list.add(new TeacherPhotoFragment(classID));
                     editor.putString("gid", classID);
                     editor.commit();
-                    Log.d("tag", "classID-----" + classID);
                     teachermanagerTab.setupWithViewPager(teachermanagerPager);
                     fragmentManager = getSupportFragmentManager();
                     teachermanagerPager.setAdapter(new ManagerAdapter(fragmentManager, slist, list));
                     teachermanagerPager.setCurrentItem(0);
+                }else {
+                    Toast.makeText(TeacherManageActivity.this, "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-
+                Toast.makeText(TeacherManageActivity.this, "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -251,12 +253,19 @@ public class TeacherManageActivity extends AutoLayoutActivity {
     }
 
 
-    @OnClick({R.id.teachermanagerTitle, R.id.back7})
+    @OnClick({R.id.back7, R.id.teachermanagerDom})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.teachermanagerTitle:
-                popupWindow.showAsDropDown(view, 0, 45);
-                teachermanagerJt.setImageResource(R.mipmap.up);
+            case R.id.teachermanagerDom:
+                if (aBoolean == true) {
+                    popupWindow.showAsDropDown(view, 0, 45);
+                    teachermanagerJt.setImageResource(R.mipmap.up);
+                    aBoolean = false;
+                } else {
+                    popupWindow.dismiss();
+                    teachermanagerJt.setImageResource(R.mipmap.dwon);
+                    aBoolean = true;
+                }
                 break;
             case R.id.back7:
                 finish();

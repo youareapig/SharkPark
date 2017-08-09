@@ -6,21 +6,28 @@
     android:background="#fff">
 
     <TextView
+        android:id="@+id/haha"
+        android:layout_width="match_parent"
+        android:layout_height="55px" />
+
+    <TextView
         android:id="@+id/galleryitem_title"
         android:layout_width="match_parent"
-        android:layout_height="160px"
-        android:gravity="center"
+        android:layout_height="100px"
+        android:layout_below="@+id/haha"
+        android:gravity="center_horizontal"
         android:textColor="#121212"
         android:textSize="72px" />
 
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/galleryitem_img"
-            android:layout_width="840px"
-            android:layout_height="1300px"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
-            android:background="#fff"
-            android:elevation="50px"
-            app:riv_corner_radius="8px" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/galleryitem_img"
+        android:layout_width="840px"
+        android:layout_height="1300px"
+        android:layout_centerInParent="true"
+        android:background="#fff"
+        android:elevation="50px"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="8px" />
 
 </com.zhy.autolayout.AutoRelativeLayout>

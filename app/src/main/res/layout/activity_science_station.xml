@@ -87,7 +87,7 @@
                 android:layout_width="28px"
                 android:layout_height="48px"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="30px"
+                android:layout_marginBottom="10px"
                 android:layout_marginLeft="40px"
                 android:src="@mipmap/back" />
         </RelativeLayout>
@@ -104,7 +104,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginRight="40px"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="30px"
+                android:layout_marginBottom="10px"
                 android:src="@mipmap/share" />
         </RelativeLayout>
     </RelativeLayout>

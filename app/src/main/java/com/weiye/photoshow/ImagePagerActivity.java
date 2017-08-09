@@ -23,6 +23,8 @@ import org.xutils.x;
 import java.util.ArrayList;
 import java.util.List;
 
+import qiu.niorgai.StatusBarCompat;
+
 public class ImagePagerActivity extends FragmentActivity {
     private static final String STATE_POSITION = "STATE_POSITION";
     private HackyViewPager pager;
@@ -32,13 +34,11 @@ public class ImagePagerActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_pager);
+        StatusBarCompat.translucentStatusBar(this, false);
         pager= (HackyViewPager) findViewById(R.id.pager);
         textView= (TextView) findViewById(R.id.indictor);
         Intent intent=getIntent();
         list=intent.getStringArrayListExtra("photoarr");
-        for (int i=0;i<list.size();i++){
-            Log.d("tag","图片地址"+list.get(i));
-        }
         pager.setAdapter(new ImagePagerAdapter(getSupportFragmentManager(),list));
         CharSequence text=getString(R.string.viewpager_indicator,1,pager.getAdapter().getCount());
         textView.setText(text);

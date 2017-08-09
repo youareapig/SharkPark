@@ -1,206 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.andview.refreshview.XRefreshView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main1"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#fff">
+    android:background="#fff"
+    android:orientation="vertical">
 
-
-    <com.andview.refreshview.XScrollView
+    <TextView
+        android:id="@+id/mytag1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="70px"
+        android:background="@color/blue"
+        android:visibility="gone" />
+
+    <com.andview.refreshview.XRefreshView
+        android:id="@+id/main1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:orientation="vertical">
 
 
-        <com.zhy.autolayout.AutoLinearLayout
+        <com.andview.refreshview.XScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <com.zhy.autolayout.AutoRelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="90px">
-
-                <com.zhy.autolayout.AutoRelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true">
-
-                    <ImageView
-                        android:id="@+id/logo"
-                        android:layout_width="123px"
-                        android:layout_height="123px"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/logo" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="30px"
-                        android:layout_toRightOf="@+id/logo"
-                        android:text="鲨鱼公园儿童大学"
-                        android:textColor="#181818"
-                        android:textSize="72px" />
-                </com.zhy.autolayout.AutoRelativeLayout>
-            </com.zhy.autolayout.AutoRelativeLayout>
 
             <com.zhy.autolayout.AutoLinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="270px"
-                android:layout_marginTop="108px"
-                android:orientation="horizontal">
-
-                <com.zhy.autolayout.AutoRelativeLayout
-                    android:id="@+id/intro"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:layout_width="180px"
-                        android:layout_height="180px"
-                        android:layout_centerHorizontal="true"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/a2" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:text="简介"
-                        android:textColor="#888888"
-                        android:textSize="51px" />
-                </com.zhy.autolayout.AutoRelativeLayout>
-
-                <com.zhy.autolayout.AutoRelativeLayout
-                    android:id="@+id/appearance"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:layout_width="180px"
-                        android:layout_height="180px"
-                        android:layout_centerHorizontal="true"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/a3" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:text="环境"
-                        android:textColor="#888888"
-                        android:textSize="51px" />
-                </com.zhy.autolayout.AutoRelativeLayout>
-
-                <com.zhy.autolayout.AutoRelativeLayout
-                    android:id="@+id/shizi"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:layout_width="180px"
-                        android:layout_height="180px"
-                        android:layout_centerHorizontal="true"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/shizi" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:text="师资"
-                        android:textColor="#888888"
-                        android:textSize="51px" />
-                </com.zhy.autolayout.AutoRelativeLayout>
-
-                <com.zhy.autolayout.AutoRelativeLayout
-                    android:id="@+id/sActivity"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1">
-
-                    <ImageView
-                        android:layout_width="180px"
-                        android:layout_height="180px"
-                        android:layout_centerHorizontal="true"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/a1" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:text="活动"
-                        android:textColor="#888888"
-                        android:textSize="51px" />
-                </com.zhy.autolayout.AutoRelativeLayout>
-            </com.zhy.autolayout.AutoLinearLayout>
-
-            <com.zhy.autolayout.AutoRelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="114px">
-
-                <TextView
-                    android:layout_width="351px"
-                    android:layout_height="1px"
-                    android:layout_centerVertical="true"
-                    android:background="#888888" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="精彩 . 瞬间"
-                    android:textColor="#888888"
-                    android:textSize="64px" />
-
-                <TextView
-                    android:layout_width="351px"
-                    android:layout_height="1px"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:background="#888888" />
-            </com.zhy.autolayout.AutoRelativeLayout>
-
-            <com.zhy.autolayout.AutoRelativeLayout
-                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="40px"
-                android:layout_marginRight="40px"
-                android:layout_marginTop="60px">
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/showNO"
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="110px">
+
+                    <com.zhy.autolayout.AutoRelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true">
+
+                        <ImageView
+                            android:id="@+id/logo"
+                            android:layout_width="123px"
+                            android:layout_height="123px"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/logo" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="30px"
+                            android:layout_toRightOf="@+id/logo"
+                            android:text="鲨鱼公园儿童大学"
+                            android:textColor="#181818"
+                            android:textSize="72px" />
+                    </com.zhy.autolayout.AutoRelativeLayout>
+                </com.zhy.autolayout.AutoRelativeLayout>
+
+                <com.zhy.autolayout.AutoLinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="270px"
+                    android:layout_marginTop="108px"
+                    android:orientation="horizontal">
+
+                    <com.zhy.autolayout.AutoRelativeLayout
+                        android:id="@+id/intro"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="180px"
+                            android:layout_height="180px"
+                            android:layout_centerHorizontal="true"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/a2" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:text="简介"
+                            android:textColor="#888888"
+                            android:textSize="51px" />
+                    </com.zhy.autolayout.AutoRelativeLayout>
+
+                    <com.zhy.autolayout.AutoRelativeLayout
+                        android:id="@+id/appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="180px"
+                            android:layout_height="180px"
+                            android:layout_centerHorizontal="true"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/a3" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:text="环境"
+                            android:textColor="#888888"
+                            android:textSize="51px" />
+                    </com.zhy.autolayout.AutoRelativeLayout>
+
+                    <com.zhy.autolayout.AutoRelativeLayout
+                        android:id="@+id/shizi"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="180px"
+                            android:layout_height="180px"
+                            android:layout_centerHorizontal="true"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/shizi" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:text="师资"
+                            android:textColor="#888888"
+                            android:textSize="51px" />
+                    </com.zhy.autolayout.AutoRelativeLayout>
+
+                    <com.zhy.autolayout.AutoRelativeLayout
+                        android:id="@+id/sActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="180px"
+                            android:layout_height="180px"
+                            android:layout_centerHorizontal="true"
+                            android:scaleType="fitXY"
+                            android:src="@mipmap/a1" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:text="活动"
+                            android:textColor="#888888"
+                            android:textSize="51px" />
+                    </com.zhy.autolayout.AutoRelativeLayout>
+                </com.zhy.autolayout.AutoLinearLayout>
+
+                <com.zhy.autolayout.AutoRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="114px">
+
+                    <TextView
+                        android:layout_width="351px"
+                        android:layout_height="1px"
+                        android:layout_centerVertical="true"
+                        android:background="#888888" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="精彩 . 瞬间"
+                        android:textColor="#888888"
+                        android:textSize="64px" />
+
+                    <TextView
+                        android:layout_width="351px"
+                        android:layout_height="1px"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="#888888" />
+                </com.zhy.autolayout.AutoRelativeLayout>
+
+                <com.zhy.autolayout.AutoRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="260px"
-                    android:gravity="center"
-                    android:text="暂无活动信息"
-                    android:textSize="48px"
-                    android:visibility="gone" />
+                    android:layout_marginLeft="40px"
+                    android:layout_marginRight="40px"
+                    android:layout_marginTop="60px">
 
-                <com.weiye.myview.MyListView
-                    android:id="@+id/parkListView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="#00000000"
-                    android:dividerHeight="100px" />
-            </com.zhy.autolayout.AutoRelativeLayout>
+                    <TextView
+                        android:id="@+id/showNO"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="260px"
+                        android:gravity="center"
+                        android:text="暂无活动信息"
+                        android:textSize="48px"
+                        android:visibility="gone" />
 
-        </com.zhy.autolayout.AutoLinearLayout>
-    </com.andview.refreshview.XScrollView>
+                    <com.weiye.myview.MyListView
+                        android:id="@+id/parkListView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="#00000000"
+                        android:dividerHeight="100px" />
+                </com.zhy.autolayout.AutoRelativeLayout>
 
+            </com.zhy.autolayout.AutoLinearLayout>
+        </com.andview.refreshview.XScrollView>
+    </com.andview.refreshview.XRefreshView>
 
-</com.andview.refreshview.XRefreshView>
+</com.zhy.autolayout.AutoLinearLayout>

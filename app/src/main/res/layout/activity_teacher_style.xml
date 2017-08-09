@@ -44,7 +44,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="80px"
-                android:text="老师"
                 android:textColor="#303030"
                 android:textSize="72px" />
             <TextView
@@ -74,7 +73,7 @@
     <RelativeLayout
         android:id="@+id/teacherStyle_title"
         style="@style/mytitle"
-        android:layout_marginTop="20px">
+        android:layout_marginTop="70px">
 
         <RelativeLayout
             android:id="@+id/teacherStyle_Back"

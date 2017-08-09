@@ -29,6 +29,8 @@ import com.weiye.third.QuickPagerAdapter;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.CourseActivity;
 import com.weiye.zl.R;
+import com.zhy.autolayout.AutoRelativeLayout;
+
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -44,7 +46,7 @@ public class Child_Fragment extends Fragment {
     private CustomProgressDialog customProgressDialog;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private TextView textViewTag;
+    private TextView textViewTag,haha;
 
     @Nullable
     @Override
@@ -81,6 +83,11 @@ public class Child_Fragment extends Fragment {
                     quickPagerAdapter = new QuickPagerAdapter<IndexBean.DataBean>(getActivity(), R.layout.galleryitem, mList) {
                         @Override
                         protected void convertView(BaseAdapterHelper helper, final IndexBean.DataBean item) {
+                            if (Build.VERSION.SDK_INT >= 23) {
+                                helper.setVisible(R.id.haha,false);
+                            } else {
+                                helper.setVisible(R.id.haha,true);
+                            }
                             ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + item.getSbpic(), (ImageView) helper.getView(R.id.galleryitem_img));
                             helper.setText(R.id.galleryitem_title, item.getSbtitle());
                             helper.setImageOnClickListener(R.id.galleryitem_img, new View.OnClickListener() {

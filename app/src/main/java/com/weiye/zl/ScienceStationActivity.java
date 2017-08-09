@@ -158,7 +158,7 @@ public class ScienceStationActivity extends AutoLayoutActivity implements Observ
                     paramsToShare.setText("http://www.sharkpark.cn/");
                 }
                 if ("Wechat".equals(platform.getName())) {
-                    Bitmap imageData = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+                    Bitmap imageData = BitmapFactory.decodeResource(getResources(), R.mipmap.background);
                     paramsToShare.setImageData(imageData);
                 }
                 if ("WechatMoments".equals(platform.getName())) {

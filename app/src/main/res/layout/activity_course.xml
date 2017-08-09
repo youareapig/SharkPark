@@ -10,12 +10,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="460px"
+        android:layout_height="530px"
         android:background="@mipmap/coursebg">
 
         <RelativeLayout
             style="@style/mytitle"
-            android:layout_marginTop="30px">
+            android:layout_marginTop="70px">
 
             <TextView
                 android:id="@+id/courseClass"
