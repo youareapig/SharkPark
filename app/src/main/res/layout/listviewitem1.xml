@@ -8,13 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="300px">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/listview1_icon"
             android:layout_width="250px"
             android:layout_height="250px"
-            android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            app:riv_corner_radius="20px" />
+            android:layout_centerVertical="true" />
 
 
         <TextView

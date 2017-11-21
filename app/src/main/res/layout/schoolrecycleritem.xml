@@ -8,14 +8,11 @@
         android:layout_width="500px"
         android:layout_height="420px">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/schoolrecycleritem_img"
             android:layout_width="480px"
             android:layout_height="400px"
-            android:layout_centerInParent="true"
-            android:background="#eeeeee"
-            android:scaleType="centerCrop"
-            app:riv_corner_radius="8px" />
+            android:layout_centerInParent="true" />
 
 
         <TextView
@@ -31,6 +28,7 @@
             android:shadowDy="0.8"
             android:shadowRadius="1"
             android:textColor="#fff"
+            android:singleLine="true"
             android:textSize="48px" />
 
     </com.zhy.autolayout.AutoRelativeLayout>

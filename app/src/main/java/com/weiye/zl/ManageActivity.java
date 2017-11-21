@@ -65,4 +65,16 @@ public class ManageActivity extends AutoLayoutActivity {
     public void onViewClicked() {
         finish();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
 }

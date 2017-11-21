@@ -16,6 +16,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.google.gson.Gson;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -35,6 +37,8 @@ import org.xutils.x;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 /**
  * Created by DELL on 2017/4/20.
  */
@@ -42,7 +46,7 @@ public class ZhaoMu extends Fragment {
     private RecyclerView schoolRecycler;
     private List<AllHuodongBean.DataBean> list;
     private ScrollView scrollView;
-    private RoundedImageView mImage;
+    private ImageView mImage;
     private CustomProgressDialog customProgressDialog;
     private TextView showView,mContent;
     @Nullable
@@ -51,7 +55,7 @@ public class ZhaoMu extends Fragment {
         View view = inflater.inflate(R.layout.schoolactivity1, container, false);
         schoolRecycler = (RecyclerView) view.findViewById(R.id.schoolRecycler);
         scrollView = (ScrollView) view.findViewById(R.id.mScroll);
-        mImage = (RoundedImageView) view.findViewById(R.id.mImage);
+        mImage = (ImageView) view.findViewById(R.id.mImage);
         showView= (TextView) view.findViewById(R.id.showview);
         mContent= (TextView) view.findViewById(R.id.mContent);
         scrollView.smoothScrollTo(0, 20);
@@ -64,7 +68,7 @@ public class ZhaoMu extends Fragment {
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/activeLst");
-        params.addBodyParameter("tp", "1");
+        params.addBodyParameter("tp", "2");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -76,10 +80,20 @@ public class ZhaoMu extends Fragment {
                    showView.setVisibility(View.VISIBLE);
                 }else if (bean.getCode()==1000){
                     showView.setVisibility(View.GONE);
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+list.get(0).getBjimg(),mImage);
+                    Glide.with(getActivity()).load(SingleModleUrl.singleModleUrl().getImgUrl()+list.get(0).getBjimg())
+                            .bitmapTransform(new CenterCrop(getActivity()),new RoundedCornersTransformation(getActivity(),8,0))
+                            .placeholder(R.mipmap.hui)
+                            .error(R.mipmap.hui)
+                            .into(mImage);
                     mContent.setText(list.get(0).getTitle());
-                    schoolRecycler.setAdapter(new SchoolRecyclerAdapter(list));
-                    schoolRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false));
+                    schoolRecycler.setAdapter(new SchoolRecyclerAdapter(list,getActivity()));
+                    GridLayoutManager layoutManager=new GridLayoutManager(getActivity(), 2, LinearLayoutManager.VERTICAL, false){
+                        @Override
+                        public boolean canScrollVertically() {
+                            return false;
+                        }
+                    };
+                    schoolRecycler.setLayoutManager(layoutManager);
                     schoolRecycler.addItemDecoration(new SpacesItemDecoration(6));
                     mImage.setOnClickListener(new View.OnClickListener() {
                         @Override

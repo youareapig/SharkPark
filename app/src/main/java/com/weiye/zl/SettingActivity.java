@@ -13,7 +13,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.weiye.updateversion.UpdateService;
+import com.weiye.update.Updater;
+import com.weiye.update.UpdaterConfig;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -98,9 +99,13 @@ public class SettingActivity extends AutoLayoutActivity {
                     v.findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(SettingActivity.this, UpdateService.class);
-                            intent.putExtra("apkUrl", updateUrl);
-                            startService(intent);
+                            UpdaterConfig config = new UpdaterConfig.Builder(SettingActivity.this)
+                                    .setTitle(getResources().getString(R.string.app_name))
+                                    .setDescription(getString(R.string.system_download_description))
+                                    .setFileUrl(updateUrl)
+                                    .setCanMediaScanner(true)
+                                    .build();
+                            Updater.get().showLog(true).download(config);
                             dialog.cancel();
                         }
                     });
@@ -113,7 +118,7 @@ public class SettingActivity extends AutoLayoutActivity {
                     Window window=dialog.getWindow();
                     WindowManager.LayoutParams layoutParams=window.getAttributes();
                     layoutParams.alpha=0.6f;
-                    layoutParams.width=650;
+                    layoutParams.width=850;
                     window.setAttributes(layoutParams);
                     dialog.setCanceledOnTouchOutside(true);
 
@@ -141,7 +146,7 @@ public class SettingActivity extends AutoLayoutActivity {
                         editor.putString("userid", "0");
                         editor.putString("usertype", "0");
                         editor.commit();
-                        Intent intent2 = new Intent(SettingActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Intent intent2 = new Intent(SettingActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent2);
                         finish();
                         dialog.cancel();

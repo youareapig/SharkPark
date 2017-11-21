@@ -11,7 +11,7 @@ public class VideoBean {
     /**
      * code : 1000
      * message : 查询成功
-     * data : [{"vimg":"Uploads/subject/2017-07-07//595ef83aac949.jpg","vtitle":"课堂风采","vurl":"/video/vide1.mp4"},{"vimg":"Uploads/subject/2017-07-07//595ef87982a6c.jpg","vtitle":"学生动手课堂","vurl":"/video/vide1.mp4"},{"vimg":"Uploads/subject/2017-07-07//595ef8965c239.jpg","vtitle":"雏鹰起飞","vurl":"/video/vide1.mp4"},{"vimg":"Uploads/subject/2017-07-07//595ef8bb3e375.jpg","vtitle":"初升的太阳","vurl":"/video/vide1.mp4"},{"vimg":"Uploads/subject/2017-07-07//595ef8ee94a55.jpg","vtitle":"时代在召唤","vurl":"/video/vide1.mp4"},{"vimg":"Uploads/subject/2017-07-07//595ef9026413d.jpg","vtitle":"学生风采","vurl":"/video/vide1.mp4"}]
+     * data : [{"vimg":"Uploads/subject/2017-08-10//598c109a6c4dc.jpg","title":"科普小讲堂","vurl":"/Video/a1.flv"},{"vimg":"Uploads/subject/2017-08-10//598c130112ac0.jpg","title":"3D眼镜制作","vurl":"/Video/a2.mp4"},{"vimg":"Uploads/subject/2017-09-16//59bcea2755f15.jpg","title":"大象牙膏","vurl":"/Video/daxiangyagao"},{"vimg":"Uploads/subject/2017-09-16//59bcf40a1693e.jpg","title":"爆沸反应","vurl":"/Video/baofeifanying"},{"vimg":"Uploads/subject/151064042089.jpg","title":"测试添加","vurl":"/Video/tt4"}]
      */
 
     private int code;
@@ -44,13 +44,13 @@ public class VideoBean {
 
     public static class DataBean {
         /**
-         * vimg : Uploads/subject/2017-07-07//595ef83aac949.jpg
-         * vtitle : 课堂风采
-         * vurl : /video/vide1.mp4
+         * vimg : Uploads/subject/2017-08-10//598c109a6c4dc.jpg
+         * title : 科普小讲堂
+         * vurl : /Video/a1.flv
          */
 
         private String vimg;
-        private String vtitle;
+        private String title;
         private String vurl;
 
         public String getVimg() {
@@ -61,12 +61,12 @@ public class VideoBean {
             this.vimg = vimg;
         }
 
-        public String getVtitle() {
-            return vtitle;
+        public String getTitle() {
+            return title;
         }
 
-        public void setVtitle(String vtitle) {
-            this.vtitle = vtitle;
+        public void setTitle(String title) {
+            this.title = title;
         }
 
         public String getVurl() {

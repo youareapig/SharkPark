@@ -1,5 +1,6 @@
 package com.weiye.adapter;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.AllHuodongBean;
 import com.weiye.data.HuodongBean;
@@ -20,14 +23,17 @@ import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 /**
  * Created by DELL on 2017/4/14.
  */
 public class SchoolRecyclerAdapter extends RecyclerView.Adapter {
     private List<AllHuodongBean.DataBean> list;
-
-    public SchoolRecyclerAdapter(List<AllHuodongBean.DataBean> list) {
+    private Activity activity;
+    public SchoolRecyclerAdapter(List<AllHuodongBean.DataBean> list,Activity activity) {
         this.list = list;
+        this.activity=activity;
     }
 
     @Override
@@ -40,7 +46,11 @@ public class SchoolRecyclerAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ViewHolder viewHolder = (ViewHolder) holder;
         final AllHuodongBean.DataBean bean = list.get(position+1);
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBjimg(), viewHolder.imageView);
+        Glide.with(activity).load(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getBjimg())
+                .bitmapTransform(new CenterCrop(activity),new RoundedCornersTransformation(activity,8,0))
+                .placeholder(R.mipmap.hui3)
+                .error(R.mipmap.hui3)
+                .into(viewHolder.imageView);
         viewHolder.textView.setText(bean.getTitle());
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

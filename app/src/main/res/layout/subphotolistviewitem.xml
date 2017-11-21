@@ -9,14 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/subphotolistviewItem_img"
             android:layout_width="1000px"
             android:layout_height="500px"
             android:layout_centerHorizontal="true"
-            android:scaleType="centerCrop"
-            android:background="#eeeeee"
-            app:riv_corner_radius="8px" />
+             />
 
         <TextView
             android:id="@+id/subphtolistviewItem_text"

@@ -13,6 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.HuodongBean;
@@ -22,6 +24,8 @@ import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.HashMap;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by DELL on 2017/4/13.
@@ -33,6 +37,7 @@ public class ActivitiesGridAdpter extends BaseAdapter {
 
     public ActivitiesGridAdpter(List<HuodongBean.DataBean> list, Activity activity) {
         this.list = list;
+        this.activity=activity;
         this.inflater = activity.getLayoutInflater();
     }
 
@@ -63,7 +68,7 @@ public class ActivitiesGridAdpter extends BaseAdapter {
         HuodongBean.DataBean bean = list.get(i);
         if (view == null) {
             view = inflater.inflate(R.layout.activitisegriditem, null);
-            holder.imageView = (RoundedImageView) view.findViewById(R.id.activities_item_img);
+            holder.imageView = (ImageView) view.findViewById(R.id.activities_item_img);
             holder.textView = (TextView) view.findViewById(R.id.activities_item_text);
             holder.huodongPlay = (ImageView) view.findViewById(R.id.huodongplay);
             holder.textViewNumber= (TextView) view.findViewById(R.id.number2);
@@ -73,12 +78,20 @@ public class ActivitiesGridAdpter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         if (bean.getIsvideo().equals("0")) {
-            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getPhotos().get(0), holder.imageView);
+            Glide.with(activity).load(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getPhotos().get(0))
+                    .bitmapTransform(new CenterCrop(activity),new RoundedCornersTransformation(activity,8,0))
+                    .placeholder(R.mipmap.hui)
+                    .error(R.mipmap.hui)
+                    .into(holder.imageView);
             holder.huodongPlay.setVisibility(View.GONE);
             holder.textViewNumber.setText(bean.getPhotos().size()+"");
         } else {
             //Bitmap bitmap = createVideoThumbnail(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getVurl(), 1000, 500);
-            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getBjimg(), holder.imageView);
+            Glide.with(activity).load(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getBjimg())
+                    .bitmapTransform(new CenterCrop(activity),new RoundedCornersTransformation(activity,8,0))
+                    .placeholder(R.mipmap.hui)
+                    .error(R.mipmap.hui)
+                    .into(holder.imageView);
             //holder.imageView.setImageBitmap(bitmap);
             holder.huodongPlay.setVisibility(View.VISIBLE);
         }
@@ -87,7 +100,7 @@ public class ActivitiesGridAdpter extends BaseAdapter {
     }
 
     private class ViewHolder {
-        private RoundedImageView imageView;
+        private ImageView imageView;
         private TextView textView,textViewNumber;
         private ImageView huodongPlay;
     }

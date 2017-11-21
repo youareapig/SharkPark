@@ -130,6 +130,28 @@ public class PhotoFragment extends Fragment {
 
             @Override
             public boolean onCache(String result) {
+                main20.setVisibility(View.VISIBLE);
+                Gson gson = new Gson();
+                PhotoBean bean = gson.fromJson(result, PhotoBean.class);
+                if (bean.getCode() == 1000) {
+                    noPhoto.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                    list = bean.getData();
+                    listView.setAdapter(new SubPhotoListViewAdapter(list, getActivity()));
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            PhotoBean.DataBean dataBean = (PhotoBean.DataBean) adapterView.getItemAtPosition(i);
+                            List<String> picture = dataBean.getPurl();
+                            Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
+                            intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture);
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    noPhoto.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                }
                 return false;
             }
         });
@@ -188,6 +210,32 @@ public class PhotoFragment extends Fragment {
 
             @Override
             public boolean onCache(String result) {
+                main20.setVisibility(View.VISIBLE);
+                Gson gson = new Gson();
+                final VipClassPhotoBean bean = gson.fromJson(result, VipClassPhotoBean.class);
+                if (bean.getCode() == 3000) {
+                    if (bean.getData().getPv().size()!=0){
+                        noPhoto.setVisibility(View.GONE);
+                        listView.setVisibility(View.VISIBLE);
+                        listView.setAdapter(new VipPhotoListViewAdapter(bean.getData().getPv(), getActivity()));
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                List<String> picture = bean.getData().getPv().get(i).getPurl();
+                                Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
+                                intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture);
+                                startActivity(intent);
+                            }
+                        });
+                    }else {
+                        noPhoto.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.GONE);
+                    }
+
+                } else {
+                    noPhoto.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                }
                 return false;
             }
         });
@@ -243,6 +291,27 @@ public class PhotoFragment extends Fragment {
 
             @Override
             public boolean onCache(String result) {
+                Gson gson = new Gson();
+                final TeacherManagePhotoBean bean = gson.fromJson(result, TeacherManagePhotoBean.class);
+                if (bean.getCode() == 3000) {
+                    noPhoto.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                    TeacherPhotoListViewAdapter adapter = new TeacherPhotoListViewAdapter(bean.getData().getPv(), getActivity());
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            List<String> picture = bean.getData().getPv().get(i).getPurl();
+                            Intent intent = new Intent(getActivity(), ImagePagerActivity.class);
+                            intent.putStringArrayListExtra("photoarr", (ArrayList<String>) picture);
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    noPhoto.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                }
                 return false;
             }
         });

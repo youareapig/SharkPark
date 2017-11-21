@@ -10,7 +10,7 @@ public class PhotoBean {
     /**
      * code : 1000
      * message : 查询成功
-     * data : [{"purl":["Uploads/subject/2017-07-07/595ef64f44054.jpg","Uploads/subject/2017-07-07/595ef64f44ae1.jpg","Uploads/subject/2017-07-07/595ef64f4538a.jpg"],"ptitle":"课堂实验"},{"purl":["Uploads/subject/2017-07-07/595ef66b7d9b2.jpg","Uploads/subject/2017-07-07/595ef66b7e3ee.jpg","Uploads/subject/2017-07-07/595ef66b7eabc.jpg"],"ptitle":"校园风采"},{"purl":["Uploads/subject/2017-07-07/595ef6f2df54e.jpg","Uploads/subject/2017-07-07/595ef6f2e025a.jpg","Uploads/subject/2017-07-07/595ef6f2e0a8b.jpg"],"ptitle":"雏鹰起飞"},{"purl":["Uploads/subject/2017-07-07/595ef72e6ffdb.jpg","Uploads/subject/2017-07-07/595ef72e715a4.jpg","Uploads/subject/2017-07-07/595ef72e71ca2.jpg"],"ptitle":"初升的太阳"},{"purl":["Uploads/subject/2017-07-07/595ef77eb412e.jpg","Uploads/subject/2017-07-07/595ef77eb49fa.jpg","Uploads/subject/2017-07-07/595ef77eb51ac.jpg"],"ptitle":"时代在召唤"},{"purl":["Uploads/subject/2017-07-07/595ef7f14dd83.jpg","Uploads/subject/2017-07-07/595ef7f14e7f3.jpg","Uploads/subject/2017-07-07/595ef7f14ef4b.jpg"],"ptitle":"科学风采"}]
+     * data : [{"purl":["Uploads/subject/2017-07-20/597059d5eddc9.jpg","Uploads/subject/2017-07-20/597059d5efcd9.jpg","Uploads/subject/2017-07-20/597059d5f1c5e.jpg","Uploads/subject/2017-07-20/597059d5f3bf1.jpg","Uploads/subject/2017-07-20/597059d6018ff.jpg"],"title":"课堂风采"},{"purl":["Uploads/subject/2017-07-21/597167bc08e8e.png","Uploads/subject/2017-07-21/597167bc0b4fc.png","Uploads/subject/2017-07-21/597167bc0ffde.jpg","Uploads/subject/2017-07-21/597167bc1207d.jpg","Uploads/subject/2017-07-21/5971690ca054b.png"],"title":"小课堂"},{"purl":["Uploads/subject/2017-07-21/5971694763d49.jpg","Uploads/subject/2017-07-21/597169c9c8993.png","Uploads/subject/2017-07-21/597169c9c9b72.jpg","Uploads/subject/2017-07-21/597169c9cb6c4.png"],"title":"户外课堂"},{"purl":["Uploads/subject/2017-09-16/59bcea9db23c3.jpg","Uploads/subject/2017-09-16/59bceaaa1d8a1.jpg","Uploads/subject/2017-09-16/59bceab64f34f.jpg"],"title":"制作电路贺卡"},{"purl":["Uploads/subject/2017-09-16/59bceb0c25c81.jpg","Uploads/subject/2017-09-16/59bceb0c2998a.jpg","Uploads/subject/2017-09-16/59bceb1ff0159.jpg"],"title":"恐龙化石"}]
      */
 
     private int code;
@@ -43,19 +43,19 @@ public class PhotoBean {
 
     public static class DataBean {
         /**
-         * purl : ["Uploads/subject/2017-07-07/595ef64f44054.jpg","Uploads/subject/2017-07-07/595ef64f44ae1.jpg","Uploads/subject/2017-07-07/595ef64f4538a.jpg"]
-         * ptitle : 课堂实验
+         * purl : ["Uploads/subject/2017-07-20/597059d5eddc9.jpg","Uploads/subject/2017-07-20/597059d5efcd9.jpg","Uploads/subject/2017-07-20/597059d5f1c5e.jpg","Uploads/subject/2017-07-20/597059d5f3bf1.jpg","Uploads/subject/2017-07-20/597059d6018ff.jpg"]
+         * title : 课堂风采
          */
 
-        private String ptitle;
+        private String title;
         private List<String> purl;
 
-        public String getPtitle() {
-            return ptitle;
+        public String getTitle() {
+            return title;
         }
 
-        public void setPtitle(String ptitle) {
-            this.ptitle = ptitle;
+        public void setTitle(String title) {
+            this.title = title;
         }
 
         public List<String> getPurl() {

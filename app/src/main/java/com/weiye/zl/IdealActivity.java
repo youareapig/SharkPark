@@ -74,7 +74,7 @@ public class IdealActivity extends AutoLayoutActivity {
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/addMessage");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/addMessage");
         params.addBodyParameter("id", userID);
         params.addBodyParameter("content", string);
         x.http().post(params, new Callback.CacheCallback<String>() {
@@ -82,7 +82,7 @@ public class IdealActivity extends AutoLayoutActivity {
             public void onSuccess(String result) {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
-                    if (jsonObject.getString("code").equals("1001")) {
+                    if (jsonObject.getString("code").equals("3007")) {
                         inputIdeal.setText(null);
                         Toast.makeText(IdealActivity.this, "谢谢您的反馈", Toast.LENGTH_SHORT).show();
                     } else {
@@ -113,5 +113,17 @@ public class IdealActivity extends AutoLayoutActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }
 }

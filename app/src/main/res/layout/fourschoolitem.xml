@@ -7,7 +7,7 @@
 <com.zhy.autolayout.AutoRelativeLayout
     android:layout_width="match_parent"
     android:layout_height="550px">
-    <com.makeramen.roundedimageview.RoundedImageView
+    <ImageView
         android:id="@+id/fourschoolitem_img"
         android:layout_width="360px"
         android:layout_height="460px"

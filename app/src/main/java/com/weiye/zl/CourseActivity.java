@@ -33,8 +33,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import cn.qqtheme.framework.picker.DatePicker;
-import cn.qqtheme.framework.picker.OptionPicker;
+import cn.addapp.pickers.common.LineConfig;
+import cn.addapp.pickers.listeners.OnItemPickListener;
+import cn.addapp.pickers.picker.DatePicker;
+import cn.addapp.pickers.picker.SinglePicker;
 import qiu.niorgai.StatusBarCompat;
 
 public class CourseActivity extends AutoLayoutActivity {
@@ -58,6 +60,12 @@ public class CourseActivity extends AutoLayoutActivity {
     RelativeLayout isCourse;
     @BindView(R.id.noCourse)
     TextView noCourse;
+    @BindView(R.id.layout_local)
+    LinearLayout layoutLocal;
+    @BindView(R.id.restart)
+    TextView restart;
+    @BindView(R.id.layout_restart)
+    RelativeLayout layoutRestart;
     private Unbinder unbinder;
     private int year, month, day;
     private String indexID, userID, userType, userTag, date, mydate, mytime, s1, s2, userTimes, gradename;
@@ -76,12 +84,6 @@ public class CourseActivity extends AutoLayoutActivity {
         visit(indexID, "", "");
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        makeDate();
-        visit(indexID, "", "");
-    }
 
     private void visit(String classid, String riqi, String shijian) {
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
@@ -95,6 +97,8 @@ public class CourseActivity extends AutoLayoutActivity {
             @Override
             public void onSuccess(String result) {
                 Log.d("tag", "k---------" + result);
+                layoutLocal.setVisibility(View.VISIBLE);
+                layoutRestart.setVisibility(View.GONE);
                 Gson gson = new Gson();
                 CourseBeans beans = gson.fromJson(result, CourseBeans.class);
                 list = beans.getData().getData();
@@ -121,8 +125,8 @@ public class CourseActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Intent intent = new Intent(CourseActivity.this, RestartActivity.class);
-                startActivity(intent);
+                layoutLocal.setVisibility(View.GONE);
+                layoutRestart.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -148,44 +152,85 @@ public class CourseActivity extends AutoLayoutActivity {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.chooseDate, R.id.chooseTime, R.id.courseButton, R.id.courseBack, R.id.courseWode})
+    @OnClick({R.id.chooseDate, R.id.chooseTime, R.id.courseButton, R.id.courseBack, R.id.courseWode,R.id.restart})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.chooseDate:
-                DatePicker picker1 = new DatePicker(this, DatePicker.YEAR_MONTH_DAY);
-                picker1.setRange(2017, 2020);
-                picker1.setSelectedItem(year, month + 1, day);
+                final DatePicker picker1 = new DatePicker(this);
+                picker1.setCanLoop(false);
+                picker1.setWheelModeEnable(true);
+                picker1.setTopPadding(15);
+                picker1.setRangeStart(1900, 8, 29);
+                picker1.setRangeEnd(2100, 1, 11);
+                picker1.setSelectedItem(year, month, day);
+                picker1.setWeightEnable(true);
+                LineConfig config1 = new LineConfig();
+                config1.setColor(Color.parseColor("#000000"));//线颜色
+                config1.setAlpha(140);//线透明度
+                picker1.setSelectedTextColor(Color.BLACK);
                 picker1.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
                     @Override
                     public void onDatePicked(String year, String month, String day) {
-                        //TODO 点击确定监听事件
                         mydate = year + "-" + month + "-" + day;
                         chooseDate.setText(mydate);
                         s1 = chooseDate.getText().toString();
                         chooseTime.setText("上课时间");
                         visit(indexID, s1, "");
+                    }
+                });
+                picker1.setOnWheelListener(new DatePicker.OnWheelListener() {
+                    @Override
+                    public void onYearWheeled(int index, String year) {
+                        picker1.setTitleText(year + "-" + picker1.getSelectedMonth() + "-" + picker1.getSelectedDay());
+                    }
 
+                    @Override
+                    public void onMonthWheeled(int index, String month) {
+                        picker1.setTitleText(picker1.getSelectedYear() + "-" + month + "-" + picker1.getSelectedDay());
+                    }
+
+                    @Override
+                    public void onDayWheeled(int index, String day) {
+                        picker1.setTitleText(picker1.getSelectedYear() + "-" + picker1.getSelectedMonth() + "-" + day);
                     }
                 });
                 picker1.show();
                 break;
             case R.id.chooseTime:
                 try {
-                    OptionPicker picker = new OptionPicker(this, arry);
-                    picker.setOffset(2);
-                    picker.setTextSize(18);
-                    picker.setTextColor(Color.BLACK);
-                    picker.setSelectedIndex(1);
-                    picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+                    SinglePicker<String> picker = new SinglePicker<>(this, arry);
+                    picker.setCanLoop(true);//不禁用循环
+                    picker.setTopBackgroundColor(Color.parseColor("#ffffff"));
+                    picker.setTopHeight(50);
+                    picker.setWeightEnable(true);
+                    picker.setWeightWidth(1);
+                    picker.setHeight(600);
+                    picker.setTopLineColor(Color.parseColor("#eeeeee"));
+                    picker.setTopLineHeight(1);
+                    picker.setTitleTextColor(Color.BLACK);
+                    picker.setTitleTextSize(12);
+                    picker.setCancelTextColor(Color.parseColor("#000000"));
+                    picker.setCancelTextSize(13);
+                    picker.setSubmitTextColor(Color.parseColor("#000000"));
+                    picker.setSubmitTextSize(13);
+                    picker.setSelectedTextColor(Color.parseColor("#000000"));
+                    picker.setUnSelectedTextColor(Color.parseColor("#888888"));
+                    LineConfig config = new LineConfig();
+                    config.setColor(Color.parseColor("#000000"));//线颜色
+                    config.setAlpha(140);//线透明度
+                    config.setRatio((float) (1.0 / 8.0));//线比率
+                    picker.setLineConfig(config);
+                    picker.setItemWidth(100);
+                    picker.setBackgroundColor(Color.parseColor("#ffffff"));
+                    picker.setSelectedIndex(0);
+                    picker.setOnItemPickListener(new OnItemPickListener<String>() {
                         @Override
-                        public void onOptionPicked(String option) {
-                            mytime = option;
+                        public void onItemPicked(int index, String item) {
+                            mytime = item;
                             chooseTime.setText(mytime);
                             s2 = chooseTime.getText().toString();
                             visit(indexID, s1, s2);
                         }
-
-
                     });
                     picker.show();
                 } catch (Exception e) {
@@ -196,12 +241,11 @@ public class CourseActivity extends AutoLayoutActivity {
             case R.id.courseButton:
                 if (userTag.equals("0")) {
                     new UserLoginDialog1(this).loginDialog();
-                }
-                else {
-                    if (userType.equals("1")||userType.equals("4")){
+                } else {
+                    if (userType.equals("1") || userType.equals("4")) {
                         Intent intent = new Intent(this, SubmitActivity.class);
                         startActivity(intent);
-                    }else {
+                    } else {
                         if (userTimes.equals("0")) {
                             Toast.makeText(CourseActivity.this, "您已经预约！", Toast.LENGTH_SHORT).show();
                         } else {
@@ -213,12 +257,15 @@ public class CourseActivity extends AutoLayoutActivity {
                 }
                 break;
             case R.id.courseWode:
-                Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("fTag", 3);
                 startActivity(intent);
                 break;
             case R.id.courseBack:
                 finish();
+                break;
+            case R.id.restart:
+                visit(indexID, "", "");
                 break;
         }
     }

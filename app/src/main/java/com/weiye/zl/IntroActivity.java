@@ -49,8 +49,8 @@ public class IntroActivity extends AutoLayoutActivity {
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/detailLst");
-        params.addBodyParameter("tp", "1");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/about");
+        params.addBodyParameter("type", "1");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -62,7 +62,7 @@ public class IntroActivity extends AutoLayoutActivity {
                     webSettings.setLoadWithOverviewMode(true);
                     webSettings.setUseWideViewPort(true);
                     webSettings.setTextZoom(250);
-                    String h5 = bean.getData().getIntrotext();
+                    String h5 = bean.getData();
                     webView.loadDataWithBaseURL(null, getNewContent(h5), "text/html", "utf-8", null);
                     webView.setWebViewClient(new WebViewClient());
                 }if (bean.getCode() == -1000) {

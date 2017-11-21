@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidkun.xtablayout.XTabLayout;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.ManagerAdapter;
@@ -29,6 +30,7 @@ import com.weiye.data.TeacherManagerBean;
 import com.weiye.listenfragment.TeacherPhotoFragment;
 import com.weiye.listenfragment.TeacherVideoFragment;
 import com.weiye.myview.CustomProgressDialog;
+import com.weiye.myview.CustomViewPager;
 import com.weiye.myview.NoScrollViewPager;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
@@ -64,9 +66,9 @@ public class TeacherManageActivity extends AutoLayoutActivity {
     @BindView(R.id.mytitle)
     FrameLayout mytitle;
     @BindView(R.id.teachermanagerTab)
-    TabLayout teachermanagerTab;
+    XTabLayout teachermanagerTab;
     @BindView(R.id.teachermanagerPager)
-    NoScrollViewPager teachermanagerPager;
+    CustomViewPager teachermanagerPager;
     @BindView(R.id.main2)
     FrameLayout main2;
     @BindView(R.id.teachermanagerDom)
@@ -117,6 +119,8 @@ public class TeacherManageActivity extends AutoLayoutActivity {
         teachermanagerTab.setupWithViewPager(teachermanagerPager);
         fragmentManager = getSupportFragmentManager();
         teachermanagerPager.setAdapter(new ManagerAdapter(fragmentManager, slist, list));
+        teachermanagerTab.getTabAt(0).select();
+        teachermanagerTab.getTabAt(1).select();
         teachermanagerPager.setCurrentItem(0);
         teacherManager_first();
     }

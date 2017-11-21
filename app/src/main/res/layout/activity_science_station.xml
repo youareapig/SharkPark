@@ -39,11 +39,11 @@
                     android:id="@+id/scienceStation_title"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:gravity="center_vertical"
                     android:layout_centerVertical="true"
-                    android:textColor="#303030"
-                    android:maxLines="2"
                     android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:textColor="#303030"
                     android:textSize="64px" />
 
                 <TextView
@@ -56,27 +56,28 @@
                     android:textSize="42px" />
 
             </RelativeLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="#f0f0f0"
                 android:layout_marginTop="20px"
-                />
+                android:background="#f0f0f0" />
 
 
             <WebView
                 android:id="@+id/scienceStation_Content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30px"
                 android:layout_marginLeft="40px"
-                android:layout_marginRight="40px" />
+                android:layout_marginRight="40px"
+                android:layout_marginTop="30px" />
         </LinearLayout>
     </com.weiye.myview.ObservableScrollView>
 
     <RelativeLayout
         android:id="@+id/toubu"
-        style="@style/mytitle">
+        android:layout_width="match_parent"
+        android:layout_height="160px">
 
         <RelativeLayout
             android:id="@+id/scienceStationBack"
@@ -87,7 +88,7 @@
                 android:layout_width="28px"
                 android:layout_height="48px"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10px"
+                android:layout_marginBottom="20px"
                 android:layout_marginLeft="40px"
                 android:src="@mipmap/back" />
         </RelativeLayout>
@@ -96,15 +97,16 @@
             android:id="@+id/scienceStationShare"
             android:layout_width="128px"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true">
+            android:layout_alignParentRight="true"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="54px"
                 android:layout_height="58px"
                 android:layout_alignParentBottom="true"
-                android:layout_marginRight="40px"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="10px"
+                android:layout_marginBottom="20px"
+                android:layout_marginRight="40px"
                 android:src="@mipmap/share" />
         </RelativeLayout>
     </RelativeLayout>

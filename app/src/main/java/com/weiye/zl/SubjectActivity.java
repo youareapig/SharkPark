@@ -87,7 +87,6 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
     private String userType, userID;
     private SharedPreferences sharedPreferences;
     private CustomProgressDialog customProgressDialog;
-    private ListView popListView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -238,8 +237,7 @@ public class SubjectActivity extends AutoLayoutActivity implements ObservableScr
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Intent intent = new Intent(SubjectActivity.this, RestartActivity.class);
-                startActivity(intent);
+
             }
 
             @Override

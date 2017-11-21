@@ -22,7 +22,8 @@ import com.weiye.fragment.Child_Fragment;
 import com.weiye.fragment.Park_Fragment;
 import com.weiye.fragment.Shark_Fragment;
 import com.weiye.fragment.University_Fragment;
-import com.weiye.updateversion.UpdateService;
+import com.weiye.update.Updater;
+import com.weiye.update.UpdaterConfig;
 import com.weiye.utils.ExamInternet;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.utils.UserLoginDialog;
@@ -44,6 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import qiu.niorgai.StatusBarCompat;
 
 
 public class MainActivity extends AutoLayoutActivity {
@@ -89,6 +91,7 @@ public class MainActivity extends AutoLayoutActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StatusBarCompat.translucentStatusBar(this, false);
         //TODO 检查是否打开网络
         if (new ExamInternet().isConn(this) == false) {
             Intent intent = new Intent(MainActivity.this, SettingInternetActivity.class);
@@ -272,6 +275,7 @@ public class MainActivity extends AutoLayoutActivity {
             @Override
             public void onSuccess(String result) {
                 try {
+                    Log.e("tag","版本更新---"+result);
                     JSONObject json = new JSONObject(result);
                     updateName = json.getString("versionName");
                     updateContent = json.getString("description");
@@ -295,10 +299,14 @@ public class MainActivity extends AutoLayoutActivity {
                         v.findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Intent intent = new Intent(MainActivity.this, UpdateService.class);
-                                intent.putExtra("apkUrl", updateUrl);
-                                startService(intent);
-                                dialog.cancel();
+                                UpdaterConfig config = new UpdaterConfig.Builder(MainActivity.this)
+                                        .setTitle(getResources().getString(R.string.app_name))
+                                        .setDescription(getString(R.string.system_download_description))
+                                        .setFileUrl(updateUrl)
+                                        .setCanMediaScanner(true)
+                                        .build();
+                                Updater.get().showLog(true).download(config);
+                               dialog.cancel();
 
                             }
                         });
@@ -342,5 +350,17 @@ public class MainActivity extends AutoLayoutActivity {
         }
         return super.onKeyUp(keyCode, event);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }
 }

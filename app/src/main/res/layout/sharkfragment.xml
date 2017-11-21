@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.andview.refreshview.XRefreshView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.zhy.autolayout.AutoLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/refresh"
     android:layout_width="match_parent"
@@ -7,10 +7,11 @@
     android:background="#fff"
     android:orientation="vertical">
 
-    <com.andview.refreshview.XScrollView
+    <com.weiye.myview.MyScrollView
         android:id="@+id/myscroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <com.zhy.autolayout.AutoLinearLayout
             android:layout_width="match_parent"
@@ -19,9 +20,10 @@
             android:focusableInTouchMode="true"
             android:orientation="vertical">
 
+
             <com.zhy.autolayout.AutoRelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="480px">
+                android:layout_height="550px">
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/banner"
@@ -48,7 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="40px"
-                    android:text="校园风采"
+                    android:text="课堂风采"
                     android:textColor="#303030"
                     android:textSize="72px" />
 
@@ -102,19 +104,18 @@
                 android:layout_marginRight="40px"
                 android:layout_marginTop="30px">
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <ImageView
                     android:id="@+id/kexueyizhan_Img"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    app:riv_corner_radius="20px" />
+                    android:layout_height="match_parent" />
+
                 <TextView
                     android:id="@+id/kexueyizhan_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="30px"
                     android:layout_marginBottom="30px"
+                    android:layout_marginLeft="30px"
                     android:textColor="#fff"
                     android:textSize="48px" />
             </com.zhy.autolayout.AutoRelativeLayout>
@@ -132,6 +133,7 @@
                 android:id="@+id/listview1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="160px"
                 android:layout_marginLeft="40px"
                 android:layout_marginRight="40px"
                 android:layout_marginTop="10px"
@@ -139,5 +141,5 @@
                 android:dividerHeight="1px" />
         </com.zhy.autolayout.AutoLinearLayout>
 
-    </com.andview.refreshview.XScrollView>
-</com.andview.refreshview.XRefreshView>
+    </com.weiye.myview.MyScrollView>
+</com.zhy.autolayout.AutoLinearLayout>

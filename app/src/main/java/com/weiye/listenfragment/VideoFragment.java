@@ -108,7 +108,6 @@ public class VideoFragment extends Fragment {
                     noShipin.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
                 }
-
             }
 
             @Override
@@ -128,6 +127,27 @@ public class VideoFragment extends Fragment {
 
             @Override
             public boolean onCache(String result) {
+                main21.setVisibility(View.VISIBLE);
+                Gson gson = new Gson();
+                VideoBean bean = gson.fromJson(result, VideoBean.class);
+                if (bean.getCode() == 1000) {
+                    noShipin.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
+                    list = bean.getData();
+                    listView.setAdapter(new SubVideoListViewAdapter(list, getActivity()));
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            VideoBean.DataBean bean1 = (VideoBean.DataBean) adapterView.getItemAtPosition(i);
+                            Intent intent = new Intent(getActivity(), VedioPlayerActivity.class);
+                            intent.putExtra("videoUrl", bean1.getVurl());
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    noShipin.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                }
                 return false;
             }
         });

@@ -356,7 +356,7 @@ public class UserLoginDialog1 {
         progressDialog.setCancelable(true);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/logo");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/logo");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", password);
         x.http().post(params, new Callback.CommonCallback<String>() {
@@ -403,7 +403,7 @@ public class UserLoginDialog1 {
 
     //TODO 检测用户是否存在
     private void detectionUser(String phone) {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/isRegist");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/isRegist");
         params.addBodyParameter("tel", phone);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
@@ -446,7 +446,7 @@ public class UserLoginDialog1 {
 
     //Todo 修改密码时检测是否已经注册
     private void detectionUser_1(String phone) {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/isRegist");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/isRegist");
         params.addBodyParameter("tel", phone);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
@@ -499,7 +499,7 @@ public class UserLoginDialog1 {
         progressDialog.setCancelable(true);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/regist");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/regist");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", pwd);
         x.http().post(params, new Callback.CommonCallback<String>() {
@@ -551,7 +551,7 @@ public class UserLoginDialog1 {
         progressDialog.setCancelable(true);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/setPwd");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/setPwd");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", pwd);
         x.http().post(params, new Callback.CommonCallback<String>() {

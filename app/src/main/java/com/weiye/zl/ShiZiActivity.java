@@ -48,8 +48,8 @@ public class ShiZiActivity extends AutoLayoutActivity {
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/detailLst");
-        params.addBodyParameter("tp","2");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/about");
+        params.addBodyParameter("type","2");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -62,10 +62,9 @@ public class ShiZiActivity extends AutoLayoutActivity {
                     webSettings.setLoadWithOverviewMode(true);
                     webSettings.setUseWideViewPort(true);
                     webSettings.setTextZoom(250);
-                    String h5 = bean.getData().getIntrotext();
+                    String h5 = bean.getData();
                     //webView.loadDataWithBaseURL("about:blank", html + h5, "text/html", "utf-8", null);
                     webView.loadDataWithBaseURL(null, getNewContent(h5), "text/html", "utf-8", null);
-                    Log.d("tag","师资--------------------->"+h5);
                     webView.setWebViewClient(new WebViewClient());
                 }if (bean.getCode() == -1000) {
                     Toast.makeText(ShiZiActivity.this, "暂无更多介绍", Toast.LENGTH_SHORT).show();

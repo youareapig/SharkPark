@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.PhotoBean;
@@ -16,6 +19,8 @@ import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by DELL on 2017/4/14.
@@ -28,6 +33,7 @@ public class SubPhotoListViewAdapter extends BaseAdapter{
     public SubPhotoListViewAdapter(List<PhotoBean.DataBean> list, Activity activity) {
         this.list = list;
         this.layoutInflater=activity.getLayoutInflater();
+        this.activity=activity;
     }
 
     @Override
@@ -57,7 +63,7 @@ public class SubPhotoListViewAdapter extends BaseAdapter{
         PhotoBean.DataBean rowsBean=list.get(i);
         if (view==null){
             view=layoutInflater.inflate(R.layout.subphotolistviewitem,null);
-            holder.imageView= (RoundedImageView) view.findViewById(R.id.subphotolistviewItem_img);
+            holder.imageView= (ImageView) view.findViewById(R.id.subphotolistviewItem_img);
             holder.textView= (TextView) view.findViewById(R.id.subphtolistviewItem_text);
             holder.textViewnum= (TextView) view.findViewById(R.id.subphtolistviewItem_number);
             view.setTag(holder);
@@ -65,13 +71,17 @@ public class SubPhotoListViewAdapter extends BaseAdapter{
         }else {
             holder= (ViewHolder) view.getTag();
         }
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+rowsBean.getPurl().get(0),holder.imageView);
-        holder.textView.setText(rowsBean.getPtitle());
+        Glide.with(activity).load(SingleModleUrl.singleModleUrl().getImgUrl()+rowsBean.getPurl().get(0))
+                .bitmapTransform(new CenterCrop(activity),new RoundedCornersTransformation(activity,8,0))
+                .placeholder(R.mipmap.hui)
+                .error(R.mipmap.hui)
+                .into(holder.imageView);
+        holder.textView.setText(rowsBean.getTitle());
         holder.textViewnum.setText(rowsBean.getPurl().size()+"");
         return view;
     }
     private class ViewHolder{
-        private RoundedImageView imageView;
+        private ImageView imageView;
         private TextView textView,textViewnum;
     }
 }

@@ -9,12 +9,10 @@
         android:layout_height="500px"
         android:layout_centerHorizontal="true">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/ktfc_item_img"
             android:layout_width="960px"
-            android:layout_height="500px"
-            android:scaleType="centerCrop"
-            app:riv_corner_radius="8px" />
+            android:layout_height="500px" />
 
         <TextView
             android:id="@+id/ktfc_item_text"

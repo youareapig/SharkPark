@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#303030"
-        android:layout_marginTop="45px"
+        android:layout_marginTop="30px"
         android:layout_marginLeft="40px"
         android:text="师资"
         android:textSize="64px" />
@@ -36,5 +36,6 @@
         android:layout_margin="40px"
         android:id="@+id/shiziweb"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scrollbars="none"/>
 </LinearLayout>

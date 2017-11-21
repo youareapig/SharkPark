@@ -9,8 +9,8 @@ public class IndexBean {
 
     /**
      * code : 1000
-     * message : 成功
-     * data : [{"sbid":"1","sbtitle":"大一","sbpic":"Uploads/subject/2017-07-18//596da596f0dfd.jpg","agenumber":"0-6岁"},{"sbid":"2","sbtitle":"大二","sbpic":"Uploads/subject/2017-07-18//596da5bbc5bd9.jpg","agenumber":"3-6岁"},{"sbid":"3","sbtitle":"大三","sbpic":"Uploads/subject/2017-07-18//596da5c801078.jpg","agenumber":"5-10岁"}]
+     * message : 获取数据成功
+     * data : [{"title":"大一课程表","id":1,"pic":"Uploads/subject/2017-07-19//596ebee97800f.jpg"},{"title":"大二课程表","id":2,"pic":"Uploads/subject/2017-07-19//596ebf09eb57e.jpg"},{"title":"大三课程表","id":3,"pic":"Uploads/subject/2017-07-19//596ebf13b0ac5.jpg"},{"title":"测试","id":4,"pic":"Uploads/subject/151064936569.jpg"}]
      */
 
     private int code;
@@ -43,47 +43,37 @@ public class IndexBean {
 
     public static class DataBean {
         /**
-         * sbid : 1
-         * sbtitle : 大一
-         * sbpic : Uploads/subject/2017-07-18//596da596f0dfd.jpg
-         * agenumber : 0-6岁
+         * title : 大一课程表
+         * id : 1
+         * pic : Uploads/subject/2017-07-19//596ebee97800f.jpg
          */
 
-        private String sbid;
-        private String sbtitle;
-        private String sbpic;
-        private String agenumber;
+        private String title;
+        private int id;
+        private String pic;
 
-        public String getSbid() {
-            return sbid;
+        public String getTitle() {
+            return title;
         }
 
-        public void setSbid(String sbid) {
-            this.sbid = sbid;
+        public void setTitle(String title) {
+            this.title = title;
         }
 
-        public String getSbtitle() {
-            return sbtitle;
+        public int getId() {
+            return id;
         }
 
-        public void setSbtitle(String sbtitle) {
-            this.sbtitle = sbtitle;
+        public void setId(int id) {
+            this.id = id;
         }
 
-        public String getSbpic() {
-            return sbpic;
+        public String getPic() {
+            return pic;
         }
 
-        public void setSbpic(String sbpic) {
-            this.sbpic = sbpic;
-        }
-
-        public String getAgenumber() {
-            return agenumber;
-        }
-
-        public void setAgenumber(String agenumber) {
-            this.agenumber = agenumber;
+        public void setPic(String pic) {
+            this.pic = pic;
         }
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main8"
     android:layout_width="match_parent"
@@ -29,7 +30,7 @@
 
     </RelativeLayout>
 
-    <ScrollView
+    <com.weiye.myview.MyScrollView
         android:id="@+id/schoolScrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -55,50 +56,26 @@
                 android:layout_height="550px"
                 android:layout_marginTop="60px" />
 
-            <LinearLayout
-                android:id="@+id/vandpTitle"
+            <com.androidkun.xtablayout.XTabLayout
+                android:id="@+id/xTab"
                 android:layout_width="match_parent"
                 android:layout_height="200px"
                 android:layout_marginTop="100px"
                 android:background="#eeeeee"
-                android:orientation="horizontal">
+                app:xTabDisplayNum="2"
+                app:xTabDividerWidthWidthText="true"
+                app:xTabIndicatorWidth="90px"
+                app:xTabMode="scrollable"
+                app:xTabSelectedTextColor="#181818"
+                app:xTabTextColor="#888888"
+                app:xTabTextSize="64px" />
 
-                <TextView
-                    android:id="@+id/videoText1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="视频集"
-                    android:textColor="#181818"
-                    android:textSize="64px" />
-
-                <TextView
-                    android:layout_width="1px"
-                    android:layout_height="86px"
-                    android:background="#cecccc"
-                    android:gravity="center_vertical" />
-
-                <TextView
-                    android:id="@+id/photoText1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="相册集"
-                    android:textColor="#888888"
-                    android:textSize="64px" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/schoolfragment"
+            <com.weiye.myview.CustomViewPager
+                android:id="@+id/xViewpage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="40px"
-                android:orientation="vertical">
-
-            </LinearLayout>
+                android:layout_margin="40px" />
         </LinearLayout>
-    </ScrollView>
+    </com.weiye.myview.MyScrollView>
 
 </LinearLayout>

@@ -28,7 +28,6 @@ import com.weiye.myview.CustomProgressDialog;
 import com.weiye.zl.MainActivity;
 import com.weiye.zl.R;
 
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
@@ -356,7 +355,7 @@ public class UserLoginDialog {
         progressDialog.setCancelable(true);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/logo");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/logo");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", password);
         x.http().post(params, new Callback.CommonCallback<String>() {
@@ -371,7 +370,7 @@ public class UserLoginDialog {
                     editor.putString("usertimes", bean.getData().getIsfres());
                     editor.commit();
                     dialog.cancel();
-                    Intent intent = new Intent(context, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Intent intent = new Intent(context, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("fTag", 3);
                     context.startActivity(intent);
                     Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
@@ -400,7 +399,7 @@ public class UserLoginDialog {
 
     //TODO 检测用户是否存在
     private void detectionUser(String phone) {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/isRegist");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/isRegist");
         params.addBodyParameter("tel", phone);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
@@ -444,7 +443,7 @@ public class UserLoginDialog {
 
     //Todo 修改密码时检测是否已经注册
     private void detectionUser_1(String phone) {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/isRegist");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/isRegist");
         params.addBodyParameter("tel", phone);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
@@ -497,7 +496,7 @@ public class UserLoginDialog {
         progressDialog.setCancelable(true);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/regist");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/regist");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", pwd);
         x.http().post(params, new Callback.CommonCallback<String>() {
@@ -512,7 +511,7 @@ public class UserLoginDialog {
                     editor.putString("usertimes", registBean.getData().getIsfres());
                     editor.commit();
                     dialog1.cancel();
-                    Intent intent = new Intent(context, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Intent intent = new Intent(context, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("fTag", 3);
                     context.startActivity(intent);
                     Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
@@ -546,7 +545,7 @@ public class UserLoginDialog {
         progressDialog.setCancelable(true);
         progressDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         progressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/setPwd");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/setPwd");
         params.addBodyParameter("tel", phone);
         params.addBodyParameter("password", pwd);
         x.http().post(params, new Callback.CommonCallback<String>() {

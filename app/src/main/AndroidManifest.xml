@@ -25,12 +25,12 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/sharkpark"
+        android:icon="@mipmap/shayu"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        >
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="design_width"
@@ -46,30 +46,42 @@
             android:name=".VedioPlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" />
-        <activity android:name=".SubjectActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MyMaterialActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SettingActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".AboutActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".IdealActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".FourSchoolActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ScienceStationActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".TeacherStyleActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SchoolActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SchoolWeiChatActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".AppearanceActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".IntroActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".SubjectActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MyMaterialActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AboutActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".IdealActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".FourSchoolActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ScienceStationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TeacherStyleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SchoolActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SchoolWeiChatActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AppearanceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".IntroActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -93,6 +105,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="cn.sharesdk.demo.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -100,40 +117,41 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LeadActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SubmitActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.weiye.photoshow.ImagePagerActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SettingInternetActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".RestartActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".SchoolHtmlActivity"
-            android:screenOrientation="portrait"/>
-
-        <service
-            android:name="com.weiye.updateversion.UpdateService"
-            android:process=":update" >
-            <intent-filter>
-                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
-            </intent-filter>
-        </service>
-
-        <activity android:name=".CourseActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ManageActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.weiye.manager.ApplyDetailsActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name="com.weiye.mycourse.MyCoruseActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ShiZiActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".TeacherManageActivity"
-            android:screenOrientation="portrait"/>
-
+        <activity
+            android:name=".LeadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SubmitActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.weiye.photoshow.ImagePagerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SettingInternetActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SchoolHtmlActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CourseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ManageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.weiye.manager.ApplyDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.weiye.mycourse.MyCoruseActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ShiZiActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".TeacherManageActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".MyBabyActivity" />
+        <activity android:name=".WebActivity"></activity>
     </application>
 
 </manifest>

@@ -8,127 +8,134 @@
     android:orientation="vertical"
     tools:context="com.weiye.zl.CourseActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="530px"
-        android:background="@mipmap/coursebg">
-
-        <RelativeLayout
-            style="@style/mytitle"
-            android:layout_marginTop="70px">
-
-            <TextView
-                android:id="@+id/courseClass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="大一课程表"
-                android:textColor="#fff"
-                android:textSize="64px" />
-
-            <TextView
-                android:id="@+id/courseWode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="40px"
-                android:text="我的"
-                android:textColor="#fff"
-                android:textSize="38px"
-                android:visibility="gone" />
-
-            <RelativeLayout
-                android:id="@+id/courseBack"
-                android:layout_width="108px"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_width="28px"
-                    android:layout_height="48px"
-                    android:layout_centerInParent="true"
-                    android:src="@mipmap/back" />
-            </RelativeLayout>
-
-
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/chooseTimeAndDate"
-            android:layout_width="match_parent"
-            android:layout_height="140px"
-            android:layout_alignParentBottom="true"
-            android:background="#10000000"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/chooseDate"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="2017-07-05"
-                android:textColor="@color/yes"
-                android:textSize="48px" />
-
-            <TextView
-                android:layout_width="1px"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/chooseTime"
-                android:alpha="0.5"
-                android:background="#fff" />
-
-            <TextView
-                android:id="@+id/chooseTime"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="9:00-10:00"
-                android:textColor="@color/yes"
-                android:textSize="48px" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_above="@+id/chooseTimeAndDate"
-            android:alpha="0.5"
-            android:background="#fff" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/isCourse"
+    <LinearLayout
+        android:id="@+id/layout_local"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="40px"
-        android:layout_marginRight="40px"
-        android:layout_marginTop="40px"
-        android:layout_weight="1">
+        android:orientation="vertical">
 
-        <GridView
-            android:id="@+id/courseGridView"
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="530px"
+            android:background="@mipmap/coursebg">
+
+            <RelativeLayout
+                style="@style/mytitle"
+                android:layout_marginTop="70px">
+
+                <TextView
+                    android:id="@+id/courseClass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="大一课程表"
+                    android:textColor="#fff"
+                    android:textSize="64px" />
+
+                <TextView
+                    android:id="@+id/courseWode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="40px"
+                    android:text="我的"
+                    android:textColor="#fff"
+                    android:textSize="38px"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:id="@+id/courseBack"
+                    android:layout_width="108px"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="28px"
+                        android:layout_height="48px"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/back" />
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/chooseTimeAndDate"
+                android:layout_width="match_parent"
+                android:layout_height="140px"
+                android:layout_alignParentBottom="true"
+                android:background="#10000000"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/chooseDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="2017-07-05"
+                    android:textColor="@color/yes"
+                    android:textSize="48px" />
+
+                <TextView
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/chooseTime"
+                    android:alpha="0.5"
+                    android:background="#fff" />
+
+                <TextView
+                    android:id="@+id/chooseTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="9:00-10:00"
+                    android:textColor="@color/yes"
+                    android:textSize="48px" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_above="@+id/chooseTimeAndDate"
+                android:alpha="0.5"
+                android:background="#fff" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/isCourse"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:horizontalSpacing="40px"
-            android:numColumns="3"
-            android:scrollbars="none"
-            android:verticalSpacing="40px" />
+            android:layout_marginLeft="40px"
+            android:layout_marginRight="40px"
+            android:layout_marginTop="40px"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/courseButton"
-            android:layout_width="900px"
-            android:layout_height="148px"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="80px"
-            android:background="@drawable/btn"
-            android:gravity="center"
-            android:text="预约试听"
-            android:textColor="#fff"
-            android:textSize="62px" />
+            <GridView
+                android:id="@+id/courseGridView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:horizontalSpacing="40px"
+                android:numColumns="3"
+                android:scrollbars="none"
+                android:verticalSpacing="40px" />
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/courseButton"
+                android:layout_width="900px"
+                android:layout_height="148px"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="80px"
+                android:background="@drawable/btn"
+                android:gravity="center"
+                android:text="预约试听"
+                android:textColor="#fff"
+                android:textSize="62px" />
+
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/noCourse"
@@ -136,8 +143,46 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="暂无课程"
-            android:textSize="48px"
             android:textColor="#b5b5b5"
-            android:visibility="gone"/>
+            android:textSize="48px"
+            android:visibility="gone" />
+    </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/layout_restart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/feed1"
+            android:layout_width="140px"
+            android:layout_height="285px"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="360px"
+            android:src="@mipmap/feedback" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/feed1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60px"
+            android:text="小科学家，你的网络不好哦!"
+            android:textColor="#b5b5b5"
+            android:textSize="48px" />
+
+        <TextView
+            android:id="@+id/restart"
+            android:layout_width="320px"
+            android:layout_height="110px"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="150px"
+            android:background="@drawable/settinginternet"
+            android:gravity="center"
+            android:text="重新加载"
+            android:textColor="#b5b5b5"
+            android:textSize="46px" />
+    </RelativeLayout>
 </LinearLayout>

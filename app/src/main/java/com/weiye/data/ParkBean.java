@@ -10,13 +10,13 @@ public class ParkBean {
 
     /**
      * code : 1000
-     * message : 请求成功
-     * data : {"info":[{"pic":"Uploads/park/2017-07-20/59706bafd88ff.jpg","title":"你发现过生活中有趣的东西吗？","addtime":"2017-07-20 17:50:01","id":"3"}],"banner":[{"url":"Uploads/banner/2017-07-18//596dabecc88d9.jpg"},{"url":"Uploads/banner/2017-07-18//596dac0d7b963.jpg"}],"pic":["Uploads/park/2017-07-20/59705e4437e68.jpg","Uploads/park/2017-07-20/59705e443a326.jpg","Uploads/park/2017-07-20/59705e443d9c3.png"],"up":{"pic":"Uploads/park/2017-07-20/5970656d0f8db.jpg","title":"无处不在的小科学","addtime":"2017-07-20 18:07:40","id":"2"}}
+     * message : 获取数据成功
+     * data : {"banner":[{"url":"Uploads/banner/151013303710.jpg","type":1},{"url":"Uploads/banner/151013304548.jpg","type":1},{"url":"Uploads/banner/151013305723.jpg","type":1}],"pic":[{"url":"Uploads/park/2017-07-20/59705e4437e68.jpg","type":2},{"url":"Uploads/park/2017-07-20/59705e443a326.jpg","type":2},{"url":"Uploads/park/2017-07-20/59705e443d9c3.png","type":2}],"isup":{"id":2,"title":"无处不在的小科学","pic":"Uploads/park/2017-07-20/5970656d0f8db.jpg"},"data":[{"id":3,"title":"你发现过生活中有趣的东西吗？","pic":"Uploads/park/2017-07-20/59706bafd88ff.jpg","addtime":"2017-11-14 11:33:02"},{"id":4,"title":"科学启蒙第一步\u2014\u2014实验","pic":"Uploads/park/2017-07-21/5971647b844d0.jpg","addtime":"2017-07-21 10:24:31"},{"id":5,"title":"6个科学小实验\u2014\u2014简单易操作","pic":"Uploads/park/2017-08-09/598ac0cd9b709.jpg","addtime":"2017-08-09 15:59:09"},{"id":6,"title":"科普小知识，替你解答十万个为什么","pic":"Uploads/park/2017-08-09/598ac203bd499.jpg","addtime":"2017-08-09 16:04:19"},{"id":7,"title":"科学和生活，一样不落","pic":"Uploads/park/2017-08-09/598ac35cf2275.jpg","addtime":"2017-08-09 16:10:04"},{"id":8,"title":"生活中的与众不同，等你来发现","pic":"Uploads/park/2017-08-09/598ac662679db.jpg","addtime":"2017-08-09 16:22:58"},{"id":9,"title":"能动手的就不要懒惰，赶快行动起来吧！","pic":"Uploads/park/2017-08-10/598bff7a550f4.jpg","addtime":"2017-08-10 14:39:17"},{"id":10,"title":"十三个冷知识，你知道几个？","pic":"Uploads/park/2017-08-10/598c0467d0f93.jpg","addtime":"2017-08-10 15:12:01"}]}
      */
 
     private int code;
     private String message;
-    private DataBean data;
+    private DataBeanX data;
 
     public int getCode() {
         return code;
@@ -34,41 +34,33 @@ public class ParkBean {
         this.message = message;
     }
 
-    public DataBean getData() {
+    public DataBeanX getData() {
         return data;
     }
 
-    public void setData(DataBean data) {
+    public void setData(DataBeanX data) {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBeanX {
         /**
-         * info : [{"pic":"Uploads/park/2017-07-20/59706bafd88ff.jpg","title":"你发现过生活中有趣的东西吗？","addtime":"2017-07-20 17:50:01","id":"3"}]
-         * banner : [{"url":"Uploads/banner/2017-07-18//596dabecc88d9.jpg"},{"url":"Uploads/banner/2017-07-18//596dac0d7b963.jpg"}]
-         * pic : ["Uploads/park/2017-07-20/59705e4437e68.jpg","Uploads/park/2017-07-20/59705e443a326.jpg","Uploads/park/2017-07-20/59705e443d9c3.png"]
-         * up : {"pic":"Uploads/park/2017-07-20/5970656d0f8db.jpg","title":"无处不在的小科学","addtime":"2017-07-20 18:07:40","id":"2"}
+         * banner : [{"url":"Uploads/banner/151013303710.jpg","type":1},{"url":"Uploads/banner/151013304548.jpg","type":1},{"url":"Uploads/banner/151013305723.jpg","type":1}]
+         * pic : [{"url":"Uploads/park/2017-07-20/59705e4437e68.jpg","type":2},{"url":"Uploads/park/2017-07-20/59705e443a326.jpg","type":2},{"url":"Uploads/park/2017-07-20/59705e443d9c3.png","type":2}]
+         * isup : {"id":2,"title":"无处不在的小科学","pic":"Uploads/park/2017-07-20/5970656d0f8db.jpg"}
+         * data : [{"id":3,"title":"你发现过生活中有趣的东西吗？","pic":"Uploads/park/2017-07-20/59706bafd88ff.jpg","addtime":"2017-11-14 11:33:02"},{"id":4,"title":"科学启蒙第一步\u2014\u2014实验","pic":"Uploads/park/2017-07-21/5971647b844d0.jpg","addtime":"2017-07-21 10:24:31"},{"id":5,"title":"6个科学小实验\u2014\u2014简单易操作","pic":"Uploads/park/2017-08-09/598ac0cd9b709.jpg","addtime":"2017-08-09 15:59:09"},{"id":6,"title":"科普小知识，替你解答十万个为什么","pic":"Uploads/park/2017-08-09/598ac203bd499.jpg","addtime":"2017-08-09 16:04:19"},{"id":7,"title":"科学和生活，一样不落","pic":"Uploads/park/2017-08-09/598ac35cf2275.jpg","addtime":"2017-08-09 16:10:04"},{"id":8,"title":"生活中的与众不同，等你来发现","pic":"Uploads/park/2017-08-09/598ac662679db.jpg","addtime":"2017-08-09 16:22:58"},{"id":9,"title":"能动手的就不要懒惰，赶快行动起来吧！","pic":"Uploads/park/2017-08-10/598bff7a550f4.jpg","addtime":"2017-08-10 14:39:17"},{"id":10,"title":"十三个冷知识，你知道几个？","pic":"Uploads/park/2017-08-10/598c0467d0f93.jpg","addtime":"2017-08-10 15:12:01"}]
          */
 
-        private UpBean up;
-        private List<InfoBean> info;
+        private IsupBean isup;
         private List<BannerBean> banner;
-        private List<String> pic;
+        private List<PicBean> pic;
+        private List<DataBean> data;
 
-        public UpBean getUp() {
-            return up;
+        public IsupBean getIsup() {
+            return isup;
         }
 
-        public void setUp(UpBean up) {
-            this.up = up;
-        }
-
-        public List<InfoBean> getInfo() {
-            return info;
-        }
-
-        public void setInfo(List<InfoBean> info) {
-            this.info = info;
+        public void setIsup(IsupBean isup) {
+            this.isup = isup;
         }
 
         public List<BannerBean> getBanner() {
@@ -79,79 +71,39 @@ public class ParkBean {
             this.banner = banner;
         }
 
-        public List<String> getPic() {
+        public List<PicBean> getPic() {
             return pic;
         }
 
-        public void setPic(List<String> pic) {
+        public void setPic(List<PicBean> pic) {
             this.pic = pic;
         }
 
-        public static class UpBean {
-            /**
-             * pic : Uploads/park/2017-07-20/5970656d0f8db.jpg
-             * title : 无处不在的小科学
-             * addtime : 2017-07-20 18:07:40
-             * id : 2
-             */
-
-            private String pic;
-            private String title;
-            private String addtime;
-            private String id;
-
-            public String getPic() {
-                return pic;
-            }
-
-            public void setPic(String pic) {
-                this.pic = pic;
-            }
-
-            public String getTitle() {
-                return title;
-            }
-
-            public void setTitle(String title) {
-                this.title = title;
-            }
-
-            public String getAddtime() {
-                return addtime;
-            }
-
-            public void setAddtime(String addtime) {
-                this.addtime = addtime;
-            }
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
-            }
+        public List<DataBean> getData() {
+            return data;
         }
 
-        public static class InfoBean {
+        public void setData(List<DataBean> data) {
+            this.data = data;
+        }
+
+        public static class IsupBean {
             /**
-             * pic : Uploads/park/2017-07-20/59706bafd88ff.jpg
-             * title : 你发现过生活中有趣的东西吗？
-             * addtime : 2017-07-20 17:50:01
-             * id : 3
+             * id : 2
+             * title : 无处不在的小科学
+             * pic : Uploads/park/2017-07-20/5970656d0f8db.jpg
              */
 
-            private String pic;
+            private int id;
             private String title;
-            private String addtime;
-            private String id;
+            private String pic;
 
-            public String getPic() {
-                return pic;
+            public int getId() {
+                return id;
             }
 
-            public void setPic(String pic) {
-                this.pic = pic;
+            public void setId(int id) {
+                this.id = id;
             }
 
             public String getTitle() {
@@ -162,29 +114,23 @@ public class ParkBean {
                 this.title = title;
             }
 
-            public String getAddtime() {
-                return addtime;
+            public String getPic() {
+                return pic;
             }
 
-            public void setAddtime(String addtime) {
-                this.addtime = addtime;
-            }
-
-            public String getId() {
-                return id;
-            }
-
-            public void setId(String id) {
-                this.id = id;
+            public void setPic(String pic) {
+                this.pic = pic;
             }
         }
 
         public static class BannerBean {
             /**
-             * url : Uploads/banner/2017-07-18//596dabecc88d9.jpg
+             * url : Uploads/banner/151013303710.jpg
+             * type : 1
              */
 
             private String url;
+            private int type;
 
             public String getUrl() {
                 return url;
@@ -192,6 +138,86 @@ public class ParkBean {
 
             public void setUrl(String url) {
                 this.url = url;
+            }
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
+        }
+
+        public static class PicBean {
+            /**
+             * url : Uploads/park/2017-07-20/59705e4437e68.jpg
+             * type : 2
+             */
+
+            private String url;
+            private int type;
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
+        }
+
+        public static class DataBean {
+            /**
+             * id : 3
+             * title : 你发现过生活中有趣的东西吗？
+             * pic : Uploads/park/2017-07-20/59706bafd88ff.jpg
+             * addtime : 2017-11-14 11:33:02
+             */
+
+            private int id;
+            private String title;
+            private String pic;
+            private String addtime;
+
+            public int getId() {
+                return id;
+            }
+
+            public void setId(int id) {
+                this.id = id;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public String getPic() {
+                return pic;
+            }
+
+            public void setPic(String pic) {
+                this.pic = pic;
+            }
+
+            public String getAddtime() {
+                return addtime;
+            }
+
+            public void setAddtime(String addtime) {
+                this.addtime = addtime;
             }
         }
     }

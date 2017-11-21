@@ -5,21 +5,26 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidkun.xtablayout.XTabLayout;
 import com.google.gson.Gson;
 import com.weiye.adapter.FourSchoolGalleryAdapter;
+import com.weiye.adapter.XTabAdapter;
 import com.weiye.data.Park_1Bean;
 import com.weiye.listenfragment.PhotoFragment;
 import com.weiye.listenfragment.VideoFragment;
 import com.weiye.myview.CustomProgressDialog;
+import com.weiye.myview.CustomViewPager;
+import com.weiye.myview.MyScrollView;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -40,24 +45,20 @@ public class FourSchoolActivity extends AutoLayoutActivity {
     RelativeLayout fourschoolBack;
     @BindView(R.id.fourschoolGallery)
     Gallery fourschoolGallery;
-    @BindView(R.id.videoText1)
-    TextView videoText1;
-    @BindView(R.id.photoText1)
-    TextView photoText1;
-    @BindView(R.id.schoolfragment)
-    LinearLayout schoolfragment;
     @BindView(R.id.schoolScrollview)
-    ScrollView schoolScrollview;
+    MyScrollView schoolScrollview;
     @BindView(R.id.main8)
     LinearLayout main8;
     @BindView(R.id.backtop)
     RelativeLayout backtop;
+    @BindView(R.id.xTab)
+    XTabLayout xTab;
+    @BindView(R.id.xViewpage)
+    CustomViewPager xViewpage;
     private Unbinder unbinder;
-    private List<Park_1Bean.DataBean.TeacherBean> mList;
-    private FragmentManager fragmentManager;
-    private Fragment fragment;
+    private List<Park_1Bean.DataBean> mList;
     private List<Fragment> list;
-    private FragmentTransaction fragmentTransaction;
+    private List<String> stringList;
     private int myEvent;
 
     @Override
@@ -65,7 +66,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_four_school);
         unbinder = ButterKnife.bind(this);
-        schoolScrollview.smoothScrollTo(0, 20);
+        //schoolScrollview.smoothScrollTo(0, 20);
         Intent intent = getIntent();
         myEvent = intent.getIntExtra("myevent", 20);
         sdxyVisit();
@@ -74,12 +75,24 @@ public class FourSchoolActivity extends AutoLayoutActivity {
 
 
     private void schoolFragment() {
+        stringList=new ArrayList<>();
+        stringList.add("视频集");
+        stringList.add("相册集");
         list = new ArrayList<>();
-        fragment = new VideoFragment(myEvent);
-        fragmentManager = this.getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.schoolfragment, fragment).commit();
         list.add(new VideoFragment(myEvent));
         list.add(new PhotoFragment(myEvent));
+        LinearLayout linearLayout = (LinearLayout) xTab.getChildAt(0);
+        linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+        linearLayout.setDividerDrawable(ContextCompat.getDrawable(this,
+                R.drawable.tabline));
+        linearLayout.setDividerPadding(60);
+
+        xViewpage.setAdapter(new XTabAdapter(getSupportFragmentManager(),stringList,list));
+        xViewpage.setOffscreenPageLimit(2);
+        xTab.setupWithViewPager(xViewpage);
+        xTab.getTabAt(0).select();
+        xTab.getTabAt(1).select();
+        xViewpage.setCurrentItem(0);
     }
 
     @Override
@@ -88,23 +101,10 @@ public class FourSchoolActivity extends AutoLayoutActivity {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.videoText1, R.id.photoText1, R.id.fourschoolBack,R.id.backtop})
+    @OnClick({ R.id.fourschoolBack, R.id.backtop})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.videoText1:
-                videoText1.setTextColor(this.getResources().getColor(R.color.black));
-                photoText1.setTextColor(this.getResources().getColor(R.color.gray));
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.schoolfragment, list.get(0));
-                fragmentTransaction.commit();
-                break;
-            case R.id.photoText1:
-                videoText1.setTextColor(this.getResources().getColor(R.color.gray));
-                photoText1.setTextColor(this.getResources().getColor(R.color.black));
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.schoolfragment, list.get(1));
-                fragmentTransaction.commit();
-                break;
+
             case R.id.fourschoolBack:
                 finish();
                 break;
@@ -131,7 +131,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
                 schoolScrollview.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 Park_1Bean bean = gson.fromJson(result, Park_1Bean.class);
-                mList = bean.getData().getTeacher();
+                mList = bean.getData();
                 if (bean.getCode() == 1000) {
                     fourschoolGallery.setAdapter(new FourSchoolGalleryAdapter(mList, FourSchoolActivity.this));
                     fourschoolGallery.setSpacing(60);
@@ -139,9 +139,9 @@ public class FourSchoolActivity extends AutoLayoutActivity {
                     fourschoolGallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            Park_1Bean.DataBean.TeacherBean rBean = (Park_1Bean.DataBean.TeacherBean) adapterView.getItemAtPosition(i % mList.size());
+                            Park_1Bean.DataBean rBean = (Park_1Bean.DataBean) adapterView.getItemAtPosition(i % mList.size());
                             Intent intent = new Intent(FourSchoolActivity.this, TeacherStyleActivity.class);
-                            intent.putExtra("teacherID", rBean.getTid());
+                            intent.putExtra("teacherID", rBean.getId()+"");
                             startActivity(intent);
                         }
                     });
@@ -153,7 +153,7 @@ public class FourSchoolActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(FourSchoolActivity.this,"网络不佳，请稍后再试",Toast.LENGTH_SHORT).show();
+                Toast.makeText(FourSchoolActivity.this, "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -171,5 +171,17 @@ public class FourSchoolActivity extends AutoLayoutActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }
 }

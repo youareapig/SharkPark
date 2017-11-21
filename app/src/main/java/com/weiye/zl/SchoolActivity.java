@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.androidkun.xtablayout.XTabLayout;
 import com.weiye.schooltabfragment.ZhaoMu;
 import com.weiye.schooltabfragment.WangQi;
 import com.weiye.adapter.SchoolTabAdapter;
@@ -29,13 +30,12 @@ public class SchoolActivity extends AutoLayoutActivity {
     @BindView(R.id.school_Back)
     RelativeLayout schoolBack;
     @BindView(R.id.schooltab)
-    TabLayout schooltab;
+    XTabLayout schooltab;
     @BindView(R.id.tabviewpager)
     ViewPager tabviewpager;
     @BindView(R.id.main4)
     LinearLayout main4;
     private Unbinder unbinder;
-    private FragmentManager fragmentManager;
     private List<String> titleList;
     private List<Fragment> fragmentList;
 
@@ -44,22 +44,18 @@ public class SchoolActivity extends AutoLayoutActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_school);
         unbinder = ButterKnife.bind(this);
-        schooltab.setupWithViewPager(tabviewpager);
-        fragmentManager = getSupportFragmentManager();
         titleList = new ArrayList<>();
         titleList.add("往期");
         titleList.add("进行");
         fragmentList = new ArrayList<>();
         fragmentList.add(new WangQi());
         fragmentList.add(new ZhaoMu());
-        tabviewpager.setAdapter(new SchoolTabAdapter(fragmentManager, titleList, fragmentList));
+
+        tabviewpager.setAdapter(new SchoolTabAdapter(getSupportFragmentManager(), titleList, fragmentList));
+        schooltab.setupWithViewPager(tabviewpager);
+        schooltab.getTabAt(0).select();
+        schooltab.getTabAt(1).select();
         tabviewpager.setCurrentItem(0);
-        schooltab.post(new Runnable() {
-            @Override
-            public void run() {
-                setIndicator(schooltab, 20, 0);
-            }
-        });
     }
 
     @Override
@@ -73,36 +69,15 @@ public class SchoolActivity extends AutoLayoutActivity {
         finish();
     }
 
-    //TODO TabLayout下划线的长度
-    public void setIndicator(TabLayout tabs, int leftDip, int rightDip) {
-        Class<?> tabLayout = tabs.getClass();
-        Field tabStrip = null;
-        try {
-            tabStrip = tabLayout.getDeclaredField("mTabStrip");
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
-        tabStrip.setAccessible(true);
-        LinearLayout llTab = null;
-        try {
-            llTab = (LinearLayout) tabStrip.get(tabs);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        int left = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, leftDip, Resources.getSystem().getDisplayMetrics());
-        int right = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, rightDip, Resources.getSystem().getDisplayMetrics());
-
-        for (int i = 0; i < llTab.getChildCount(); i++) {
-            View child = llTab.getChildAt(i);
-            child.setPadding(0, 0, 0, 0);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
-            params.leftMargin = left;
-            params.rightMargin = right;
-            child.setLayoutParams(params);
-            child.invalidate();
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
 }

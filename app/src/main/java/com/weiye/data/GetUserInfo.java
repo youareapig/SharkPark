@@ -9,7 +9,7 @@ public class GetUserInfo {
     /**
      * code : 3000
      * message : 信息查询成功
-     * data : {"nickname":null,"sex":"0","birthday":null}
+     * data : {"nickname":null,"sex":null,"tel":"15983302246","birthday":null}
      */
 
     private int code;
@@ -43,12 +43,14 @@ public class GetUserInfo {
     public static class DataBean {
         /**
          * nickname : null
-         * sex : 0
+         * sex : null
+         * tel : 15983302246
          * birthday : null
          */
 
         private Object nickname;
-        private String sex;
+        private Object sex;
+        private String tel;
         private Object birthday;
 
         public Object getNickname() {
@@ -59,12 +61,20 @@ public class GetUserInfo {
             this.nickname = nickname;
         }
 
-        public String getSex() {
+        public Object getSex() {
             return sex;
         }
 
-        public void setSex(String sex) {
+        public void setSex(Object sex) {
             this.sex = sex;
+        }
+
+        public String getTel() {
+            return tel;
+        }
+
+        public void setTel(String tel) {
+            this.tel = tel;
         }
 
         public Object getBirthday() {

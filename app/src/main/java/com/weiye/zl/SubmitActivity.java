@@ -40,7 +40,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import cn.qqtheme.framework.picker.OptionPicker;
+import cn.addapp.pickers.common.LineConfig;
+import cn.addapp.pickers.listeners.OnItemPickListener;
+import cn.addapp.pickers.picker.SinglePicker;
 
 public class SubmitActivity extends AutoLayoutActivity {
 
@@ -125,16 +127,36 @@ public class SubmitActivity extends AutoLayoutActivity {
                 });
                 break;
             case R.id.yySex:
-                OptionPicker picker = new OptionPicker(this, new String[]{
-                        "男", "女"
+                SinglePicker<String> picker = new SinglePicker<>(this, new String[]{"男", "女"
                 });
-                picker.setOffset(2);
-                picker.setTextSize(24);
-                picker.setTextColor(Color.BLACK);
-                picker.setOnOptionPickListener(new OptionPicker.OnOptionPickListener() {
+                picker.setCanLoop(true);//不禁用循环
+                picker.setTopBackgroundColor(Color.parseColor("#ffffff"));
+                picker.setTopHeight(50);
+                picker.setWeightEnable(true);
+                picker.setWeightWidth(1);
+                picker.setHeight(600);
+                picker.setTopLineColor(Color.parseColor("#eeeeee"));
+                picker.setTopLineHeight(1);
+                picker.setTitleTextColor(Color.BLACK);
+                picker.setTitleTextSize(12);
+                picker.setCancelTextColor(Color.parseColor("#000000"));
+                picker.setCancelTextSize(13);
+                picker.setSubmitTextColor(Color.parseColor("#000000"));
+                picker.setSubmitTextSize(13);
+                picker.setSelectedTextColor(Color.parseColor("#000000"));
+                picker.setUnSelectedTextColor(Color.parseColor("#888888"));
+                LineConfig config = new LineConfig();
+                config.setColor(Color.parseColor("#000000"));//线颜色
+                config.setAlpha(140);//线透明度
+                config.setRatio((float) (1.0 / 8.0));//线比率
+                picker.setLineConfig(config);
+                picker.setItemWidth(100);
+                picker.setBackgroundColor(Color.parseColor("#ffffff"));
+                picker.setSelectedIndex(0);
+                picker.setOnItemPickListener(new OnItemPickListener<String>() {
                     @Override
-                    public void onOptionPicked(String option) {
-                        yySexInput.setText(option);
+                    public void onItemPicked(int index, String item) {
+                        yySexInput.setText(item);
                     }
                 });
                 picker.show();
@@ -178,12 +200,17 @@ public class SubmitActivity extends AutoLayoutActivity {
                     if (bean.getData().getAge() != null) {
                         yyAgeInput.setText(bean.getData().getAge());
                     }
-                    if (bean.getData().getSex().equals("0")) {
-                        yySexInput.setText("男");
-                    } else {
-                        yySexInput.setText("女");
+                    if (bean.getData().getSex() != null) {
+                        if (bean.getData().getSex().equals("0")) {
+                            yySexInput.setText("男");
+                        } else {
+                            yySexInput.setText("女");
+                        }
                     }
-                    yyTel.setText(bean.getData().getTel());
+                    if (bean.getData().getTel() != null) {
+                        yyTel.setText(bean.getData().getTel());
+                    }
+
                 } else {
                     Toast.makeText(SubmitActivity.this, "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
                 }
@@ -250,14 +277,17 @@ public class SubmitActivity extends AutoLayoutActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(SubmitActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);;
-                                intent.putExtra("fTag",0);
+                                Intent intent = new Intent(SubmitActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                ;
+                                intent.putExtra("fTag", 0);
                                 startActivity(intent);
                                 finish();
                             }
                         }, 3000);
 
 
+                    } else if (jsonObject.getString("code").equals("-3006")) {
+                        Toast.makeText(SubmitActivity.this, "该信息已经预约。", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(SubmitActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
                     }

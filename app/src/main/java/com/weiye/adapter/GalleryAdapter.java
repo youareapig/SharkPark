@@ -11,25 +11,31 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.weiye.data.ParkBean;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 /**
  * Created by DELL on 2017/4/14.
  */
 public class GalleryAdapter extends BaseAdapter{
-    private List<String> list;
-    private Activity context;
+    private List<ParkBean.DataBeanX.PicBean> list;
+    private Activity activity;
     private int count;
     private LayoutInflater layoutInflater;
-    public GalleryAdapter(List<String> list, Activity context) {
+    public GalleryAdapter(List<ParkBean.DataBeanX.PicBean> list, Activity activity) {
         this.list = list;
-        this.layoutInflater=context.getLayoutInflater();
+        this.layoutInflater=activity.getLayoutInflater();
+        this.activity=activity;
     }
 
     @Override
@@ -56,11 +62,16 @@ public class GalleryAdapter extends BaseAdapter{
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        ParkBean.DataBeanX.PicBean bean=list.get(i%list.size());
         view=layoutInflater.inflate(R.layout.ktfc_item,null);
         TextView textView= (TextView) view.findViewById(R.id.ktfc_item_text);
-        RoundedImageView imageView= (RoundedImageView) view.findViewById(R.id.ktfc_item_img);
+        ImageView imageView= (ImageView) view.findViewById(R.id.ktfc_item_img);
         AutoUtils.autoSize(view);
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+list.get(i%list.size()),imageView);
+        Glide.with(activity).load(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getUrl())
+                .bitmapTransform(new CenterCrop(activity),new RoundedCornersTransformation(activity,8,0))
+                .placeholder(R.mipmap.hui2)
+                .error(R.mipmap.hui2)
+                .into(imageView);
         return view;
     }
 }

@@ -48,21 +48,21 @@
             </FrameLayout>
 
 
-            <android.support.design.widget.TabLayout
+            <com.androidkun.xtablayout.XTabLayout
                 android:id="@+id/teachermanagerTab"
                 android:layout_width="match_parent"
                 android:layout_height="200px"
                 android:background="#eeeeee"
-                app:tabGravity="fill"
-                app:tabIndicatorColor="#eeeeee"
-                app:tabIndicatorHeight="4px"
-                app:tabMaxWidth="0px"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="#000"
-                app:tabTextAppearance="@style/tab" />
+                app:xTabDisplayNum="2"
+                app:xTabDividerWidthWidthText="true"
+                app:xTabIndicatorWidth="90px"
+                app:xTabMode="scrollable"
+                app:xTabSelectedTextColor="#181818"
+                app:xTabTextColor="#888888"
+                app:xTabTextSize="64px"/>
 
 
-            <com.weiye.myview.NoScrollViewPager
+            <com.weiye.myview.CustomViewPager
                 android:id="@+id/teachermanagerPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -74,7 +74,8 @@
 
     <RelativeLayout
         android:id="@+id/title_subject"
-        style="@style/mytitle">
+        android:layout_width="match_parent"
+        android:layout_height="180px">
 
         <RelativeLayout
             android:id="@+id/teachermanagerDom"
@@ -112,6 +113,7 @@
                 android:layout_width="28px"
                 android:layout_height="48px"
                 android:layout_alignParentBottom="true"
+                android:layout_marginBottom="18px"
                 android:layout_marginLeft="40px"
                 android:src="@mipmap/back" />
         </RelativeLayout>

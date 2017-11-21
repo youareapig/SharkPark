@@ -9,13 +9,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/activities_item_img"
             android:layout_width="1000px"
             android:layout_height="500px"
-            app:riv_corner_radius="8px"
-            android:scaleType="centerCrop"
-            android:background="#eeeeee"
             android:layout_centerHorizontal="true"/>
         <ImageView
             android:id="@+id/huodongplay"

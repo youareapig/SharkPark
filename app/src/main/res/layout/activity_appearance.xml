@@ -61,12 +61,11 @@
         android:layout_marginRight="40px"
         android:layout_marginTop="10px">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/schoolappearance"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            app:riv_corner_radius="8px" />
+            />
 
         <TextView
             android:id="@+id/number1"
@@ -121,12 +120,13 @@
         android:layout_marginRight="40px"
         android:layout_marginTop="10px">
 
-        <com.makeramen.roundedimageview.RoundedImageView
+        <ImageView
             android:id="@+id/jxhj"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:src="@mipmap/hui"
             android:scaleType="centerCrop"
-            app:riv_corner_radius="8px" />
+            />
 
         <TextView
             android:id="@+id/number2"

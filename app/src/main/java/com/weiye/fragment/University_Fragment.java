@@ -27,11 +27,14 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.weiye.data.UpHeadBean;
 import com.weiye.data.UserInfoBean;
 import com.weiye.mycourse.MyCoruseActivity;
 import com.weiye.myview.CustomProgressDialog;
+import com.weiye.utils.CameraUtil;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.ManageActivity;
+import com.weiye.zl.MyBabyActivity;
 import com.weiye.zl.MyMaterialActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SettingActivity;
@@ -65,17 +68,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class University_Fragment extends Fragment implements View.OnClickListener {
     private TextView infomation, myname;
     private CircleImageView myhead;
-    private Uri uri;
-    private ContentResolver contentResolver;
-    private FileOutputStream[] fileOutputStream = {null};
-    private Bitmap bitmap, bitmap1;
-    private String base64, base64_1, fileName;
     private AutoRelativeLayout online, setting, myCourse, managecourse, myClass;
     private String userID, userType;
     private SharedPreferences sharedPreferences;
     private AutoLinearLayout main6;
     private ImageView vipImage;
-
+    private Uri imgUrl;
+    private String telnumber="";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -157,15 +156,22 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
                 break;
             case R.id.line:
-                MPermissions.requestPermissions(University_Fragment.this, 10, Manifest.permission.CALL_PHONE);
+                getPhoneNumber();
                 break;
             case R.id.setting:
                 Intent intent1 = new Intent(getActivity(), SettingActivity.class);
                 startActivity(intent1);
                 break;
             case R.id.myCourse:
-                Intent intent2 = new Intent(getActivity(), MyCoruseActivity.class);
-                startActivity(intent2);
+                //TODO 会员
+                if (userType.equals("2")){
+                    Intent intent2=new Intent(getActivity(), MyBabyActivity.class);
+                    startActivity(intent2);
+                }else {
+                    Intent intent2 = new Intent(getActivity(), MyCoruseActivity.class);
+                    startActivity(intent2);
+                }
+
                 break;
             case R.id.managecourse:
                 Intent intent3 = new Intent(getActivity(), ManageActivity.class);
@@ -187,45 +193,53 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == getActivity().RESULT_OK && requestCode == 1) {
-            uri = data.getData();
-            try {
-                bitmap = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(uri));
-                Log.d("tag", "bitmap" + bitmap);
-                base64 = Bitmap2StrByBase64(bitmap);
-            } catch (FileNotFoundException e) {
-                Log.d("tag", "程序崩溃");
-                e.printStackTrace();
-            }
-            //imageView.setImageBitmap(bit);
-//            contentResolver = getActivity().getContentResolver();
-//            String[] filePathColumns = {MediaStore.Images.Media.DATA};
-//            Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumns, null, null, null);
-//            cursor.moveToFirst();
-//            try {
-//                bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(uri));
-//                base64 = Bitmap2StrByBase64(bitmap);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
-            uploadhead(base64);
-        } else if (requestCode == 2) {
-            String sdStatus = Environment.getExternalStorageState();
-            if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
-                Log.i("TestFile",
-                        "SD card is not avaiable/writeable right now.");
-                return;
-            }
-            String name = new DateFormat().format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
-            Bundle bundle = data.getExtras();
-            bitmap1 = (Bitmap) bundle.get("data");
-            File file = new File("/sdcard/myImage/");
-            file.mkdirs();// 创建文件夹
-            fileName = "/sdcard/myImage/" + name;
-            base64_1 = Bitmap2StrByBase64(bitmap1);
-            uploadhead1(base64_1);
+        if (resultCode == getActivity().RESULT_CANCELED) {
+            return;
         }
+        switch (requestCode){
+            case 1:
+                if (data != null) {
+                    imgUrl = CameraUtil.getTempUri();
+                    startActivityForResult(CameraUtil.cropPhoto(data.getData(), imgUrl, 200, 200), 3);
+                } else {
+                    startActivityForResult(CameraUtil.cropPhoto(imgUrl, imgUrl, 200, 200), 3);
+                }
+                break;
+            case 2:
+                String sdStatus = Environment.getExternalStorageState();
+                if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用
+                    Log.i("TestFile",
+                            "SD card is not avaiable/writeable right now.");
+                    return;
+                }
+                String name = new DateFormat().format("yyyyMMdd_hhmmss", Calendar.getInstance(Locale.CHINA)) + ".jpg";
+                Bundle bundle = data.getExtras();
+                Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
+                FileOutputStream fileOutputStream = null;
+                File file = new File("/sdcard/myImage/");
+                file.mkdirs();// 创建文件夹
+                String fileName = "/sdcard/myImage/" + name;
+                try {
+                    fileOutputStream = new FileOutputStream(fileName);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+                    uploadhead(fileName);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        fileOutputStream.close();
+                        fileOutputStream.flush();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case 3:
+                String imgpath = CameraUtil.getPathFromUri(getActivity(), imgUrl);
+                uploadhead(imgpath);
+                break;
+        }
+
     }
 
     //TODO 将位图转换成base64编码
@@ -257,12 +271,8 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
     @PermissionGrant(30)
     public void requestPhotoSuccess() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        //intent.putExtra("return-data", true);
-        startActivityForResult(intent, 1);
+        CameraUtil.selectPhoto();
+        startActivityForResult(Intent.createChooser(CameraUtil.selectPhoto(), "选择照片"), 1);
     }
 
     @PermissionDenied(30)
@@ -284,28 +294,25 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     //TODO 拨打电话
     private void call() {
         Intent intentTel = new Intent(Intent.ACTION_CALL);
-        intentTel.setData(Uri.parse("tel:" + "028-18181818"));
+        intentTel.setData(Uri.parse("tel:" + telnumber));
         startActivity(intentTel);
     }
 
     //TODO 相册上传
-    private void uploadhead(final String base) {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editPic");
+    private void uploadhead(String path) {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/editPic");
         params.addBodyParameter("id", userID);
-        params.addBodyParameter("headpic", "data:image/png;base64," + base);
+        params.addBodyParameter("headpic", new File(path));
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    if (jsonObject.getString("code").equals("3004")) {
-                        myhead.setImageBitmap(bitmap);
-                        Toast.makeText(getActivity(), "头像更新成功", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity(), "头像上传失败", Toast.LENGTH_SHORT).show();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                Gson gson=new Gson();
+                UpHeadBean bean=gson.fromJson(result,UpHeadBean.class);
+                if (bean.getCode()==3004){
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getData().getHeadpic(),myhead);
+                    Toast.makeText(getActivity(), "头像更新成功", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getActivity(), "头像上传失败", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -317,56 +324,6 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onCancelled(CancelledException cex) {
-            }
-
-            @Override
-            public void onFinished() {
-            }
-        });
-    }
-
-    //TODO 照相上传
-    private void uploadhead1(String base) {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/editPic");
-        params.addBodyParameter("id", userID);
-        params.addBodyParameter("headpic", "data:image/png;base64," + base);
-        params.setMultipart(true);
-        x.http().post(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    if (jsonObject.getString("code").equals("3004")) {
-                        Toast.makeText(getActivity(), "头像更新成功", Toast.LENGTH_SHORT).show();
-                        try {
-                            fileOutputStream[0] = new FileOutputStream(fileName);
-                            bitmap1.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream[0]);
-                            myhead.setImageBitmap(bitmap1);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        } finally {
-                            try {
-                                fileOutputStream[0].flush();
-                                fileOutputStream[0].close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-
             }
 
             @Override
@@ -381,7 +338,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main6.setVisibility(View.GONE);
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myInfo");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/myInfo");
         params.addBodyParameter("id", userID);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
@@ -416,6 +373,67 @@ public class University_Fragment extends Fragment implements View.OnClickListene
             @Override
             public void onFinished() {
                 customProgressDialog.cancel();
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+    }
+
+    private void getPhoneNumber() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/about");
+        params.addBodyParameter("type","4");
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getString("code").equals("1000")) {
+                        final AlertDialog dialog = new AlertDialog.Builder(getActivity()).create();
+                        LayoutInflater inflater1 = getActivity().getLayoutInflater();
+                        View v = inflater1.inflate(R.layout.callphone, null);
+                        dialog.setView(v);
+                        dialog.setCanceledOnTouchOutside(true);
+                        dialog.show();
+                        TextView textView = (TextView) v.findViewById(R.id.callnumber);
+                        telnumber=jsonObject.getString("data");
+                        textView.setText(telnumber);
+                        v.findViewById(R.id.calloff).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.cancel();
+                            }
+                        });
+                        v.findViewById(R.id.call).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                MPermissions.requestPermissions(University_Fragment.this, 10, Manifest.permission.CALL_PHONE);
+                                dialog.cancel();
+                            }
+                        });
+                    }else {
+                        Toast.makeText(getActivity(), "网络不佳，获取电话号码失败，请稍后再试", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
             }
 
             @Override

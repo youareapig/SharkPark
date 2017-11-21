@@ -9,13 +9,13 @@ public class XYFCBean {
 
     /**
      * code : 1000
-     * message : 成功
-     * data : [{"title":"校园风采","imgurl":["Uploads/subject/2017-06-22/594b8503d593a.jpg","Uploads/subject/2017-06-22/594b8503d7d29.jpg","Uploads/subject/2017-06-22/594b8503d9267.jpg"]},{"title":"教学环境","imgurl":["Uploads/subject/2017-06-22/594b85396dc4c.png","Uploads/subject/2017-06-22/594b85396e3ee.jpg","Uploads/subject/2017-06-22/594b85396f65c.jpg"]}]
+     * message : 获取数据成功
+     * data : {"one":[{"url":"Uploads/subject/2017-09-18/59bf7565befc3.jpg","type":3},{"url":"Uploads/subject/2017-09-18/59bf757f0ba7a.png","type":3},{"url":"Uploads/subject/2017-09-18/59bf7599afa53.jpg","type":3},{"url":"Uploads/subject/2017-09-18/59bf75a94c705.jpg","type":3}],"two":[{"url":"Uploads/subject/2017-09-18/59bf74581f307.jpg","type":4},{"url":"Uploads/subject/2017-09-18/59bf751085e5e.png","type":4},{"url":"Uploads/subject/2017-09-18/59bf751f173fc.png","type":4},{"url":"Uploads/subject/2017-09-18/59bf752d58139.png","type":4},{"url":"Uploads/subject/2017-09-18/59bf75380f94a.png","type":4}]}
      */
 
     private int code;
     private String message;
-    private List<DataBean> data;
+    private DataBean data;
 
     public int getCode() {
         return code;
@@ -33,37 +33,84 @@ public class XYFCBean {
         this.message = message;
     }
 
-    public List<DataBean> getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(List<DataBean> data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 
     public static class DataBean {
-        /**
-         * title : 校园风采
-         * imgurl : ["Uploads/subject/2017-06-22/594b8503d593a.jpg","Uploads/subject/2017-06-22/594b8503d7d29.jpg","Uploads/subject/2017-06-22/594b8503d9267.jpg"]
-         */
+        private List<OneBean> one;
+        private List<TwoBean> two;
 
-        private String title;
-        private List<String> imgurl;
-
-        public String getTitle() {
-            return title;
+        public List<OneBean> getOne() {
+            return one;
         }
 
-        public void setTitle(String title) {
-            this.title = title;
+        public void setOne(List<OneBean> one) {
+            this.one = one;
         }
 
-        public List<String> getImgurl() {
-            return imgurl;
+        public List<TwoBean> getTwo() {
+            return two;
         }
 
-        public void setImgurl(List<String> imgurl) {
-            this.imgurl = imgurl;
+        public void setTwo(List<TwoBean> two) {
+            this.two = two;
+        }
+
+        public static class OneBean {
+            /**
+             * url : Uploads/subject/2017-09-18/59bf7565befc3.jpg
+             * type : 3
+             */
+
+            private String url;
+            private int type;
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
+        }
+
+        public static class TwoBean {
+            /**
+             * url : Uploads/subject/2017-09-18/59bf74581f307.jpg
+             * type : 4
+             */
+
+            private String url;
+            private int type;
+
+            public String getUrl() {
+                return url;
+            }
+
+            public void setUrl(String url) {
+                this.url = url;
+            }
+
+            public int getType() {
+                return type;
+            }
+
+            public void setType(int type) {
+                this.type = type;
+            }
         }
     }
 }

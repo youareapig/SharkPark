@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.andview.refreshview.XRefreshView;
 import com.google.gson.Gson;
 import com.weiye.adapter.ActivitiesGridAdpter;
 import com.weiye.data.HuodongBean;
@@ -28,6 +27,8 @@ import com.weiye.zl.R;
 import com.weiye.zl.SchoolActivity;
 import com.weiye.zl.ShiZiActivity;
 import com.weiye.zl.VedioPlayerActivity;
+import com.zhy.autolayout.AutoLayoutActivity;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import org.xutils.common.Callback;
@@ -45,7 +46,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
     private List<HuodongBean.DataBean> list;
     private AutoRelativeLayout sActivity, appearance, intro,shizi;
     private CustomProgressDialog customProgressDialog;
-    private XRefreshView main1;
+    private AutoLinearLayout main1;
     private long lastRefreshTime;
     private TextView showNo,mytag1;
 
@@ -56,7 +57,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         mListview = (MyListView) view.findViewById(R.id.parkListView);
         sActivity = (AutoRelativeLayout) view.findViewById(R.id.sActivity);
         appearance = (AutoRelativeLayout) view.findViewById(R.id.appearance);
-        main1 = (XRefreshView) view.findViewById(R.id.main1);
+        main1 = (AutoLinearLayout) view.findViewById(R.id.main1);
         intro = (AutoRelativeLayout) view.findViewById(R.id.intro);
         showNo = (TextView) view.findViewById(R.id.showNO);
         mytag1= (TextView) view.findViewById(R.id.mytag1);
@@ -65,56 +66,19 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         sActivity.setOnClickListener(this);
         appearance.setOnClickListener(this);
         intro.setOnClickListener(this);
+        huodongVisit();
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         if (Build.VERSION.SDK_INT >= 23) {
             mytag1.setVisibility(View.VISIBLE);
         } else {
             mytag1.setVisibility(View.GONE);
         }
-        huodongVisit();
-        main1.setPullLoadEnable(true);
-        main1.setPullRefreshEnable(true);
-        main1.setXRefreshViewListener(new XRefreshView.XRefreshViewListener() {
-            @Override
-            public void onRefresh() {
-
-            }
-
-            @Override
-            public void onRefresh(boolean isPullDown) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        huodongVisit();
-                        main1.stopRefresh();
-                        lastRefreshTime = main1.getLastRefreshTime();
-
-                    }
-                }, 2000);
-            }
-
-            @Override
-            public void onLoadMore(boolean isSilence) {
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        main1.stopLoadMore();
-                    }
-                }, 2000);
-            }
-
-            @Override
-            public void onRelease(float direction) {
-            }
-
-            @Override
-            public void onHeaderMove(double headerMovePercent, int offsetY) {
-
-            }
-        });
-        return view;
     }
-
 
     @Override
     public void onClick(View view) {
@@ -150,7 +114,6 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
                 main1.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 HuodongBean bean = gson.fromJson(result, HuodongBean.class);
-
                 list = bean.getData();
                 if (bean.getCode() == -1000) {
                     showNo.setVisibility(View.VISIBLE);

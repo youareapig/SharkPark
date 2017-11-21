@@ -70,8 +70,8 @@ public class MyApplication extends Application {
                 .defaultDisplayImageOptions(new DisplayImageOptions.Builder()
                         .cacheInMemory(true)//开启内存缓存
                         .cacheOnDisk(true)//开启磁盘缓存
-                        .showImageOnLoading(R.mipmap.load)//加载过程中显示的图片
-                        .showImageOnFail(R.mipmap.load)//加载失败显示的图片
+                        .showImageOnLoading(R.mipmap.hui)//加载过程中显示的图片
+                        .showImageOnFail(R.mipmap.hui)//加载失败显示的图片
                         .build()) // default
                 .writeDebugLogs()
                 .build();

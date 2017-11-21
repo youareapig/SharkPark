@@ -1,15 +1,12 @@
 package com.weiye.fragment;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.IndexBean;
-import com.weiye.mycourse.MyCoruseActivity;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.third.BaseAdapterHelper;
 import com.weiye.third.Gallery;
@@ -36,6 +34,8 @@ import org.xutils.http.RequestParams;
 import org.xutils.x;
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 /**
  * Created by DELL on 2017/4/6.
  */
@@ -46,7 +46,7 @@ public class Child_Fragment extends Fragment {
     private CustomProgressDialog customProgressDialog;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private TextView textViewTag,haha;
+    private TextView textViewTag;
 
     @Nullable
     @Override
@@ -56,14 +56,19 @@ public class Child_Fragment extends Fragment {
         textViewTag = (TextView) view.findViewById(R.id.mytag);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", getActivity().MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        index();
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
         //TODO 23表示Android 6.0
         if (Build.VERSION.SDK_INT >= 23) {
             textViewTag.setVisibility(View.VISIBLE);
         } else {
             textViewTag.setVisibility(View.GONE);
         }
-        index();
-        return view;
     }
 
     private void index() {
@@ -88,14 +93,19 @@ public class Child_Fragment extends Fragment {
                             } else {
                                 helper.setVisible(R.id.haha,true);
                             }
-                            ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + item.getSbpic(), (ImageView) helper.getView(R.id.galleryitem_img));
-                            helper.setText(R.id.galleryitem_title, item.getSbtitle());
+                            Glide.with(getActivity())
+                                    .load(SingleModleUrl.singleModleUrl().getImgUrl() +  item.getPic())
+                                    .placeholder(R.mipmap.hui0)
+                                    .error(R.mipmap.hui0)
+                                    .bitmapTransform(new CenterCrop(getActivity()),new RoundedCornersTransformation(getActivity(),8,0))
+                                    .into((ImageView) helper.getView(R.id.galleryitem_img));
+                            helper.setText(R.id.galleryitem_title, item.getTitle());
                             helper.setImageOnClickListener(R.id.galleryitem_img, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
                                     Intent intent = new Intent(getActivity(), CourseActivity.class);
-                                    editor.putString("gradename", item.getSbtitle());
-                                    editor.putString("indexID", item.getSbid() + "");
+                                    editor.putString("gradename", item.getTitle());
+                                    editor.putString("indexID", item.getId() + "");
                                     editor.commit();
                                     startActivity(intent);
                                 }

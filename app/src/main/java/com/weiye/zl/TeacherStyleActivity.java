@@ -7,12 +7,16 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.adapter.BannerAdapter;
@@ -22,6 +26,10 @@ import com.weiye.myview.ObservableScrollView;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
@@ -50,7 +58,7 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     @BindView(R.id.teacherName)
     TextView teacherName;
     @BindView(R.id.teacherProduct)
-    TextView teacherProduct;
+    WebView teacherProduct;
     @BindView(R.id.main3)
     LinearLayout main3;
     private Unbinder unbinder;
@@ -141,9 +149,16 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
                 main3.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 TeacherBean bean=gson.fromJson(result,TeacherBean.class);
-                bannerList=bean.getData().getPic();
-                teacherName.setText(bean.getData().getNickname());
-                teacherProduct.setText(bean.getData().getDesc());
+                bannerList=bean.getData().getImgs();
+                teacherName.setText(bean.getData().getUname());
+
+                WebSettings webSettings = teacherProduct.getSettings();
+                //TODO 适配手机屏幕
+                webSettings.setLoadWithOverviewMode(true);
+                webSettings.setUseWideViewPort(true);
+                webSettings.setTextZoom(250);
+                teacherProduct.loadDataWithBaseURL(null, getNewContent(bean.getData().getDesc()), "text/html", "utf-8", null);
+                teacherProduct.setWebViewClient(new WebViewClient());
                 indexTips = new ImageView[bannerList.size()];
                 for (int i = 0; i < indexTips.length; i++) {
                     ImageView imageView = new ImageView(TeacherStyleActivity.this);
@@ -166,7 +181,12 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
                     ImageView imageView = new ImageView(TeacherStyleActivity.this);
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     indexBannerImage[i] = imageView;
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bannerList.get(i), imageView);
+                    Glide.with(TeacherStyleActivity.this)
+                            .load(SingleModleUrl.singleModleUrl().getImgUrl() + bannerList.get(i))
+                            .error(R.mipmap.hui)
+                            .placeholder(R.mipmap.hui)
+                            .centerCrop()
+                            .into(imageView);
 
                 }
                 teacherStyleBanner.setOnPageChangeListener(TeacherStyleActivity.this);
@@ -199,5 +219,13 @@ public class TeacherStyleActivity extends AutoLayoutActivity implements Observab
     @OnClick(R.id.teacherStyle_Back)
     public void onViewClicked() {
         finish();
+    }
+    private String getNewContent(String htmltext) {
+        Document doc = Jsoup.parse(htmltext);
+        Elements elements = doc.getElementsByTag("img");
+        for (Element element : elements) {
+            element.attr("width", "100%").attr("height", "auto");
+        }
+        return doc.toString();
     }
 }

@@ -1,7 +1,5 @@
 package com.weiye.mycourse;
 
-import android.app.AlertDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -9,24 +7,17 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.weiye.adapter.ManagerAdapter;
-import com.weiye.adapter.YiChangAdapter;
 import com.weiye.data.YichangBean;
-import com.weiye.myview.CustomProgressDialog;
-import com.weiye.myview.NoScrollViewPager;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.R;
-import com.weiye.zl.RestartActivity;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import org.xutils.common.Callback;
@@ -196,8 +187,7 @@ public class MyCoruseActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Intent intent=new Intent(MyCoruseActivity.this, RestartActivity.class);
-                startActivity(intent);
+
             }
 
             @Override

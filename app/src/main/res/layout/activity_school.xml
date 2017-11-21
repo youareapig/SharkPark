@@ -42,22 +42,20 @@
             android:textColor="#303030"
             android:textSize="72px" />
 
-        <HorizontalScrollView
-            android:layout_width="580px"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:scrollbars="none">
 
-            <android.support.design.widget.TabLayout
+            <com.androidkun.xtablayout.XTabLayout
                 android:id="@+id/schooltab"
-                android:layout_width="match_parent"
+                android:layout_width="320px"
                 android:layout_height="match_parent"
-                app:tabIndicatorColor="#31bdf0"
-                app:tabIndicatorHeight="4px"
-                app:tabSelectedTextColor="#31bdf0"
-                app:tabTextAppearance="@style/tab1" />
-        </HorizontalScrollView>
-
+                app:xTabIndicatorWidth="90px"
+                app:xTabDividerWidthWidthText="true"
+                app:xTabMode="scrollable"
+                app:xTabIndicatorColor="#31bdf0"
+                app:xTabIndicatorHeight="4px"
+                app:xTabSelectedTextColor="#31bdf0"
+                app:xTabTextColor="#888888"
+                app:xTabTextSize="52px"
+                app:xTabDisplayNum="2" />
 
     </LinearLayout>
 

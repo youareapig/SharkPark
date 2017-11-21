@@ -9,8 +9,8 @@ public class TeacherBean {
 
     /**
      * code : 1000
-     * message : 成功
-     * data : {"nickname":"小六","desc":"","pic":["Uploads/teacher/2017-07-07/595f010f3a5f9.jpg","Uploads/teacher/2017-07-07/595f010f3acb4.jpg"]}
+     * message : 获取数据成功
+     * data : {"uname":"图图老师","desc":"<p>毕业于西京学院，大学期间数次参加省级比赛，带领团队屡获奖项。责任心强，并且有着丰富的带队经验，注重团队合作。在深入了解STEM的科学教育之后，赞同寓教于乐的教育理念！用自己热爱教育事业的心营造出轻松的课堂氛围，借鉴之前的带队经验，让学生做课题的主任，感受科学的无穷魅力，在快乐中学校与成长!<\/p>","imgs":[""]}
      */
 
     private int code;
@@ -43,21 +43,21 @@ public class TeacherBean {
 
     public static class DataBean {
         /**
-         * nickname : 小六
-         * desc :
-         * pic : ["Uploads/teacher/2017-07-07/595f010f3a5f9.jpg","Uploads/teacher/2017-07-07/595f010f3acb4.jpg"]
+         * uname : 图图老师
+         * desc : <p>毕业于西京学院，大学期间数次参加省级比赛，带领团队屡获奖项。责任心强，并且有着丰富的带队经验，注重团队合作。在深入了解STEM的科学教育之后，赞同寓教于乐的教育理念！用自己热爱教育事业的心营造出轻松的课堂氛围，借鉴之前的带队经验，让学生做课题的主任，感受科学的无穷魅力，在快乐中学校与成长!</p>
+         * imgs : [""]
          */
 
-        private String nickname;
+        private String uname;
         private String desc;
-        private List<String> pic;
+        private List<String> imgs;
 
-        public String getNickname() {
-            return nickname;
+        public String getUname() {
+            return uname;
         }
 
-        public void setNickname(String nickname) {
-            this.nickname = nickname;
+        public void setUname(String uname) {
+            this.uname = uname;
         }
 
         public String getDesc() {
@@ -68,12 +68,12 @@ public class TeacherBean {
             this.desc = desc;
         }
 
-        public List<String> getPic() {
-            return pic;
+        public List<String> getImgs() {
+            return imgs;
         }
 
-        public void setPic(List<String> pic) {
-            this.pic = pic;
+        public void setImgs(List<String> imgs) {
+            this.imgs = imgs;
         }
     }
 }
