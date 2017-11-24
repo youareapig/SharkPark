@@ -42,168 +42,195 @@
                 android:text="我的宝宝 -"
                 android:textColor="#303030"
                 android:textSize="72px" />
+
             <TextView
                 android:id="@+id/baby_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="340px"
                 android:textColor="#303030"
-                android:textSize="72px"
-                android:layout_marginLeft="340px"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="200px"
-            android:layout_marginTop="20px">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="40px"
-                android:text="性别"
-                android:textColor="#303030"
-                android:textSize="52px" />
-
-            <TextView
-                android:id="@+id/baby_sex"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="40px"
-                android:gravity="center_vertical"
-                android:textColor="#888888"
-                android:textSize="48px" />
-        </RelativeLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#d2d2d2" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="200px"
-            android:layout_marginTop="20px">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="40px"
-                android:text="生日"
-                android:textColor="#303030"
-                android:textSize="52px" />
-
-            <TextView
-                android:id="@+id/baby_bir"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="40px"
-                android:gravity="center_vertical"
-                android:textColor="#888888"
-                android:textSize="48px" />
-        </RelativeLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#d2d2d2" />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="200px"
-            android:layout_marginTop="20px">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="40px"
-                android:text="学校"
-                android:textColor="#303030"
-                android:textSize="52px" />
-
-            <TextView
-                android:id="@+id/baby_school"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="40px"
-                android:gravity="center_vertical"
-                android:textColor="#888888"
-                android:textSize="48px" />
-        </RelativeLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#d2d2d2" />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="200px"
-            android:layout_marginTop="20px">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="40px"
-                android:text="班级"
-                android:textColor="#303030"
-                android:textSize="52px" />
-
-            <TextView
-                android:id="@+id/baby_grade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="40px"
-                android:gravity="center_vertical"
-                android:textColor="#888888"
-                android:textSize="48px" />
-        </RelativeLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#d2d2d2" />
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="200px"
-            android:layout_marginTop="20px">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="40px"
-                android:text="课程"
-                android:textColor="#303030"
-                android:textSize="52px" />
-
-            <ImageView
-                android:id="@+id/baby_kecheng"
-                android:layout_width="18px"
-                android:layout_height="30px"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="40px"
-                android:src="@mipmap/right" />
-
-            <TextView
-                android:id="@+id/sexText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20px"
-                android:layout_toLeftOf="@+id/go"
-                android:textColor="#888888"
-                android:textSize="48px" />
+                android:textSize="72px" />
         </RelativeLayout>
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/layout"
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#d2d2d2" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                android:layout_marginTop="20px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40px"
+                    android:text="性别"
+                    android:textColor="#303030"
+                    android:textSize="52px" />
+
+                <TextView
+                    android:id="@+id/baby_sex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="40px"
+                    android:gravity="center_vertical"
+                    android:textColor="#888888"
+                    android:textSize="48px" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#d2d2d2" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                android:layout_marginTop="20px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40px"
+                    android:text="生日"
+                    android:textColor="#303030"
+                    android:textSize="52px" />
+
+                <TextView
+                    android:id="@+id/baby_bir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="40px"
+                    android:gravity="center_vertical"
+                    android:textColor="#888888"
+                    android:textSize="48px" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#d2d2d2" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                android:layout_marginTop="20px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40px"
+                    android:text="学校"
+                    android:textColor="#303030"
+                    android:textSize="52px" />
+
+                <TextView
+                    android:id="@+id/baby_school"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="40px"
+                    android:gravity="center_vertical"
+                    android:textColor="#888888"
+                    android:textSize="48px" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#d2d2d2" />
+
+            <RelativeLayout
+                android:id="@+id/babay_bj"
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                android:layout_marginTop="20px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40px"
+                    android:text="班级"
+                    android:textColor="#303030"
+                    android:textSize="52px" />
+
+                <TextView
+                    android:id="@+id/baby_grade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="60px"
+                    android:gravity="center_vertical"
+                    android:textColor="#888888"
+                    android:textSize="48px" />
+
+                <ImageView
+                    android:layout_width="18px"
+                    android:layout_height="30px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="40px"
+                    android:src="@mipmap/right" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#d2d2d2" />
+
+            <RelativeLayout
+                android:id="@+id/babycourse"
+                android:layout_width="match_parent"
+                android:layout_height="200px"
+                android:layout_marginTop="20px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="40px"
+                    android:text="课程"
+                    android:textColor="#303030"
+                    android:textSize="52px" />
+
+                <ImageView
+                    android:id="@+id/baby_kecheng"
+                    android:layout_width="18px"
+                    android:layout_height="30px"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="40px"
+                    android:src="@mipmap/right" />
+
+                <TextView
+                    android:id="@+id/sexText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20px"
+                    android:layout_toLeftOf="@+id/go"
+                    android:textColor="#888888"
+                    android:textSize="48px" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="#d2d2d2" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

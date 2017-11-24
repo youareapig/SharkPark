@@ -20,11 +20,14 @@ import com.weiye.myview.CustomProgressDialog;
 import com.weiye.photoshow.ImagePagerActivity;
 import com.weiye.utils.SingleModleUrl;
 import com.zhy.autolayout.AutoLayoutActivity;
+
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -48,6 +51,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
     private CustomProgressDialog customProgressDialog;
     private List<String> picture1;
     private List<String> picture2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,33 +84,34 @@ public class AppearanceActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("tag","环境"+result);
                 main5.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 XYFCBean bean = gson.fromJson(result, XYFCBean.class);
                 if (bean.getCode() == 1000) {
                     String fengmian1 = bean.getData().getOne().get(0).getUrl();
                     String fengmian2 = bean.getData().getTwo().get(0).getUrl();
-                    picture1=new ArrayList<String>();
-                    picture2=new ArrayList<String>();
-                    for (int i=0;i<bean.getData().getOne().size();i++){
+                    picture1 = new ArrayList<String>();
+                    picture2 = new ArrayList<String>();
+                    for (int i = 0; i < bean.getData().getOne().size(); i++) {
                         picture1.add(bean.getData().getOne().get(i).getUrl());
                     }
-                    for (int i=0;i<bean.getData().getTwo().size();i++){
+                    for (int i = 0; i < bean.getData().getTwo().size(); i++) {
                         picture2.add(bean.getData().getTwo().get(i).getUrl());
                     }
                     //TODO 圆角和满屏同时实现
                     Glide.with(AppearanceActivity.this).load(SingleModleUrl.singleModleUrl().getImgUrl() + fengmian1)
                             .placeholder(R.mipmap.hui)
                             .error(R.mipmap.hui)
-                            .bitmapTransform(new CenterCrop(AppearanceActivity.this),new RoundedCornersTransformation(AppearanceActivity.this,8,0))
+                            .bitmapTransform(new CenterCrop(AppearanceActivity.this), new RoundedCornersTransformation(AppearanceActivity.this, 8, 0))
                             .into(schoolappearance);
                     Glide.with(AppearanceActivity.this)
                             .load(SingleModleUrl.singleModleUrl().getImgUrl() + fengmian2)
-                            .bitmapTransform(new CenterCrop(AppearanceActivity.this),new RoundedCornersTransformation(AppearanceActivity.this,8,0))
+                            .placeholder(R.mipmap.hui)
+                            .error(R.mipmap.hui)
+                            .bitmapTransform(new CenterCrop(AppearanceActivity.this), new RoundedCornersTransformation(AppearanceActivity.this, 8, 0))
                             .into(jxhj);
-                    number1.setText(picture1.size()+"");
-                    number2.setText(picture2.size()+"");
+                    number1.setText(picture1.size() + "");
+                    number2.setText(picture2.size() + "");
                     schoolappearance.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -131,7 +136,7 @@ public class AppearanceActivity extends AutoLayoutActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(AppearanceActivity.this,"网络不佳，请稍后再试",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AppearanceActivity.this, "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -152,5 +157,15 @@ public class AppearanceActivity extends AutoLayoutActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
 }

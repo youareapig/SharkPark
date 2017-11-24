@@ -55,7 +55,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="40px"
                     android:gravity="center_vertical"
-                    android:text="宝贝姓名"
+                    android:text="宝宝姓名"
                     android:textColor="#303030"
                     android:textSize="52px" />
 
@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="40px"
-                    android:text="宝贝性别"
+                    android:text="宝宝性别"
                     android:textColor="#303030"
                     android:textSize="52px" />
 
@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="40px"
-                    android:text="宝贝年龄"
+                    android:text="宝宝年龄"
                     android:textColor="#303030"
                     android:textSize="52px" />
 
@@ -216,7 +216,7 @@
                 android:layout_width="900px"
                 android:layout_height="148px"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="420px"
+                android:layout_marginTop="320px"
                 android:background="@drawable/btn"
                 android:gravity="center"
                 android:text="提交"

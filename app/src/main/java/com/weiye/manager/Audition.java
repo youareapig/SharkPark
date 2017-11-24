@@ -47,11 +47,12 @@ public class Audition extends Fragment {
     }
 
     private void visit() {
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/managerCenter");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/managerCenter");
         params.addBodyParameter("uid", userID);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.e("tag","管理"+result);
                 Gson gson = new Gson();
                 ManagerBean bean = gson.fromJson(result, ManagerBean.class);
                 if (bean.getCode() == 3000) {

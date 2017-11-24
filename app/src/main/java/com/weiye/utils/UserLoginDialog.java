@@ -370,8 +370,9 @@ public class UserLoginDialog {
                     editor.putString("usertimes", bean.getData().getIsfres());
                     editor.commit();
                     dialog.cancel();
-                    Intent intent = new Intent(context, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Intent intent = new Intent(context, MainActivity.class);
                     intent.putExtra("fTag", 3);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
                     Toast.makeText(context, "登录成功", Toast.LENGTH_SHORT).show();
                 } else {
@@ -511,8 +512,9 @@ public class UserLoginDialog {
                     editor.putString("usertimes", registBean.getData().getIsfres());
                     editor.commit();
                     dialog1.cancel();
-                    Intent intent = new Intent(context, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Intent intent = new Intent(context, MainActivity.class);
                     intent.putExtra("fTag", 3);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent);
                     Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
                 } else {

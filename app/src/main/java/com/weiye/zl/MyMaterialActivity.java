@@ -213,14 +213,14 @@ public class MyMaterialActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.e("tag", "------" + result);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("code").equals("3003")) {
                         Toast.makeText(MyMaterialActivity.this, "资料更新成功", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MyMaterialActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Intent intent = new Intent(MyMaterialActivity.this, MainActivity.class);
                         intent.putExtra("fTag", 3);
-                        finish();
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                     } else if (jsonObject.getString("code").equals("-3003")) {
                         Toast.makeText(MyMaterialActivity.this, "您未做任何修改！", Toast.LENGTH_SHORT).show();
                     } else {

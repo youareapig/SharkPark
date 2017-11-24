@@ -17,7 +17,9 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.google.gson.Gson;
+import com.weiye.adapter.HDAdapter;
 import com.weiye.adapter.WeishangAdapter;
+import com.weiye.data.HDBean;
 import com.weiye.data.WeishangBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.utils.SingleModleUrl;
@@ -35,9 +37,9 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class HuoDong extends Fragment {
     private SwipeMenuListView swipeMenuListView;
-    private WeishangAdapter adapter;
+    private HDAdapter adapter;
     private SharedPreferences sharedPreferences;
-    private String userID;
+    private String userID,babyID;
     private CustomProgressDialog customProgressDialog;
     private TextView textViewNo;
 
@@ -50,6 +52,7 @@ public class HuoDong extends Fragment {
         textViewNo = (TextView) view.findViewById(R.id.myCourseNo4);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", MODE_PRIVATE);
         userID = sharedPreferences.getString("userid", "未知");
+        babyID = sharedPreferences.getString("babyId", "未知");
         visit();
         return view;
     }
@@ -58,24 +61,21 @@ public class HuoDong extends Fragment {
         customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myCourselst");
-        params.addBodyParameter("uid", userID);
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/myCourselst");
+        params.addBodyParameter("bid", babyID);
         params.addBodyParameter("tp", "4");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Gson gson = new Gson();
-                WeishangBean bean = gson.fromJson(result, WeishangBean.class);
+                HDBean bean = gson.fromJson(result, HDBean.class);
                 if (bean.getCode() == 3000) {
-                    if (bean.getData().getCourse().size() == 0) {
-                        swipeMenuListView.setVisibility(View.GONE);
-                        textViewNo.setVisibility(View.VISIBLE);
-                    }else {
+
                         swipeMenuListView.setVisibility(View.VISIBLE);
                         textViewNo.setVisibility(View.GONE);
-                        adapter = new WeishangAdapter(getActivity(), bean.getData().getCourse());
+                        adapter = new HDAdapter(getActivity(), bean.getData());
                         swipeMenuListView.setAdapter(adapter);
-                    }
+
                 } else {
                     swipeMenuListView.setVisibility(View.GONE);
                     textViewNo.setVisibility(View.VISIBLE);

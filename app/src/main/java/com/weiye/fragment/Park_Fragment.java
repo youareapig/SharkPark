@@ -48,7 +48,7 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
     private CustomProgressDialog customProgressDialog;
     private AutoLinearLayout main1;
     private long lastRefreshTime;
-    private TextView showNo,mytag1;
+    private TextView showNo;
 
     @Nullable
     @Override
@@ -60,7 +60,6 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         main1 = (AutoLinearLayout) view.findViewById(R.id.main1);
         intro = (AutoRelativeLayout) view.findViewById(R.id.intro);
         showNo = (TextView) view.findViewById(R.id.showNO);
-        mytag1= (TextView) view.findViewById(R.id.mytag1);
         shizi= (AutoRelativeLayout) view.findViewById(R.id.shizi);
         shizi.setOnClickListener(this);
         sActivity.setOnClickListener(this);
@@ -68,16 +67,6 @@ public class Park_Fragment extends Fragment implements View.OnClickListener {
         intro.setOnClickListener(this);
         huodongVisit();
         return view;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (Build.VERSION.SDK_INT >= 23) {
-            mytag1.setVisibility(View.VISIBLE);
-        } else {
-            mytag1.setVisibility(View.GONE);
-        }
     }
 
     @Override

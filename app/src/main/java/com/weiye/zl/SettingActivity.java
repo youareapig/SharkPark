@@ -148,7 +148,6 @@ public class SettingActivity extends AutoLayoutActivity {
                         editor.commit();
                         Intent intent2 = new Intent(SettingActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent2);
-                        finish();
                         dialog.cancel();
                     }
                 });

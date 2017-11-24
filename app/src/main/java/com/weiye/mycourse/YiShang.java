@@ -33,7 +33,7 @@ public class YiShang extends Fragment {
     private ListView listView;
     private YishangAdapter adapter;
     private SharedPreferences sharedPreferences;
-    private String userID;
+    private String userID,babyID;
     private CustomProgressDialog customProgressDialog;
     private TextView textViewNo;
 
@@ -45,6 +45,7 @@ public class YiShang extends Fragment {
         textViewNo = (TextView) view.findViewById(R.id.myCourseNo3);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", MODE_PRIVATE);
         userID = sharedPreferences.getString("userid", "未知");
+        babyID = sharedPreferences.getString("babyId", "未知");
         visit();
         return view;
     }
@@ -53,8 +54,8 @@ public class YiShang extends Fragment {
         customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myCourselst");
-        params.addBodyParameter("uid", userID);
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/myCourselst");
+        params.addBodyParameter("bid", babyID);
         params.addBodyParameter("tp", "2");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
@@ -62,16 +63,10 @@ public class YiShang extends Fragment {
                 Gson gson = new Gson();
                 YishangBean bean = gson.fromJson(result, YishangBean.class);
                 if (bean.getCode() == 3000) {
-                    if (bean.getData().getCourse().size()==0){
-                        listView.setVisibility(View.GONE);
-                        textViewNo.setVisibility(View.VISIBLE);
-                    }else {
                         listView.setVisibility(View.VISIBLE);
                         textViewNo.setVisibility(View.GONE);
-                        adapter = new YishangAdapter(bean.getData().getCourse(), getActivity());
+                        adapter = new YishangAdapter(bean.getData(), getActivity());
                         listView.setAdapter(adapter);
-                    }
-
                 } else {
                     listView.setVisibility(View.GONE);
                     textViewNo.setVisibility(View.VISIBLE);

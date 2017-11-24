@@ -124,8 +124,6 @@
             android:id="@+id/jxhj"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/hui"
-            android:scaleType="centerCrop"
             />
 
         <TextView

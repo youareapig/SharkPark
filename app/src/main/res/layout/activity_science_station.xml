@@ -6,7 +6,7 @@
     android:background="#fff"
     tools:context="com.weiye.zl.ScienceStationActivity">
 
-    <com.weiye.myview.ObservableScrollView
+    <com.weiye.myview.MyScrollView
         android:id="@+id/scienceStation_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -72,42 +72,13 @@
                 android:layout_marginRight="40px"
                 android:layout_marginTop="30px" />
         </LinearLayout>
-    </com.weiye.myview.ObservableScrollView>
+    </com.weiye.myview.MyScrollView>
 
-    <RelativeLayout
-        android:id="@+id/toubu"
-        android:layout_width="match_parent"
-        android:layout_height="160px">
-
-        <RelativeLayout
-            android:id="@+id/scienceStationBack"
-            android:layout_width="108px"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:layout_width="28px"
-                android:layout_height="48px"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="20px"
-                android:layout_marginLeft="40px"
-                android:src="@mipmap/back" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/scienceStationShare"
-            android:layout_width="128px"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:visibility="gone">
-
-            <ImageView
-                android:layout_width="54px"
-                android:layout_height="58px"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="20px"
-                android:layout_marginRight="40px"
-                android:src="@mipmap/share" />
-        </RelativeLayout>
-    </RelativeLayout>
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="162px"
+        android:layout_height="162px"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="40px"
+        android:src="@mipmap/back01" />
 </FrameLayout>

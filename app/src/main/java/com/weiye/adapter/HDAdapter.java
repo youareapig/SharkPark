@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.weiye.data.HDBean;
 import com.weiye.data.WeishangBean;
 import com.weiye.zl.R;
 import com.zhy.autolayout.utils.AutoUtils;
@@ -17,12 +18,12 @@ import java.util.List;
  * Created by DELL on 2017/7/5.
  */
 
-public class WeishangAdapter extends BaseAdapter{
-    private List<WeishangBean.DataBean> list;
+public class HDAdapter extends BaseAdapter{
+    private List<HDBean.DataBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    public WeishangAdapter(Activity activity,List<WeishangBean.DataBean> list) {
+    public HDAdapter(Activity activity, List<HDBean.DataBean> list) {
         this.layoutInflater=activity.getLayoutInflater();
         this.list=list;
     }
@@ -51,7 +52,7 @@ public class WeishangAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder=new ViewHolder();
-        WeishangBean.DataBean bean=list.get(position);
+        HDBean.DataBean bean=list.get(position);
 
         if (convertView==null){
             convertView=layoutInflater.inflate(R.layout.weishangitem,null);

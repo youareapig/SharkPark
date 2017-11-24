@@ -84,7 +84,6 @@ public class CourseActivity extends AutoLayoutActivity {
         visit(indexID, "", "");
     }
 
-
     private void visit(String classid, String riqi, String shijian) {
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
@@ -96,7 +95,6 @@ public class CourseActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag", "k---------" + result);
                 layoutLocal.setVisibility(View.VISIBLE);
                 layoutRestart.setVisibility(View.GONE);
                 Gson gson = new Gson();
@@ -106,9 +104,8 @@ public class CourseActivity extends AutoLayoutActivity {
                 for (int i = 0; i < beans.getData().getTime().size(); i++) {
                     arry[i] = beans.getData().getTime().get(i).getDatename();
                 }
-
                 if (beans.getCode() == 1000) {
-                    if (beans.getData().getData().size() != 0) {
+                    if (beans.getData().getData()!=null) {
                         noCourse.setVisibility(View.GONE);
                         isCourse.setVisibility(View.VISIBLE);
                         adpters = new CourseAdpters(CourseActivity.this, list);
@@ -147,6 +144,18 @@ public class CourseActivity extends AutoLayoutActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
@@ -162,7 +171,7 @@ public class CourseActivity extends AutoLayoutActivity {
                 picker1.setTopPadding(15);
                 picker1.setRangeStart(1900, 8, 29);
                 picker1.setRangeEnd(2100, 1, 11);
-                picker1.setSelectedItem(year, month, day);
+                picker1.setSelectedItem(year, month+1, day);
                 picker1.setWeightEnable(true);
                 LineConfig config1 = new LineConfig();
                 config1.setColor(Color.parseColor("#000000"));//线颜色
@@ -220,7 +229,7 @@ public class CourseActivity extends AutoLayoutActivity {
                     config.setAlpha(140);//线透明度
                     config.setRatio((float) (1.0 / 8.0));//线比率
                     picker.setLineConfig(config);
-                    picker.setItemWidth(100);
+                    picker.setItemWidth(200);
                     picker.setBackgroundColor(Color.parseColor("#ffffff"));
                     picker.setSelectedIndex(0);
                     picker.setOnItemPickListener(new OnItemPickListener<String>() {
@@ -257,8 +266,9 @@ public class CourseActivity extends AutoLayoutActivity {
                 }
                 break;
             case R.id.courseWode:
-                Intent intent = new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("fTag", 3);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             case R.id.courseBack:

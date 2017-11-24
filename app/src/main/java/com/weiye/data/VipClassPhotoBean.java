@@ -10,13 +10,13 @@ public class VipClassPhotoBean {
 
     /**
      * code : 3000
-     * message : 成功
-     * data : {"pv":[{"purl":["Uploads/subject/2017-07-13/5966d838da86d.jpg"],"ptitle":"new "},{"purl":["Uploads/subject/2017-07-13/5966d84d30f50.png"],"ptitle":"test"}],"grinfo":{"gpic":"Uploads/subject/class/2017-07-10//5962e622bcbb8.jpg","inform":"海豚班","gname":"海豚班"}}
+     * message : 查询成功
+     * data : [{"purl":["Uploads/subject/fe25131ca13e2a5929631959126eff4a.jpg","Uploads/subject/8775ab25d8399ee3f1bed3b9608feaf9.jpg"],"title":"海洋测试"},{"purl":["Uploads/subject/2017-08-10/598c2d4282919.jpg"],"title":"123"}]
      */
 
     private int code;
     private String message;
-    private DataBean data;
+    private List<DataBean> data;
 
     public int getCode() {
         return code;
@@ -34,99 +34,37 @@ public class VipClassPhotoBean {
         this.message = message;
     }
 
-    public DataBean getData() {
+    public List<DataBean> getData() {
         return data;
     }
 
-    public void setData(DataBean data) {
+    public void setData(List<DataBean> data) {
         this.data = data;
     }
 
     public static class DataBean {
         /**
-         * pv : [{"purl":["Uploads/subject/2017-07-13/5966d838da86d.jpg"],"ptitle":"new "},{"purl":["Uploads/subject/2017-07-13/5966d84d30f50.png"],"ptitle":"test"}]
-         * grinfo : {"gpic":"Uploads/subject/class/2017-07-10//5962e622bcbb8.jpg","inform":"海豚班","gname":"海豚班"}
+         * purl : ["Uploads/subject/fe25131ca13e2a5929631959126eff4a.jpg","Uploads/subject/8775ab25d8399ee3f1bed3b9608feaf9.jpg"]
+         * title : 海洋测试
          */
 
-        private GrinfoBean grinfo;
-        private List<PvBean> pv;
+        private String title;
+        private List<String> purl;
 
-        public GrinfoBean getGrinfo() {
-            return grinfo;
+        public String getTitle() {
+            return title;
         }
 
-        public void setGrinfo(GrinfoBean grinfo) {
-            this.grinfo = grinfo;
+        public void setTitle(String title) {
+            this.title = title;
         }
 
-        public List<PvBean> getPv() {
-            return pv;
+        public List<String> getPurl() {
+            return purl;
         }
 
-        public void setPv(List<PvBean> pv) {
-            this.pv = pv;
-        }
-
-        public static class GrinfoBean {
-            /**
-             * gpic : Uploads/subject/class/2017-07-10//5962e622bcbb8.jpg
-             * inform : 海豚班
-             * gname : 海豚班
-             */
-
-            private String gpic;
-            private String inform;
-            private String gname;
-
-            public String getGpic() {
-                return gpic;
-            }
-
-            public void setGpic(String gpic) {
-                this.gpic = gpic;
-            }
-
-            public String getInform() {
-                return inform;
-            }
-
-            public void setInform(String inform) {
-                this.inform = inform;
-            }
-
-            public String getGname() {
-                return gname;
-            }
-
-            public void setGname(String gname) {
-                this.gname = gname;
-            }
-        }
-
-        public static class PvBean {
-            /**
-             * purl : ["Uploads/subject/2017-07-13/5966d838da86d.jpg"]
-             * ptitle : new
-             */
-
-            private String ptitle;
-            private List<String> purl;
-
-            public String getPtitle() {
-                return ptitle;
-            }
-
-            public void setPtitle(String ptitle) {
-                this.ptitle = ptitle;
-            }
-
-            public List<String> getPurl() {
-                return purl;
-            }
-
-            public void setPurl(List<String> purl) {
-                this.purl = purl;
-            }
+        public void setPurl(List<String> purl) {
+            this.purl = purl;
         }
     }
 }

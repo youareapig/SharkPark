@@ -25,6 +25,8 @@ public class SplashActivity extends AutoLayoutActivity {
         sharedPreferences = getSharedPreferences("myshared", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         StatusBarCompat.translucentStatusBar(this, false);
+        editor.putString("isdilog","1");
+        editor.commit();
         splash= (ImageView) findViewById(R.id.splash);
         AlphaAnimation animation = new AlphaAnimation(0.1f, 1.0f);
         animation.setDuration(1000);

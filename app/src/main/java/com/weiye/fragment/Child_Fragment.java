@@ -46,30 +46,18 @@ public class Child_Fragment extends Fragment {
     private CustomProgressDialog customProgressDialog;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private TextView textViewTag;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.childfragment, container, false);
         mGallery = (Gallery) view.findViewById(R.id.myGallery);
-        textViewTag = (TextView) view.findViewById(R.id.mytag);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", getActivity().MODE_PRIVATE);
         editor = sharedPreferences.edit();
         index();
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        //TODO 23表示Android 6.0
-        if (Build.VERSION.SDK_INT >= 23) {
-            textViewTag.setVisibility(View.VISIBLE);
-        } else {
-            textViewTag.setVisibility(View.GONE);
-        }
-    }
 
     private void index() {
         customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);

@@ -147,11 +147,9 @@
         <activity
             android:name=".ShiZiActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".TeacherManageActivity"
-            android:screenOrientation="portrait" />
         <activity android:name=".MyBabyActivity" />
-        <activity android:name=".WebActivity"></activity>
+        <activity android:name=".WebActivity" />
+        <activity android:name=".TiShiActivity"></activity>
     </application>
 
 </manifest>

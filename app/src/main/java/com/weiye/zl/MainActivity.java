@@ -74,11 +74,12 @@ public class MainActivity extends AutoLayoutActivity {
     private List<Fragment> list;
     private int currentIndex;
     private static boolean isExit = false;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPreferences,sharedPreferences1;
+    private SharedPreferences.Editor editor;
     private String updateUrl, updateName, updateContent, updateVersion;
     private int locationVersion = 0;
     private long firstTime = 0;
-
+    private String isdilog;
 //    Handler mHandler = new Handler() {
 //        @Override
 //        public void handleMessage(Message msg) {
@@ -91,7 +92,6 @@ public class MainActivity extends AutoLayoutActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        StatusBarCompat.translucentStatusBar(this, false);
         //TODO 检查是否打开网络
         if (new ExamInternet().isConn(this) == false) {
             Intent intent = new Intent(MainActivity.this, SettingInternetActivity.class);
@@ -103,6 +103,8 @@ public class MainActivity extends AutoLayoutActivity {
         MPermissions.requestPermissions(MainActivity.this, 50, Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE);
         //updateVersion();
         sharedPreferences = getSharedPreferences("UserTag", MODE_PRIVATE);
+        sharedPreferences1 = getSharedPreferences("myshared", MODE_PRIVATE);
+        editor = sharedPreferences1.edit();
         Intent intent = getIntent();
         currentIndex = intent.getIntExtra("fTag", 1);
         if (currentIndex == 3) {
@@ -230,7 +232,6 @@ public class MainActivity extends AutoLayoutActivity {
                 break;
             case R.id.university:
                 String tag = sharedPreferences.getString("usertag", "0");
-                Log.v("aa", tag);
                 if (tag.equals("1")) {
                     textA.setTextColor(getResources().getColor(R.color.no));
                     textB.setTextColor(getResources().getColor(R.color.no));
@@ -274,42 +275,48 @@ public class MainActivity extends AutoLayoutActivity {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.e("tag", "更新" + result);
                 try {
-                    Log.e("tag","版本更新---"+result);
                     JSONObject json = new JSONObject(result);
                     updateName = json.getString("versionName");
                     updateContent = json.getString("description");
                     updateVersion = json.getString("version");
                     updateUrl = json.getString("url");
+                    isdilog = sharedPreferences1.getString("isdilog", "0");
+                    Log.e("tag","222"+isdilog);
                     if (Integer.parseInt(updateVersion) > locationVersion) {
-                        final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
-                        LayoutInflater inflater = getLayoutInflater();
-                        View v = inflater.inflate(R.layout.update, null);
-                        dialog.setView(v);
-                        dialog.setCanceledOnTouchOutside(false);
-                        dialog.show();
-                        v.findViewById(R.id.unUpdate).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                dialog.cancel();
-                            }
-                        });
-                        TextView textContent = (TextView) v.findViewById(R.id.versionContent);
-                        //textContent.setText(updateContent);
-                        v.findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                UpdaterConfig config = new UpdaterConfig.Builder(MainActivity.this)
-                                        .setTitle(getResources().getString(R.string.app_name))
-                                        .setDescription(getString(R.string.system_download_description))
-                                        .setFileUrl(updateUrl)
-                                        .setCanMediaScanner(true)
-                                        .build();
-                                Updater.get().showLog(true).download(config);
-                               dialog.cancel();
+                        if (isdilog.equals("1")) {
+                            final AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
+                            LayoutInflater inflater = getLayoutInflater();
+                            View v = inflater.inflate(R.layout.update, null);
+                            dialog.setView(v);
+                            dialog.setCanceledOnTouchOutside(false);
+                            dialog.show();
+                            editor.putString("isdilog","0");
+                            editor.commit();
+                            v.findViewById(R.id.unUpdate).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    dialog.cancel();
+                                }
+                            });
+                            TextView textContent = (TextView) v.findViewById(R.id.versionContent);
+                            //textContent.setText(updateContent);
+                            v.findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    UpdaterConfig config = new UpdaterConfig.Builder(MainActivity.this)
+                                            .setTitle(getResources().getString(R.string.app_name))
+                                            .setDescription(getString(R.string.system_download_description))
+                                            .setFileUrl(updateUrl)
+                                            .setCanMediaScanner(true)
+                                            .build();
+                                    Updater.get().showLog(true).download(config);
+                                    dialog.cancel();
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -355,12 +362,12 @@ public class MainActivity extends AutoLayoutActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

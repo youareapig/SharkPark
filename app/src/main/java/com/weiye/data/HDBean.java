@@ -3,15 +3,15 @@ package com.weiye.data;
 import java.util.List;
 
 /**
- * Created by DELL on 2017/7/12.
+ * Created by DELL on 2017/11/23.
  */
 
-public class YishangBean {
+public class HDBean {
 
     /**
      * code : 3000
      * message : 获取课程成功
-     * data : [{"dates":"2017-11-22","week":"周三","coname":"大学","datename":"10:30-11:30","info":"正常"},{"dates":"2017-11-22","week":"周三","coname":"数学","datename":"10:30-11:30","info":"正常"},{"dates":"2017-11-21","week":"周二","coname":"生物","datename":"19:00-20:30","info":"正常上课"}]
+     * data : [{"dates":"2017-11-21","week":"周二","coname":"野外扫考","datename":"11:45-13:10","info":"活动扣课"}]
      */
 
     private int code;
@@ -44,11 +44,11 @@ public class YishangBean {
 
     public static class DataBean {
         /**
-         * dates : 2017-11-22
-         * week : 周三
-         * coname : 大学
-         * datename : 10:30-11:30
-         * info : 正常
+         * dates : 2017-11-21
+         * week : 周二
+         * coname : 野外扫考
+         * datename : 11:45-13:10
+         * info : 活动扣课
          */
 
         private String dates;

@@ -11,13 +11,13 @@ public class WeishangBean {
 
     /**
      * code : 3000
-     * message : 成功
-     * data : {"nums":{"totalnum":"50","enablenum":"47","withdrawed":"3"},"course":[{"dates":"2017-07-12","week":"周三","datename":"09:30-10:30","coname":"物理","gcid":"13"}]}
+     * message : 获取课程成功
+     * data : [{"dates":"2017-11-23","week":"周四","datename":"10:30-11:30","coname":"小学","id":4},{"dates":"2017-11-24","week":"周五","datename":"10:30-11:30","coname":"初中","id":5},{"dates":"2017-11-25","week":"周六","datename":"16:15-17:45","coname":"幼儿园","id":6},{"dates":"2017-11-26","week":"周日","datename":"16:15-17:45","coname":"研究生","id":7},{"dates":"2017-11-27","week":"周一","datename":"16:15-17:45","coname":"你猜","id":8}]
      */
 
     private int code;
     private String message;
-    private DataBean data;
+    private List<DataBean> data;
 
     public int getCode() {
         return code;
@@ -35,129 +35,67 @@ public class WeishangBean {
         this.message = message;
     }
 
-    public DataBean getData() {
+    public List<DataBean> getData() {
         return data;
     }
 
-    public void setData(DataBean data) {
+    public void setData(List<DataBean> data) {
         this.data = data;
     }
 
     public static class DataBean {
         /**
-         * nums : {"totalnum":"50","enablenum":"47","withdrawed":"3"}
-         * course : [{"dates":"2017-07-12","week":"周三","datename":"09:30-10:30","coname":"物理","gcid":"13"}]
+         * dates : 2017-11-23
+         * week : 周四
+         * datename : 10:30-11:30
+         * coname : 小学
+         * id : 4
          */
 
-        private NumsBean nums;
-        private List<CourseBean> course;
+        private String dates;
+        private String week;
+        private String datename;
+        private String coname;
+        private int id;
 
-        public NumsBean getNums() {
-            return nums;
+        public String getDates() {
+            return dates;
         }
 
-        public void setNums(NumsBean nums) {
-            this.nums = nums;
+        public void setDates(String dates) {
+            this.dates = dates;
         }
 
-        public List<CourseBean> getCourse() {
-            return course;
+        public String getWeek() {
+            return week;
         }
 
-        public void setCourse(List<CourseBean> course) {
-            this.course = course;
+        public void setWeek(String week) {
+            this.week = week;
         }
 
-        public static class NumsBean {
-            /**
-             * totalnum : 50
-             * enablenum : 47
-             * withdrawed : 3
-             */
-
-            private String totalnum;
-            private String enablenum;
-            private String withdrawed;
-
-            public String getTotalnum() {
-                return totalnum;
-            }
-
-            public void setTotalnum(String totalnum) {
-                this.totalnum = totalnum;
-            }
-
-            public String getEnablenum() {
-                return enablenum;
-            }
-
-            public void setEnablenum(String enablenum) {
-                this.enablenum = enablenum;
-            }
-
-            public String getWithdrawed() {
-                return withdrawed;
-            }
-
-            public void setWithdrawed(String withdrawed) {
-                this.withdrawed = withdrawed;
-            }
+        public String getDatename() {
+            return datename;
         }
 
-        public static class CourseBean {
-            /**
-             * dates : 2017-07-12
-             * week : 周三
-             * datename : 09:30-10:30
-             * coname : 物理
-             * gcid : 13
-             */
+        public void setDatename(String datename) {
+            this.datename = datename;
+        }
 
-            private String dates;
-            private String week;
-            private String datename;
-            private String coname;
-            private String gcid;
+        public String getConame() {
+            return coname;
+        }
 
-            public String getDates() {
-                return dates;
-            }
+        public void setConame(String coname) {
+            this.coname = coname;
+        }
 
-            public void setDates(String dates) {
-                this.dates = dates;
-            }
+        public int getId() {
+            return id;
+        }
 
-            public String getWeek() {
-                return week;
-            }
-
-            public void setWeek(String week) {
-                this.week = week;
-            }
-
-            public String getDatename() {
-                return datename;
-            }
-
-            public void setDatename(String datename) {
-                this.datename = datename;
-            }
-
-            public String getConame() {
-                return coname;
-            }
-
-            public void setConame(String coname) {
-                this.coname = coname;
-            }
-
-            public String getGcid() {
-                return gcid;
-            }
-
-            public void setGcid(String gcid) {
-                this.gcid = gcid;
-            }
+        public void setId(int id) {
+            this.id = id;
         }
     }
 }

@@ -11,7 +11,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 2
-        versionName "1.0.0"
+        versionName "1.0.1"
     }
     buildTypes {
         release {
@@ -50,8 +50,9 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.0'
     compile 'com.androidkun:XTabLayout:1.1.3'
     compile 'com.just.agentweb:agentweb:2.0.1'
+    compile 'com.github.addappcn:android-pickers:1.0.1'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
     apt 'com.zhy:mpermission-compiler:1.0.0'
-    compile 'com.github.addappcn:android-pickers:1.0.1'
+    compile 'org.greenrobot:eventbus:3.1.1'
 }

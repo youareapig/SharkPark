@@ -18,11 +18,11 @@ import java.util.List;
  */
 
 public class YishangAdapter extends BaseAdapter{
-    private List<YishangBean.DataBean.CourseBean> list;
+    private List<YishangBean.DataBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    public YishangAdapter(List<YishangBean.DataBean.CourseBean> list, Activity activity) {
+    public YishangAdapter(List<YishangBean.DataBean> list, Activity activity) {
         this.list=list;
         this.layoutInflater=activity.getLayoutInflater();
     }
@@ -51,7 +51,7 @@ public class YishangAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder=new ViewHolder();
-        YishangBean.DataBean.CourseBean bean=list.get(position);
+        YishangBean.DataBean bean=list.get(position);
         if (convertView==null){
             convertView=layoutInflater.inflate(R.layout.yishangitem,null);
             holder.date= (TextView) convertView.findViewById(R.id.yishangItemDay);

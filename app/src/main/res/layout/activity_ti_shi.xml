@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.weiye.zl.TiShiActivity">
+
+    <RelativeLayout style="@style/mytitle">
+
+        <RelativeLayout
+            android:id="@+id/mycourseBack"
+            android:layout_width="108px"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="28px"
+                android:layout_height="48px"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/back1" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/wodeyuyue"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="160px"
+            android:layout_height="160px"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="580px"
+            android:src="@drawable/d1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="780px"
+            android:text="您已经预约试听，鲨鱼老师将与您保持联系！"
+            android:textColor="#b5b5b5"
+            android:textSize="48px" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/wuyuyue"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="160px"
+            android:layout_height="160px"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="580px"
+            android:src="@drawable/d1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="780px"
+            android:text="您还没有预约课程！赶紧去预约吧！"
+            android:textColor="#b5b5b5"
+            android:textSize="48px" />
+
+    </RelativeLayout>
+</LinearLayout>

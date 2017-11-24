@@ -10,8 +10,8 @@ public class CourseBeans {
 
     /**
      * code : 1000
-     * message : 查询成功
-     * data : {"data":[{"coname":"数学"}],"time":[{"datename":"10:30-11:30"}]}
+     * message : 获取数据成功
+     * data : {"time":[{"datename":"10:30-11:30"},{"datename":"16:15-17:45"},{"datename":"19:00-20:30"},{"datename":"16:00-17:30"}],"data":[{"coname":"大学"},{"coname":"小学"},{"coname":"初中"},{"coname":"幼儿园"},{"coname":"研究生"},{"coname":"你猜"}]}
      */
 
     private int code;
@@ -43,16 +43,8 @@ public class CourseBeans {
     }
 
     public static class DataBeanX {
-        private List<DataBean> data;
         private List<TimeBean> time;
-
-        public List<DataBean> getData() {
-            return data;
-        }
-
-        public void setData(List<DataBean> data) {
-            this.data = data;
-        }
+        private List<DataBean> data;
 
         public List<TimeBean> getTime() {
             return time;
@@ -62,20 +54,12 @@ public class CourseBeans {
             this.time = time;
         }
 
-        public static class DataBean {
-            /**
-             * coname : 数学
-             */
+        public List<DataBean> getData() {
+            return data;
+        }
 
-            private String coname;
-
-            public String getConame() {
-                return coname;
-            }
-
-            public void setConame(String coname) {
-                this.coname = coname;
-            }
+        public void setData(List<DataBean> data) {
+            this.data = data;
         }
 
         public static class TimeBean {
@@ -91,6 +75,22 @@ public class CourseBeans {
 
             public void setDatename(String datename) {
                 this.datename = datename;
+            }
+        }
+
+        public static class DataBean {
+            /**
+             * coname : 大学
+             */
+
+            private String coname;
+
+            public String getConame() {
+                return coname;
+            }
+
+            public void setConame(String coname) {
+                this.coname = coname;
             }
         }
     }

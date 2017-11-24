@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +35,10 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class WeiShang extends Fragment {
-    private SwipeMenuListView swipeMenuListView;
+    private ListView swipeMenuListView;
     private WeishangAdapter adapter;
     private SharedPreferences sharedPreferences;
-    private String userID;
+    private String userID,babyID;
     private CustomProgressDialog customProgressDialog;
     private TextView textViewNo;
 
@@ -46,64 +47,33 @@ public class WeiShang extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.weishang, container, false);
-        swipeMenuListView = (SwipeMenuListView) view.findViewById(R.id.weishangListView);
+        swipeMenuListView = (ListView) view.findViewById(R.id.weishangListView);
         textViewNo= (TextView) view.findViewById(R.id.myCourseNo1);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", MODE_PRIVATE);
         userID = sharedPreferences.getString("userid", "未知");
+        babyID = sharedPreferences.getString("babyId", "未知");
         visit();
         return view;
     }
 
-    private void init() {
-        SwipeMenuCreator creator = new SwipeMenuCreator() {
-            @Override
-            public void create(SwipeMenu menu) {
-                SwipeMenuItem deleteItem = new SwipeMenuItem(
-                        getActivity().getApplicationContext());
-                deleteItem.setBackground(R.color.red);
-                deleteItem.setWidth(240);
-                deleteItem.setTitle("删除");
-                deleteItem.setTitleSize(18);
-                deleteItem.setTitleColor(Color.WHITE);
-                menu.addMenuItem(deleteItem);
-
-            }
-        };
-
-        //swipeMenuListView.setMenuCreator(creator);
-        swipeMenuListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                Toast.makeText(getActivity(), "模拟删除成功", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
-    }
 
     private void visit() {
         customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myCourselst");
-        params.addBodyParameter("uid", userID);
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/myCourselst");
+        params.addBodyParameter("bid", babyID);
         params.addBodyParameter("tp", "1");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Log.d("tag","未上"+result);
                 Gson gson = new Gson();
                 WeishangBean bean = gson.fromJson(result, WeishangBean.class);
                 if (bean.getCode() == 3000) {
-                    if (bean.getData().getCourse().size()==0){
-                        swipeMenuListView.setVisibility(View.GONE);
-                        textViewNo.setVisibility(View.VISIBLE);
-                    }else {
-                        swipeMenuListView.setVisibility(View.VISIBLE);
-                        textViewNo.setVisibility(View.GONE);
-                        adapter = new WeishangAdapter(getActivity(), bean.getData().getCourse());
-                        swipeMenuListView.setAdapter(adapter);
-                    }
-
+                    swipeMenuListView.setVisibility(View.VISIBLE);
+                    textViewNo.setVisibility(View.GONE);
+                    adapter = new WeishangAdapter(getActivity(), bean.getData());
+                    swipeMenuListView.setAdapter(adapter);
                 } else {
                     swipeMenuListView.setVisibility(View.GONE);
                     textViewNo.setVisibility(View.VISIBLE);

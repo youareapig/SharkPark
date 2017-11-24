@@ -10,8 +10,8 @@ public class ManagerBean {
 
     /**
      * code : 3000
-     * message : 查询成功
-     * data : [{"phone":"15983302246","babyname":"黄小欧","oage":"24","sex":"0"}]
+     * message : 查询预约信息成功
+     * data : [{"phone":"13258223760","babyname":"高飞","age":"11","sex":0},{"phone":"15983302246","babyname":"我是老师","age":"24","sex":1}]
      */
 
     private int code;
@@ -44,16 +44,16 @@ public class ManagerBean {
 
     public static class DataBean {
         /**
-         * phone : 15983302246
-         * babyname : 黄小欧
-         * oage : 24
+         * phone : 13258223760
+         * babyname : 高飞
+         * age : 11
          * sex : 0
          */
 
         private String phone;
         private String babyname;
-        private String oage;
-        private String sex;
+        private String age;
+        private int sex;
 
         public String getPhone() {
             return phone;
@@ -71,19 +71,19 @@ public class ManagerBean {
             this.babyname = babyname;
         }
 
-        public String getOage() {
-            return oage;
+        public String getAge() {
+            return age;
         }
 
-        public void setOage(String oage) {
-            this.oage = oage;
+        public void setAge(String age) {
+            this.age = age;
         }
 
-        public String getSex() {
+        public int getSex() {
             return sex;
         }
 
-        public void setSex(String sex) {
+        public void setSex(int sex) {
             this.sex = sex;
         }
     }

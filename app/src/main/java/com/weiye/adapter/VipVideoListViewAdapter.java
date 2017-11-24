@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.weiye.data.VipClassVidioBean;
@@ -20,13 +22,14 @@ import java.util.List;
  * Created by DELL on 2017/4/14.
  */
 public class VipVideoListViewAdapter extends BaseAdapter{
-    private List<VipClassVidioBean.DataBean.PvBean> list;
+    private List<VipClassVidioBean.DataBean> list;
     private Activity activity;
     private LayoutInflater layoutInflater;
 
-    public VipVideoListViewAdapter(List<VipClassVidioBean.DataBean.PvBean> list, Activity activity) {
+    public VipVideoListViewAdapter(List<VipClassVidioBean.DataBean> list, Activity activity) {
         this.list = list;
         this.layoutInflater=activity.getLayoutInflater();
+        this.activity=activity;
     }
 
     @Override
@@ -53,22 +56,27 @@ public class VipVideoListViewAdapter extends BaseAdapter{
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         ViewHolder holder=new ViewHolder();
-        VipClassVidioBean.DataBean.PvBean bean=list.get(i);
+        VipClassVidioBean.DataBean bean=list.get(i);
         if (view==null){
             view=layoutInflater.inflate(R.layout.subvideolistviewitem,null);
-            holder.imageView= (RoundedImageView) view.findViewById(R.id.subvideolistviewItem_img);
+            holder.imageView= (ImageView) view.findViewById(R.id.subvideolistviewItem_img);
             holder.textView= (TextView) view.findViewById(R.id.subvideolistviewItem_text);
             view.setTag(holder);
             AutoUtils.autoSize(view);
         }else {
             holder= (ViewHolder) view.getTag();
         }
-        holder.textView.setText(bean.getVtitle());
-        ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getVimg(),holder.imageView);
+        holder.textView.setText(bean.getTitle());
+        Glide.with(activity)
+                .load(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getVimg())
+                .placeholder(R.mipmap.hui)
+                .error(R.mipmap.hui)
+                .centerCrop()
+                .into(holder.imageView);
         return view;
     }
     private class ViewHolder{
-        private RoundedImageView imageView;
+        private ImageView imageView;
         private TextView textView;
     }
 }

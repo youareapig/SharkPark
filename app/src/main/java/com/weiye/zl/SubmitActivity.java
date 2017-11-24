@@ -187,7 +187,7 @@ public class SubmitActivity extends AutoLayoutActivity {
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
         main10.setVisibility(View.GONE);
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/ucarInfo");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/ucarInfo");
         params.addBodyParameter("uid", userID);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
@@ -247,11 +247,11 @@ public class SubmitActivity extends AutoLayoutActivity {
         final CustomProgressDialog customProgressDialog = new CustomProgressDialog(this, null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/addCar");
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/addCar");
         params.addBodyParameter("uid", userID);
         params.addBodyParameter("truename", stringyyName);
         params.addBodyParameter("sex", sexID);
-        params.addBodyParameter("age", "24");
+        params.addBodyParameter("age", stringyyAge);
         params.addBodyParameter("tel", stringyyTel);
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
@@ -277,17 +277,16 @@ public class SubmitActivity extends AutoLayoutActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                Intent intent = new Intent(SubmitActivity.this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                ;
+                                Intent intent = new Intent(SubmitActivity.this, MainActivity.class);
                                 intent.putExtra("fTag", 0);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
-                                finish();
                             }
                         }, 3000);
 
 
                     } else if (jsonObject.getString("code").equals("-3006")) {
-                        Toast.makeText(SubmitActivity.this, "该信息已经预约。", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SubmitActivity.this, "不能重复预约！", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(SubmitActivity.this, "提交失败", Toast.LENGTH_SHORT).show();
                     }
@@ -317,6 +316,18 @@ public class SubmitActivity extends AutoLayoutActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
     }
 
     //TODO 重写返回键

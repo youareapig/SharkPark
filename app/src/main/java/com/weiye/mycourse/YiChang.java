@@ -38,7 +38,7 @@ public class YiChang extends Fragment {
     private ListView listView;
     private YiChangAdapter adapter;
     private SharedPreferences sharedPreferences;
-    private String userID;
+    private String userID,babyID;
     private CustomProgressDialog customProgressDialog;
     private TextView textViewNo;
 
@@ -50,6 +50,7 @@ public class YiChang extends Fragment {
         textViewNo = (TextView) view.findViewById(R.id.myCourseNo2);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", MODE_PRIVATE);
         userID = sharedPreferences.getString("userid", "未知");
+        babyID = sharedPreferences.getString("babyId", "未知");
         visit();
         return view;
     }
@@ -58,8 +59,8 @@ public class YiChang extends Fragment {
         customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
-        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "User/myCourselst");
-        params.addBodyParameter("uid", userID);
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/myCourselst");
+        params.addBodyParameter("bid", babyID);
         params.addBodyParameter("tp", "3");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
@@ -67,13 +68,9 @@ public class YiChang extends Fragment {
                 Gson gson = new Gson();
                 final YichangBean bean = gson.fromJson(result, YichangBean.class);
                 if (bean.getCode() == 3000) {
-                    if (bean.getData().getCourse().size()==0){
-                        textViewNo.setVisibility(View.VISIBLE);
-                        listView.setVisibility(View.GONE);
-                    }else {
                         textViewNo.setVisibility(View.GONE);
                         listView.setVisibility(View.VISIBLE);
-                        adapter = new YiChangAdapter(getActivity(), bean.getData().getCourse());
+                        adapter = new YiChangAdapter(getActivity(), bean.getData());
                         listView.setAdapter(adapter);
                         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -91,8 +88,8 @@ public class YiChang extends Fragment {
                                 layoutParams.width=800;
                                 window.setAttributes(layoutParams);
                                 TextView textView = (TextView) v.findViewById(R.id.yichang);
-                                if (bean.getData().getCourse().get(position).getInfo()!=null){
-                                    textView.setText(bean.getData().getCourse().get(position).getInfo());
+                                if (bean.getData().get(position).getInfo()!=null){
+                                    textView.setText(bean.getData().get(position).getInfo());
                                 }else {
                                     textView.setText("无法显示");
                                 }
@@ -101,7 +98,7 @@ public class YiChang extends Fragment {
                         });
                     }
 
-                } else {
+            else {
                     textViewNo.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
                 }

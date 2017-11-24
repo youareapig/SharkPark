@@ -29,10 +29,13 @@ import com.weiye.adapter.ListView_1_Adapter;
 import com.weiye.data.ParkBean;
 import com.weiye.myview.CustomProgressDialog;
 import com.weiye.myview.MyListView;
+import com.weiye.myview.MyScrollView;
 import com.weiye.utils.SingleModleUrl;
 import com.weiye.zl.FourSchoolActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.ScienceStationActivity;
+import com.zhy.autolayout.AutoLayoutActivity;
+import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 
 import org.xutils.common.Callback;
@@ -62,7 +65,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
     private CustomProgressDialog customProgressDialog;
     private MyThread myThread;
     private AutoRelativeLayout kexueyizhan_top;
-
+    private MyScrollView myScrollView;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,6 +78,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
         kexueyizhan_text= (TextView) view.findViewById(R.id.kexueyizhan_text);
         kexueyizhan_Img = (ImageView) view.findViewById(R.id.kexueyizhan_Img);
         kexueyizhan_top= (AutoRelativeLayout) view.findViewById(R.id.kexueyizhan_top);
+        myScrollView= (MyScrollView) view.findViewById(R.id.myscroll);
         myThread = new MyThread();
         classAll.setOnClickListener(this);
         getBanner();
@@ -136,6 +140,7 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
 
     //TODO banner图片
     private void getBanner() {
+        myScrollView.setVisibility(View.GONE);
         customProgressDialog = new CustomProgressDialog(getActivity(), null, R.drawable.frame, R.style.dialog);
         customProgressDialog.setCanceledOnTouchOutside(false);
         customProgressDialog.show();
@@ -146,92 +151,94 @@ public class Shark_Fragment extends Fragment implements ViewPager.OnPageChangeLi
                 Gson gson = new Gson();
                 final ParkBean bean = gson.fromJson(result, ParkBean.class);
                 //TODO banner
-                bannerList = bean.getData().getBanner();
-                indexTips = new ImageView[bannerList.size()];
-                for (int i = 0; i < indexTips.length; i++) {
-                    ImageView imageView = new ImageView(getActivity());
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(15, 15);
-                    layoutParams.leftMargin = 10;
-                    layoutParams.rightMargin = 10;
-                    imageView.setLayoutParams(layoutParams);
-                    indexTips[i] = imageView;
-                    if (i == 0) {
-                        indexTips[i].setBackgroundResource(R.drawable.viewpage_check);
-                    } else {
-                        indexTips[i].setBackgroundResource(R.drawable.viewpage_goods);
-
-                    }
-
-                    mView.addView(imageView);
-                }
-                indexBannerImage = new ImageView[bannerList.size()];
-                for (int i = 0; i < indexBannerImage.length; i++) {
-                    ImageView imageView = new ImageView(getActivity());
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    indexBannerImage[i] = imageView;
-                    Glide.with(getActivity())
-                            .load(SingleModleUrl.singleModleUrl().getImgUrl()+bannerList.get(i).getUrl())
-                            .centerCrop()
-                            .placeholder(R.mipmap.hui)
-                            .error(R.mipmap.hui).into(imageView);
-                }
-                viewPager.setOnPageChangeListener(Shark_Fragment.this);
-                viewPager.setAdapter(new BannerAdapter(indexBannerImage));
-                handler = new Handler() {
-                    int bannerNo = 0;
-
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                        if (viewPager.getCurrentItem() == indexBannerImage.length - 1) {
-                            bannerNo = 0;
+                if (bean.getCode()==1000) {
+                    myScrollView.setVisibility(View.VISIBLE);
+                    bannerList = bean.getData().getBanner();
+                    indexTips = new ImageView[bannerList.size()];
+                    for (int i = 0; i < indexTips.length; i++) {
+                        ImageView imageView = new ImageView(getActivity());
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(15, 15);
+                        layoutParams.leftMargin = 10;
+                        layoutParams.rightMargin = 10;
+                        imageView.setLayoutParams(layoutParams);
+                        indexTips[i] = imageView;
+                        if (i == 0) {
+                            indexTips[i].setBackgroundResource(R.drawable.viewpage_check);
                         } else {
-                            bannerNo = viewPager.getCurrentItem() + 1;
-                        }
-                        viewPager.setCurrentItem(bannerNo, true);
-                    }
-                };
-                myThread.start();
-                //TODO 课堂风采
-                List<ParkBean.DataBeanX.PicBean> pictureList = bean.getData().getPic();
-                gallery.setSpacing(40);
-                gallery.setAdapter(new GalleryAdapter(pictureList, getActivity()));
-                gallery.setSelection(1, true);
-                //TODO 科学驿站
+                            indexTips[i].setBackgroundResource(R.drawable.viewpage_goods);
 
-                if (bean.getData().getIsup()!=null){
-                    kexueyizhan_top.setVisibility(View.VISIBLE);
-                    Glide.with(getActivity()).load(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getData().getIsup().getPic())
-                            .bitmapTransform(new CenterCrop(getActivity()),new RoundedCornersTransformation(getActivity(),8,0))
-                            .placeholder(R.mipmap.hui)
-                            .error(R.mipmap.hui)
-                            .into(kexueyizhan_Img);
-                    kexueyizhan_text.setText(bean.getData().getIsup().getTitle());
-                }else {
-                    kexueyizhan_top.setVisibility(View.GONE);
-                }
-                if (bean.getData().getData().size()!=0){
-                    final List<ParkBean.DataBeanX.DataBean> keList = bean.getData().getData();
-                    mListView.setAdapter(new ListView_1_Adapter(keList, getActivity()));
-                    mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        }
+
+                        mView.addView(imageView);
+                    }
+                    indexBannerImage = new ImageView[bannerList.size()];
+                    for (int i = 0; i < indexBannerImage.length; i++) {
+                        ImageView imageView = new ImageView(getActivity());
+                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        indexBannerImage[i] = imageView;
+                        Glide.with(getActivity())
+                                .load(SingleModleUrl.singleModleUrl().getImgUrl() + bannerList.get(i).getUrl())
+                                .centerCrop()
+                                .placeholder(R.mipmap.hui)
+                                .error(R.mipmap.hui).into(imageView);
+                    }
+                    viewPager.setOnPageChangeListener(Shark_Fragment.this);
+                    viewPager.setAdapter(new BannerAdapter(indexBannerImage));
+                    handler = new Handler() {
+                        int bannerNo = 0;
+
                         @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            ParkBean.DataBeanX.DataBean infoBean = (ParkBean.DataBeanX.DataBean) adapterView.getItemAtPosition(i);
+                        public void handleMessage(Message msg) {
+                            super.handleMessage(msg);
+                            if (viewPager.getCurrentItem() == indexBannerImage.length - 1) {
+                                bannerNo = 0;
+                            } else {
+                                bannerNo = viewPager.getCurrentItem() + 1;
+                            }
+                            viewPager.setCurrentItem(bannerNo, true);
+                        }
+                    };
+                    myThread.start();
+                    //TODO 课堂风采
+                    List<ParkBean.DataBeanX.PicBean> pictureList = bean.getData().getPic();
+                    gallery.setSpacing(40);
+                    gallery.setAdapter(new GalleryAdapter(pictureList, getActivity()));
+                    gallery.setSelection(1, true);
+                    //TODO 科学驿站
+
+                    if (bean.getData().getIsup() != null) {
+                        Glide.with(getActivity()).load(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getIsup().getPic())
+                                .bitmapTransform(new CenterCrop(getActivity()), new RoundedCornersTransformation(getActivity(), 8, 0))
+                                .placeholder(R.mipmap.hui)
+                                .error(R.mipmap.hui)
+                                .into(kexueyizhan_Img);
+                        kexueyizhan_text.setText(bean.getData().getIsup().getTitle());
+                    } else {
+                    }
+                    if (bean.getData().getData().size() != 0) {
+                        final List<ParkBean.DataBeanX.DataBean> keList = bean.getData().getData();
+                        mListView.setAdapter(new ListView_1_Adapter(keList, getActivity()));
+                        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                ParkBean.DataBeanX.DataBean infoBean = (ParkBean.DataBeanX.DataBean) adapterView.getItemAtPosition(i);
+                                Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
+                                intent.putExtra("id", infoBean.getId() + "");
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                    kexueyizhan_Img.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
                             Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
-                            intent.putExtra("id", infoBean.getId()+"");
+                            intent.putExtra("id", bean.getData().getIsup().getId() + "");
                             startActivity(intent);
                         }
                     });
+                }else {
+                    Toast.makeText(getActivity(), "网络不佳，请稍后再试", Toast.LENGTH_SHORT).show();
                 }
-                kexueyizhan_Img.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), ScienceStationActivity.class);
-                        intent.putExtra("id", bean.getData().getIsup().getId()+"");
-                        startActivity(intent);
-                    }
-                });
-
             }
 
             @Override

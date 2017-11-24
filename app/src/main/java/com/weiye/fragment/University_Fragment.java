@@ -15,6 +15,8 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.Log;
@@ -27,6 +29,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.utils.L;
+import com.weiye.adapter.ChooseBabyAdapter;
+import com.weiye.adapter.ChooseClassAdapter;
+import com.weiye.data.BabyBean;
+import com.weiye.data.TeacherClassBean;
 import com.weiye.data.UpHeadBean;
 import com.weiye.data.UserInfoBean;
 import com.weiye.mycourse.MyCoruseActivity;
@@ -39,13 +46,16 @@ import com.weiye.zl.MyMaterialActivity;
 import com.weiye.zl.R;
 import com.weiye.zl.SettingActivity;
 import com.weiye.zl.SubjectActivity;
-import com.weiye.zl.TeacherManageActivity;
+import com.weiye.zl.TiShiActivity;
 import com.zhy.autolayout.AutoLinearLayout;
 import com.zhy.autolayout.AutoRelativeLayout;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
@@ -71,10 +81,13 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     private AutoRelativeLayout online, setting, myCourse, managecourse, myClass;
     private String userID, userType;
     private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     private AutoLinearLayout main6;
     private ImageView vipImage;
     private Uri imgUrl;
-    private String telnumber="";
+    private String telnumber = "";
+    private AlertDialog builder;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -97,8 +110,10 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         myCourse.setOnClickListener(this);
         managecourse.setOnClickListener(this);
         sharedPreferences = getActivity().getSharedPreferences("UserTag", getActivity().MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         userID = sharedPreferences.getString("userid", "未知");
         userType = sharedPreferences.getString("usertype", "未知");
+        EventBus.getDefault().register(this);
         //TODO 用户类型 1 管理员；2 会员；3 非会员；4 老师
         if (userType.equals("1")) {
             myClass.setVisibility(View.GONE);
@@ -108,6 +123,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         if (userType.equals("2")) {
             managecourse.setVisibility(View.GONE);
             vipImage.setVisibility(View.VISIBLE);
+            myClass.setVisibility(View.GONE);
         }
         if (userType.equals("3")) {
             myClass.setVisibility(View.GONE);
@@ -164,11 +180,10 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 break;
             case R.id.myCourse:
                 //TODO 会员
-                if (userType.equals("2")){
-                    Intent intent2=new Intent(getActivity(), MyBabyActivity.class);
-                    startActivity(intent2);
-                }else {
-                    Intent intent2 = new Intent(getActivity(), MyCoruseActivity.class);
+                if (userType.equals("2")) {
+                    babyvisit();
+                } else {
+                    Intent intent2 = new Intent(getActivity(), TiShiActivity.class);
                     startActivity(intent2);
                 }
 
@@ -178,13 +193,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                 startActivity(intent3);
                 break;
             case R.id.myClass:
-                if (userType.equals("2")) {
-                    Intent intent4 = new Intent(getActivity(), SubjectActivity.class);
-                    startActivity(intent4);
-                } else {
-                    Intent intent4 = new Intent(getActivity(), TeacherManageActivity.class);
-                    startActivity(intent4);
-                }
+                teachervisit();
 
                 break;
         }
@@ -196,7 +205,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         if (resultCode == getActivity().RESULT_CANCELED) {
             return;
         }
-        switch (requestCode){
+        switch (requestCode) {
             case 1:
                 if (data != null) {
                     imgUrl = CameraUtil.getTempUri();
@@ -306,12 +315,12 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                Gson gson=new Gson();
-                UpHeadBean bean=gson.fromJson(result,UpHeadBean.class);
-                if (bean.getCode()==3004){
-                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl()+bean.getData().getHeadpic(),myhead);
+                Gson gson = new Gson();
+                UpHeadBean bean = gson.fromJson(result, UpHeadBean.class);
+                if (bean.getCode() == 3004) {
+                    ImageLoader.getInstance().displayImage(SingleModleUrl.singleModleUrl().getImgUrl() + bean.getData().getHeadpic(), myhead);
                     Toast.makeText(getActivity(), "头像更新成功", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Toast.makeText(getActivity(), "头像上传失败", Toast.LENGTH_SHORT).show();
                 }
 
@@ -343,6 +352,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
+                Log.e("tag","资料"+result);
                 main6.setVisibility(View.VISIBLE);
                 Gson gson = new Gson();
                 UserInfoBean bean = gson.fromJson(result, UserInfoBean.class);
@@ -384,7 +394,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
 
     private void getPhoneNumber() {
         RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Index/about");
-        params.addBodyParameter("type","4");
+        params.addBodyParameter("type", "4");
         x.http().post(params, new Callback.CacheCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -398,7 +408,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                         dialog.setCanceledOnTouchOutside(true);
                         dialog.show();
                         TextView textView = (TextView) v.findViewById(R.id.callnumber);
-                        telnumber=jsonObject.getString("data");
+                        telnumber = jsonObject.getString("data");
                         textView.setText(telnumber);
                         v.findViewById(R.id.calloff).setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -413,7 +423,7 @@ public class University_Fragment extends Fragment implements View.OnClickListene
                                 dialog.cancel();
                             }
                         });
-                    }else {
+                    } else {
                         Toast.makeText(getActivity(), "网络不佳，获取电话号码失败，请稍后再试", Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
@@ -444,4 +454,114 @@ public class University_Fragment extends Fragment implements View.OnClickListene
     }
 
 
+    private void babyvisit() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/mybaby");
+        params.addBodyParameter("uid", userID);
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                BabyBean babyBean = gson.fromJson(result, BabyBean.class);
+                if (babyBean.getCode() == 3000) {
+                    if (babyBean.getData().size() > 1) {
+                        builder = new AlertDialog.Builder(getActivity()).create();
+                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                        View layout = inflater.inflate(R.layout.choosebaby,
+                                null);
+                        builder.setView(layout);
+                        builder.show();
+                        RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.recycler);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(layout.getContext(), LinearLayoutManager.VERTICAL, false));
+                        recyclerView.setAdapter(new ChooseBabyAdapter(babyBean.getData(), getActivity()));
+                    } else if (babyBean.getData().size() == 1) {
+                        Intent intent = new Intent(getActivity(), MyBabyActivity.class);
+                        intent.putExtra("babyId", babyBean.getData().get(0).getId() + "");
+                        startActivity(intent);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+    }
+
+    private void teachervisit() {
+        RequestParams params = new RequestParams(SingleModleUrl.singleModleUrl().getTestUrl() + "Member/myGrade");
+        params.addBodyParameter("uid", userID);
+        x.http().post(params, new Callback.CacheCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Gson gson = new Gson();
+                TeacherClassBean bean = gson.fromJson(result, TeacherClassBean.class);
+                if (bean.getCode() == 3000) {
+                    if (bean.getData().size() > 1) {
+                        builder = new AlertDialog.Builder(getActivity()).create();
+                        LayoutInflater inflater = getActivity().getLayoutInflater();
+                        View layout = inflater.inflate(R.layout.choosebaby,
+                                null);
+                        builder.setView(layout);
+                        builder.show();
+                        RecyclerView recyclerView = (RecyclerView) layout.findViewById(R.id.recycler);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(layout.getContext(), LinearLayoutManager.VERTICAL, false));
+                        recyclerView.setAdapter(new ChooseClassAdapter(bean.getData(), getActivity()));
+                    } else if (bean.getData().size() == 1) {
+                        Intent intent4 = new Intent(getActivity(), SubjectActivity.class);
+                        editor.putString("ggid", bean.getData().get(0).getId() + "");
+                        editor.commit();
+                        startActivity(intent4);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                Log.e("tag", "错误");
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+
+            @Override
+            public boolean onCache(String result) {
+                return false;
+            }
+        });
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void onMessage(String s) {
+        Log.e("tag", "event执行了" + s);
+        builder.cancel();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
 }
